@@ -59,8 +59,8 @@ create table Friend(
 
 drop table if exists Message;
 create table Message(
-  fromID int,
-  toID int,
+  fromID char(255),
+  toID char(255),
   subject char(255),
   messageText char(255),
   status int,
@@ -70,23 +70,23 @@ create table Message(
 drop table if exists Challenge;
 create table Challenge(
   quizID int,
-  fromID int,
-  toID int,
+  fromID char(255),
+  toID char(255),
   challengeTime timestamp,
   status int
 );
 
 drop table if exists Request;
 create table Request(
-  fromID int,
-  toID int,
+  fromID char(255),
+  toID char(255),
   status int,
   requestTime timestamp
 );
 
 drop table if exists Announcement;
 create table Announcement(
-  adminID int,
+  adminID char(255),
   announcementText char(255),
   subject char(255),
   announcementTime timestamp
@@ -94,7 +94,7 @@ create table Announcement(
 
 drop table if exists Rating;
 create table Rating(
-  userID int,
+  userID char(255),
   quizID int,
   rating int,
   ratingTime timestamp
