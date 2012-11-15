@@ -36,11 +36,26 @@ public class UserSearchServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//forward user to the dynamically generated user info page of their desired user
-		RequestDispatcher dispatch = request.getRequestDispatcher("userInfoPage.jsp"); 
-		dispatch.forward(request, response);
-		
+		ServletContext context = request.getServletContext();
+		AccountManager acct = (AccountManager) context.getAttribute("manager");
+		String victimName = request.getParameter("victim");
+		if(!acct.containsAccount(victimName)){
+			//forward user to the User Does Not Exist
+			RequestDispatcher dispatch = request.getRequestDispatcher("userNotExist.jsp"); 
+			dispatch.forward(request, response);
+			
+		}
+		else if(acct.isDeact(victimName)){
+			//forward user to the User Does Not Exist
+			RequestDispatcher dispatch = request.getRequestDispatcher("userDeact.jsp"); 
+			dispatch.forward(request, response);
+			
+		}
+		else{
+			//forward user to the dynamically generated user info page of their desired user
+			RequestDispatcher dispatch = request.getRequestDispatcher("userInfoPage.jsp"); 
+			dispatch.forward(request, response);
+		}
 	}
 
 }

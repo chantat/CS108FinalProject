@@ -46,13 +46,20 @@ public class LoginServlet extends HttpServlet {
 		String name = request.getParameter("user");
 		String pass = request.getParameter("pwd");
 		if(acct.containsAccount(name) && acct.passwordMatch(name, pass)){
-			//forward to the user welcome page  (dynamically generated since it's so short)
 			HttpSession session = request.getSession();
 			session.setAttribute("username", name);     //store the username for this session so all pages and servlets can access.
-			RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
-			dispatch.forward(request, response);
-	
-			
+			if(acct.isDeact(name)){
+				//forward to the welcome back reactivation page  
+				acct.reactivate(name);
+				RequestDispatcher dispatch = request.getRequestDispatcher("reactivate.jsp"); 
+				dispatch.forward(request, response);	
+				
+			}
+			else{
+				//forward to the user home page  (dynamically generated since it's so short)		
+				RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
+				dispatch.forward(request, response);	
+			}
 		}
 		else{
 			//forward user to the try again page

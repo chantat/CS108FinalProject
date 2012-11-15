@@ -12,11 +12,20 @@ public class AccountManager {
 	String userColumnName;
 	String passColumnName;
 	String publicPerfColumnName;
+	String deactColumnName;
 	ResultSet testRS;
 	ResultSetMetaData testRSMD;
 
 	PasswordManager pm;
-	
+
+	public static final int USER = 0;
+    public static final int PASS = 1;
+    public static final int ADMIN = 2;
+    public static final int PUBPERF = 3;
+    public static final int DEACT = 4;
+
+
+
 	public AccountManager(DBConnection con) {
 		pm = new PasswordManager();
 		
@@ -24,10 +33,11 @@ public class AccountManager {
 		try {
 			testRS = stmnt.executeQuery("SELECT * FROM "+tableName+"\"");
 			testRSMD = testRS.getMetaData();
-			userColumnName = testRSMD.getColumnName(0);
-			passColumnName = testRSMD.getColumnName(1);
-			adminColumnName = testRSMD.getColumnName(2);
-			publicPerfColumnName = testRSMD.getColumnName(3);
+			userColumnName = testRSMD.getColumnName(USER);
+			passColumnName = testRSMD.getColumnName(PASS);
+			adminColumnName = testRSMD.getColumnName(ADMIN);
+			publicPerfColumnName = testRSMD.getColumnName(PUBPERF);
+			deactColumnName = testRSMD.getColumnName(DEACT);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -37,10 +47,20 @@ public class AccountManager {
 		String salt = pm.generateSalt();
 		String hashedPassword = pm.generateHexStringFromString(password + salt);	
 		
-		String command = "INSERT INTO "+tableName+" VALUES(\"" + username + "\",\"" + hashedPassword + "\",\"" + salt + "\",0,0);";
+		String command = "INSERT INTO "+tableName+" VALUES(\"" + username + "\",\"" + hashedPassword + "\",\"" + salt + "\",0,0,0);";
 		try {
 			stmnt.executeUpdate(command);
 		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteAccount(String username){
+		String command = "UPDATE "+tableName+" SET "+deactColumnName+" = 1 WHERE "+userColumnName+" = \""+username+"\"";
+		try {
+			stmnt.executeUpdate(command);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -84,14 +104,48 @@ public class AccountManager {
 			rsmd = rs.getMetaData();
 			rs.last();   //move to last row to get count of total number of rows
 			rows = rs.getRow();   //note the row #s start at 1, not 0, for ResultSets
-			assert(rows<=1);    //check if rows exceed 1 (means we have duplicate entries)
-			return (rows==1);    //return true if we have exactly 1 row entry that has this username
+			assert(rows<=1);    //check if rows exceed 1 (means we have duplicate entries)	
+			return (rows==1);    //return true if we have exactly 1 row entry that has this username and not deactivated
+			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
 	}
+	
+	public boolean isDeact(String name){
+		try {
+			ResultSet rs;
+			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE "+userColumnName+" = \""+name+"\";");
+			rs.next();
+			Integer deactFlag = (Integer)rs.getObject(DEACT);
+			if(deactFlag==1){
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public void reactivate(String name){
+		try {
+			String command = "UPDATE "+tableName+" SET "+deactColumnName+" = 0 WHERE "+userColumnName+" = \""+name+"\";";
+			stmnt.executeUpdate(command);
+	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	
 	
 	public boolean passwordMatch(String username, String password){
 		// first check to see if the name even exists
@@ -110,8 +164,9 @@ public class AccountManager {
 	}	
 
 	public void promoteAdmin(String name){   //sets admin flag in user's database entry to 1
+		String command = "UPDATE "+tableName+" SET "+adminColumnName+" = 1 WHERE "+userColumnName+" = \""+name+"\";";
 		try {
-			stmnt.executeUpdate("UPDATE "+tableName+" SET "+adminColumnName+" = 1 WHERE "+userColumnName+" = \""+name+"\"");
+			stmnt.executeUpdate(command);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,7 +176,8 @@ public class AccountManager {
 	
 	public void demoteAdmin(String name){   //sets admin flag in user's database entry to 1
 		try {
-			stmnt.executeUpdate("UPDATE "+tableName+" SET "+adminColumnName+" = 0 WHERE "+userColumnName+" = \""+name+"\"");
+			String command = "UPDATE "+tableName+" SET "+adminColumnName+" = 0 WHERE "+userColumnName+" = \""+name+"\";";
+			stmnt.executeUpdate(command);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

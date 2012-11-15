@@ -3,10 +3,10 @@ import java.sql.*;
 
 public class DBConnection {
 	
-	private static String account = "ccs108sarya";
-	private static String password = "";
+	private static String account = "ccs108adchang1";
+	private static String password = "ceemeiru";
 	private static String server = "mysql-user.stanford.edu";
-	private static String database = "c_cs108_sarya";
+	private static String database = "c_cs108_adchang1";
 	
 	private Connection conn;
 	

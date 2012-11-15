@@ -4,16 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>User Public Info Page</title>
+<title>Insert title here</title>
 </head>
 <body>
-
-
-
-<form action="AddFriendServlet" method="post">
-<input type="submit" value="Submit">
-</form>
-
-
+USER HAS BEEN DEACTIVATED
 </body>
 </html>

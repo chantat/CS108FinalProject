@@ -4,16 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>User Public Info Page</title>
+<title>User does not exist</title>
 </head>
 <body>
-
-
-
-<form action="AddFriendServlet" method="post">
-<input type="submit" value="Submit">
-</form>
-
-
+USER DOES NOT EXIST 
 </body>
 </html>

@@ -4,16 +4,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>User Public Info Page</title>
+<title>Reactivate</title>
 </head>
 <body>
+Welcome Back.  Your account has been reactivated. 
 
-
-
-<form action="AddFriendServlet" method="post">
-<input type="submit" value="Submit">
+<form action="http://localhost:8080/CS108FinalProject/userHomePage.jsp">
+<input type="submit" value="Continue to your Home Page">
 </form>
-
-
 </body>
 </html>
