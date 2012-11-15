@@ -29,7 +29,6 @@ public class AccountManager {
 			adminColumnName = testRSMD.getColumnName(2);
 			publicPerfColumnName = testRSMD.getColumnName(3);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
