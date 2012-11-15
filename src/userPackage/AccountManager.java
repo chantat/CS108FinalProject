@@ -1,4 +1,5 @@
 package userPackage;
+import webpackage.*;
 import java.util.*;
 import java.security.*;
 import java.sql.*;
@@ -6,21 +7,20 @@ import java.sql.*;
 
 public class AccountManager {
 	Statement stmnt;
-	String tableName;
+	String tableName = "QuizUser";
 	String adminColumnName;
 	String userColumnName;
 	String passColumnName;
 	String publicPerfColumnName;
 	ResultSet testRS;
 	ResultSetMetaData testRSMD;
-	
+
 	PasswordManager pm;
 	
-	public AccountManager(LoginConnectionSetup login) {
+	public AccountManager(DBConnection con) {
 		pm = new PasswordManager();
 		
-		stmnt = login.getStatement();
-		tableName = login.getTableName();
+		stmnt = con.getStatement();
 		try {
 			testRS = stmnt.executeQuery("SELECT * FROM "+tableName+"\"");
 			testRSMD = testRS.getMetaData();

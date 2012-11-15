@@ -4,10 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>User Home Page</title>
+<title>User Public Info Page</title>
 </head>
 <body>
-
 
 
 
@@ -15,7 +14,6 @@
 User Search: <input type="text" name="user"> 
 <input type="submit" value="Submit">
 </form>
-
 
 
 </body>
