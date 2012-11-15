@@ -46,15 +46,23 @@ create table QuizQuestion(
 
 drop table if exists QuizUser;
 create table QuizUser(
-  userID char(255) primary key,
+  username char(255) primary key,
   password char(255),
-  isAdmin bool
+  salt char(10),
+  isAdmin bool,
+  isPublic bool
 );
 
 drop table if exists Friend;
 create table Friend(
   userID1 char(255),
   userID2 char(255)
+);
+
+drop table if exists FriendRequest;
+create table FriendRequest(
+  userID1 char(255),
+  userID2 char(255),
 );
 
 drop table if exists Message;
