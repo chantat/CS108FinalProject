@@ -43,6 +43,8 @@ public class CreateAccountServlet extends HttpServlet {
 		AccountManager acct = (AccountManager) context.getAttribute("manager");
 		String name = request.getParameter("user");
 		String pass = request.getParameter("pwd");
+		String perfPriv = request.getParameter("privacy1");
+		String pagePriv = request.getParameter("privacy2");
 		if(acct.containsAccount(name)){
 			//forward to Name Already Exists page
 			RequestDispatcher dispatch = request.getRequestDispatcher("exists.jsp"); 
@@ -50,7 +52,11 @@ public class CreateAccountServlet extends HttpServlet {
 		}
 		else{
 			//otherwise just add the info to the account manager
-			acct.addAccount(name, pass);
+			int priv1=1;
+			int priv2=1;
+			if(perfPriv.equals("Public")) priv1=0;
+			if(pagePriv.equals("Public")) priv2=0;
+			acct.addAccount(name, pass, priv1,priv2);
 			
 			//then bring them to the user welcome page
 			RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 

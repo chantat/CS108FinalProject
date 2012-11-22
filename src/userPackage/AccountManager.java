@@ -12,6 +12,7 @@ public class AccountManager {
 	String userColumnName;
 	String passColumnName;
 	String publicPerfColumnName;
+	String publicPageColumnName;
 	String deactColumnName;
 	ResultSet testRS;
 	ResultSetMetaData testRSMD;
@@ -22,7 +23,9 @@ public class AccountManager {
     public static final int PASS = 1;
     public static final int ADMIN = 2;
     public static final int PUBPERF = 3;
-    public static final int DEACT = 4;
+    public static final int PUBPAGE =4;
+    public static final int DEACT = 5;
+    
 
 
 
@@ -37,17 +40,28 @@ public class AccountManager {
 			passColumnName = testRSMD.getColumnName(PASS);
 			adminColumnName = testRSMD.getColumnName(ADMIN);
 			publicPerfColumnName = testRSMD.getColumnName(PUBPERF);
+			publicPageColumnName = testRSMD.getColumnName(PUBPAGE);
 			deactColumnName = testRSMD.getColumnName(DEACT);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void addAccount(String username, String password){	 //error checking for existing account should be done by caller
+	public void addAccount(String username, String password, int perfPriv, int userPriv){	 //error checking for existing account should be done by caller
+		int isAdmin=0;
+		int isDeact = 0;
 		String salt = pm.generateSalt();
 		String hashedPassword = pm.generateHexStringFromString(password + salt);	
 		
-		String command = "INSERT INTO "+tableName+" VALUES(\"" + username + "\",\"" + hashedPassword + "\",\"" + salt + "\",0,0,0);";
+		String command1 = "INSERT INTO ";
+		String command2 =" VALUES(";
+		String qCq ="\",\"";
+		String quote = "\"";
+		String comma = ",";
+		
+		String combinedCommand1 = command1+tableName+command2+quote+username+qCq+hashedPassword+qCq+salt+quote;
+		String combinedCommand2 = comma+isAdmin+comma+perfPriv+comma+userPriv+comma+isDeact+");";
+		String command = combinedCommand1+combinedCommand2;
 		try {
 			stmnt.executeUpdate(command);
 		} catch (SQLException e) {
@@ -56,7 +70,8 @@ public class AccountManager {
 	}
 	
 	public void deleteAccount(String username){
-		String command = "UPDATE "+tableName+" SET "+deactColumnName+" = 1 WHERE "+userColumnName+" = \""+username+"\"";
+		String quote = "\"";
+		String command = "UPDATE "+tableName+" SET "+deactColumnName+" = 1 WHERE "+userColumnName+" = "+quote+username+quote+";";
 		try {
 			stmnt.executeUpdate(command);
 		} catch (SQLException e) {

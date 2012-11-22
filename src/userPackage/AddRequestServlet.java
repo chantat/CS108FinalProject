@@ -1,5 +1,6 @@
 package userPackage;
 
+import mail.*;
 import java.io.IOException;
 
 import javax.servlet.ServletContext;
@@ -10,20 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import mail.MailSystem;
 import mail.Message;
 
 /**
  * Servlet implementation class AddFriendServlet
  */
 @WebServlet("/AddFriendServlet")
-public class AddFriendServlet extends HttpServlet {
+public class AddRequestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddFriendServlet() {
+    public AddRequestServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,11 +45,11 @@ public class AddFriendServlet extends HttpServlet {
 		HttpSession hs = request.getSession();
 		String name =(String)hs.getAttribute("username");
 		String victim = request.getParameter("victim");
-		frnmgr.addFriend(name, victim);
+		frnmgr.requestFriend(name, victim);
 		
 		//notify the recipient with a mail system message
-		String messageTxt = name+" has accepted your Friend request!";
-		Message requestMsg = new Message(victim, name, "Friend Request Accepted", messageTxt);
+		String messageTxt = "You have a pending request from "+name+".  Please check your Friends List to accept or reject this request.";
+		Message requestMsg = new Message(victim, name, "Friend Request", messageTxt);
 		mail.send(requestMsg);
 	}
 

@@ -1,4 +1,4 @@
-USE c_cs108_sarya;
+USE c_cs108_adchang;
 
 drop table if exists Question;
 create table Question(
@@ -50,7 +50,8 @@ create table QuizUser(
   password char(255),
   salt char(10),
   isAdmin bool,
-  isPublic bool,
+  isPerfPrivate bool,
+  isPagePrivate bool,
   isDeact bool
 );
 

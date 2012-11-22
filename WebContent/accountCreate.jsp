@@ -12,6 +12,11 @@ Please enter proposed username and password.
 
 <form action="CreateAccountServlet" method="post">
 Username: <input type="text" name="user">  <br>
-Password: <input type="password" name="pwd">
+Password: <input type="password" name="pwd"> <br>
+
+<input type="checkbox" name="privacy1" value="Public">I want my quiz scores public<br>
+<input type="checkbox" name="privacy2" value="Public">I want my user page to be visible to all<br>
+
 <input type="submit" value="Submit">
+
 </form>
