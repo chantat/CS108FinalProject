@@ -5,7 +5,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import userPackage.AccountManager;
+
+import userPackage.*;
 
 
 /**
@@ -28,8 +29,10 @@ public class SCListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
     	DBConnection con = new DBConnection();
         AccountManager acctmgr = new AccountManager(con);
+        FriendManager frmgr = new FriendManager(con);
         ServletContext sc = sce.getServletContext();
         sc.setAttribute("manager",acctmgr);
+        sc.setAttribute("friendManager",frmgr);
     }
 
 	/**

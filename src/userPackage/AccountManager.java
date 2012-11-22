@@ -141,9 +141,7 @@ public class AccountManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
+	
 	}
 	
 	

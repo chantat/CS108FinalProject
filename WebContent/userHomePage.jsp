@@ -12,8 +12,8 @@
 
 
 <form action="UserSearchServlet" method="post">
-User Search: <input type="text" name="user"> 
-<input type="submit" value="Submit">
+User Search: <input type="text" name="victim"> 
+<input type="submit" value="Search for User">
 </form>
 
 

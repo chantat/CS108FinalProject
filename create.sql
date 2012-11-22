@@ -50,7 +50,8 @@ create table QuizUser(
   password char(255),
   salt char(10),
   isAdmin bool,
-  isPublic bool
+  isPublic bool,
+  isDeact bool
 );
 
 drop table if exists Friend;

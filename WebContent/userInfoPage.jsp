@@ -11,7 +11,8 @@
 
 
 <form action="AddFriendServlet" method="post">
-<input type="submit" value="Submit">
+<input name = victim type="hidden" value="<%= request.getAttribute("victim")%>">
+<input type="submit" value="Add Friend">
 </form>
 
 
