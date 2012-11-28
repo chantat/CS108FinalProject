@@ -38,4 +38,19 @@ public class DBConnection {
 		}
 		return stmt;
 	}
+	
+	static public int getResultSetSize(ResultSet rs) {
+		if (rs == null) {
+			return 0;
+		} else {
+			int rowCount = 0;
+			try {
+				rs.last();
+				rowCount = rs.getRow();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return rowCount;
+		}
+	}
 }
