@@ -110,3 +110,10 @@ create table Rating(
   ratingTime timestamp
 );
 
+drop table if exists Attempts;
+create table Attempts(
+  userID char(255), 
+  quizID int, 
+  score int, 
+  timeTaken timestamp
+);
