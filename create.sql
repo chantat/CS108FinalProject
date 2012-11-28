@@ -22,7 +22,7 @@ create table Answer(
 drop table if exists Quiz;
 create table Quiz(
   quizID int primary key,
-  authorID int,
+  authorID char(255),
   isRandomized bool,
   prevID int,
   isFlashcard bool,
@@ -64,7 +64,7 @@ create table Friend(
 drop table if exists FriendRequest;
 create table FriendRequest(
   userID1 char(255),
-  userID2 char(255),
+  userID2 char(255)
 );
 
 drop table if exists Message;
