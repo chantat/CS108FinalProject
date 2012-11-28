@@ -22,7 +22,7 @@ create table Answer(
 drop table if exists Quiz;
 create table Quiz(
   quizID int primary key,
-  authorID int,
+  authorID char(255),
   isRandomized bool,
   prevID int,
   isFlashcard bool,
