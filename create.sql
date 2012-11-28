@@ -52,7 +52,9 @@ create table QuizUser(
   isAdmin bool,
   isPerfPrivate bool,
   isPagePrivate bool,
-  isDeact bool
+  isDeact bool,
+  usedPracticeMode bool,
+  hadHighScore bool
 );
 
 drop table if exists Friend;

@@ -36,11 +36,6 @@ public class FriendManager{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
-		
 	}
 	
 	public boolean areFriends(String person1,String person2){

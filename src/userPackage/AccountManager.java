@@ -48,7 +48,7 @@ public class AccountManager {
 	}
 	
 	public void addAccount(String username, String password, int perfPriv, int userPriv){	 //error checking for existing account should be done by caller
-		int isAdmin=0;
+		int isAdmin = 0;
 		int isDeact = 0;
 		String salt = pm.generateSalt();
 		String hashedPassword = pm.generateHexStringFromString(password + salt);	
@@ -60,7 +60,7 @@ public class AccountManager {
 		String comma = ",";
 		
 		String combinedCommand1 = command1+tableName+command2+quote+username+qCq+hashedPassword+qCq+salt+quote;
-		String combinedCommand2 = comma+isAdmin+comma+perfPriv+comma+userPriv+comma+isDeact+");";
+		String combinedCommand2 = comma+isAdmin+comma+perfPriv+comma+userPriv+comma+isDeact+comma+"0"+comma+"0"+");";
 		String command = combinedCommand1+combinedCommand2;
 		try {
 			stmnt.executeUpdate(command);
