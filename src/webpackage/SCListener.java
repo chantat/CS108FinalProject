@@ -28,8 +28,10 @@ public class SCListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
     	DBConnection con = new DBConnection();
         AccountManager acctmgr = new AccountManager(con);
+        QuizManager quizManager = new QuizManager(con);
         ServletContext sc = sce.getServletContext();
         sc.setAttribute("manager",acctmgr);
+        sc.setAttribute("quiz manager", quizManager);
     }
 
 	/**
