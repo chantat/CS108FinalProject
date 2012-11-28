@@ -39,7 +39,7 @@ public class UserSearchServlet extends HttpServlet {
 		ServletContext context = request.getServletContext();
 		AccountManager acct = (AccountManager) context.getAttribute("manager");
 		String victimName = request.getParameter("victim");
-		if(!acct.containsAccount(victimName)){
+		if(!acct.containsAccount(victimName) || !acct.isPagePublic(victimName)){  //if private or nonexistent...treat as nonexistent
 			//forward user to the User Does Not Exist
 			RequestDispatcher dispatch = request.getRequestDispatcher("userNotExist.jsp"); 
 			dispatch.forward(request, response);
