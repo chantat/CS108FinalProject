@@ -113,10 +113,8 @@ public class AccountManager {
 	public boolean containsAccount(String name) {
 		try {
 			ResultSet rs;
-			ResultSetMetaData rsmd;
 			int rows;
 			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE "+userColumnName+" = \""+name+"\";");
-			rsmd = rs.getMetaData();
 			rs.last();   //move to last row to get count of total number of rows
 			rows = rs.getRow();   //note the row #s start at 1, not 0, for ResultSets
 			assert(rows<=1);    //check if rows exceed 1 (means we have duplicate entries)	
@@ -129,6 +127,43 @@ public class AccountManager {
 		}
 		return false;
 	}
+	
+	public boolean isPagePublic(String name){
+		try {
+			ResultSet rs;
+			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE "+userColumnName+" = \""+name+"\";");
+			rs.next();
+			Integer pubFlag = (Integer)rs.getObject(PUBPAGE);
+			if(pubFlag==1){
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+		
+	}
+	
+	public boolean isPerfPublic(String name){
+		try {
+			ResultSet rs;
+			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE "+userColumnName+" = \""+name+"\";");
+			rs.next();
+			Integer pubFlag = (Integer)rs.getObject(PUBPERF);
+			if(pubFlag==1){
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+		
+	}
+	
 	
 	public boolean isDeact(String name){
 		try {

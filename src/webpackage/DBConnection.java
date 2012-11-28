@@ -11,14 +11,21 @@ public class DBConnection {
 	private Connection conn;
 	
 	public DBConnection() {
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://"+server,account,password);
-		} catch (SQLException e) {
+
+		} 
+		catch (SQLException e) {
+
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		} 
+		catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+
+		
 	}
 	
 	public Statement getStatement() {

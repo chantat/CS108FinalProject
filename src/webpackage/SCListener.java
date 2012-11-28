@@ -33,6 +33,8 @@ public class SCListener implements ServletContextListener {
         ServletContext sc = sce.getServletContext();
         sc.setAttribute("manager",acctmgr);
         sc.setAttribute("friendManager",frmgr);
+        
+        
     }
 
 	/**

@@ -1,7 +1,6 @@
 package userPackage;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -46,12 +45,16 @@ public class CreateAccountServlet extends HttpServlet {
 		String perfPriv = request.getParameter("privacy1");
 		String pagePriv = request.getParameter("privacy2");
 		if(acct.containsAccount(name)){
+
 			//forward to Name Already Exists page
 			RequestDispatcher dispatch = request.getRequestDispatcher("exists.jsp"); 
 			dispatch.forward(request, response);
 		}
 		else{
 			//otherwise just add the info to the account manager
+	
+			
+			
 			int priv1=1;
 			int priv2=1;
 			if(perfPriv.equals("Public")) priv1=0;
@@ -64,6 +67,8 @@ public class CreateAccountServlet extends HttpServlet {
 	
 			
 		}
+		
+		
 	}
 
 }

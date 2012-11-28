@@ -1,4 +1,4 @@
-USE c_cs108_adchang;
+USE c_cs108_adchang1;
 
 drop table if exists Question;
 create table Question(
@@ -64,7 +64,7 @@ create table Friend(
 drop table if exists FriendRequest;
 create table FriendRequest(
   userID1 char(255),
-  userID2 char(255),
+  userID2 char(255)
 );
 
 drop table if exists Message;
@@ -110,4 +110,3 @@ create table Rating(
   ratingTime timestamp
 );
 
-insert into QuizUser values ('sarya', 'pass', 1);

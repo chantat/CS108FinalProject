@@ -7,6 +7,6 @@
 <title>User does not exist</title>
 </head>
 <body>
-USER DOES NOT EXIST 
+USER DOES NOT EXIST OR HAS A PRIVATE PROFILE
 </body>
 </html>
