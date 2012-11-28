@@ -9,7 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 
 /**
@@ -39,6 +41,7 @@ public class CreateAccountServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext context = request.getServletContext();
+		HttpSession sess = request.getSession();
 		AccountManager acct = (AccountManager) context.getAttribute("manager");
 		String name = request.getParameter("user");
 		String pass = request.getParameter("pwd");
@@ -61,7 +64,7 @@ public class CreateAccountServlet extends HttpServlet {
 			if(perfPriv!=null) priv1=0;
 			if(pagePriv!=null) priv2=0;
 			acct.addAccount(name, pass, priv1,priv2);
-			
+			sess.setAttribute("username", name);   //set this session's user
 			
 			
 	//TEST

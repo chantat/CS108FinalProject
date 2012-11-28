@@ -2,6 +2,7 @@ package userPackage;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -51,6 +52,10 @@ public class AddFriendServlet extends HttpServlet {
 		String messageTxt = name+" has accepted your Friend request!";
 		Message requestMsg = new Message(victim, name, "Friend Request Accepted", messageTxt);
 		mail.send(requestMsg);
+		
+		//return to your home page
+		RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
+		dispatch.forward(request, response);	
 	}
 
 }

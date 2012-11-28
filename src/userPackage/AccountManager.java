@@ -23,11 +23,11 @@ public class AccountManager {
     public static final int PASS = 2;
     public static final int SALT = 3;
     public static final int ADMIN = 4;
-    public static final int PUBPERF = 5;
-    public static final int PUBPAGE =6;
+    public static final int PRIVPERF = 5;
+    public static final int PRIVPAGE =6;
     public static final int DEACT = 7;
-    
-
+    public static final int PRAC = 8;
+    public static final int HIGH = 9;
 
 
 	public AccountManager(DBConnection con) {
@@ -41,8 +41,8 @@ public class AccountManager {
 			userColumnName = testRSMD.getColumnName(USER);
 			passColumnName = testRSMD.getColumnName(PASS);
 			adminColumnName = testRSMD.getColumnName(ADMIN);
-			publicPerfColumnName = testRSMD.getColumnName(PUBPERF);
-			publicPageColumnName = testRSMD.getColumnName(PUBPAGE);
+			publicPerfColumnName = testRSMD.getColumnName(PRIVPERF);
+			publicPageColumnName = testRSMD.getColumnName(PRIVPAGE);
 			deactColumnName = testRSMD.getColumnName(DEACT);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -54,6 +54,8 @@ public class AccountManager {
 	public void addAccount(String username, String password, int perfPriv, int userPriv){	 //error checking for existing account should be done by caller
 		int isAdmin = 0;
 		int isDeact = 0;
+		int usedPrac =0;
+		int hadHigh=0;
 		String salt = pm.generateSalt();
 		String hashedPassword = pm.generateHexStringFromString(password + salt);	
 		
@@ -64,7 +66,7 @@ public class AccountManager {
 		String comma = ",";
 		
 		String combinedCommand1 = command1+tableName+command2+quote+username+qCq+hashedPassword+qCq+salt+quote;
-		String combinedCommand2 = comma+isAdmin+comma+perfPriv+comma+userPriv+comma+isDeact+comma+"0"+comma+"0"+");";
+		String combinedCommand2 = comma+isAdmin+comma+perfPriv+comma+userPriv+comma+isDeact+comma+usedPrac+comma+hadHigh+");";
 		String command = combinedCommand1+combinedCommand2;
 		
 	//TEST
@@ -164,16 +166,16 @@ public class AccountManager {
 			ResultSet rs;
 			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE "+userColumnName+" = \""+name+"\";");
 			rs.next();
-			Boolean pubFlag = (Boolean)rs.getObject(PUBPAGE);
+			Boolean pubFlag = (Boolean)rs.getObject(PRIVPAGE);
 			if(pubFlag==true){
-				return true;
+				return false;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return false;
+		return true;
 		
 	}
 	
@@ -182,16 +184,16 @@ public class AccountManager {
 			ResultSet rs;
 			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE "+userColumnName+" = \""+name+"\";");
 			rs.next();
-			Boolean pubFlag = (Boolean)rs.getObject(PUBPERF);
+			Boolean pubFlag = (Boolean)rs.getObject(PRIVPERF);
 			if(pubFlag==true){
-				return true;
+				return false;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return false;
+		return true;
 		
 	}
 	
@@ -280,8 +282,8 @@ public class AccountManager {
 			    String pass = (String)rs.getObject(PASS);
 			    String salt = (String)rs.getObject(SALT);
 			    Boolean admin = (Boolean)rs.getBoolean(ADMIN);
-			    Boolean pubperf = (Boolean)rs.getBoolean(PUBPERF);
-			    Boolean pubpage = (Boolean)rs.getBoolean(PUBPAGE);
+			    Boolean pubperf = (Boolean)rs.getBoolean(PRIVPERF);
+			    Boolean pubpage = (Boolean)rs.getBoolean(PRIVPAGE);
 			    Boolean deact = (Boolean)rs.getBoolean(DEACT);
 			    System.out.println(user);
 			    System.out.println(pass);
@@ -298,12 +300,7 @@ public class AccountManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		    
 	
-		
 	}
 	
 	

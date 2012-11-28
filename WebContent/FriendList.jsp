@@ -16,6 +16,14 @@
 <%
 String user = (String)session.getAttribute("username");
 FriendManager friendMgr = (FriendManager)application.getAttribute("friendManager");
+
+//TEST
+System.out.println("Friend Table");
+friendMgr.dumpFriendTable();
+System.out.println("Req Table");
+friendMgr.dumpRequestTable();
+
+
 ArrayList<String> friends = friendMgr.getFriends(user);
 ArrayList<String> requests = friendMgr.getRequests(user);
 for(int i=0; i<friends.size();i++){
@@ -31,7 +39,7 @@ for(int i=0; i<friends.size();i++){
 
 </table>
 
-<h1>Friends Requests</h1>
+<h1>Friend Requests Received</h1>
 
 
 <table border="1">

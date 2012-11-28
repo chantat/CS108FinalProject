@@ -35,9 +35,9 @@ public class SCListener implements ServletContextListener {
         sc.setAttribute("manager",acctmgr);
         sc.setAttribute("friendManager",frmgr);
 
-        QuizManager quizManager = new QuizManager(con);
-        sc.setAttribute("manager",acctmgr);
-        sc.setAttribute("quiz manager", quizManager);
+      //  QuizManager quizManager = new QuizManager(con);
+  //      sc.setAttribute("manager",acctmgr);
+  //      sc.setAttribute("quiz manager", quizManager);
     }
 
 	/**
