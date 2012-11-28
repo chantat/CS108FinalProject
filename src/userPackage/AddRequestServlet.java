@@ -14,9 +14,9 @@ import javax.servlet.http.HttpSession;
 import mail.Message;
 
 /**
- * Servlet implementation class AddFriendServlet
+ * Servlet implementation class AddRequestServlet
  */
-@WebServlet("/AddFriendServlet")
+@WebServlet("/AddRequestServlet")
 public class AddRequestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

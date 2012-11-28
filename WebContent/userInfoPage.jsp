@@ -9,10 +9,10 @@
 <title>User Public Info Page</title>
 </head>
 <body>
-
+<h1><%=(String)request.getParameter("victim") %>'s Info Page</h1>
 <% 
 String user = (String)session.getAttribute("username");
-String victim =(String)request.getAttribute("victim");
+String victim =(String)request.getParameter("victim");
 String requestButton = "<form action=\"AddRequestServlet\" method=\"post\"><input name = victim type=\"hidden\" value=\""+victim+"\">  <input type=\"submit\" value=\"Request Friend\"></form> ";
 FriendManager fMgr = (FriendManager)application.getAttribute("friendManager");
 if(!fMgr.areFriends(user, victim)){
@@ -30,6 +30,7 @@ if(!fMgr.areFriends(user, victim)){
 }
 
 %>
+
 
 
 </body>

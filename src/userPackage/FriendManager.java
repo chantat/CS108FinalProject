@@ -25,13 +25,13 @@ public class FriendManager{
 		try {
 			testRS = stmnt.executeQuery("SELECT * FROM "+tableName);   //get the column names from Friend table
 			testRSMD = testRS.getMetaData();
-			Friend1ColumnName = testRSMD.getColumnName(0);
-			Friend2ColumnName = testRSMD.getColumnName(0);
+			Friend1ColumnName = testRSMD.getColumnName(1);
+			Friend2ColumnName = testRSMD.getColumnName(2);
 			
 			testRS = stmnt.executeQuery("SELECT * FROM "+requestTableName);  //get the column names from Requests table
 			testRSMD = testRS.getMetaData();
-			Request1ColumnName = testRSMD.getColumnName(0);
-			Request2ColumnName = testRSMD.getColumnName(0);
+			Request1ColumnName = testRSMD.getColumnName(1);
+			Request2ColumnName = testRSMD.getColumnName(2);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

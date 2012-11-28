@@ -19,12 +19,13 @@ public class AccountManager {
 
 	PasswordManager pm;
 
-	public static final int USER = 0;
-    public static final int PASS = 1;
-    public static final int ADMIN = 2;
-    public static final int PUBPERF = 3;
-    public static final int PUBPAGE =4;
-    public static final int DEACT = 5;
+	public static final int USER = 1;
+    public static final int PASS = 2;
+    public static final int SALT = 3;
+    public static final int ADMIN = 4;
+    public static final int PUBPERF = 5;
+    public static final int PUBPAGE =6;
+    public static final int DEACT = 7;
     
 
 
@@ -34,7 +35,8 @@ public class AccountManager {
 		
 		stmnt = con.getStatement();
 		try {
-			testRS = stmnt.executeQuery("SELECT * FROM "+tableName+"\"");
+			String command = "SELECT * FROM "+tableName;
+			testRS = stmnt.executeQuery(command);
 			testRSMD = testRS.getMetaData();
 			userColumnName = testRSMD.getColumnName(USER);
 			passColumnName = testRSMD.getColumnName(PASS);
@@ -45,6 +47,8 @@ public class AccountManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 	
 	public void addAccount(String username, String password, int perfPriv, int userPriv){	 //error checking for existing account should be done by caller
@@ -62,6 +66,10 @@ public class AccountManager {
 		String combinedCommand1 = command1+tableName+command2+quote+username+qCq+hashedPassword+qCq+salt+quote;
 		String combinedCommand2 = comma+isAdmin+comma+perfPriv+comma+userPriv+comma+isDeact+comma+"0"+comma+"0"+");";
 		String command = combinedCommand1+combinedCommand2;
+		
+	//TEST
+		System.out.println("account creation command is "+ command);
+		
 		try {
 			stmnt.executeUpdate(command);
 		} catch (SQLException e) {
@@ -69,7 +77,7 @@ public class AccountManager {
 		}
 	}
 	
-	public void deleteAccount(String username){
+	public void deactAccount(String username){
 		String quote = "\"";
 		String command = "UPDATE "+tableName+" SET "+deactColumnName+" = 1 WHERE "+userColumnName+" = "+quote+username+quote+";";
 		try {
@@ -79,6 +87,29 @@ public class AccountManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public void deleteAccount(String username){
+		String quote = "\"";
+		String command = "DELETE "+tableName+" WHERE "+userColumnName+" LIKE "+quote+username+quote+";";
+		try {
+			stmnt.executeUpdate(command);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteAllAccount(String username){
+		String quote = "\"";
+		String command = "DELETE "+tableName+" WHERE "+userColumnName+" = "+quote+"%"+quote+";";
+		try {
+			stmnt.executeUpdate(command);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public String getPassHash(String name) {
 		ResultSet rs;
@@ -133,8 +164,8 @@ public class AccountManager {
 			ResultSet rs;
 			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE "+userColumnName+" = \""+name+"\";");
 			rs.next();
-			Integer pubFlag = (Integer)rs.getObject(PUBPAGE);
-			if(pubFlag==1){
+			Boolean pubFlag = (Boolean)rs.getObject(PUBPAGE);
+			if(pubFlag==true){
 				return true;
 			}
 		} catch (SQLException e) {
@@ -151,8 +182,8 @@ public class AccountManager {
 			ResultSet rs;
 			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE "+userColumnName+" = \""+name+"\";");
 			rs.next();
-			Integer pubFlag = (Integer)rs.getObject(PUBPERF);
-			if(pubFlag==1){
+			Boolean pubFlag = (Boolean)rs.getObject(PUBPERF);
+			if(pubFlag==true){
 				return true;
 			}
 		} catch (SQLException e) {
@@ -170,8 +201,8 @@ public class AccountManager {
 			ResultSet rs;
 			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE "+userColumnName+" = \""+name+"\";");
 			rs.next();
-			Integer deactFlag = (Integer)rs.getObject(DEACT);
-			if(deactFlag==1){
+			Boolean deactFlag = (Boolean)rs.getObject(DEACT);		
+			if(deactFlag==true){
 				return true;
 			}
 		} catch (SQLException e) {
@@ -231,6 +262,51 @@ public class AccountManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public void dumpTable(){
+		String tableName = "QuizUser";
+		ResultSet rs;
+		int rows=0;
+		String command = "SELECT * FROM "+tableName;
+		try {
+			rs = stmnt.executeQuery(command);
+			rs.last();   //move to last row to get count of total number of rows
+			rows = rs.getRow();   //note the row #s start at 1, not 0, for ResultSets
+			rs.beforeFirst();
+		
+			for(int i=1;i<=rows;i++){
+				rs.next();
+				String user = (String)rs.getObject(USER);
+			    String pass = (String)rs.getObject(PASS);
+			    String salt = (String)rs.getObject(SALT);
+			    Boolean admin = (Boolean)rs.getBoolean(ADMIN);
+			    Boolean pubperf = (Boolean)rs.getBoolean(PUBPERF);
+			    Boolean pubpage = (Boolean)rs.getBoolean(PUBPAGE);
+			    Boolean deact = (Boolean)rs.getBoolean(DEACT);
+			    System.out.println(user);
+			    System.out.println(pass);
+			    System.out.println(salt);
+			    System.out.println(admin);
+			    System.out.println(pubperf);
+			    System.out.println(pubpage);
+			    System.out.println(deact);
+			
+			}
+		
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		    
+	
+		
+	}
+	
+	
 	
 	public class PasswordManager {
 		private final char[] CHARS = "abcdefghijklmnopqrstuvwxyz0123456789.,-!".toCharArray();
