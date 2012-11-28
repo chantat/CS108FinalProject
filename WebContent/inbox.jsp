@@ -26,13 +26,17 @@ String user;
 </tr>
 <%
 user = "ryan"; //TODO: get user from session context
-ms = (mail.MailSystem) application.getAttribute("System");
+ms = (mail.MailSystem) application.getAttribute("mailSystem");
 mb = ms.new Mailbox(user);
 inbox = mb.loadInbox();
 for (int i = 0; i < inbox.size(); i++) {
 	msg = inbox.get(i);%>
 	<tr>
-	<td><%= msg.getIsRead() %></td>
+	<% if(msg.getStatus() == 1) {%>
+	<td>Read</td>
+	<% } else { %>
+	<td>Unread</td>
+	<% } %>
 	<td><%= msg.getFromID() %></td>
 	<td>
 	<form action="ReadServlet" method="post">

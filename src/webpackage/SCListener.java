@@ -1,12 +1,11 @@
 package webpackage;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
+import javax.servlet.*;
+import javax.servlet.annotation.*;
 
 
 import userPackage.*;
+import mail.*;
 
 
 /**
@@ -29,15 +28,15 @@ public class SCListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
     	DBConnection con = new DBConnection();
         AccountManager acctmgr = new AccountManager(con);
-
+        QuizManager quizManager = new QuizManager(con);
         FriendManager frmgr = new FriendManager(con);
+        MailSystem ms = new MailSystem(con);
         ServletContext sc = sce.getServletContext();
         sc.setAttribute("manager",acctmgr);
         sc.setAttribute("friendManager",frmgr);
-
-        QuizManager quizManager = new QuizManager(con);
         sc.setAttribute("manager",acctmgr);
         sc.setAttribute("quiz manager", quizManager);
+        sc.setAttribute("mailSystem", ms);
     }
 
 	/**

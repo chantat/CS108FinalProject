@@ -4,26 +4,43 @@ import java.sql.*;
 import java.util.*;
 
 import mail.Message;
+import webpackage.DBConnection;
 
 public class MailSystem {
 	private DBConnection dbc;
+	private Statement stmt;
+	private ResultSet rs;
 	private String sqlStr;
 
-	public MailSystem() {
-		dbc = new DBConnection();
+	public MailSystem(DBConnection con) {
+		dbc = con;
+		stmt = dbc.getStatement();
 	}
 	
 	public void send(Message msg) {
-		sqlStr = "INSERT INTO testMail(toID,fromID,subject,text,isRead) VALUES (";
+		sqlStr = "INSERT INTO Message(toID,fromID,subject,messageText,status) VALUES (";
 		sqlStr += "\"" + msg.getToID() + "\",";
 		sqlStr += "\"" + msg.getFromID() + "\",";
 		sqlStr += "\"" + msg.getSubject() + "\",";
 		sqlStr += "\"" + msg.getMessage() + "\",";
-		sqlStr += msg.getIsRead();
+		sqlStr += msg.getStatus();
 		sqlStr += ");";
 		//System.out.println(sqlStr);
 		try {
-			dbc.stmt.executeUpdate(sqlStr);
+			stmt.executeUpdate(sqlStr);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void markAsRead(Message msg) {
+		sqlStr = "UPDATE Message SET status=1 WHERE ";
+		sqlStr += "fromID=\"";
+		sqlStr += msg.getFromID();
+		sqlStr += "\" AND messageTime=\"";
+		sqlStr += msg.getTime() + "\"";
+		try {
+			stmt.executeUpdate(sqlStr);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -33,23 +50,23 @@ public class MailSystem {
 		Message msg = null;
 		String toID, subject, message;
 		Timestamp time;
-		Boolean isRead;
+		int status;
 		sqlStr = "SELECT * FROM ";
-		sqlStr += "testMail"; //TODO: Change to real table
+		sqlStr += "Message";
 		sqlStr += " WHERE fromID=\"";
 		sqlStr += fromID;
-		sqlStr += "\" AND msgTime=\"";
+		sqlStr += "\" AND messageTime=\"";
 		sqlStr += timeStr + "\"";
 		//System.out.println(sqlStr);
 		try {
-			dbc.rs = dbc.stmt.executeQuery(sqlStr);
-			dbc.rs.next();
-				toID = dbc.rs.getString("toID");
-				subject = dbc.rs.getString("subject");
-				message = dbc.rs.getString("text");
-				time = dbc.rs.getTimestamp("msgTime");
-				isRead = dbc.rs.getBoolean("isRead");
-				msg = new Message(toID, fromID, subject, message, time, isRead);
+			rs = stmt.executeQuery(sqlStr);
+			rs.next();
+				toID = rs.getString("toID");
+				subject = rs.getString("subject");
+				message = rs.getString("messageText");
+				time = rs.getTimestamp("messageTime");
+				status = rs.getInt("status");
+				msg = new Message(toID, fromID, subject, message, time, status);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -71,21 +88,21 @@ public class MailSystem {
 			inbox.clear();
 			String fromID, subject, message;
 			Timestamp time;
-			Boolean isRead;
+			int status;
 			sqlStr = "SELECT * from ";
-			sqlStr += "testMail "; //TODO: Change to real table
+			sqlStr += "Message ";
 			sqlStr += "WHERE toID = \"";
 			sqlStr += user;
 			sqlStr += "\"";
 			try {
-				dbc.rs = dbc.stmt.executeQuery(sqlStr);
-				while (dbc.rs.next()) {
-					fromID = dbc.rs.getString("fromID");
-					subject = dbc.rs.getString("subject");
-					message = dbc.rs.getString("text");
-					time = dbc.rs.getTimestamp("msgTime");
-					isRead = dbc.rs.getBoolean("isRead");
-					inbox.add(new Message(user, fromID, subject, message, time, isRead));
+				rs = stmt.executeQuery(sqlStr);
+				while (rs.next()) {
+					fromID = rs.getString("fromID");
+					subject = rs.getString("subject");
+					message = rs.getString("messageText");
+					time = rs.getTimestamp("messageTime");
+					status = rs.getInt("status");
+					inbox.add(new Message(user, fromID, subject, message, time, status));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -97,21 +114,21 @@ public class MailSystem {
 			outbox.clear();
 			String toID, subject, message;
 			Timestamp time;
-			Boolean isRead;
+			int status;
 			sqlStr = "SELECT * from ";
-			sqlStr += "testMail "; //TODO: Change to real table
+			sqlStr += "Message ";
 			sqlStr += "WHERE fromID = \"";
 			sqlStr += user;
 			sqlStr += "\"";
 			try {
-				dbc.rs = dbc.stmt.executeQuery(sqlStr);
-				while (dbc.rs.next()) {
-					toID = dbc.rs.getString("toID");
-					subject = dbc.rs.getString("subject");
-					message = dbc.rs.getString("text");
-					time = dbc.rs.getTimestamp("msgTime");
-					isRead = dbc.rs.getBoolean("isRead");
-					outbox.add(new Message(toID, user, subject, message, time, isRead));
+				rs = stmt.executeQuery(sqlStr);
+				while (rs.next()) {
+					toID = rs.getString("toID");
+					subject = rs.getString("subject");
+					message = rs.getString("messageText");
+					time = rs.getTimestamp("messageTime");
+					status = rs.getInt("status");
+					outbox.add(new Message(toID, user, subject, message, time, status));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -128,22 +145,5 @@ public class MailSystem {
 				System.out.println(outbox.get(i));
 			}
 		}
-		
-		
-	}
-	
-	public static void main(String[] args) {
-		MailSystem ms = new MailSystem();
-		String username = "ryan";
-		Mailbox mb = ms.new Mailbox(username);
-		System.out.println("Starting...");
-		mb.loadInbox();
-		mb.loadOutbox();
-		mb.printMessages();
-		System.out.println("...Finished");
-		Message msg = new Message("maria",username,"Hello","This is my message to Maria");
-		ms.send(msg);
-		mb.loadOutbox();
-		mb.printMessages();
 	}
 }

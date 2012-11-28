@@ -8,15 +8,15 @@ public class Message {
 	private String subject;
 	private String message;
 	private Timestamp time;
-	private boolean isRead;
+	private int status;
 	
-	public Message(String toID, String fromID, String subject, String message, Timestamp time, boolean isRead) {
+	public Message(String toID, String fromID, String subject, String message, Timestamp time, int status) {
 		this.toID = toID;
 		this.fromID = fromID;
 		this.subject = subject;
 		this.message = message;
 		this.time = time;
-		this.isRead = isRead;
+		this.status = status;
 	}
 	
 	/*
@@ -28,7 +28,7 @@ public class Message {
 		this.fromID = fromID;
 		this.subject = subject;
 		this.message = message;
-		this.isRead = false;
+		this.status = 0;
 	}
 	
 	public String getToID() {
@@ -51,12 +51,12 @@ public class Message {
 		return time;
 	}
 	
-	public boolean getIsRead() {
-		return isRead;
+	public int getStatus() {
+		return status;
 	}
 	
 	public void markAsRead() {
-		isRead = true;
+		status = 1;
 		//TODO: Connect to DB and mark
 	}
 	
@@ -66,7 +66,7 @@ public class Message {
 		str += "From: " + fromID + "\n";
 		str += "Subject: " + subject + "\n";
 		str += "Time: " + time + "\n";
-		str += "Read? " + isRead + "\n";
+		str += "Read? " + status + "\n";
 		str += message;
 		return str;
 	}

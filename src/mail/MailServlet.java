@@ -32,7 +32,7 @@ public class MailServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext sc = request.getServletContext();
-		MailSystem ms = (MailSystem) sc.getAttribute("System");
+		MailSystem ms = (MailSystem) sc.getAttribute("mailSystem");
 		String toID = request.getParameter("toID");
 		String subject = request.getParameter("subject");
 		String message = request.getParameter("message");
