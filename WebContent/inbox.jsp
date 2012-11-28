@@ -23,7 +23,6 @@ String user;
 <th>From</th>
 <th>Subject</th>
 <th>Time</th>
-<th>Message</th>
 </tr>
 <%
 user = "ryan"; //TODO: get user from session context
@@ -43,7 +42,6 @@ for (int i = 0; i < inbox.size(); i++) {
 	</form>
 	</td>
 	<td><%= msg.getTime() %></td>
-	<td><%= msg.getMessage() %></td>
 	</tr>
 <%}%>
 </table>

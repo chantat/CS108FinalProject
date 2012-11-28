@@ -38,6 +38,7 @@ public class ReadServlet extends HttpServlet {
 		String timeStr = request.getParameter("timeStamp");
 		Message msg = ms.findMessage(fromID, timeStr);
 		//System.out.println(msg);
+		msg.markAsRead();
 		request.setAttribute("message", msg);
 		request.getRequestDispatcher("readMessage.jsp").forward(request, response);
 	}

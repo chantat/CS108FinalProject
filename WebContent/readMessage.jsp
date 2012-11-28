@@ -14,5 +14,6 @@ mail.Message msg = (mail.Message) request.getAttribute("message");
 <p>From: <%= msg.getFromID() %></p>
 <p>Time: <%= msg.getTime() %></p>
 <p><%= msg.getMessage() %></p>
+<a href="inbox.jsp">Inbox</a>
 </body>
 </html>

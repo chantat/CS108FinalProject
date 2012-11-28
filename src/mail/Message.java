@@ -57,6 +57,7 @@ public class Message {
 	
 	public void markAsRead() {
 		isRead = true;
+		//TODO: Connect to DB and mark
 	}
 	
 	public String toString() {
