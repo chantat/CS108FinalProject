@@ -78,9 +78,38 @@ for(int i=0; i<requests.size();i++){
 
 
 
+<h2>Announcements</h2>
+<table border="1">
+<% 
+
+for(int i=0; i<requests.size();i++){
+	out.println("<tr>");
+	String requestorName = requests.get(i);
+	out.println("<td> "+requestorName+"</td>");
+	String approveButton = "<form action=\"AddFriendServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\""+ requestorName+ "\"><input type=\"submit\" value=\"Approve Request\"></form>";
+	out.println("<td> "+approveButton+"</td>");
+	out.println("</tr>");
+}
 
 
 
+%>
+
+</table>
+
+
+
+<h2>Quiz List</h2>
+
+<h2>Newest Quizzes</h2>
+
+
+<h2>Popular Quizzes</h2>
+
+
+<h2>Recently Taken Quizzes</h2>
+
+<h2>Friends' Recent Activity</h2>
 
 </body>
 </html>
