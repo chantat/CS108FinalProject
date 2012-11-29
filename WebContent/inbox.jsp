@@ -9,11 +9,15 @@
 </head>
 <body>
 <%!
+String user;
 mail.MailSystem ms;
-mail.MailSystem.Mailbox mb;
+//mail.MailSystem.Mailbox mb;
 List<mail.Message> inbox;
 mail.Message msg;
-String user;
+List<mail.Request> requests;
+mail.Request rqst;
+List<mail.Challenge> challenges;
+mail.Challenge chlg;
 %>
 <h1>Inbox</h1>
 <table>
@@ -26,8 +30,9 @@ String user;
 <%
 user = "ryan"; //TODO: get user from session context
 ms = (mail.MailSystem) application.getAttribute("mailSystem");
-mb = ms.new Mailbox(user);
-inbox = mb.loadInbox();
+//mb = ms.new Mailbox(user);
+//inbox = mb.loadInbox();
+inbox = ms.getInboxForUser(user);
 for (int i = 0; i < inbox.size(); i++) {
 	msg = inbox.get(i);%>
 	<tr>
@@ -57,9 +62,20 @@ for (int i = 0; i < inbox.size(); i++) {
 <th>From</th>
 <th>Time</th>
 </tr>
-<tr>
-<td>Fill with rows</td>
-</tr>
+<%
+requests = ms.getRequestsForUser(user);
+for (int i = 0; i < requests.size(); i++) {
+	rqst = requests.get(i);%>
+	<tr>
+	<% if(rqst.getStatus() == 1) {%>
+	<td>Read</td>
+	<% } else { %>
+	<td>Unread</td>
+	<% } %>
+	<td><%= rqst.getFromID() %></td>
+	<td><%= rqst.getTime() %></td>
+	</tr>
+<%}%>
 </table>
 
 <h1>Challenges</h1>
@@ -70,9 +86,21 @@ for (int i = 0; i < inbox.size(); i++) {
 <th>Quiz</th>
 <th>Time</th>
 </tr>
-<tr>
-<td>Fill with rows</td>
-</tr>
+<%
+challenges = ms.getChallengesForUser(user);
+for (int i = 0; i < challenges.size(); i++) {
+	chlg = challenges.get(i);%>
+	<tr>
+	<% if(chlg.getStatus() == 1) {%>
+	<td>Read</td>
+	<% } else { %>
+	<td>Unread</td>
+	<% } %>
+	<td><%= chlg.getFromID() %></td>
+	<td><%= chlg.getQuizID() %></td>
+	<td><%= chlg.getTime() %></td>
+	</tr>
+<%}%>
 </table>
 </body>
 </html>

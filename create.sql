@@ -1,4 +1,4 @@
-USE c_cs108_adchang1;
+USE c_cs108_;
 
 drop table if exists Question;
 create table Question(
@@ -74,9 +74,9 @@ create table Message(
   fromID char(255),
   toID char(255),
   subject char(255),
-  messageText char(255),
+  messageText varchar(1000),
   status int,
-  messageTime timestamp
+  messageTime timestamp default current_timestamp
 );
 
 drop table if exists Challenge;
@@ -84,7 +84,7 @@ create table Challenge(
   quizID int,
   fromID char(255),
   toID char(255),
-  challengeTime timestamp,
+  challengeTime timestamp default current_timestamp,
   status int
 );
 
@@ -93,7 +93,7 @@ create table Request(
   fromID char(255),
   toID char(255),
   status int,
-  requestTime timestamp
+  requestTime timestamp default current_timestamp
 );
 
 drop table if exists Announcement;
