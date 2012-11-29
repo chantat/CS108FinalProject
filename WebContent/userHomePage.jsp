@@ -10,6 +10,8 @@
 <body>
 <h1><%= session.getAttribute("username") %>'s Home Page</h1>
 
+<a href="inbox.jsp">Inbox</a>
+
 
 <form action="UserSearchServlet" method="post">
 User Search: <input type="text" name="victim"> 
