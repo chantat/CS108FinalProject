@@ -6,9 +6,6 @@ import java.io.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.*;
 import javax.servlet.*;
 
@@ -45,6 +42,12 @@ public class LoginServlet extends HttpServlet {
 		AccountManager acct = (AccountManager) context.getAttribute("manager");
 		String name = request.getParameter("user");
 		String pass = request.getParameter("pwd");
+		
+		
+//TEST
+		acct.dumpTable();
+		
+		
 		if(acct.containsAccount(name) && acct.passwordMatch(name, pass)){
 			HttpSession session = request.getSession();
 			session.setAttribute("username", name);     //store the username for this session so all pages and servlets can access.

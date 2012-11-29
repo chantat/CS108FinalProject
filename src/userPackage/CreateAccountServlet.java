@@ -9,7 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 
 /**
@@ -39,11 +41,13 @@ public class CreateAccountServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext context = request.getServletContext();
+		HttpSession sess = request.getSession();
 		AccountManager acct = (AccountManager) context.getAttribute("manager");
 		String name = request.getParameter("user");
 		String pass = request.getParameter("pwd");
-		String perfPriv = request.getParameter("privacy1");
+		String perfPriv = request.getParameter("privacy1");   //equals null pointer if boxes were not checked, equals "Public" if checked	
 		String pagePriv = request.getParameter("privacy2");
+		
 		if(acct.containsAccount(name)){
 
 			//forward to Name Already Exists page
@@ -57,9 +61,15 @@ public class CreateAccountServlet extends HttpServlet {
 			
 			int priv1=1;
 			int priv2=1;
-			if(perfPriv.equals("Public")) priv1=0;
-			if(pagePriv.equals("Public")) priv2=0;
+			if(perfPriv!=null) priv1=0;
+			if(pagePriv!=null) priv2=0;
 			acct.addAccount(name, pass, priv1,priv2);
+			sess.setAttribute("username", name);   //set this session's user
+			
+			
+	//TEST
+			acct.dumpTable();
+			
 			
 			//then bring them to the user welcome page
 			RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 

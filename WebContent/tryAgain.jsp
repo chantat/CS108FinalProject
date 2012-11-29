@@ -17,7 +17,7 @@ Username: <input type="text" name="user"> <br>
 Password: <input type="password" name="pwd">
 <input type="submit" value="Submit">
 </form>
-<A HREF="http://localhost:8080/Welcome/create.html">Create a new account</A>
+<A HREF="http://localhost:8080/CS108FinalProject/accountCreate.jsp">Create a new account</A>
 
 </body>
 </html>

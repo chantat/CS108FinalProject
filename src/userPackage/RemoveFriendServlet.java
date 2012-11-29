@@ -1,6 +1,5 @@
 package userPackage;
 
-import mail.*;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -12,19 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import mail.Message;
+import mail.MailSystem;
 
 /**
- * Servlet implementation class AddRequestServlet
+ * Servlet implementation class RemoveFriendServlet
  */
-@WebServlet("/AddRequestServlet")
-public class AddRequestServlet extends HttpServlet {
+@WebServlet("/RemoveFriendServlet")
+public class RemoveFriendServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddRequestServlet() {
+    public RemoveFriendServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,20 +40,14 @@ public class AddRequestServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext context = request.getServletContext();
-		MailSystem mail = (MailSystem) context.getAttribute("System");
 		FriendManager frnmgr = (FriendManager) context.getAttribute("friendManager");
 		HttpSession hs = request.getSession();
 		String name =(String)hs.getAttribute("username");
 		String victim = request.getParameter("victim");
-		frnmgr.requestFriend(name, victim);
+		frnmgr.removeFriend(name, victim);
 		
-		//notify the recipient with a mail system message
-		String messageTxt = "You have a pending request from "+name+".  Please check your Friends List to accept or reject this request.";
-		Message requestMsg = new Message(victim, name, "Friend Request", messageTxt);
-		mail.send(requestMsg);
-		
-		RequestDispatcher dispatch = request.getRequestDispatcher("userInfoPage.jsp"); 
-		dispatch.forward(request, response);
+		RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
+		dispatch.forward(request, response);	
 	}
 
 }
