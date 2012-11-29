@@ -3,6 +3,7 @@ package webpackage;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 
+import achievement.AchievementManager;
 import announcement.AnnouncementManager;
 
 
@@ -31,6 +32,7 @@ public class SCListener implements ServletContextListener {
     	DBConnection con = new DBConnection();
     	AnnouncementManager anmtmgr = new AnnouncementManager(con);
         AccountManager acctmgr = new AccountManager(con);
+        AchievementManager achmmgr = new AchievementManager(con, acctmgr);
         QuizManager quizManager = new QuizManager(con);
         FriendManager frmgr = new FriendManager(con);
         MailSystem ms = new MailSystem(con);

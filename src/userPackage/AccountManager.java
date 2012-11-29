@@ -1,5 +1,6 @@
 package userPackage;
 import webpackage.*;
+
 import java.util.*;
 import java.security.*;
 import java.sql.*;
@@ -305,7 +306,29 @@ public class AccountManager {
 	
 	}
 	
+	public int getNumQuizCreated(String username) {
+		String command = "SELECT * FROM Quiz WHERE authorID = \"" + username + "\" AND prevID = -1;";
+		ResultSet rs = null;
+		try {
+			rs = stmnt.executeQuery(command);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return DBConnection.getResultSetSize(rs);
+	}
 	
+	public int getNumQuizTaken(String username) {
+		String command = "SELECT * FROM Attempts WHERE userID = \"" + username + "\";";
+		ResultSet rs = null;
+		try {
+			rs = stmnt.executeQuery(command);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		
+		return DBConnection.getResultSetSize(rs);
+	}
 	
 	public class PasswordManager {
 		private final char[] CHARS = "abcdefghijklmnopqrstuvwxyz0123456789.,-!".toCharArray();
