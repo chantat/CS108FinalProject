@@ -65,7 +65,7 @@ public class CreateAccountServlet extends HttpServlet {
 			if(pagePriv!=null) priv2=0;
 			acct.addAccount(name, pass, priv1,priv2);
 			sess.setAttribute("username", name);   //set this session's user
-			
+			sess.setAttribute("mode", "normal");   //set to non-guest mode
 			
 	//TEST
 			acct.dumpTable();

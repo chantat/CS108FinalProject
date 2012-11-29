@@ -51,6 +51,7 @@ public class LoginServlet extends HttpServlet {
 		if(acct.containsAccount(name) && acct.passwordMatch(name, pass)){
 			HttpSession session = request.getSession();
 			session.setAttribute("username", name);     //store the username for this session so all pages and servlets can access.
+			session.setAttribute("mode", "normal");     //set to non-guest mode
 			if(acct.isDeact(name)){
 				//forward to the welcome back reactivation page  
 				acct.reactivate(name);

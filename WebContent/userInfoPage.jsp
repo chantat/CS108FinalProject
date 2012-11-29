@@ -15,6 +15,7 @@ String user = (String)session.getAttribute("username");
 String victim =(String)request.getParameter("victim");
 String requestButton = "<form action=\"AddRequestServlet\" method=\"post\"><input name = victim type=\"hidden\" value=\""+victim+"\">  <input type=\"submit\" value=\"Request Friend\"></form> ";
 FriendManager fMgr = (FriendManager)application.getAttribute("friendManager");
+AccountManager acct = (AccountManager)application.getAttribute("manager");
 if(!fMgr.areFriends(user, victim)){   //if not already friends...
 	if(fMgr.requestSent(user, victim)){  //cases where requests were already made in either direction
 		out.println("Status:  Friend request sent");		
@@ -30,6 +31,16 @@ if(!fMgr.areFriends(user, victim)){   //if not already friends...
 else{  //already friends
 	out.println("Status: Friends");
 }
+
+
+if(acct.isPagePublic(victim) || fMgr.areFriends(user, victim) ){    //if the user page is public or view is a friend..show cool content
+	
+	
+	//FILL WITH TABLES N STUFF
+	
+	
+}
+
 
 %>
 
