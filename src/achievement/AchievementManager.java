@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import userPackage.AccountManager;
+import userPackage.*;
 import webpackage.DBConnection;
 
 public class AchievementManager {
@@ -25,11 +25,11 @@ public class AchievementManager {
 		 "The user took a quiz in practice mode."};
 	
 	private Statement stmnt;
-	private AccountManager acctmgr;
+	private AccountUtil acctutil;
 	
-	public AchievementManager(DBConnection connection, AccountManager acctmgr) {
+	public AchievementManager(DBConnection connection, AccountUtil acctutil) {
 		stmnt = connection.getStatement();
-		this.acctmgr = acctmgr;
+		this.acctutil = acctutil;
 	}
 	
 	public int getNumAchievement() {
@@ -61,17 +61,17 @@ public class AchievementManager {
 		
 		boolean newlyAchieved = false;
 		if (achievementId == 0) {
-			newlyAchieved = (acctmgr.getNumQuizCreated(username) >= 1);
+			newlyAchieved = (acctutil.getNumQuizCreated(username) >= 1);
 		} else if (achievementId == 1) {
-			newlyAchieved = (acctmgr.getNumQuizCreated(username) >= 5);
+			newlyAchieved = (acctutil.getNumQuizCreated(username) >= 5);
 		} else if (achievementId == 2) {
-			newlyAchieved = (acctmgr.getNumQuizCreated(username) >= 10);
+			newlyAchieved = (acctutil.getNumQuizCreated(username) >= 10);
 		} else if (achievementId == 3) {
-			newlyAchieved = (acctmgr.getNumQuizTaken(username) >= 10);
+			newlyAchieved = (acctutil.getNumQuizTaken(username) >= 10);
 		} else if (achievementId == 4) {
-			newlyAchieved = isHadHighScore(username);
+			newlyAchieved = acctutil.isHadHighScore(username);
 		} else if (achievementId == 5) {
-			newlyAchieved = isUsedPracticeMode(username);
+			newlyAchieved = acctutil.isUsedPracticeMode(username);
 		}
 		
 		if (newlyAchieved) {
@@ -96,38 +96,5 @@ public class AchievementManager {
 		}
 		
 		return ret;
-	}
-	
-	
-	private boolean isUsedPracticeMode(String username) {
-		String command = "SELECT * FROM QuizUser WHERE username = \"" + username + "\";";
-		
-		ResultSet rs = null;
-		Integer usedPracticeMode = 0;
-		try {
-			rs = stmnt.executeQuery(command);
-			rs.next();
-			usedPracticeMode = (Integer)rs.getObject("usedPracticeMode");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}	
-		
-		return (usedPracticeMode == 1);
-	}
-	
-	private boolean isHadHighScore(String username) {
-		String command = "SELECT * FROM QuizUser WHERE username = \"" + username + "\";";
-		
-		ResultSet rs = null;
-		Integer hadHighScore = 0;
-		try {
-			rs = stmnt.executeQuery(command);
-			rs.next();
-			hadHighScore = (Integer)rs.getObject("hadHighScore");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}	
-		
-		return (hadHighScore == 1);
 	}
 }
