@@ -51,7 +51,9 @@ public class AddFriendServlet extends HttpServlet {
 		//notify the recipient with a mail system message
 		String messageTxt = name+" has accepted your Friend request!";
 		Message requestMsg = new Message(victim, name, "Friend Request Accepted", messageTxt);
-		mail.send(requestMsg);
+		
+//MAIL UNDER CONSTRUCTION		
+	//	mail.send(requestMsg);
 		
 		//return to your home page
 		RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
