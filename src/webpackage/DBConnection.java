@@ -3,10 +3,10 @@ import java.sql.*;
 
 public class DBConnection {
 	
-	private static String account = "ccs108rysatt";
-	private static String password = "ahseixuu";
+	private static String account = "ccs108adchang1";
+	private static String password = "ceemeiru";
 	private static String server = "mysql-user.stanford.edu";
-	private static String database = "c_cs108_rysatt";
+	private static String database = "c_cs108_adchang1";
 	
 	private Connection conn;
 	
@@ -53,4 +53,23 @@ public class DBConnection {
 			return rowCount;
 		}
 	}
+	
+	static public int getResultSetColumnNum(ResultSet rs){
+		if (rs == null) {
+			return 0;
+		} else {
+			int colnum=0;
+			try {
+				ResultSetMetaData rsmd = rs.getMetaData();
+				colnum = rsmd.getColumnCount();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return colnum;
+		}
+		
+	}
+	
+	
 }
