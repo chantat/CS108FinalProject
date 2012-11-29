@@ -124,5 +124,11 @@ for(int i=0; i<announce.length;i++){
 
 
 <A HREF="http://localhost:8080/CS108FinalProject/admin.jsp">Administration Page</A>
+
+<form action="LogOutServlet" method="post">
+<input type="submit" value="Log Out">
+</form>
+
+
 </body>
 </html>
