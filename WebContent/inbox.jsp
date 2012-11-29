@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<%@ page import="java.util.*" %>
+<%@ page import="java.util.*, mail.*" %>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Inbox</title>
 </head>
@@ -98,5 +98,7 @@ for (int i = 0; i < challenges.size(); i++) {
 	</tr>
 <%}%>
 </table>
+
+<A HREF="http://localhost:8080/CS108FinalProject/userHomePage.jsp">Return to Home Page</A>
 </body>
 </html>

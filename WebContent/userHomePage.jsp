@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="java.util.*, userPackage.* ,announcement.*" %>
+    <%@ page import="java.util.*, userPackage.* ,announcement.*, achievement.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -34,6 +34,8 @@ User Search: <input type="text" name="victim">
 <%
 String user = (String)session.getAttribute("username");
 FriendManager friendMgr = (FriendManager)application.getAttribute("friendManager");
+AccountManager acct = (AccountManager)application.getAttribute("manager");
+
 
 //TEST
 System.out.println("Friend Table");
@@ -122,9 +124,51 @@ for(int i=0; i<announce.length;i++){
 
 <h2>Achievements</h2>
 
+<table border="1">
+<% 
+AchievementManager achMGR = (AchievementManager)application.getAttribute("achievementManager");
+Achievement[] achList = achMGR.getAllAchievement(user);
 
-<A HREF="http://localhost:8080/CS108FinalProject/admin.jsp">Administration Page</A>
+for(int i=0; i<achList.length;i++){
+	out.println("<tr>");
+	String achName = achList[i].getName();
+	String describe = achList[i].getDescription();
+	
+	out.println("<td> "+achName+"</td>");
+	out.println("<td> "+describe+"</td>");
+	out.println("</tr>");
+}
 
+%>
+</table>
+
+<h2>Privacy Preferences</h2>
+<% 
+String isPerfPub="no";
+String isPagePub="no";
+if(acct.isPerfPublic(user)){
+	isPerfPub = "yes";
+}
+if(acct.isPagePublic(user)){
+	isPagePub = "yes";
+}
+
+%>
+<form action="ChangePrivacyServlet" method="post">
+<input type="checkbox" name="privacy1" value="Public" checked=<%=isPerfPub %>>I want my quiz scores public<br>
+<input type="checkbox" name="privacy2" value="Public" checked =<%=isPagePub %>>I want my user page to be visible to all<br>
+<input type="submit" value="Submit">
+
+</form>
+
+
+<%    //enables Admin page if user is Admin
+
+if(acct.isAdmin(user)){
+	String returnLink = "<A HREF=\"http://localhost:8080/CS108FinalProject/admin.jsp\">Administration Page</A>";
+	out.println(returnLink);
+}
+%>
 <form action="LogOutServlet" method="post">
 <input type="submit" value="Log Out">
 </form>

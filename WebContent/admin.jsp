@@ -45,5 +45,8 @@ Username: <input type="text" name="username">  <br>
 <input type="submit" value="Submit"/>
 </form>
 
+<A HREF="http://localhost:8080/CS108FinalProject/userHomePage.jsp">Return to Home Page</A>
+
+
 </body>
 </html>

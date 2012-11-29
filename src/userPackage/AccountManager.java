@@ -9,11 +9,17 @@ import java.sql.*;
 public class AccountManager {
 	Statement stmnt;
 	String tableName = "QuizUser";
+	String friendTable = "Friend";
+	String requestTable = "Request";
+	String ChallengeTable = "Challenge";
+	String AttemptsTable = "Attempts";
+	String AchieveTable = "Achievements";
+	
 	String adminColumnName;
 	String userColumnName;
 	String passColumnName;
-	String publicPerfColumnName;
-	String publicPageColumnName;
+	String privPerfColumnName;
+	String privPageColumnName;
 	String deactColumnName;
 	ResultSet testRS;
 	ResultSetMetaData testRSMD;
@@ -42,8 +48,8 @@ public class AccountManager {
 			userColumnName = testRSMD.getColumnName(USER);
 			passColumnName = testRSMD.getColumnName(PASS);
 			adminColumnName = testRSMD.getColumnName(ADMIN);
-			publicPerfColumnName = testRSMD.getColumnName(PRIVPERF);
-			publicPageColumnName = testRSMD.getColumnName(PRIVPAGE);
+			privPerfColumnName = testRSMD.getColumnName(PRIVPERF);
+			privPageColumnName = testRSMD.getColumnName(PRIVPAGE);
 			deactColumnName = testRSMD.getColumnName(DEACT);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -94,10 +100,33 @@ public class AccountManager {
 	}
 	
 	public void deleteAccount(String username){
+		String friendTable = "Friend";
+		String requestTable = "Request";
+		String ChallengeTable = "Challenge";
+		String AttemptsTable = "Attempts";
+		String AchieveTable = "Achievements";
+		
 		String quote = "\"";
-		String command = "DELETE "+tableName+" WHERE "+userColumnName+" LIKE "+quote+username+quote+";";
+		String command1 = "DELETE "+tableName+" WHERE "+userColumnName+" LIKE "+quote+username+quote+";";
+		String command2 = "DELETE "+friendTable+" WHERE userID1 LIKE "+quote+username+quote+";";
+		String command3 = "DELETE "+friendTable+" WHERE userID2 LIKE "+quote+username+quote+";";
+		String command4 = "DELETE "+requestTable+" WHERE fromID LIKE "+quote+username+quote+";";
+		String command5 = "DELETE "+requestTable+" WHERE toID LIKE "+quote+username+quote+";";
+		String command6 = "DELETE "+ChallengeTable+" WHERE fromID LIKE "+quote+username+quote+";";
+		String command7 = "DELETE "+ChallengeTable+" WHERE toID LIKE "+quote+username+quote+";";
+		String command8 = "DELETE "+AttemptsTable+" WHERE userID LIKE "+quote+username+quote+";";
+		String command9 = "DELETE "+AchieveTable+" WHERE userID LIKE "+quote+username+quote+";";
+		
 		try {
-			stmnt.executeUpdate(command);
+			stmnt.executeUpdate(command1);
+			stmnt.executeUpdate(command2);
+			stmnt.executeUpdate(command3);
+			stmnt.executeUpdate(command4);
+			stmnt.executeUpdate(command5);
+			stmnt.executeUpdate(command6);
+			stmnt.executeUpdate(command7);
+			stmnt.executeUpdate(command8);
+			stmnt.executeUpdate(command9);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -217,6 +246,39 @@ public class AccountManager {
 		return false;
 	}
 	
+	public boolean isAdmin(String name){
+		try {
+			ResultSet rs;
+			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE "+userColumnName+" = \""+name+"\";");
+			rs.next();
+			Boolean adminFlag = (Boolean)rs.getObject(ADMIN);		
+			if(adminFlag==true){
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public void setPriv(String name, int privPerf, int privPage){
+		String command1 = "UPDATE "+tableName+" SET "+privPerfColumnName+" = "+privPerf +" WHERE "+userColumnName+" = \""+name+"\";";
+		String command2 = "UPDATE "+tableName+" SET "+privPageColumnName+" = "+privPage +" WHERE "+userColumnName+" = \""+name+"\";";
+		try {
+			stmnt.executeUpdate(command1);
+			stmnt.executeUpdate(command2);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+	
+	
+	
+	
 	public void reactivate(String name){
 		try {
 			String command = "UPDATE "+tableName+" SET "+deactColumnName+" = 0 WHERE "+userColumnName+" = \""+name+"\";";
@@ -230,21 +292,6 @@ public class AccountManager {
 	}
 	
 	
-	public boolean passwordMatch(String username, String password){
-		// first check to see if the name even exists
-		if (!this.containsAccount(username)) {
-			return false;
-		}
-		
-		// get stored password hash
-		String hashedPassword = getPassHash(username);
-		
-		// compute the input password hash
-		String salt = getSalt(username);
-		String hashedInputPassword = pm.generateHexStringFromString(password + salt);
-		
-		return hashedPassword.equals(hashedInputPassword); 
-	}	
 
 	public void promoteAdmin(String name){   //sets admin flag in user's database entry to 1
 		String command = "UPDATE "+tableName+" SET "+adminColumnName+" = 1 WHERE "+userColumnName+" = \""+name+"\";";
@@ -304,6 +351,23 @@ public class AccountManager {
 		}
 	
 	}
+	
+	public boolean passwordMatch(String username, String password){
+		// first check to see if the name even exists
+		if (!this.containsAccount(username)) {
+			return false;
+		}
+		
+		// get stored password hash
+		String hashedPassword = getPassHash(username);
+		
+		// compute the input password hash
+		String salt = getSalt(username);
+		String hashedInputPassword = pm.generateHexStringFromString(password + salt);
+		
+		return hashedPassword.equals(hashedInputPassword); 
+	}	
+
 	
 	public class PasswordManager {
 		private final char[] CHARS = "abcdefghijklmnopqrstuvwxyz0123456789.,-!".toCharArray();

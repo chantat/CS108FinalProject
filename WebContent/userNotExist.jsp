@@ -7,6 +7,8 @@
 <title>User does not exist</title>
 </head>
 <body>
-USER DOES NOT EXIST OR HAS A PRIVATE PROFILE
+USER DOES NOT EXIST
+
+<A HREF="http://localhost:8080/CS108FinalProject/userHomePage.jsp">Return to Home Page</A>
 </body>
 </html>
