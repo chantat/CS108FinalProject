@@ -32,9 +32,10 @@ public class SCListener implements ServletContextListener {
     	DBConnection con = new DBConnection();
     	AnnouncementManager anmtmgr = new AnnouncementManager(con);
     	AccountManager acctmgr = new AccountManager(con);
+    	AccountUtil acctutil = new AccountUtil(con);
         QuizManager quizManager = new QuizManager(con);
         FriendManager frmgr = new FriendManager(con);
-        AchievementManager achmmgr = new AchievementManager(con, acctmgr);
+        AchievementManager achmmgr = new AchievementManager(con, acctutil);
         MailSystem ms = new MailSystem(con);
         ServletContext sc = sce.getServletContext();
         sc.setAttribute("manager",acctmgr);
