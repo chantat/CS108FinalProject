@@ -120,4 +120,3 @@ create table Attempts(
   timeTaken timestamp
 );
 
-
