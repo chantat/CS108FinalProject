@@ -120,3 +120,10 @@ create table Attempts(
   timeTaken timestamp
 );
 
+drop table if exists Achievements;
+create table Achievements(
+  userID char(255), 
+  achievementID int, 
+  timeAchieved timestamp
+);
+
