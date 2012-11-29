@@ -112,7 +112,7 @@ public class FriendManager{
 	
 	void requestFriend(String requestor,String receiver){
 		try {
-			stmnt.executeUpdate("INSERT INTO "+requestTableName+" VALUES(\""+requestor+"\",\""+receiver+"\")");
+			stmnt.executeUpdate("INSERT INTO "+requestTableName+"(fromID,toID) VALUES(\""+requestor+"\",\""+receiver+"\")");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

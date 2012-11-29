@@ -56,26 +56,21 @@ for (int i = 0; i < inbox.size(); i++) {
 <a href="compose.jsp">Compose</a>
 
 <h1>Friend Requests</h1>
-<table>
-<tr>
-<th>Read</th>
-<th>From</th>
-<th>Time</th>
-</tr>
-<%
-requests = ms.getRequestsForUser(user);
-for (int i = 0; i < requests.size(); i++) {
-	rqst = requests.get(i);%>
-	<tr>
-	<% if(rqst.getStatus() == 1) {%>
-	<td>Read</td>
-	<% } else { %>
-	<td>Unread</td>
-	<% } %>
-	<td><%= rqst.getFromID() %></td>
-	<td><%= rqst.getTime() %></td>
-	</tr>
-<%}%>
+<% 
+userPackage.FriendManager friendMgr = (userPackage.FriendManager)application.getAttribute("friendManager"); 
+ArrayList<String> requests = friendMgr.getRequests(user);
+%>
+<table border="1">
+<% 
+for(int i=0; i<requests.size();i++){
+	out.println("<tr>");
+	String requestorName = requests.get(i);
+	out.println("<td> "+requestorName+"</td>");
+	String approveButton = "<form action=\"AddFriendServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\""+ requestorName+ "\"><input type=\"submit\" value=\"Approve Request\"></form>";
+	out.println("<td> "+approveButton+"</td>");
+	out.println("</tr>");
+}
+%>
 </table>
 
 <h1>Challenges</h1>
