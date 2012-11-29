@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ page import="java.util.*, userPackage.* ,announcement.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,7 +22,7 @@ for(int i=0; i<announce.length;i++){
 	String adminName = announce[i].getAdminId();
 	String text = announce[i].getAnnouncementText();
 	String subject = announce[i].getSubject();
-	String time = announce[i].getPostTime();
+	String time = announce[i].getPostTime().toString();
 	out.println("<td> "+adminName+"</td>");
 	out.println("<td> "+subject+"</td>");
 	out.println("<td> "+time+"</td>");

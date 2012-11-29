@@ -90,7 +90,7 @@ for(int i=0; i<announce.length;i++){
 	String adminName = announce[i].getAdminId();
 	String text = announce[i].getAnnouncementText();
 	String subject = announce[i].getSubject();
-	String time = announce[i].getPostTime();
+	String time = announce[i].getPostTime().toString();
 	out.println("<td> "+adminName+"</td>");
 	out.println("<td> "+subject+"</td>");
 	out.println("<td> "+time+"</td>");
@@ -120,5 +120,7 @@ for(int i=0; i<announce.length;i++){
 
 <h2>Achievements</h2>
 
+
+<A HREF="http://localhost:8080/CS108FinalProject/admin.jsp">Administration Page</A>
 </body>
 </html>
