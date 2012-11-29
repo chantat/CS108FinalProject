@@ -11,7 +11,7 @@ import webpackage.DBConnection;
 public class FriendManager{
 	Statement stmnt;
 	String tableName = "Friend";
-	String requestTableName = "FriendRequest";
+	String requestTableName = "Request";
 	String Friend1ColumnName;
 	String Friend2ColumnName;
 	String Request1ColumnName;
