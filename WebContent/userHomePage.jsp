@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="java.util.*, userPackage.*" %>
+    <%@ page import="java.util.*, userPackage.* ,announcement.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -82,13 +82,19 @@ for(int i=0; i<requests.size();i++){
 <h2>Announcements</h2>
 <table border="1">
 <% 
+AnnouncementManager announceMGR = (AnnouncementManager)application.getAttribute("announcementManager");
+Announcement[] announce = announceMGR.getAllAnnouncement();
 
-for(int i=0; i<requests.size();i++){
+for(int i=0; i<announce.length;i++){
 	out.println("<tr>");
-	String requestorName = requests.get(i);
-	out.println("<td> "+requestorName+"</td>");
-	String approveButton = "<form action=\"AddFriendServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\""+ requestorName+ "\"><input type=\"submit\" value=\"Approve Request\"></form>";
-	out.println("<td> "+approveButton+"</td>");
+	String adminName = announce[i].getAdminId();
+	String text = announce[i].getAnnouncementText();
+	String subject = announce[i].getSubject();
+	String time = announce[i].getPostTime();
+	out.println("<td> "+adminName+"</td>");
+	out.println("<td> "+subject+"</td>");
+	out.println("<td> "+time+"</td>");
+	out.println("<td> "+text+"</td>");
 	out.println("</tr>");
 }
 
