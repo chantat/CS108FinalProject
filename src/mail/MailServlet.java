@@ -32,11 +32,14 @@ public class MailServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext sc = request.getServletContext();
+		HttpSession session = request.getSession();
 		MailSystem ms = (MailSystem) sc.getAttribute("mailSystem");
 		String toID = request.getParameter("toID");
 		String subject = request.getParameter("subject");
 		String message = request.getParameter("message");
-		Message msg = new Message("ryan", toID, subject, message); // TODO: get fromID
+		String user = (String) session.getAttribute("username");
+		//Message msg = new Message(user, toID, subject, message);
+		Message msg = new Message("ryan", toID, subject, message); // Use above when logged in
 		ms.send(msg);
 		request.getRequestDispatcher("inbox.jsp").forward(request, response);
 	}

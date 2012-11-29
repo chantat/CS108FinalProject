@@ -16,7 +16,6 @@ mail.Message msg;
 String user;
 %>
 <h1>Inbox</h1>
-
 <table>
 <tr>
 <th>Read</th>
@@ -49,7 +48,31 @@ for (int i = 0; i < inbox.size(); i++) {
 	</tr>
 <%}%>
 </table>
-
 <a href="compose.jsp">Compose</a>
+
+<h1>Friend Requests</h1>
+<table>
+<tr>
+<th>Read</th>
+<th>From</th>
+<th>Time</th>
+</tr>
+<tr>
+<td>Fill with rows</td>
+</tr>
+</table>
+
+<h1>Challenges</h1>
+<table>
+<tr>
+<th>Read</th>
+<th>From</th>
+<th>Quiz</th>
+<th>Time</th>
+</tr>
+<tr>
+<td>Fill with rows</td>
+</tr>
+</table>
 </body>
 </html>
