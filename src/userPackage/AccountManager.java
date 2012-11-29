@@ -70,7 +70,9 @@ public class AccountManager {
 		String command = combinedCommand1+combinedCommand2;
 		
 	//TEST
-		System.out.println("account creation command is "+ command);
+		System.out.println("account creation command is "+ command);	
+
+		
 		
 		try {
 			stmnt.executeUpdate(command);

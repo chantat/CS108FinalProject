@@ -44,8 +44,9 @@ ArrayList<String> friends = friendMgr.getFriends(user);
 ArrayList<String> requests = friendMgr.getRequests(user);
 for(int i=0; i<friends.size();i++){
 	String friendName = friends.get(i);
+	String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +friendName +"\"><input type=\"submit\" value=\""+friendName+"\"></form>";
 	out.println("<tr>");
-	out.println("<td> "+friendName+"</td>");
+	out.println("<td> "+linkButton+"</td>");
 	String removeButton = "<form action=\"RemoveFriendServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +friendName +"\"><input type=\"submit\" value=\"Remove From Friend List\"></form>";
 	out.println("<td> "+removeButton+"</td>");
 	out.println("</tr>");
@@ -110,6 +111,8 @@ for(int i=0; i<requests.size();i++){
 <h2>Recently Taken Quizzes</h2>
 
 <h2>Friends' Recent Activity</h2>
+
+<h2>Achievements</h2>
 
 </body>
 </html>
