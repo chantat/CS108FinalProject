@@ -83,9 +83,10 @@ public class AccountUtil {
 			for (int i = 0; i < numEntries; i++) {
 				String userId = rs.getString("userID");
 				Integer quizId = rs.getInt("quizID");
+				Integer score = rs.getInt("score");
 				Timestamp timeTaken = rs.getTimestamp("timeTaken");
 				
-				ret[i] = new Attempt(userId, quizId, timeTaken);
+				ret[i] = new Attempt(userId, quizId, score, timeTaken);
 				rs.next();
 			}
 		} catch (SQLException e) {
