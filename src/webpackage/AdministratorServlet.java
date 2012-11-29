@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import announcement.AnnouncementManager;
+
 import userPackage.AccountManager;
 
 /**
@@ -43,7 +45,11 @@ public class AdministratorServlet extends HttpServlet {
 		
 		String function = request.getParameter("function");
 		if (function.equals("create_announcement")) {
-			
+			AnnouncementManager anmtmgr = (AnnouncementManager)sc.getAttribute("announcementManager");
+			String adminId = request.getParameter("adminId");
+			String text = request.getParameter("text");
+			String subject = request.getParameter("subject");
+			anmtmgr.createAnnouncement(adminId, subject, text);
 		} else if (function.equals("remove_account")) {
 			AccountManager acctmgr = (AccountManager)sc.getAttribute("manager");
 			String username = request.getParameter("username");

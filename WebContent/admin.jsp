@@ -10,7 +10,9 @@
 <h1>Administrator Page</h1>
 Enter Announcement: 
 <form action="AdministratorServlet" method="post">
-Announcement: <input type="text" name="announcement">  <br>
+Announcement: <input type="text" name="subject"> <input type="text" name="text">  <br>
+<%String adminId = (String)session.getAttribute("username");%>
+<input type="hidden" name="adminId" value="<% out.print(adminId); %>"/>
 <input type="hidden" name="function" value="create_announcement"/>
 <input type="submit" value="Submit"/>
 </form>

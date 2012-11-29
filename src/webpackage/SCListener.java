@@ -3,6 +3,9 @@ package webpackage;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 
+import achievement.AchievementManager;
+import announcement.AnnouncementManager;
+
 
 import userPackage.*;
 import mail.*;
@@ -27,13 +30,17 @@ public class SCListener implements ServletContextListener {
      */
     public void contextInitialized(ServletContextEvent sce) {
     	DBConnection con = new DBConnection();
-        AccountManager acctmgr = new AccountManager(con);
+    	AnnouncementManager anmtmgr = new AnnouncementManager(con);
+    	AccountManager acctmgr = new AccountManager(con);
         QuizManager quizManager = new QuizManager(con);
         FriendManager frmgr = new FriendManager(con);
+        AchievementManager achmmgr = new AchievementManager(con, acctmgr);
         MailSystem ms = new MailSystem(con);
         ServletContext sc = sce.getServletContext();
         sc.setAttribute("manager",acctmgr);
         sc.setAttribute("friendManager",frmgr);
+        sc.setAttribute("announcementManager", anmtmgr);
+        sc.setAttribute("achievementManager", achmmgr);
         sc.setAttribute("quiz manager", quizManager);
         sc.setAttribute("mailSystem", ms);
     }

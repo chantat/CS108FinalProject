@@ -99,7 +99,7 @@ create table Request(
 drop table if exists Announcement;
 create table Announcement(
   adminID char(255),
-  announcementText char(255),
+  announcementText varchar(1000),
   subject char(255),
   announcementTime timestamp
 );
@@ -119,3 +119,11 @@ create table Attempts(
   score int, 
   timeTaken timestamp
 );
+
+drop table if exists Achievements;
+create table Achievements(
+  userID char(255), 
+  achievementID int, 
+  timeAchieved timestamp
+);
+

@@ -1,9 +1,7 @@
 package announcement;
 
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import webpackage.DBConnection;
 
@@ -43,7 +41,8 @@ public class AnnouncementManager {
 				String adminId = rs.getString("adminID");
 				String text = rs.getString("announcementText");
 				String subject = rs.getString("subject");
-				ret[i] = new Announcement(adminId, subject, text);
+				Timestamp postTime = rs.getTimestamp("announcementTime");
+				ret[i] = new Announcement(adminId, subject, text, postTime);
 				rs.next();
 			}
 		} catch (SQLException e) {
