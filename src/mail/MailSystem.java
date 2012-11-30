@@ -18,12 +18,13 @@ public class MailSystem {
 	}
 	
 	public void send(Message msg) {
-		sqlStr = "INSERT INTO Message(toID,fromID,subject,messageText,status) VALUES (";
+		sqlStr = "INSERT INTO Message(toID,fromID,subject,messageText,status,msgType) VALUES (";
 		sqlStr += "\"" + msg.getToID() + "\",";
 		sqlStr += "\"" + msg.getFromID() + "\",";
 		sqlStr += "\"" + msg.getSubject() + "\",";
 		sqlStr += "\"" + msg.getMessage() + "\",";
-		sqlStr += msg.getStatus();
+		sqlStr += msg.getStatus() + ",";
+		sqlStr += "\"" + msg.getType() + "\"";
 		sqlStr += ");";
 		//System.out.println(sqlStr);
 		try {
@@ -48,7 +49,7 @@ public class MailSystem {
 	
 	public Message findMessage(String fromID, String timeStr) {
 		Message msg = null;
-		String toID, subject, message;
+		String toID, subject, message, msgType;
 		Timestamp time;
 		int status;
 		sqlStr = "SELECT * FROM ";
@@ -66,7 +67,8 @@ public class MailSystem {
 				message = rs.getString("messageText");
 				time = rs.getTimestamp("messageTime");
 				status = rs.getInt("status");
-				msg = new Message(toID, fromID, subject, message, time, status);
+				msgType = rs.getString("msgType");
+				msg = new Message(toID, fromID, subject, message, time, status, msgType);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -75,7 +77,7 @@ public class MailSystem {
 	
 	public List<Message> getInboxForUser(String user) {
 		List<Message> inbox = new ArrayList<Message>();
-		String fromID, subject, message;
+		String fromID, subject, message, msgType;
 		Timestamp time;
 		int status;
 		sqlStr = "SELECT * from ";
@@ -91,7 +93,8 @@ public class MailSystem {
 				message = rs.getString("messageText");
 				time = rs.getTimestamp("messageTime");
 				status = rs.getInt("status");
-				inbox.add(new Message(user, fromID, subject, message, time, status));
+				msgType = rs.getString("msgType");
+				inbox.add(new Message(user, fromID, subject, message, time, status, msgType));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

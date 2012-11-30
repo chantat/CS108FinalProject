@@ -27,11 +27,8 @@ Challenge chlg;
 <th>Time</th>
 </tr>
 <%
-//user = "ryan"; //TODO: get user from session context
 user = (String) session.getAttribute("username");
 ms = (mail.MailSystem) application.getAttribute("mailSystem");
-//mb = ms.new Mailbox(user);
-//inbox = mb.loadInbox();
 inbox = ms.getInboxForUser(user);
 for (int i = 0; i < inbox.size(); i++) {
 	msg = inbox.get(i);%>

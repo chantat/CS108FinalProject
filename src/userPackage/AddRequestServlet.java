@@ -50,7 +50,7 @@ public class AddRequestServlet extends HttpServlet {
 		
 		//notify the recipient with a mail system message
 		String messageTxt = "You have a pending request from "+name+".  Please check your Friends List to accept or reject this request.";
-		Message requestMsg = new Message(victim, name, "Friend Request", messageTxt);
+		Message requestMsg = new Message(victim, name, "Friend Request", messageTxt, "Request");
 		mail.send(requestMsg);
 		
 		RequestDispatcher dispatch = request.getRequestDispatcher("userInfoPage.jsp"); 
