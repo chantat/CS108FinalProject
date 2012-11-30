@@ -10,14 +10,13 @@
 <body>
 <%!
 String user;
-mail.MailSystem ms;
-//mail.MailSystem.Mailbox mb;
-List<mail.Message> inbox;
-mail.Message msg;
-List<mail.Request> requests;
-mail.Request rqst;
-List<mail.Challenge> challenges;
-mail.Challenge chlg;
+MailSystem ms;
+List<Message> inbox;
+Message msg;
+List<Request> requests;
+Request rqst;
+List<Challenge> challenges;
+Challenge chlg;
 %>
 <h1>Inbox</h1>
 <table>

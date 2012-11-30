@@ -99,6 +99,24 @@ public class MailSystem {
 		return inbox;
 	}
 	
+	public int getUnreadForUser(String user) {
+		int numUnread = 0;
+		sqlStr = "SELECT * from ";
+		sqlStr += "Message ";
+		sqlStr += "WHERE toID = \"";
+		sqlStr += user;
+		sqlStr += "\" AND status = 0";
+		try {
+			rs = stmt.executeQuery(sqlStr);
+			while (rs.next()) {
+				numUnread++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return numUnread;
+	}
+	
 	public List<Request> getRequestsForUser(String user) {
 		List<Request> requests = new ArrayList<Request>();
 		String fromID;

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="java.util.*, userPackage.* ,announcement.*, achievement.*" %>
+    <%@ page import="java.util.*, userPackage.* ,announcement.*, achievement.*, mail.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,9 +8,11 @@
 <title>User Home Page</title>
 </head>
 <body>
-<h1><%= session.getAttribute("username") %>'s Home Page</h1>
+<% String user = (String)session.getAttribute("username"); %>
+<h1><%= user %>'s Home Page</h1>
 
-<a href="inbox.jsp">Inbox</a>
+<% MailSystem ms = (MailSystem)application.getAttribute("mailSystem"); %>
+<a href="inbox.jsp">Inbox(<%= ms.getUnreadForUser(user) %>)</a>
 
 
 <form action="UserSearchServlet" method="post">
@@ -32,7 +34,6 @@ User Search: <input type="text" name="victim">
 <table border="1">
 
 <%
-String user = (String)session.getAttribute("username");
 FriendManager friendMgr = (FriendManager)application.getAttribute("friendManager");
 AccountManager acct = (AccountManager)application.getAttribute("manager");
 
