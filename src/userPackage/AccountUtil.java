@@ -45,7 +45,8 @@ public class AccountUtil {
 		try {
 			rs = stmnt.executeQuery(command);
 			rs.next();
-			usedPracticeMode = (Integer)rs.getObject("usedPracticeMode");
+			//usedPracticeMode = (Integer)rs.getObject("usedPracticeMode");
+			usedPracticeMode = rs.getInt("usedPracticeMode");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
@@ -61,7 +62,8 @@ public class AccountUtil {
 		try {
 			rs = stmnt.executeQuery(command);
 			rs.next();
-			hadHighScore = (Integer)rs.getObject("hadHighScore");
+			//hadHighScore = (Integer)rs.getObject("hadHighScore");
+			hadHighScore = rs.getInt("hadHighScore");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
