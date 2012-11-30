@@ -37,7 +37,28 @@ if(acct.isPagePublic(victim) || fMgr.areFriends(user, victim) ){    //if the use
 	
 	
 	//FILL WITH TABLES N STUFF
+	out.println("<h2>Achievements</h2>");
 	
+
+
+	out.println("<h2>Friends in Common</h2>");
+	ArrayList<String>userFriends = fMgr.getFriends(user);
+	ArrayList<String>victimFriends = fMgr.getFriends(victim);
+	ArrayList<String>common = new ArrayList<String>();
+	for(int i=0; i<userFriends.size()){           //populate array of friends in common
+		if(victimFriends.contains(userFriends.get(i))){
+			common.add(userFriends.get(i));
+		}
+	}
+	
+	//now show the common friends in a table
+	for(int i=0; i<common.size();i++){
+		String friendName = common.get(i);
+		String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +friendName +"\"><input type=\"submit\" value=\""+friendName+"\"></form>";
+		out.println("<tr>");
+		out.println("<td> "+linkButton+"</td>");
+		out.println("</tr>");
+	}
 	
 }
 

@@ -107,16 +107,18 @@ public class AccountManager {
 		String AchieveTable = "Achievements";
 		
 		String quote = "\"";
-		String command1 = "DELETE "+tableName+" WHERE "+userColumnName+" LIKE "+quote+username+quote+";";
-		String command2 = "DELETE "+friendTable+" WHERE userID1 LIKE "+quote+username+quote+";";
-		String command3 = "DELETE "+friendTable+" WHERE userID2 LIKE "+quote+username+quote+";";
-		String command4 = "DELETE "+requestTable+" WHERE fromID LIKE "+quote+username+quote+";";
-		String command5 = "DELETE "+requestTable+" WHERE toID LIKE "+quote+username+quote+";";
-		String command6 = "DELETE "+ChallengeTable+" WHERE fromID LIKE "+quote+username+quote+";";
-		String command7 = "DELETE "+ChallengeTable+" WHERE toID LIKE "+quote+username+quote+";";
-		String command8 = "DELETE "+AttemptsTable+" WHERE userID LIKE "+quote+username+quote+";";
-		String command9 = "DELETE "+AchieveTable+" WHERE userID LIKE "+quote+username+quote+";";
-		
+		String command1 = "DELETE FROM "+tableName+" WHERE "+userColumnName+" = "+quote+username+quote+";";
+		String command2 = "DELETE FROM "+friendTable+" WHERE userID1 = "+quote+username+quote+";";
+		String command3 = "DELETE FROM "+friendTable+" WHERE userID2 = "+quote+username+quote+";";
+		String command4 = "DELETE FROM "+requestTable+" WHERE fromID = "+quote+username+quote+";";
+		String command5 = "DELETE FROM "+requestTable+" WHERE toID = "+quote+username+quote+";";
+		String command6 = "DELETE FROM "+ChallengeTable+" WHERE fromID = "+quote+username+quote+";";
+		String command7 = "DELETE FROM "+ChallengeTable+" WHERE toID = "+quote+username+quote+";";
+		String command8 = "DELETE FROM "+AttemptsTable+" WHERE userID = "+quote+username+quote+";";
+		String command9 = "DELETE FROM "+AchieveTable+" WHERE userID = "+quote+username+quote+";";
+	
+	//TEST
+	System.out.println(command1);
 		try {
 			stmnt.executeUpdate(command1);
 			stmnt.executeUpdate(command2);
