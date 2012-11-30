@@ -38,8 +38,7 @@ public class MailServlet extends HttpServlet {
 		String subject = request.getParameter("subject");
 		String message = request.getParameter("message");
 		String user = (String) session.getAttribute("username");
-		Message msg = new Message(toID, user, subject, message);
-		//Message msg = new Message("ryan", toID, subject, message); // Use above when logged in
+		Message msg = new Message(toID, user, subject, message, "Message");
 		ms.send(msg);
 		request.getRequestDispatcher("inbox.jsp").forward(request, response);
 	}

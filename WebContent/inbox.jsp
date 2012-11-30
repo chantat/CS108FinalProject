@@ -10,14 +10,13 @@
 <body>
 <%!
 String user;
-mail.MailSystem ms;
-//mail.MailSystem.Mailbox mb;
-List<mail.Message> inbox;
-mail.Message msg;
-List<mail.Request> requests;
-mail.Request rqst;
-List<mail.Challenge> challenges;
-mail.Challenge chlg;
+MailSystem ms;
+List<Message> inbox;
+Message msg;
+List<Request> requests;
+Request rqst;
+List<Challenge> challenges;
+Challenge chlg;
 %>
 <h1>Inbox</h1>
 <table>
@@ -28,11 +27,8 @@ mail.Challenge chlg;
 <th>Time</th>
 </tr>
 <%
-//user = "ryan"; //TODO: get user from session context
 user = (String) session.getAttribute("username");
 ms = (mail.MailSystem) application.getAttribute("mailSystem");
-//mb = ms.new Mailbox(user);
-//inbox = mb.loadInbox();
 inbox = ms.getInboxForUser(user);
 for (int i = 0; i < inbox.size(); i++) {
 	msg = inbox.get(i);%>

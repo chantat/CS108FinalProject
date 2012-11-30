@@ -41,14 +41,20 @@ public class AddFriendServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext context = request.getServletContext();
-		MailSystem mail = (MailSystem) context.getAttribute("System");
+		MailSystem mail = (MailSystem) context.getAttribute("mailSystem");
 		FriendManager frnmgr = (FriendManager) context.getAttribute("friendManager");
 		HttpSession hs = request.getSession();
 		String name =(String)hs.getAttribute("username");
 		String victim = request.getParameter("victim");
-		if(!frnmgr.areFriends(name, victim)){  //make sure they are not already friends...
-			frnmgr.addFriend(name, victim);
-		}
+
+		frnmgr.addFriend(name, victim);
+		
+		//notify the recipient with a mail system message
+		String messageTxt = name+" has accepted your Friend request!";
+		Message requestMsg = new Message(victim, name, "Friend Request Accepted", messageTxt, "Message");
+		mail.send(requestMsg);
+		
+
 		//return to your home page
 		RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
 		dispatch.forward(request, response);	
