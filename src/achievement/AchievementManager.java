@@ -56,6 +56,7 @@ public class AchievementManager {
 		
 		// The achievement is already achieved, just return
 		if (DBConnection.getResultSetSize(rs) == 1) {
+			
 			return true;
 		}
 		
@@ -85,7 +86,7 @@ public class AchievementManager {
 				e.printStackTrace();
 			}
 		}
-		
+	
 		return newlyAchieved;
 	}
 	

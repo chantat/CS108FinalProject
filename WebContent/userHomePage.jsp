@@ -126,37 +126,34 @@ for(int i=0; i<announce.length;i++){
 
 <table border="1">
 <% 
+
+
 AchievementManager achMGR = (AchievementManager)application.getAttribute("achievementManager");
 Achievement[] achList = achMGR.getAllAchievement(user);
 
 for(int i=0; i<achList.length;i++){
-	out.println("<tr>");
-	String achName = achList[i].getName();
-	String describe = achList[i].getDescription();
-	
-	out.println("<td> "+achName+"</td>");
-	out.println("<td> "+describe+"</td>");
-	out.println("</tr>");
+	if(achList[i].getIsAchieved()){
+		out.println("<tr>");
+		String achName = achList[i].getName();
+		String describe = achList[i].getDescription();
+		
+		out.println("<td> "+achName+"</td>");
+		out.println("<td> "+describe+"</td>");
+		out.println("</tr>");
+	}
 }
+
+
+
 
 %>
 </table>
 
 <h2>Privacy Preferences</h2>
-<% 
-String isPerfPub="no";
-String isPagePub="no";
-if(acct.isPerfPublic(user)){
-	isPerfPub = "yes";
-}
-if(acct.isPagePublic(user)){
-	isPagePub = "yes";
-}
 
-%>
 <form action="ChangePrivacyServlet" method="post">
-<input type="checkbox" name="privacy1" value="Public" checked=<%=isPerfPub %>>I want my quiz scores public<br>
-<input type="checkbox" name="privacy2" value="Public" checked =<%=isPagePub %>>I want my user page to be visible to all<br>
+<input type="checkbox" name="privacy1" value="Public" <%if(acct.isPerfPublic(user)) out.print("checked");  %>>I want my quiz scores public<br>
+<input type="checkbox" name="privacy2" value="Public" <%if(acct.isPagePublic(user)) out.print("checked");  %>>I want my user page to be visible to all<br>
 <input type="submit" value="Submit">
 
 </form>

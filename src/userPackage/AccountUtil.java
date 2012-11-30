@@ -41,32 +41,32 @@ public class AccountUtil {
 		String command = "SELECT * FROM QuizUser WHERE username = \"" + username + "\";";
 		
 		ResultSet rs = null;
-		Integer usedPracticeMode = 0;
+		Boolean usedPracticeMode = false;
 		try {
 			rs = stmnt.executeQuery(command);
 			rs.next();
-			usedPracticeMode = (Integer)rs.getObject("usedPracticeMode");
+			usedPracticeMode = (Boolean)rs.getObject("usedPracticeMode");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
 		
-		return (usedPracticeMode == 1);
+		return usedPracticeMode;
 	}
 	
 	public boolean isHadHighScore(String username) {
 		String command = "SELECT * FROM QuizUser WHERE username = \"" + username + "\";";
 		
 		ResultSet rs = null;
-		Integer hadHighScore = 0;
+		Boolean hadHighScore = false;
 		try {
 			rs = stmnt.executeQuery(command);
 			rs.next();
-			hadHighScore = (Integer)rs.getObject("hadHighScore");
+			hadHighScore = (Boolean)rs.getObject("hadHighScore");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
 		
-		return (hadHighScore == 1);
+		return hadHighScore;
 	}
 	
 	public Attempt[] getAllQuizAttempt(String username) {
