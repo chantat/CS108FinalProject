@@ -45,7 +45,7 @@ if(acct.isPagePublic(victim) || fMgr.areFriends(user, victim) ){    //if the use
 	ArrayList<String>userFriends = fMgr.getFriends(user);
 	ArrayList<String>victimFriends = fMgr.getFriends(victim);
 	ArrayList<String>common = new ArrayList<String>();
-	for(int i=0; i<userFriends.size()){           //populate array of friends in common
+	for(int i=0; i<userFriends.size(); i++){           //populate array of friends in common
 		if(victimFriends.contains(userFriends.get(i))){
 			common.add(userFriends.get(i));
 		}
