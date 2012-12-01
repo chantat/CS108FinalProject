@@ -63,12 +63,6 @@ create table Friend(
   userID2 char(255)
 );
 
-drop table if exists FriendRequest;
-create table FriendRequest(
-  userID1 char(255),
-  userID2 char(255)
-);
-
 drop table if exists Message;
 create table Message(
   fromID char(255),
