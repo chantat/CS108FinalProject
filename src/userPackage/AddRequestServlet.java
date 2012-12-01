@@ -1,5 +1,6 @@
 package userPackage;
 
+import mail.*;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -9,18 +10,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import mail.Message;
 
 /**
- * Servlet implementation class UserSearchServlet
+ * Servlet implementation class AddRequestServlet
  */
-@WebServlet("/UserSearchServlet")
-public class UserSearchServlet extends HttpServlet {
+@WebServlet("/AddRequestServlet")
+public class AddRequestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserSearchServlet() {
+    public AddRequestServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,25 +41,20 @@ public class UserSearchServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext context = request.getServletContext();
-		AccountManager acct = (AccountManager) context.getAttribute("manager");
-		String victimName = request.getParameter("victim");
-		if(!acct.containsAccount(victimName)){  //if nonexistent
-			//forward user to the User Does Not Exist
-			RequestDispatcher dispatch = request.getRequestDispatcher("userNotExist.jsp"); 
-			dispatch.forward(request, response);
-			
-		}
-		else if(acct.isDeact(victimName)){
-			//forward user to the User Does Not Exist
-			RequestDispatcher dispatch = request.getRequestDispatcher("userDeact.jsp"); 
-			dispatch.forward(request, response);
-			
-		}
-		else{
-			//forward user to the dynamically generated user info page of their desired user
-			RequestDispatcher dispatch = request.getRequestDispatcher("userInfoPage.jsp"); 
-			dispatch.forward(request, response);
-		}
+		MailSystem mail = (MailSystem) context.getAttribute("mailSystem");
+		FriendManager frnmgr = (FriendManager) context.getAttribute("friendManager");
+		HttpSession hs = request.getSession();
+		String name =(String)hs.getAttribute("username");
+		String victim = request.getParameter("victim");
+		frnmgr.requestFriend(name, victim);
+		
+		//notify the recipient with a mail system message
+		String messageTxt = "You have a pending request from "+name+".  Please check your Friends List to accept or reject this request.";
+		Message requestMsg = new Message(victim, name, "Friend Request", messageTxt, "Request");
+		mail.send(requestMsg);
+		
+		RequestDispatcher dispatch = request.getRequestDispatcher("userInfoPage.jsp"); 
+		dispatch.forward(request, response);
 	}
 
 }

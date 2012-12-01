@@ -9,18 +9,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import mail.MailSystem;
 
 /**
- * Servlet implementation class UserSearchServlet
+ * Servlet implementation class RemoveFriendServlet
  */
-@WebServlet("/UserSearchServlet")
-public class UserSearchServlet extends HttpServlet {
+@WebServlet("/RemoveFriendServlet")
+public class RemoveFriendServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserSearchServlet() {
+    public RemoveFriendServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,25 +40,14 @@ public class UserSearchServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext context = request.getServletContext();
-		AccountManager acct = (AccountManager) context.getAttribute("manager");
-		String victimName = request.getParameter("victim");
-		if(!acct.containsAccount(victimName)){  //if nonexistent
-			//forward user to the User Does Not Exist
-			RequestDispatcher dispatch = request.getRequestDispatcher("userNotExist.jsp"); 
-			dispatch.forward(request, response);
-			
-		}
-		else if(acct.isDeact(victimName)){
-			//forward user to the User Does Not Exist
-			RequestDispatcher dispatch = request.getRequestDispatcher("userDeact.jsp"); 
-			dispatch.forward(request, response);
-			
-		}
-		else{
-			//forward user to the dynamically generated user info page of their desired user
-			RequestDispatcher dispatch = request.getRequestDispatcher("userInfoPage.jsp"); 
-			dispatch.forward(request, response);
-		}
+		FriendManager frnmgr = (FriendManager) context.getAttribute("friendManager");
+		HttpSession hs = request.getSession();
+		String name =(String)hs.getAttribute("username");
+		String victim = request.getParameter("victim");
+		frnmgr.removeFriend(name, victim);
+		
+		RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
+		dispatch.forward(request, response);	
 	}
 
 }

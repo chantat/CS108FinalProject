@@ -17,7 +17,17 @@ Username: <input type="text" name="user">  <br>
 Password: <input type="password" name="pwd">
 <input type="submit" value="Submit">
 </form>
-<A HREF="http://localhost:8080/QuizWebsite/accountCreate.html">Create a new account</A>
+<A HREF="http://localhost:8080/CS108FinalProject/accountCreate.jsp">Create a new account</A>
+
+Or Log in as a Guest: 
+<form action="GuestLoginServlet" method="post">
+<input type="hidden" name="mode" value="guest"> 
+<input type="submit" value="Log in as Guest">
+</form>
+Guests can see quizzes and users, but cannot take any quizzes.  
+
+
+
 
 </body>
 </html>

@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>User does not exist</title>
+<title>Insert title here</title>
 </head>
 <body>
-USER DOES NOT EXIST
+<h1>You have been logged out.</h1>
 
-<A HREF="http://localhost:8080/CS108FinalProject/userHomePage.jsp">Return to Home Page</A>
+<A HREF="http://localhost:8080/CS108FinalProject/userLogin.jsp">Return to Login Page</A>
 </body>
 </html>

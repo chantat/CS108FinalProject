@@ -12,8 +12,7 @@
 <p>To: <input type="text" name="toID"/></p>
 <p>Subject: <input type="text" name="subject"/></p>
 <p><textarea name="message" cols="50" rows="5"></textarea></p>
-<!-- TODO: Pass hidden field with from username -->
-<input type="submit" name="Send"/>
+<input type="submit" name="Send" value="Send"/>
 <a href="inbox.jsp">
 <button>Discard</button>
 </a>

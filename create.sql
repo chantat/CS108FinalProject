@@ -1,4 +1,4 @@
-USE c_cs108_sarya;
+USE c_cs108_adchang1;
 
 drop table if exists Question;
 create table Question(
@@ -50,7 +50,11 @@ create table QuizUser(
   password char(255),
   salt char(10),
   isAdmin bool,
-  isPublic bool
+  isPerfPrivate bool,
+  isPagePrivate bool,
+  isDeact bool,
+  usedPracticeMode bool,
+  hadHighScore bool
 );
 
 drop table if exists Friend;
@@ -70,9 +74,9 @@ create table Message(
   fromID char(255),
   toID char(255),
   subject char(255),
-  messageText char(255),
+  messageText varchar(1000),
   status int,
-  messageTime timestamp
+  messageTime timestamp default current_timestamp
 );
 
 drop table if exists Challenge;
@@ -80,7 +84,7 @@ create table Challenge(
   quizID int,
   fromID char(255),
   toID char(255),
-  challengeTime timestamp,
+  challengeTime timestamp default current_timestamp,
   status int
 );
 
@@ -89,13 +93,13 @@ create table Request(
   fromID char(255),
   toID char(255),
   status int,
-  requestTime timestamp
+  requestTime timestamp default current_timestamp
 );
 
 drop table if exists Announcement;
 create table Announcement(
   adminID char(255),
-  announcementText char(255),
+  announcementText varchar(1000),
   subject char(255),
   announcementTime timestamp
 );
@@ -108,4 +112,19 @@ create table Rating(
   ratingTime timestamp
 );
 
-insert into QuizUser values ('sarya', 'pass', 1);
+drop table if exists Attempts;
+create table Attempts(
+  userID char(255), 
+  quizID int, 
+  score int, 
+  timeTaken timestamp
+);
+
+drop table if exists Achievements;
+create table Achievements(
+  userID char(255), 
+  achievementID int, 
+  timeAchieved timestamp
+);
+
+INSERT into QuizUser VALUES("admin","2ea66167ce4e9bd144ae6dd8f6082e2846518e33","0pq5lf.qjn",1,0,0,0,0,0);

@@ -8,27 +8,31 @@ public class Message {
 	private String subject;
 	private String message;
 	private Timestamp time;
-	private boolean isRead;
+	private int status;
 	
-	public Message(String toID, String fromID, String subject, String message, Timestamp time, boolean isRead) {
+	private String type;
+	
+	public Message(String toID, String fromID, String subject, String message, Timestamp time, int status, String type) {
 		this.toID = toID;
 		this.fromID = fromID;
 		this.subject = subject;
 		this.message = message;
 		this.time = time;
-		this.isRead = isRead;
+		this.status = status;
+		this.type = type;
 	}
 	
 	/*
 	 * Alternate constructor for sending a new message.
 	 * mysql will set timestamp, and new messages are assumed to be unread.
 	 */
-	public Message(String toID, String fromID, String subject, String message) {
+	public Message(String toID, String fromID, String subject, String message, String type) {
 		this.toID = toID;
 		this.fromID = fromID;
 		this.subject = subject;
 		this.message = message;
-		this.isRead = false;
+		this.status = 0;
+		this.type = type;
 	}
 	
 	public String getToID() {
@@ -51,13 +55,14 @@ public class Message {
 		return time;
 	}
 	
-	public boolean getIsRead() {
-		return isRead;
+	public int getStatus() {
+		return status;
 	}
 	
-	public void markAsRead() {
-		isRead = true;
+	public String getType() {
+		return type;
 	}
+
 	
 	public String toString() {
 		String str;
@@ -65,7 +70,7 @@ public class Message {
 		str += "From: " + fromID + "\n";
 		str += "Subject: " + subject + "\n";
 		str += "Time: " + time + "\n";
-		str += "Read? " + isRead + "\n";
+		str += "Read? " + status + "\n";
 		str += message;
 		return str;
 	}

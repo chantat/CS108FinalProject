@@ -33,11 +33,12 @@ public class ReadServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext sc = request.getServletContext();
-		MailSystem ms = (MailSystem) sc.getAttribute("System");
+		MailSystem ms = (MailSystem) sc.getAttribute("mailSystem");
 		String fromID = request.getParameter("fromID");
 		String timeStr = request.getParameter("timeStamp");
 		Message msg = ms.findMessage(fromID, timeStr);
 		//System.out.println(msg);
+		ms.markAsRead(msg);
 		request.setAttribute("message", msg);
 		request.getRequestDispatcher("readMessage.jsp").forward(request, response);
 	}

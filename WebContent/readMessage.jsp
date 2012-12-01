@@ -14,5 +14,11 @@ mail.Message msg = (mail.Message) request.getAttribute("message");
 <p>From: <%= msg.getFromID() %></p>
 <p>Time: <%= msg.getTime() %></p>
 <p><%= msg.getMessage() %></p>
+<%if (msg.getType().equals("Request")) { %>
+<form action="AddFriendServlet" method="post">
+<input type="hidden" name="victim" value=<%= msg.getFromID() %>>
+<input type="submit" value="Approve Request"></form>
+<%} %>
+<a href="inbox.jsp">Inbox</a>
 </body>
 </html>
