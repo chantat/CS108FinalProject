@@ -20,7 +20,7 @@ public class QuizManager {
 	//get currentQuizId by getting the max of the current quiz IDs in the database
 	private static int getCurrentQuizId(){
 		int currentQuizID=0;
-		String query = "SELECT MAX(quizID) FROM Quiz";
+		String query = "SELECT MAX(quizID) FROM Quiz;";
 		ResultSet rs = null;
 		try{
 			rs = stmnt.executeQuery(query);
@@ -71,9 +71,10 @@ public class QuizManager {
 			String category = rs.getString("category");
 			ArrayList<String> tags = getTags(quizId);
 			ArrayList<Integer> questionIds = getQuestionIds(quizId);
+			String quizName=rs.getString("quizName");
 			
 			quiz = new Quiz(quizId, authorId, isRandomized, isFlashcard, immediateFeedback, 
-					allowsPractice, prevId, description, category, questionIds, tags);
+					allowsPractice, prevId, description, category, questionIds, tags, quizName);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -81,7 +82,21 @@ public class QuizManager {
 		return quiz;
 	}
 	
-	private ArrayList<String> getTags(int quizID){
+	public static String getName(int quizID){
+		String query = "SELECT * FROM Quiz WHERE quizID = " + quizID + ";";
+		String quizName="";
+		ResultSet rs = null;
+		try {
+			rs = stmnt.executeQuery(query);
+			rs.first();
+			quizName=rs.getString("quizName");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return quizName;
+	}
+	
+	private static ArrayList<String> getTags(int quizID){
 		ArrayList<String> tags = new ArrayList<String>();
 		
 		String query = "SELECT * FROM Tag WHERE quizID = " + quizID + ";";
@@ -100,7 +115,7 @@ public class QuizManager {
 		return tags;
 	}
 	
-	private ArrayList<Integer> getQuestionIds(int quizId) {
+	private static ArrayList<Integer> getQuestionIds(int quizId) {
 		ArrayList<Integer> questionIds = new ArrayList<Integer>();
 
 		String query = "SELECT * FROM QuizQuestion WHERE quizID = " + quizId + ";";
@@ -177,5 +192,38 @@ public class QuizManager {
 		}
 	}
 	
-	
+	public static Quiz[] getAllQuizzes(){
+		String query = "SELECT * FROM Quiz;";
+		int resultSetSize=0;
+		ResultSet rs = null;
+		Quiz[] quizzes=null;
+		try{
+			rs = stmnt.executeQuery(query);
+			rs.beforeFirst();
+			resultSetSize=DBConnection.getResultSetSize(rs);
+			quizzes = new Quiz[resultSetSize];
+			for(int i = 0 ; i < resultSetSize; i++){
+				rs.next();
+				int quizId=rs.getInt("quizID");
+				String authorId = rs.getString("authorID");
+				Boolean isRandomized = rs.getBoolean("isRandomized");
+				Integer prevId = rs.getInt("prevID");
+				Boolean isFlashcard = rs.getBoolean("isFlashcard");
+				Boolean allowsPractice = rs.getBoolean("allowsPractice");
+				Boolean immediateFeedback = rs.getBoolean("immediateFeedback");
+				String description = rs.getString("description");
+				String category = rs.getString("category");
+				ArrayList<String> tags = getTags(quizId);
+				ArrayList<Integer> questionIds = getQuestionIds(quizId);
+				String quizName=rs.getString("quizName");
+				
+				Quiz quiz = new Quiz(quizId, authorId, isRandomized, isFlashcard, immediateFeedback, 
+						allowsPractice, prevId, description, category, questionIds, tags, quizName);
+				quizzes[i]=quiz;
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return quizzes;
+	}
 }
