@@ -6,8 +6,8 @@ import java.sql.*;
 import webpackage.DBConnection;
 
 public class AnnouncementManager {
-	Statement stmnt;
-	ResultSet rs;
+	private Statement stmnt;
+	private ResultSet rs;
 	
 	
 	public AnnouncementManager(DBConnection con) {
