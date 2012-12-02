@@ -82,20 +82,6 @@ public class QuizManager {
 		return quiz;
 	}
 	
-	public static String getName(int quizID){
-		String query = "SELECT * FROM Quiz WHERE quizID = " + quizID + ";";
-		String quizName="";
-		ResultSet rs = null;
-		try {
-			rs = stmnt.executeQuery(query);
-			rs.first();
-			quizName=rs.getString("quizName");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return quizName;
-	}
-	
 	private static ArrayList<String> getTags(int quizID){
 		ArrayList<String> tags = new ArrayList<String>();
 		
@@ -192,7 +178,7 @@ public class QuizManager {
 		}
 	}
 	
-	public static Quiz[] getAllQuizzes(){
+	public Quiz[] getAllQuizzes() {
 		String query = "SELECT * FROM Quiz;";
 		int resultSetSize=0;
 		ResultSet rs = null;

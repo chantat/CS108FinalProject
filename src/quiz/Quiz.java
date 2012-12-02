@@ -1,5 +1,7 @@
 package quiz;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Quiz {
@@ -32,7 +34,7 @@ public class Quiz {
 		this.category = category;
 		this.questionIds = questionIds; 
 		this.tags = tags;
-		this.quizName=quizName;
+		this.quizName = quizName;
 	}
 	
 	public int getQuizId() {
@@ -77,6 +79,10 @@ public class Quiz {
 	
 	public ArrayList<String> getTags() {
 		return tags;
+	}
+	
+	public String getName(){
+		return quizName;
 	}
 	
 	/* Old code: might be useful
