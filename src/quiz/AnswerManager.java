@@ -34,6 +34,10 @@ public class AnswerManager {
 				score = (Double) rs.getObject(4);
 				answers.put(answerKey, equivalentAnswer);
 				scores.put(answerKey, score);
+				if(qType==7){ //matching question: add entries in both directions
+					answers.put(equivalentAnswer, answerKey);
+					scores.put(equivalentAnswer, score);
+				}
 			}
 		}catch (SQLException e){
 			e.printStackTrace();

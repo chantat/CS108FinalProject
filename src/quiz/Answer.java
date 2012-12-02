@@ -22,19 +22,19 @@ public class Answer {
 	private boolean validateGuess(String entry, String entry2){ //entry2 only for matching
 		boolean isCorrectGuess=false;
 		if(qType != 7){
-			if(answers.containsKey(entry) && !alreadyUsedAnswers.contains(entry)){
+			if(answers.containsKey(entry) && !alreadyUsedAnswers.contains(answers.get(entry))){
 				isCorrectGuess=true;
 				alreadyUsedAnswers.add(answers.get(entry));
 				currentScore+=answerScores.get(entry);
 			}
 		}else if(qType == 7){
-			if(answers.get(entry).equals(entry2) && !alreadyUsedAnswers.contains(entry)){
+			if(answers.get(entry).equals(entry2) && !alreadyUsedAnswers.contains(entry2)){
 				isCorrectGuess=true;
-				alreadyUsedAnswers.add(answers.get(entry));
+				alreadyUsedAnswers.add(entry2);
 				currentScore+=answerScores.get(entry);
-			}else if(answers.get(entry2).equals(entry) && !alreadyUsedAnswers.contains(entry2)){
+			}else if(answers.get(entry2).equals(entry) && !alreadyUsedAnswers.contains(entry)){
 				isCorrectGuess=true;
-				alreadyUsedAnswers.add(answers.get(entry2));
+				alreadyUsedAnswers.add(entry);
 				currentScore+=answerScores.get(entry2);
 			}
 		}
