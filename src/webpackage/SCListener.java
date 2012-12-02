@@ -3,6 +3,7 @@ package webpackage;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 
+import quiz.QuizManager;
 import achievement.AchievementManager;
 import announcement.AnnouncementManager;
 
