@@ -37,13 +37,13 @@ public class QuizManager {
 	public void createQuiz(String authorID, boolean isRandomizable, boolean isFlashcard, 
 			boolean immediateFeedback, boolean allowsPractice, int previousID, 
 			String quizDescription, String category, ArrayList<Integer> questionIDs, 
-			ArrayList<String> tags) {
+			ArrayList<String> tags, String quizName) {
 		
 		this.currentQuizId=getCurrentQuizId();
 		
 		addQuizToDatabase(currentQuizId, authorID, isRandomizable, isFlashcard, 
 				immediateFeedback, allowsPractice, previousID, quizDescription, 
-				category);
+				category, quizName);
 		
 		addTagsToDatabase(currentQuizId, tags);
 		
@@ -153,10 +153,10 @@ public class QuizManager {
 	
 	private void addQuizToDatabase(int quizID, String authorID, boolean isRandomizable, 
 			boolean isFlashcard, boolean immediateFeedback, boolean allowsPractice, 
-			int previousID, String quizDescription, String category){
+			int previousID, String quizDescription, String category, String quizName){
 		// Insert the quiz into Quiz table
 		String query = "INSERT INTO Quiz (quizID, authorID, isRandomized, prevID, isFlashcard, " +
-				"allowsPractice, immediateFeedback, description, category) VALUES (";
+				"allowsPractice, immediateFeedback, description, category, quizName) VALUES (";
 		query += currentQuizId + ",";
 		query += "\"" + authorID + "\",";
 		query += isRandomizable + ",";
@@ -165,7 +165,8 @@ public class QuizManager {
 		query += allowsPractice + ",";
 		query += immediateFeedback + ",";
 		query += "\"" + quizDescription + "\",";
-		query += "\"" + category + "\");";
+		query += "\"" + category + "\",";
+		query += "\"" + quizName + "\");";
 		
 		System.out.println(query); //DEBUGGING
 		

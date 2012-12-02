@@ -32,7 +32,8 @@ create table Quiz(
   allowsPractice bool,
   immediateFeedback bool,
   description char(255),
-  category char(255)
+  category char(255),
+  quizName char(255)
 );
 
 drop table if exists Tag;
