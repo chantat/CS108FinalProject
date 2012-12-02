@@ -4,7 +4,8 @@ drop table if exists Question;
 create table Question(
   qID int primary key,
   qType int,
-  numAnswers int
+  numAnswers int,
+  isOrdered bool
 );
 
 drop table if exists QR;

@@ -5,9 +5,11 @@ public class Question {
 	protected int type;
 	protected int numAnswers;
 	protected String qText;
+	protected boolean isOrdered;
 	
 	public Question(int qID) {
 		this.qID = qID;
+		this.isOrdered=false;
 	}
 	
 	public int getID() {

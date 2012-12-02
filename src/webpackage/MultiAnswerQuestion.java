@@ -2,7 +2,6 @@ package webpackage;
 
 public class MultiAnswerQuestion extends Question {
 
-	private boolean isOrdered;
 	private String qText;
 	
 	public MultiAnswerQuestion(int qID, String qText, int numAnswers, boolean isOrdered) {
