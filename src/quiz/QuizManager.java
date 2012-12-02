@@ -9,19 +9,37 @@ import webpackage.DBConnection;
 
 public class QuizManager {
 	private int currentQuizId;
-	private Statement stmnt;
+	private static Statement stmnt;
 	
 	public QuizManager(DBConnection con) {
 		stmnt = con.getStatement();	
 		
 		// TODO: We have to save the currentQuizId somewhere so that when we start a new instance of the server it doesn't use old quizids
-		currentQuizId = 0;
+	}
+	
+	//get currentQuizId by getting the max of the current quiz IDs in the database
+	private static int getCurrentQuizId(){
+		int currentQuizID=0;
+		String query = "SELECT MAX(quizID) FROM Quiz";
+		ResultSet rs = null;
+		try{
+			rs = stmnt.executeQuery(query);
+			rs.beforeFirst();
+			while(rs.next()){
+				currentQuizID=(Integer)rs.getObject(1);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return (currentQuizID+1);
 	}
 	
 	public void createQuiz(String authorID, boolean isRandomizable, boolean isFlashcard, 
 			boolean immediateFeedback, boolean allowsPractice, int previousID, 
 			String quizDescription, String category, ArrayList<Integer> questionIDs, 
 			ArrayList<String> tags) {
+		
+		this.currentQuizId=getCurrentQuizId();
 		
 		addQuizToDatabase(currentQuizId, authorID, isRandomizable, isFlashcard, 
 				immediateFeedback, allowsPractice, previousID, quizDescription, 
