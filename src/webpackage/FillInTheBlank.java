@@ -3,17 +3,12 @@ package webpackage;
 public class FillInTheBlank extends Question {
 
 	private String qText;
-	private int numResponses;
 	
-	public FillInTheBlank(int qID, String qText, int numResponses) {
+	public FillInTheBlank(int qID, String qText){
 		super(qID);
 		this.qText = qText;
-		this.numResponses = numResponses;
+		this.numAnswers=1;
 		type = 2;
-	}
-	
-	public int getNumResponses() {
-		return numResponses;
 	}
 	
 	public String getQuestionText() {

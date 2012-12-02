@@ -2,23 +2,17 @@ package webpackage;
 
 public class PictureResponseQuestion extends Question {
 
-		private String imageURL;
 		private int numResponses;
 		
-		public PictureResponseQuestion(int qID, String imageURL, int numResponses) {
+		public PictureResponseQuestion(int qID, String imageURL) {
 			super(qID);
-			this.imageURL = imageURL;
-			this.numResponses = numResponses;
+			this.qText = imageURL;
 			type = 4;
+			this.numAnswers=1;
 		}
 		
 		public int getNumResponses() {
 			return numResponses;
 		}
-		
-		public String getImageURL() {
-			return imageURL;
-		}
-
 
 }

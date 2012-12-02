@@ -3,19 +3,14 @@ package webpackage;
 public class MultiAnswerQuestion extends Question {
 
 	private boolean isOrdered;
-	private int numResponses;
 	private String qText;
 	
-	public MultiAnswerQuestion(int qID, String qText, int numResponses, boolean isOrdered) {
+	public MultiAnswerQuestion(int qID, String qText, int numAnswers, boolean isOrdered) {
 		super(qID);
 		this.isOrdered=isOrdered;
 		this.qText=qText;
-		this.numResponses=numResponses;
+		this.numAnswers=numAnswers;
 		type=5;
-	}
-
-	public int getNumResponses() {
-		return numResponses;
 	}
 	
 	public String getQuestionText() {

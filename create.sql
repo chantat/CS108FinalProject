@@ -3,7 +3,8 @@ USE c_cs108_adchang1;
 drop table if exists Question;
 create table Question(
   qID int primary key,
-  qType int
+  qType int,
+  numAnswers int
 );
 
 drop table if exists QR;
@@ -15,6 +16,7 @@ create table QR(
 drop table if exists Answer;
 create table Answer(
   qID int,
+  answerKey char(255),
   answerText char(255),
   score decimal(6,4)
 );
