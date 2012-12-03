@@ -8,8 +8,8 @@ public class MultipleChoiceQuestion extends Question {
 		private String qText;
 		
 		public MultipleChoiceQuestion(int qID, String qText) {
-			super(qID);
-			this.qText = qText;
+			super(qID, qText);
+			//this.qText = qText;
 			type = 3;
 			this.numAnswers=1;
 		}

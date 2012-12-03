@@ -6,9 +6,9 @@ public class MultiAnswerQuestion extends Question {
 	private String qText;
 	
 	public MultiAnswerQuestion(int qID, String qText, int numAnswers, boolean isOrdered) {
-		super(qID);
+		super(qID, qText);
 		this.isOrdered=isOrdered;
-		this.qText=qText;
+		//this.qText=qText;
 		this.numAnswers=numAnswers;
 		type=5;
 	}

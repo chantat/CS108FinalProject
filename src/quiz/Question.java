@@ -7,9 +7,10 @@ public class Question {
 	protected String qText;
 	protected boolean isOrdered;
 	
-	public Question(int qID) {
+	public Question(int qID, String questionText) {
 		this.qID = qID;
 		this.isOrdered = false;
+		this.qText=questionText;
 	}
 	
 	public int getID() {
