@@ -55,6 +55,14 @@ public class AnswerManager {
 		return new Answer(qType, numAnswers, answers, scores);
 	}
 	
+	public void createAnswer(int questionId, ArrayList<String> answers, double score) {
+		String answerKey = answers.get(0);
+		for (int i = 0; i < answers.size(); i++) {
+			String answerValue = answers.get(i);
+			insertAnswerIntoDatabase(questionId, answerKey, answerValue, score);
+		}
+	}
+	
 	private void insertAnswerIntoDatabase(int qID, String answerKey, String equivalentAnswer, double score){
 		String query="INSERT INTO Answer (qID, answerKey, answerText, score) VALUES (" + qID + ", \"" + answerKey + "\", " + equivalentAnswer+ "\", " + score + "\");";
 		System.out.println(query); // for verification purposes
