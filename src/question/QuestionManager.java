@@ -24,7 +24,7 @@ public class QuestionManager {
 	private DBConnection con;
 	private Statement stmnt;
 	
-	final public int QUESTION_RESPONSE = 1;
+	final public static int QUESTION_RESPONSE = 1;
 	final public int FILL_IN_THE_BLANK = 2;
 	final public int MULTIPLE_CHOICE = 3;
 	final public int PICTURE_RESPONSE = 4;
