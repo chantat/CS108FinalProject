@@ -8,7 +8,7 @@ public class QuestionResponse extends Question {
 	public QuestionResponse(int qID, String qText) {
 		super(qID);
 		this.qText = qText;
-		this.numAnswers=1;
+		this.numAnswers = 1;
 		type = 1;
 	}
 	

@@ -9,6 +9,8 @@ import webpackage.DBConnection;
 
 public class QuestionManager {
 
+	private int currentQuestionId;
+	
 	private DBConnection con;
 	private Statement stmnt;
 	
@@ -22,7 +24,10 @@ public class QuestionManager {
 	
 	public QuestionManager(DBConnection con){
 		this.con=con;
-		stmnt = con.getStatement();	
+		stmnt = con.getStatement();
+		
+		// TODO: Get the correct questionId from DB
+		currentQuestionId = 0;
 	}
 	
 	public Question getQuestion(int qID){
@@ -78,12 +83,21 @@ public class QuestionManager {
 		return question;
 	}
 	
+	public int createQuestion(int type, String questionText) {
+		Question question = null;
+		if (type == 1) {
+			question = new QuestionResponse(currentQuestionId, questionText);
+		}
+		addQuestionToDatabase(question);
+		return currentQuestionId++;
+	}
+	
 	public void addQuestionToDatabase(Question question){
 		int qType=question.getType();
 		int qID=question.getID();
 		int numAnswers=question.getNumAnswers();
-		boolean isOrdered=false;
-		if(qType==5){
+		boolean isOrdered = false;
+		if (qType == 5) {
 			MultiAnswerQuestion sameQuestion=(MultiAnswerQuestion) question;
 			isOrdered=sameQuestion.isOrdered();
 		}

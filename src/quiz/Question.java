@@ -9,7 +9,7 @@ public class Question {
 	
 	public Question(int qID) {
 		this.qID = qID;
-		this.isOrdered=false;
+		this.isOrdered = false;
 	}
 	
 	public int getID() {
