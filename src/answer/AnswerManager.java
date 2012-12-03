@@ -1,72 +1,90 @@
 package answer;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 
 import webpackage.DBConnection;
 
 public class AnswerManager {
-
-	private DBConnection con;
+	private Statement stmnt;
 	
-	public AnswerManager(DBConnection con){
-		this.con=con;
+	public AnswerManager(DBConnection con) {
+		stmnt = con.getStatement();
 	}
 	
-	public Answer getAnswer(int qID){
-		ResultSet rs = null;
-		double score=0.0;
-		int numAnswers=0;
-		int qType=0;
-		HashMap<String, String> answers=new HashMap<String, String>();
-		HashMap<String, Double> scores=new HashMap<String, Double>();
+	public void createAnswer(Answer answer, int questionId) {
+		ArrayList<String> answerList = answer.getAnswerList();
 		
-		//get answers
-		try{
-			Statement stmt=con.getStatement();
-			rs=stmt.executeQuery("SELECT * FROM Answer WHERE qID = '" + qID + "'");
-			rs.beforeFirst();
-			while(rs.next()){
-				String answerKey = (String) rs.getObject(2);
-				String equivalentAnswer = (String) rs.getObject(3);
-				score = (Double) rs.getObject(4);
-				answers.put(answerKey, equivalentAnswer);
-				if(!scores.containsKey(answerKey)) scores.put(answerKey, score);
-				if(qType==7){ //matching question: add entries in both directions
-					answers.put(equivalentAnswer, answerKey);
-					if(!scores.containsKey(equivalentAnswer)) scores.put(equivalentAnswer, score);
-				}
-			}
-		}catch (SQLException e){
-			e.printStackTrace();
+		String answerKey = answerList.get(0);
+		for (int i = 0; i < answerList.size(); i++) {
+			insertAnswerIntoDatabase(questionId, answerKey, answerList.get(i), answer.getScore());
 		}
-		//get numAnswers and qType
-		try{
-			Statement stmt=con.getStatement();
-			rs=stmt.executeQuery("SELECT * FROM Question WHERE qID = '" + qID + "'");
-			rs.beforeFirst();
-			qType=(Integer) rs.getObject(2);
-			numAnswers=(Integer) rs.getObject(3);
-		}catch (SQLException e){
-			e.printStackTrace();
-		}
-		return new Answer(qType, numAnswers, answers, scores);
-	}
-	
-	public void createAnswer(int questionId, String answer, double score) {
-		insertAnswerIntoDatabase(questionId, answer, answer, score);
 	}
 	
 	private void insertAnswerIntoDatabase(int qID, String answerKey, String equivalentAnswer, double score){
-		String query="INSERT INTO Answer (qID, answerKey, answerText, score) VALUES (" + qID + ", \"" + answerKey + "\", \"" + equivalentAnswer+ "\", " + score + ");";
+		String query = "INSERT INTO Answer (qID, answerKey, answerText, score) VALUES (";
+		query += qID + ",";
+		query += "\"" + answerKey + "\",";
+		query += "\"" + equivalentAnswer+ "\",";
+		query += score + ");";
+		
 		System.out.println(query); // for verification purposes
+		
 		try {
-			Statement stmt = con.getStatement();
-			stmt.executeUpdate(query);
+			stmnt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<Answer> getAnswers(int qID) {
+		ResultSet rs = null;
+		HashMap<String, ArrayList<String> > answerLists = new HashMap<String, ArrayList<String> >();
+		HashMap<String, Double> scores = new HashMap<String, Double>();
+		
+		//get answers
+		try {
+			rs = stmnt.executeQuery("SELECT * FROM Answer WHERE qID = '" + qID + "'");
+			rs.beforeFirst();
+			while (rs.next()) {
+				String answerKey = rs.getString(2);
+				String equivalentAnswer = rs.getString(3);
+				double score = rs.getDouble(4);
+				
+				ArrayList<String> answerList = answerLists.get(answerKey);
+				if (answerList == null) {
+					answerList = new ArrayList<String>();
+					answerLists.put(answerKey, answerList);
+				}
+				answerList.add(equivalentAnswer);
+				
+				if (!scores.containsKey(answerKey)) {
+					scores.put(answerKey, score);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		int qType = 0;
+		//get questionType
+		try {
+			rs = stmnt.executeQuery("SELECT * FROM Question WHERE qID = '" + qID + "'");
+			rs.first();
+			qType = rs.getInt(2);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		ArrayList<Answer> answers = new ArrayList<Answer>();
+		Iterator<String> iter = answerLists.keySet().iterator();
+		while(iter.hasNext()) {
+			String key = iter.next();
+			ArrayList<String> val = answerLists.get(key);
+			double score = scores.get(key);
+			
+			answers.add(new Answer(qID, val, qType, score));
+		}
+		return answers;
 	}
 }

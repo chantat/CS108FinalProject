@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import answer.*;
+
 
 /**
  * Servlet implementation class CreateFIBServlet
@@ -42,13 +44,18 @@ public class CreateFIBServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
-		ArrayList<String> pendingAnswers = (ArrayList<String>)session.getAttribute("pendingAnswers");
+		ArrayList<Answer> pendingAnswers = (ArrayList<Answer>)session.getAttribute("pendingAnswers");
 		int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
 		
 		String questionText = (String)request.getParameter("questionText");
-		String answer = (String)request.getParameter("answer");
+		String answerText = (String)request.getParameter("answer");
+		
+		// TODO: allow multiple answers
+		ArrayList<String> answerTextList = new ArrayList<String>();
+		answerTextList.add(answerText);
 		
 		Question question = new FillInTheBlank(-1, questionText);
+		Answer answer = new FillInTheBlankAnswer(-1, answerTextList);
 		if (questionIndex == -1) {
 			pendingQuestions.add(question);
 			pendingAnswers.add(answer);

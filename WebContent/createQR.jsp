@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*, quiz.*, question.*" %>
+<%@ page import="java.util.*, question.*, answer.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,7 +10,7 @@
 <body>
 <% 
 	ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
-	ArrayList<String> pendingAnswers = (ArrayList<String>)session.getAttribute("pendingAnswers");
+	ArrayList<Answer> pendingAnswers = (ArrayList<Answer>)session.getAttribute("pendingAnswers");
 	int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
 	
 	String oldQuestion = "";
@@ -18,7 +18,7 @@
 	
 	if (questionIndex != -1) {
 		oldQuestion = pendingQuestions.get(questionIndex).getQText();
-		oldAnswer = pendingAnswers.get(questionIndex);
+		oldAnswer = pendingAnswers.get(questionIndex).getAnswerList().get(0);
 	}
 	
 %>

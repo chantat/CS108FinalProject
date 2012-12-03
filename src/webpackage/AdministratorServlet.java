@@ -1,8 +1,6 @@
 package webpackage;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;

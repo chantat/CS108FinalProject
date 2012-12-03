@@ -10,10 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.servlet.*;
 
+import answer.Answer;
 import question.Question;
-import quiz.*;
-
-
 
 
 /**
@@ -58,7 +56,7 @@ public class LoginServlet extends HttpServlet {
 		if(acct.containsAccount(name) && acct.passwordMatch(name, pass)){
 			HttpSession session = request.getSession();
 			ArrayList<Question> pendingQuestions = new ArrayList<Question>();
-			ArrayList<String> pendingAnswers = new ArrayList<String>();
+			ArrayList<Answer> pendingAnswers = new ArrayList<Answer>();
 			session.setAttribute("pendingQuestions", pendingQuestions);  //store the questions that the user is creating
 			session.setAttribute("pendingAnswers", pendingAnswers);  //store the answers that the user is creating
 			session.setAttribute("username", name);     //store the username for this session so all pages and servlets can access.
