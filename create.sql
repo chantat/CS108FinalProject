@@ -14,6 +14,19 @@ create table QR(
   qText char(255)
 );
 
+drop table if exists FIB;
+create table FIB(
+  qID int,
+  qText char(255)
+);
+
+drop table if exists PR;
+create table PR(
+  qID int,
+  qText char(255),
+  qPicUrl char(255)
+);
+
 drop table if exists Answer;
 create table Answer(
   qID int,
