@@ -101,6 +101,7 @@ public class QuestionManager {
 			question = new QuestionResponse(currentQuestionId, questionText);
 		}
 		addQuestionToDatabase(question);
+		addQuestionTextToDatabase(question);
 		return currentQuestionId++;
 	}
 	
