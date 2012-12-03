@@ -1,5 +1,7 @@
 package quiz;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Quiz {
@@ -14,12 +16,13 @@ public class Quiz {
 	private final String category; 
 	private final ArrayList<Integer> questionIds; 
 	private final ArrayList<String> tags;
+	private final String quizName;
 	
 	
 	public Quiz(int quizId, String authorId, boolean isRandomized, boolean isFlashcard, 
 			boolean immediateFeedback, boolean allowsPractice, int previousId, 
 			String description, String category, ArrayList<Integer> questionIds, 
-			ArrayList<String> tags){
+			ArrayList<String> tags, String quizName){
 		this.quizId = quizId;
 		this.authorId = authorId;
 		this.isRandomized = isRandomized;
@@ -31,6 +34,7 @@ public class Quiz {
 		this.category = category;
 		this.questionIds = questionIds; 
 		this.tags = tags;
+		this.quizName = quizName;
 	}
 	
 	public int getQuizId() {
@@ -75,6 +79,10 @@ public class Quiz {
 	
 	public ArrayList<String> getTags() {
 		return tags;
+	}
+	
+	public String getName(){
+		return quizName;
 	}
 	
 	/* Old code: might be useful
