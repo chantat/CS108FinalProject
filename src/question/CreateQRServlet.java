@@ -45,7 +45,8 @@ public class CreateQRServlet extends HttpServlet {
 		
 		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 		ArrayList<Answer> pendingAnswers = (ArrayList<Answer>)session.getAttribute("pendingAnswers");
-		int questionIndex = (int)session.getAttribute("editPendingQuestionIndex");
+		
+		int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
 		
 		String questionText = (String)request.getParameter("questionText");
 		String answerText = (String)request.getParameter("answer");

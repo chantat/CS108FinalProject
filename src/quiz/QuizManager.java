@@ -206,7 +206,7 @@ public class QuizManager {
 			for(int i = 0 ; i < resultSetSize; i++){
 				quizzes[i] = getQuiz(QuizIds.get(i));
 			}
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return quizzes;

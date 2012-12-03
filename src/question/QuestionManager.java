@@ -24,13 +24,13 @@ public class QuestionManager {
 	private DBConnection con;
 	private Statement stmnt;
 	
-	final public int QUESTION_RESPONSE = 1;
-	final public int FILL_IN_THE_BLANK = 2;
-	final public int MULTIPLE_CHOICE = 3;
-	final public int PICTURE_RESPONSE = 4;
-	final public int MULTI_ANSWER = 5;
-	final public int MULTI_CHOICE_MULTI_ANSWER = 6;
-	final public int MATCHING = 7;
+	final public static int QUESTION_RESPONSE = 1;
+	final public static int FILL_IN_THE_BLANK = 2;
+	final public static int MULTIPLE_CHOICE = 3;
+	final public static int PICTURE_RESPONSE = 4;
+	final public static int MULTI_ANSWER = 5;
+	final public static int MULTI_CHOICE_MULTI_ANSWER = 6;
+	final public static int MATCHING = 7;
 	
 	public QuestionManager(DBConnection con){
 		this.con  =con;

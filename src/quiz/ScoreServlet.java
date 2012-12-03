@@ -2,6 +2,7 @@ package quiz;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -12,8 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import answer.Answer;
-import answer.AnswerManager;
+import answer.*;
 
 /**
  * Servlet implementation class ScoreServlet
@@ -55,17 +55,17 @@ public class ScoreServlet extends HttpServlet {
 		String entry="";
 		String entry2="";
 		
-		while(true){
+		while (true) {
 			if(requestMap.containsKey(parameterToMatch)){
 				entry = request.getParameter(parameterToMatch);
 				entry2 = request.getParameter("entry2" + count);
 				currentScore=(Double)request.getAttribute("currentScore");
-				Answer answer = am.getAnswer(Integer.parseInt(request.getParameter(parameterToMatch + "qID")));
-				double totalPossibleScore=(Double)request.getAttribute("totalPossibleScore");
+				ArrayList<Answer> answers = am.getAnswers(Integer.parseInt(request.getParameter(parameterToMatch + "qID")));
+				double totalPossibleScore = (Double)request.getAttribute("totalPossibleScore");
 				currentQuestion = (Integer)request.getAttribute("currentQuestion");
 				numQuestions=(Integer)request.getAttribute("numQuestions");
-				request.setAttribute("currentScore", answer.scoreGuess(entry, "") + currentScore);
-				request.setAttribute("totalPossibleScore", answer.getPossibleScore()+totalPossibleScore);
+				//request.setAttribute("currentScore", Answer.scoreUserInput(answers, );
+				request.setAttribute("totalPossibleScore", Answer.getPossibleScore(answers) + totalPossibleScore);
 			}
 			else break;
 			count++;

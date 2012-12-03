@@ -12,12 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import answer.AnswerManager;
-
-import question.Question;
-import question.QuestionManager;
-
-import userPackage.AccountManager;
+import answer.*;
+import question.*;
+import userPackage.*;
 
 /**
  * Servlet implementation class CreateQuizServlet
@@ -53,12 +50,12 @@ public class CreateQuizServlet extends HttpServlet {
 		AnswerManager answerManager = (AnswerManager)context.getAttribute("answerManager");
 		
 		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
-		ArrayList<String> pendingAnswers = (ArrayList<String>)session.getAttribute("pendingAnswers");
+		ArrayList<Answer> pendingAnswers = (ArrayList<Answer>)session.getAttribute("pendingAnswers");
 		
 		ArrayList<Integer> questionIds = new ArrayList<Integer>();
 		for (int i = 0; i < pendingQuestions.size(); i++) {
 			int questionId = questionManager.createQuestion(pendingQuestions.get(i)); 
-			answerManager.createAnswer(questionId, pendingAnswers.get(i), 1);
+			answerManager.createAnswer(pendingAnswers.get(i), questionId);
 			questionIds.add(questionId);
 		}
 		pendingQuestions.clear();
