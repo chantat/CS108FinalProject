@@ -1,4 +1,5 @@
-package quiz;
+package question;
+
 
 
 public class PictureResponseQuestion extends Question {

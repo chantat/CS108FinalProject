@@ -1,4 +1,4 @@
-package quiz;
+package answer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

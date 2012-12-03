@@ -1,4 +1,4 @@
-package quiz;
+package question;
 
 public class Question {
 	private int qID;

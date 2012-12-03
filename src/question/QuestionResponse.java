@@ -1,4 +1,5 @@
-package quiz;
+package question;
+
 
 
 public class QuestionResponse extends Question {

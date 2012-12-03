@@ -1,4 +1,4 @@
-package quiz;
+package question;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,17 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Servlet implementation class CreateFIBServlet
+ * Servlet implementation class CreateQRServlet
  */
-@WebServlet("/CreateFIBServlet")
-public class CreateFIBServlet extends HttpServlet {
+@WebServlet("/CreateQRServlet")
+public class CreateQRServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateFIBServlet() {
+    public CreateQRServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,7 +48,7 @@ public class CreateFIBServlet extends HttpServlet {
 		String questionText = (String)request.getParameter("questionText");
 		String answer = (String)request.getParameter("answer");
 		
-		Question question = new FillInTheBlank(-1, questionText);
+		Question question = new QuestionResponse(-1, questionText);
 		if (questionIndex == -1) {
 			pendingQuestions.add(question);
 			pendingAnswers.add(answer);

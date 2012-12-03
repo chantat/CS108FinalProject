@@ -12,6 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import answer.AnswerManager;
+
+import question.Question;
+import question.QuestionManager;
+
 import userPackage.AccountManager;
 
 /**

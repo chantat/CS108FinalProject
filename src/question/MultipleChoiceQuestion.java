@@ -1,6 +1,7 @@
-package quiz;
+package question;
 
 import java.util.ArrayList;
+
 
 
 public class MultipleChoiceQuestion extends Question {

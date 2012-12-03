@@ -1,6 +1,7 @@
-package quiz;
+package question;
 
 import java.util.*;
+
 
 
 public class MultiChoiceMultiAnswerQuestion extends Question {

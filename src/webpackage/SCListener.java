@@ -3,11 +3,11 @@ package webpackage;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 
-import quiz.AnswerManager;
-import quiz.QuestionManager;
+import question.QuestionManager;
 import quiz.QuizManager;
 import achievement.AchievementManager;
 import announcement.AnnouncementManager;
+import answer.AnswerManager;
 
 
 import userPackage.*;
