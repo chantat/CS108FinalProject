@@ -13,6 +13,10 @@ public class Question {
 		this.qText=questionText;
 	}
 	
+	public void setID(int qID) {
+		this.qID = qID;
+	}
+	
 	public int getID() {
 		return qID;
 	}

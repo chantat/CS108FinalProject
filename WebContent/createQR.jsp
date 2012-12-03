@@ -1,18 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.*, quiz.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Create QR</title>
+<title>Create Question-Response Question</title>
 </head>
 <body>
-<h1>New Question-Response Question</h1>
+<% 
+	ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
+	ArrayList<String> pendingAnswers = (ArrayList<String>)session.getAttribute("pendingAnswers");
+	int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
+	
+	String oldQuestion = "";
+	String oldAnswer = "";
+	
+	if (questionIndex != -1) {
+		oldQuestion = pendingQuestions.get(questionIndex).getQText();
+		oldAnswer = pendingAnswers.get(questionIndex);
+	}
+	
+%>
+
+<h1>Question-Response Question</h1>
 <form action="CreateQRServlet" method="post">
- <input type="hidden" value="100" name="qID">
- <input type="text" value="Enter your question!" name="qText">
- <input type="text" value="Enter your answer!" name="answerText">
- <input type="submit" value="Add Question">
+Enter your question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
+Enter your answer: <input type="text" value="<% out.print(oldAnswer); %>"name="answer"> <br>
+<input type="submit" value="Submit">
 </form>
 </body>
 </html>

@@ -42,25 +42,26 @@ public class CreateQuizServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext context = request.getServletContext();
 		HttpSession session = request.getSession();
+		
 		QuizManager quizManager = (QuizManager)context.getAttribute("quizManager");
 		QuestionManager questionManager = (QuestionManager)context.getAttribute("questionManager");
 		AnswerManager answerManager = (AnswerManager)context.getAttribute("answerManager");
+		
+		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
+		ArrayList<String> pendingAnswers = (ArrayList<String>)session.getAttribute("pendingAnswers");
+		
+		ArrayList<Integer> questionIds = new ArrayList<Integer>();
+		for (int i = 0; i < pendingQuestions.size(); i++) {
+			int questionId = questionManager.createQuestion(pendingQuestions.get(i)); 
+			answerManager.createAnswer(questionId, pendingAnswers.get(i), 1);
+			questionIds.add(questionId);
+		}
+		pendingQuestions.clear();
 		
 		String authorId = (String)session.getAttribute("username");
 		String quizName = request.getParameter("quizName");
 		String description = request.getParameter("description");
 		String category = request.getParameter("category");
-		
-		String questionText = request.getParameter("questionText");
-		String answer = request.getParameter("answer");
-		
-		// TODO create other question types and more number of questions
-		ArrayList<Integer> questionIds = new ArrayList<Integer>();
-		questionIds.add(questionManager.createQuestion(1, questionText));
-		
-		ArrayList<String> answers = new ArrayList<String>();
-		answers.add(answer);
-		answerManager.createAnswer(questionIds.get(0), answers, 1);
 		
 		// TODO make tags work
 		ArrayList<String> tags = new ArrayList<String>();

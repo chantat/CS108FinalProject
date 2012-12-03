@@ -55,12 +55,8 @@ public class AnswerManager {
 		return new Answer(qType, numAnswers, answers, scores);
 	}
 	
-	public void createAnswer(int questionId, ArrayList<String> answers, double score) {
-		String answerKey = answers.get(0);
-		for (int i = 0; i < answers.size(); i++) {
-			String answerValue = answers.get(i);
-			insertAnswerIntoDatabase(questionId, answerKey, answerValue, score);
-		}
+	public void createAnswer(int questionId, String answer, double score) {
+		insertAnswerIntoDatabase(questionId, answer, answer, score);
 	}
 	
 	private void insertAnswerIntoDatabase(int qID, String answerKey, String equivalentAnswer, double score){

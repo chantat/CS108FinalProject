@@ -1,15 +1,16 @@
-package webpackage;
+package quiz;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.*;
+import javax.servlet.http.HttpSession;
+
 /**
  * Servlet implementation class CreateQRServlet
  */
@@ -36,22 +37,26 @@ public class CreateQRServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletContext sc = getServletContext();
-		Statement stmt = (Statement)sc.getAttribute("stmt");
+		ServletContext context = request.getServletContext();
+		HttpSession session = request.getSession();
 		
-		String qText = request.getParameter("qText");
-		String answerText = request.getParameter("answerText");
-		int qID = Integer.parseInt(request.getParameter("qID"));
+		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
+		ArrayList<String> pendingAnswers = (ArrayList<String>)session.getAttribute("pendingAnswers");
+		int questionIndex = (int)session.getAttribute("editPendingQuestionIndex");
 		
-		try {
-			stmt.executeUpdate("insert into Question values (" + qID + ", 1);");
-			stmt.executeUpdate("insert into QR values (" + qID + ", '" + qText + "');");
-			stmt.executeUpdate("insert into Answer values(" + qID + ", '" + answerText + "', 1.0);");
-		} catch (SQLException e) {
-			e.printStackTrace();
+		String questionText = (String)request.getParameter("questionText");
+		String answer = (String)request.getParameter("answer");
+		
+		Question question = new QuestionResponse(-1, questionText);
+		if (questionIndex == -1) {
+			pendingQuestions.add(question);
+			pendingAnswers.add(answer);
+		} else {
+			pendingQuestions.set(questionIndex, question);
+			pendingAnswers.set(questionIndex, answer);
 		}
 		
-		request.getRequestDispatcher("createQR.jsp").forward(request, response);
+		request.getRequestDispatcher("createQuiz.jsp").forward(request, response);
 	}
 
 }

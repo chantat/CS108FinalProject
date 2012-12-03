@@ -8,7 +8,16 @@ import java.util.ArrayList;
 import webpackage.DBConnection;
 
 public class QuestionManager {
-
+	private static final String[] typeName = 
+		{"Question Response",
+		 "Fill in the Blank",
+		 "Multiple Choice",
+		 "Picture Response",
+		 "Multi-Answer",
+		 "Multiple Choice with Multiple Answers",
+		 "Matching"
+	};
+	
 	private int currentQuestionId;
 	
 	private DBConnection con;
@@ -96,7 +105,17 @@ public class QuestionManager {
 		return question;
 	}
 	
-	public int createQuestion(int type, String questionText) {
+	public int createQuestion(Question question) {
+		question.setID(currentQuestionId);
+		addQuestionToDatabase(question);
+		
+		if (question.getType() == QUESTION_RESPONSE) {
+			addQuestionTextToDatabase(question);
+		}
+		return currentQuestionId++;
+	}
+	
+	/*public int createQuestion(int type, String questionText) {
 		Question question = null;
 		if (type == 1) {
 			question = new QuestionResponse(currentQuestionId, questionText);
@@ -104,7 +123,7 @@ public class QuestionManager {
 		addQuestionToDatabase(question);
 		addQuestionTextToDatabase(question);
 		return currentQuestionId++;
-	}
+	}*/
 	
 	public void addQuestionToDatabase(Question question){
 		int qType=question.getType();
@@ -137,6 +156,14 @@ public class QuestionManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static String getTypeName(int type) {
+		return typeName[type - 1];
+	}
+	
+	public static int getNumType() {
+		return typeName.length;
 	}
 	
 }
