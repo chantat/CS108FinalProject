@@ -14,6 +14,14 @@ public class QuestionManager {
 	private DBConnection con;
 	private Statement stmnt;
 	
+	final public int QUESTION_RESPONSE = 1;
+	final public int FILL_IN_THE_BLANK = 2;
+	final public int MULTIPLE_CHOICE = 3;
+	final public int PICTURE_RESPONSE = 4;
+	final public int MULTI_ANSWER = 5;
+	final public int MULTI_CHOICE_MULTI_ANSWER = 6;
+	final public int MATCHING = 7;
+	
 	public QuestionManager(DBConnection con){
 		this.con=con;
 		stmnt = con.getStatement();
@@ -51,25 +59,25 @@ public class QuestionManager {
 			e.printStackTrace();
 		}
 		switch(qType){
-		case 1:
+		case QUESTION_RESPONSE:
 			question=new QuestionResponse(qID, qText);
 			break;
-		case 2:
+		case FILL_IN_THE_BLANK:
 			question=new FillInTheBlank(qID, qText);
 			break;
-		case 3:
+		case MULTIPLE_CHOICE:
 			question=new MultipleChoiceQuestion(qID, qText);
 			break;
-		case 4:
+		case PICTURE_RESPONSE:
 			question=new PictureResponseQuestion(qID, qText);
 			break;
-		case 5:
+		case MULTI_ANSWER:
 			question = new MultiAnswerQuestion(qID, qText, numAnswers, isOrdered);
 			break;
-		case 6:
+		case MULTI_CHOICE_MULTI_ANSWER:
 			question = new MultiChoiceMultiAnswerQuestion(qID, qText, numAnswers);
 			break;
-		case 7:
+		case MATCHING:
 			question = new MatchingQuestion(qID, qText, numAnswers);
 		}
 		return question;
