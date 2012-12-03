@@ -30,6 +30,8 @@ if(!fMgr.areFriends(user, victim)){   //if not already friends...
 }
 else{  //already friends
 	out.println("Status: Friends");
+	String composeLink = "<form action=\"ComposeServlet\" method=\"post\"><input type=\"hidden\" name=\"toID\" value=\"" +victim+"\"><input type=\"submit\" value=\"Send Message\"></form>";
+	out.println(composeLink);
 }
 
 

@@ -49,7 +49,8 @@ public class AddRequestServlet extends HttpServlet {
 		frnmgr.requestFriend(name, victim);
 		
 		//notify the recipient with a mail system message
-		String messageTxt = "You have a pending request from "+name+".  Please check your Friends List to accept or reject this request.";
+		String messageTxt = name + " wants to be your friend! Please click below to accept " + name + "'s request.";
+		//String messageTxt = "You have a pending request from "+name+".  Please check your Friends List to accept or reject this request.";
 		Message requestMsg = new Message(victim, name, "Friend Request", messageTxt, "Request");
 		mail.send(requestMsg);
 		

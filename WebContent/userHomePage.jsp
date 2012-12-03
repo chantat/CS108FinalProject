@@ -54,6 +54,8 @@ for(int i=0; i<friends.size();i++){
 	out.println("<td> "+linkButton+"</td>");
 	String removeButton = "<form action=\"RemoveFriendServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +friendName +"\"><input type=\"submit\" value=\"Remove From Friend List\"></form>";
 	out.println("<td> "+removeButton+"</td>");
+	String composeLink = "<form action=\"ComposeServlet\" method=\"post\"><input type=\"hidden\" name=\"toID\" value=\"" +friendName+"\"><input type=\"submit\" value=\"Send Message\"></form>";
+	out.println("<td> "+composeLink+"</td>");
 	out.println("</tr>");
 }
 

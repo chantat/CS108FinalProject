@@ -4,6 +4,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
+import userPackage.*;
 
 /**
  * Servlet implementation class MailServlet
