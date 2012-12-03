@@ -10,19 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import mail.MailSystem;
-
 /**
- * Servlet implementation class QuizServlet
+ * Servlet implementation class ScoreServlet
  */
-@WebServlet("/QuizServlet")
-public class QuizServlet extends HttpServlet {
+@WebServlet("/ScoreServlet")
+public class ScoreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QuizServlet() {
+    public ScoreServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,16 +36,17 @@ public class QuizServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletContext sc = request.getServletContext();
-		QuizManager qm = (QuizManager) sc.getAttribute("quizManager");
-		HttpSession session = request.getSession();
-		String quizID = request.getParameter("quizID");
-		request.setAttribute("currentQuiz", quizID);
-		session.setAttribute("currentScore", 0);
-		request.setAttribute("totalPossibleScore", 0);
-		request.setAttribute("currentQuestion", 1);
-		request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
 		// TODO Auto-generated method stub
+		ServletContext sc = request.getServletContext();
+		AnswerManager am = (AnswerManager) sc.getAttribute("answerManager");
+		Answer answer = am.getAnswer(Integer.parseInt(request.getParameter("qID")));
+		String entry = request.getParameter("entry");
+		String entry2 = request.getParameter("entry2");
+		double currentScore=(Double)request.getAttribute("currentScore");
+		double totalPossibleScore=(Double)request.getAttribute("totalPossibleScore");
+		request.setAttribute("currentScore", answer.scoreGuess(entry, entry2) + currentScore);
+		request.setAttribute("totalPossibleScore", answer.getPossibleScore()+totalPossibleScore);
+		request.getRequestDispatcher("scoreQuiz.jsp").forward(request, response);
 	}
 
 }
