@@ -64,7 +64,7 @@ public class AnswerManager {
 	}
 	
 	private void insertAnswerIntoDatabase(int qID, String answerKey, String equivalentAnswer, double score){
-		String query="INSERT INTO Answer (qID, answerKey, answerText, score) VALUES (" + qID + ", \"" + answerKey + "\", " + equivalentAnswer+ "\", " + score + "\");";
+		String query="INSERT INTO Answer (qID, answerKey, answerText, score) VALUES (" + qID + ", \"" + answerKey + "\", \"" + equivalentAnswer+ "\", " + score + ");";
 		System.out.println(query); // for verification purposes
 		try {
 			Statement stmt = con.getStatement();

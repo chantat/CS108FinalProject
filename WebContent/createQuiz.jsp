@@ -17,6 +17,7 @@ Category: <input type="text" name="category"> <br><br>
 
 Question Text: <input type="text" name="questionText"> <br>
 Answer: <input type="text" name="answer"> <br>
+<input type="submit" value="Create Quiz">
 </form>
 </body>
 </html>

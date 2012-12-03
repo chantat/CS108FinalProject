@@ -66,6 +66,8 @@ public class CreateQuizServlet extends HttpServlet {
 		ArrayList<String> tags = new ArrayList<String>();
 		
 		quizManager.createQuiz(authorId, false, false, false, false, -1, description, category, questionIds, tags, quizName);
+		
+		request.getRequestDispatcher("userHomePage.jsp").forward(request, response);
 	}
 
 }

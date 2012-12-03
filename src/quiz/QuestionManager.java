@@ -15,11 +15,23 @@ public class QuestionManager {
 	private Statement stmnt;
 	
 	public QuestionManager(DBConnection con){
-		this.con=con;
+		this.con  =con;
 		stmnt = con.getStatement();
 		
-		// TODO: Get the correct questionId from DB
-		currentQuestionId = 0;
+		currentQuestionId = getCurrentQuestionId();
+	}
+	
+	private int getCurrentQuestionId(){
+		int currentQuestionID = 0;
+		String query = "SELECT * FROM Question;";
+		ResultSet rs = null;
+		try{
+			rs = stmnt.executeQuery(query);
+			currentQuestionID = DBConnection.getResultSetSize(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return currentQuestionID;
 	}
 	
 	public Question getQuestion(int qID){
@@ -94,7 +106,7 @@ public class QuestionManager {
 			isOrdered=sameQuestion.isOrdered();
 		}
 		
-		String query="INSERT INTO Question (qID, qType, numAnswers, isOrdered) VALUES (" + qID + ", \"" + qType + "\", " + numAnswers + "\", " + isOrdered + "\");";
+		String query="INSERT INTO Question (qID, qType, numAnswers, isOrdered) VALUES (" + qID + ", " + qType + ", " + numAnswers + ", " + isOrdered + ");";
 		System.out.println(query); // for verification purposes
 		try {
 			Statement stmt = con.getStatement();

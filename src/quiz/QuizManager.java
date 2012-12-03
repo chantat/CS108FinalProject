@@ -1,8 +1,6 @@
 package quiz;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 import webpackage.DBConnection;
@@ -15,31 +13,27 @@ public class QuizManager {
 		stmnt = con.getStatement();	
 		
 		// TODO: We have to save the currentQuizId somewhere so that when we start a new instance of the server it doesn't use old quizids
+		currentQuizId = getCurrentQuizId();
 	}
 	
 	//get currentQuizId by getting the max of the current quiz IDs in the database
-	private static int getCurrentQuizId(){
-		int currentQuizID=0;
-		String query = "SELECT MAX(quizID) FROM Quiz;";
+	private int getCurrentQuizId(){
+		int currentQuizID = 0;
+		String query = "SELECT * FROM Quiz;";
 		ResultSet rs = null;
 		try{
 			rs = stmnt.executeQuery(query);
-			rs.beforeFirst();
-			while(rs.next()){
-				currentQuizID=(Integer)rs.getObject(1);
-			}
-		}catch (SQLException e) {
+			currentQuizID = DBConnection.getResultSetSize(rs);
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return (currentQuizID+1);
+		return currentQuizID;
 	}
 	
 	public void createQuiz(String authorID, boolean isRandomizable, boolean isFlashcard, 
 			boolean immediateFeedback, boolean allowsPractice, int previousID, 
 			String quizDescription, String category, ArrayList<Integer> questionIDs, 
 			ArrayList<String> tags, String quizName) {
-		
-		this.currentQuizId=getCurrentQuizId();
 		
 		addQuizToDatabase(currentQuizId, authorID, isRandomizable, isFlashcard, 
 				immediateFeedback, allowsPractice, previousID, quizDescription, 
@@ -69,9 +63,9 @@ public class QuizManager {
 			Boolean immediateFeedback = rs.getBoolean("immediateFeedback");
 			String description = rs.getString("description");
 			String category = rs.getString("category");
+			String quizName = rs.getString("quizName");
 			ArrayList<String> tags = getTags(quizId);
 			ArrayList<Integer> questionIds = getQuestionIds(quizId);
-			String quizName=rs.getString("quizName");
 			
 			quiz = new Quiz(quizId, authorId, isRandomized, isFlashcard, immediateFeedback, 
 					allowsPractice, prevId, description, category, questionIds, tags, quizName);
@@ -182,30 +176,21 @@ public class QuizManager {
 		String query = "SELECT * FROM Quiz;";
 		int resultSetSize=0;
 		ResultSet rs = null;
-		Quiz[] quizzes=null;
+		Quiz[] quizzes = null;
 		try{
 			rs = stmnt.executeQuery(query);
-			rs.beforeFirst();
-			resultSetSize=DBConnection.getResultSetSize(rs);
+			resultSetSize = DBConnection.getResultSetSize(rs);
 			quizzes = new Quiz[resultSetSize];
-			for(int i = 0 ; i < resultSetSize; i++){
+			
+			ArrayList<Integer> QuizIds = new ArrayList<Integer>();
+			rs.beforeFirst();
+			for(int i = 0 ; i < resultSetSize; i++) {
 				rs.next();
-				int quizId=rs.getInt("quizID");
-				String authorId = rs.getString("authorID");
-				Boolean isRandomized = rs.getBoolean("isRandomized");
-				Integer prevId = rs.getInt("prevID");
-				Boolean isFlashcard = rs.getBoolean("isFlashcard");
-				Boolean allowsPractice = rs.getBoolean("allowsPractice");
-				Boolean immediateFeedback = rs.getBoolean("immediateFeedback");
-				String description = rs.getString("description");
-				String category = rs.getString("category");
-				ArrayList<String> tags = getTags(quizId);
-				ArrayList<Integer> questionIds = getQuestionIds(quizId);
-				String quizName=rs.getString("quizName");
-				
-				Quiz quiz = new Quiz(quizId, authorId, isRandomized, isFlashcard, immediateFeedback, 
-						allowsPractice, prevId, description, category, questionIds, tags, quizName);
-				quizzes[i]=quiz;
+				QuizIds.add(rs.getInt("quizID"));
+			}
+			
+			for(int i = 0 ; i < resultSetSize; i++){
+				quizzes[i] = getQuiz(QuizIds.get(i));
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();

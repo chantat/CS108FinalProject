@@ -169,6 +169,21 @@ if(acct.isAdmin(user)){
 	out.println(returnLink);
 }
 %>
+
+<% // Link to quiz Homepage 
+String quizHomepageLink = "<A HREF=\"quizHomepage.jsp\">Quiz Homepage</A>";
+out.println(quizHomepageLink);
+%>
+
+
+<% // Link to create quiz page
+
+String createQuizLink = "<A HREF=\"createQuiz.jsp\">Create Quiz</A>";
+out.println(createQuizLink);
+
+%>
+
+
 <form action="LogOutServlet" method="post">
 <input type="submit" value="Log Out">
 </form>

@@ -33,7 +33,7 @@ for (int i = 0; i < quiz.length ; i++) {
 	
 	String quizButton = "<form action=\"QuizServlet\" method=\"post\">";
 	quizButton += "<input type=\"hidden\" name = \"quizId\" value=\""+ quizId + "\">";
-	quizButton += "<input type=\"submit\" value=\"" + quizName + "Approve Request\">";
+	quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
 	quizButton += "</form>";
 	
 	out.println("<td> " + quizButton + "</td>");
@@ -50,7 +50,7 @@ for (int i = 0; i < quiz.length ; i++) {
 
 </table>
 
-
+<A HREF="http://localhost:8080/CS108FinalProject/userHomePage.jsp">Return to Home Page</A>
 
 </body>
 </html>
