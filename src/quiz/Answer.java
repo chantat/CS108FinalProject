@@ -41,8 +41,18 @@ public class Answer {
 		return isCorrectGuess;
 	}
 	
-	private double scoreGuess(){
+	public double scoreGuess(String entry, String entry2){
+		validateGuess(entry, entry2);
 		return currentScore;
+	}
+	
+	public double getPossibleScore(){
+		double sum=0.0;
+		for (Map.Entry<String, Double> entry : answerScores.entrySet()){
+			sum+=entry.getValue();
+		}
+		if(qType==7) sum/=2.0;
+		return sum;
 	}
 	
 }

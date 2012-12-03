@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import mail.MailSystem;
 
@@ -39,6 +40,14 @@ public class QuizServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext sc = request.getServletContext();
 		QuizManager qm = (QuizManager) sc.getAttribute("quizManager");
+		HttpSession session = request.getSession();
+		String quizID = request.getParameter("quizID");
+		request.setAttribute("currentQuiz", quizID);
+		session.setAttribute("currentScore", 0);
+		request.setAttribute("totalPossibleScore", 0);
+		request.setAttribute("currentQuestion", 1);
+		request.setAttribute("numQuestions", qm.getNumQuestions(Integer.parseInt(quizID)));
+		request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
 		// TODO Auto-generated method stub
 	}
 
