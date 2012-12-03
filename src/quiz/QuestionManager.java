@@ -67,6 +67,7 @@ public class QuestionManager {
 			rs.first();
 			
 			qText=(String)rs.getObject(2);
+			System.out.println(qText);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
