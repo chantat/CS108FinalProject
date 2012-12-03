@@ -14,7 +14,7 @@ public class AttemptManager {
 		this.con=con;
 	}
 	
-	public Attempt createAttempt(String userId, int quizId, int score, Timestamp timeTaken){
+	public Attempt createAttempt(String userId, int quizId, double score, Timestamp timeTaken){
 		String query="INSERT INTO Attemps (userID, quizID, score, timeTaken) VALUES (" + userId + ", \"" + quizId + "\", " + score + "\", " + timeTaken + "\");";
 		System.out.println(query); // for verification purposes
 		try {

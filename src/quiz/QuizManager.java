@@ -82,6 +82,20 @@ public class QuizManager {
 		return quiz;
 	}
 	
+	public int getNumQuestions(int quizID){
+		String query = "SELECT COUNT(qID) FROM QuizQuestion WHERE quizID = " + quizID + ";";
+		ResultSet rs = null;
+		int count=0;
+		try {
+			rs = stmnt.executeQuery(query);
+			rs.first();
+			count=(Integer)rs.getObject(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
 	private static ArrayList<String> getTags(int quizID){
 		ArrayList<String> tags = new ArrayList<String>();
 		

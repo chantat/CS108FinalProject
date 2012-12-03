@@ -85,6 +85,10 @@ public class Quiz {
 		return quizName;
 	}
 	
+	public int getNumQuestions(){
+		return questionIds.size();
+	}
+	
 	/* Old code: might be useful
 	private static int getNewerQuizID(DBConnection con, int quizID){
 		if(quizID <= 0 || quizID > currentQuizId) return 0;

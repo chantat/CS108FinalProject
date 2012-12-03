@@ -5,10 +5,10 @@ import java.sql.*;
 public class Attempt {
 	private final String userId;
 	private final int quizId;
-	private final int score;
+	private final double score;
 	private final Timestamp timeTaken;
 	
-	public Attempt(String userId, int quizId, int score, Timestamp timeTaken) {
+	public Attempt(String userId, int quizId, double score, Timestamp timeTaken) {
 		this.userId = userId;
 		this.quizId = quizId;
 		this.timeTaken = timeTaken;
@@ -23,7 +23,7 @@ public class Attempt {
 		return quizId; 
 	}
 	
-	public int getScore() {
+	public double getScore() {
 		return score;
 	}
 	

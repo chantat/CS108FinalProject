@@ -46,6 +46,7 @@ public class QuizServlet extends HttpServlet {
 		session.setAttribute("currentScore", 0);
 		request.setAttribute("totalPossibleScore", 0);
 		request.setAttribute("currentQuestion", 1);
+		request.setAttribute("numQuestions", qm.getNumQuestions(Integer.parseInt(quizID)));
 		request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
 		// TODO Auto-generated method stub
 	}
