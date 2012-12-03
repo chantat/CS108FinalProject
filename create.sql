@@ -74,7 +74,8 @@ create table Message(
   subject char(255),
   messageText varchar(1000),
   status int,
-  messageTime timestamp default current_timestamp
+  messageTime timestamp default current_timestamp,
+  msgType char(255)
 );
 
 drop table if exists Challenge;

@@ -19,20 +19,20 @@ Question quest;
 <body>
 <h1><%= quizName %></h1>
 
+<form action="ScoringServlet" method="post">
 <%
 for (int i = 0; i < questIds.size(); i++) {
 	quest = questM.getQuestion(questIds.get(i));
 	if (quest.getType() == questM.QUESTION_RESPONSE) {
 %>
-<form action="ScoringServlet" method="post">
 <p><%= quest.getQText() %></p>
-<input type="text" name="entry"/>
+<input type="text" name="answer<%= + quest.getID() %>"/>
 <input type="hidden" name="qID" value="<%= quest.getID() %>">
-<input type="submit" value="Submit"/>
-</form>
 <%
 	}
 }
 %>
+<input type="submit" value="Submit"/>
+</form>
 </body>
 </html>
