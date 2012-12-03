@@ -2,6 +2,7 @@ package quiz;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -41,16 +42,34 @@ public class ScoreServlet extends HttpServlet {
 		ServletContext sc = request.getServletContext();
 		AnswerManager am = (AnswerManager) sc.getAttribute("answerManager");
 		
-		Answer answer = am.getAnswer(Integer.parseInt(request.getParameter("qID")));
-		String entry = request.getParameter("entry");
-		//String entry2 = request.getParameter("entry2"); TODO placeholder for later
-		//TODO for loop through num parameters
-		double currentScore=(Double)request.getAttribute("currentScore");
-		double totalPossibleScore=(Double)request.getAttribute("totalPossibleScore");
-		int currentQuestion = (Integer)request.getAttribute("currentQuestion");
-		int numQuestions=(Integer)request.getAttribute("numQuestions");
-		request.setAttribute("currentScore", answer.scoreGuess(entry, "") + currentScore);
-		request.setAttribute("totalPossibleScore", answer.getPossibleScore()+totalPossibleScore);
+		
+		int numQuestions=0;
+		int currentQuestion=0;
+		double currentScore=0.0;
+		int count = Integer.parseInt(request.getParameter("qID"));
+		Map<String, String[]> requestMap=request.getParameterMap();
+		String parameterToMatch="entry" + count;
+		String entry="";
+		String entry2="";
+		
+		while(true){
+			if(requestMap.containsKey(parameterToMatch)){
+				entry = request.getParameter(parameterToMatch);
+				entry2 = request.getParameter("entry2" + count);
+				currentScore=(Double)request.getAttribute("currentScore");
+				Answer answer = am.getAnswer(Integer.parseInt(request.getParameter(parameterToMatch + "qID")));
+				double totalPossibleScore=(Double)request.getAttribute("totalPossibleScore");
+				currentQuestion = (Integer)request.getAttribute("currentQuestion");
+				numQuestions=(Integer)request.getAttribute("numQuestions");
+				request.setAttribute("currentScore", answer.scoreGuess(entry, "") + currentScore);
+				request.setAttribute("totalPossibleScore", answer.getPossibleScore()+totalPossibleScore);
+			}
+			else break;
+			count++;
+			parameterToMatch="entry" + count;
+			currentQuestion++;
+		}
+		
 		
 		if(numQuestions==currentQuestion){ //finished quiz
 			request.getRequestDispatcher("scoreQuiz.jsp").forward(request, response);
@@ -59,6 +78,7 @@ public class ScoreServlet extends HttpServlet {
 			String username=(String) session.getAttribute("username");
 			String quizID=request.getParameter("quizID");
 			attemptMngr.createAttempt(username, Integer.parseInt(quizID), currentScore, new Timestamp(new java.util.Date().getTime()));
+			//TODO timestamp
 		}else{ //go to next question
 			request.setAttribute("currentQuestion", currentQuestion+1);
 			request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);

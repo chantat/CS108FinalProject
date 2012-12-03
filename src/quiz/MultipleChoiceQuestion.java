@@ -9,7 +9,6 @@ public class MultipleChoiceQuestion extends Question {
 		
 		public MultipleChoiceQuestion(int qID, String qText) {
 			super(qID, qText);
-			//this.qText = qText;
 			type = 3;
 			this.numAnswers=1;
 		}
