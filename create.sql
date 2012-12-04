@@ -20,6 +20,7 @@ create table Answer(
   qID int,
   answerKey char(255),
   answerText char(255),
+  answerOrder int,
   score decimal(6,4)
 );
 

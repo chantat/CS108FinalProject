@@ -49,7 +49,7 @@ public class ScoreServlet extends HttpServlet {
 		
 		Map<String, String[]> requestMap = request.getParameterMap();
 		
-		int quizId = (Integer)request.getAttribute("currentQuiz");
+		int quizId = Integer.parseInt(request.getParameter("currentQuiz"));
 		Quiz quiz = quizManager.getQuiz(quizId);
 		ArrayList<Integer> questionIds = quiz.getQuestionIds();
 		
@@ -78,8 +78,7 @@ public class ScoreServlet extends HttpServlet {
 		
 		AttemptManager attemptMngr = (AttemptManager)context.getAttribute("attemptManager");
 		String username = (String)session.getAttribute("username");
-		String quizID = request.getParameter("quizID");
-		attemptMngr.createAttempt(username, Integer.parseInt(quizID), totalScore, new Timestamp(new java.util.Date().getTime()));
+		attemptMngr.createAttempt(username, quizId, totalScore);
 		
 		request.setAttribute("totalScore", totalScore);
 		request.setAttribute("totalPossibleScore", totalPossibleScore);
