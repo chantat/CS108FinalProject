@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-        <%@ page import="java.util.*, question.*, answer.*" %>
+    <%@ page import="java.util.*, question.*, answer.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Multiple choice answer</title>
+<title>Multi choice Multi Answer answer</title>
 </head>
 <body>
 <% 
@@ -32,12 +32,12 @@
 	
 %>
 
-<h1>Enter your multiple-choice question answer choices (in order)</h1>
-<form action="AddMCAnswersServlet" method="post">
+<h1>Enter your multi-choice multi-answer answer choices (in order)</h1>
+<form action="AddMCMAAnswersServlet" method="post">
 Enter an answer: <input type="text" value="<% out.print(oldAnswer); %>" name="answer"><br>
-<input type="checkbox" <%if(isCorrect)out.println("checked=\"checked\""); %>name="isCorrectAnswer">Check if correct answer (can only check this for one answer choice)<br>
+<input type="checkbox" <%if(isCorrect==true)out.println("checked=\"checked\""); %> name="isCorrectAnswer">Check if correct answer<br>
 Enter score (if correct answer): <input type="number" value="<% if(questionIndex != -1)out.print(oldScore); %>" name="score"><br>
-<input type="checkbox" <%if(isLastQuestion)out.println("checked=\"checked\""); %> name="isFinished">Check if last answer choice<br>
+<input type="checkbox" <%if(isLastQuestion==true)out.println("checked=\"checked\""); %> name="isFinished">Check if last answer choice<br>
 <input type="submit" value="Submit">
 </form>
 </body>
