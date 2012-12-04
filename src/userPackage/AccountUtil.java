@@ -74,7 +74,7 @@ public class AccountUtil {
 		
 		return hadHighScore;
 	}
-	
+	/*
 	public Attempt[] getAllQuizAttempt(String username) {
 		String command = "SELECT * FROM Attempts WHERE userID = \"" + username + "\";";
 		
@@ -100,5 +100,5 @@ public class AccountUtil {
 		}	
 		
 		return ret;
-	}
+	}*/
 }
