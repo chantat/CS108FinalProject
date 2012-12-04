@@ -10,15 +10,15 @@
 <body>
 <% 
 	ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
-	ArrayList<Answer> pendingAnswers = (ArrayList<Answer>)session.getAttribute("pendingAnswers");
+	ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
 	int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
 	
 	String oldQuestion = "";
-	String oldAnswer = "";
+	String oldAnswer="";
 	
 	if (questionIndex != -1) {
 		oldQuestion = pendingQuestions.get(questionIndex).getQText();
-		oldAnswer = pendingAnswers.get(questionIndex).getAnswerList().get(0);
+		oldAnswer = pendingAnswers.get(questionIndex).get(0).getAnswerList().get(0);
 	}
 	
 %>

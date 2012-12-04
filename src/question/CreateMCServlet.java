@@ -11,20 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import answer.*;
-
+import answer.Answer;
+import answer.FillInTheBlankAnswer;
 
 /**
- * Servlet implementation class CreateFIBServlet
+ * Servlet implementation class CreateMCServlet
  */
-@WebServlet("/CreateFIBServlet")
-public class CreateFIBServlet extends HttpServlet {
+@WebServlet("/CreateMCServlet")
+public class CreateMCServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateFIBServlet() {
+    public CreateMCServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -53,18 +53,15 @@ public class CreateFIBServlet extends HttpServlet {
 		// TODO: allow multiple answers
 		ArrayList<String> answerTextList = new ArrayList<String>();
 		answerTextList.add(answerText);
-		ArrayList<Answer> currentAnswer=new ArrayList<Answer>();
 		
-		Question question = new FillInTheBlank(-1, questionText);
+		Question question = new MultipleChoiceQuestion(-1, questionText);
 		Answer answer = new FillInTheBlankAnswer(-1, answerTextList);
 		if (questionIndex == -1) {
 			pendingQuestions.add(question);
-			currentAnswer.add(answer);
-			pendingAnswers.add(currentAnswer);
+			pendingAnswers.add(answer);
 		} else {
 			pendingQuestions.set(questionIndex, question);
-			currentAnswer.add(answer);
-			pendingAnswers.set(questionIndex, currentAnswer);
+			pendingAnswers.set(questionIndex, answer);
 		}
 		
 		request.getRequestDispatcher("createQuiz.jsp").forward(request, response);

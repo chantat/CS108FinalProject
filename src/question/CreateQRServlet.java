@@ -44,7 +44,7 @@ public class CreateQRServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
-		ArrayList<Answer> pendingAnswers = (ArrayList<Answer>)session.getAttribute("pendingAnswers");
+		ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
 		
 		int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
 		
@@ -54,15 +54,18 @@ public class CreateQRServlet extends HttpServlet {
 		// TODO: allow multiple answers
 		ArrayList<String> answerTexts = new ArrayList<String>();
 		answerTexts.add(answerText);
+		ArrayList<Answer> currentAnswer=new ArrayList<Answer>();
 		
 		Question question = new QuestionResponse(-1, questionText);
 		Answer answer = new QuestionResponseAnswer(-1, answerTexts);
 		if (questionIndex == -1) {
 			pendingQuestions.add(question);
-			pendingAnswers.add(answer);
+			currentAnswer.add(answer);
+			pendingAnswers.add(currentAnswer);
 		} else {
 			pendingQuestions.set(questionIndex, question);
-			pendingAnswers.set(questionIndex, answer);
+			currentAnswer.add(answer);
+			pendingAnswers.set(questionIndex, currentAnswer);
 		}
 		
 		request.getRequestDispatcher("createQuiz.jsp").forward(request, response);
