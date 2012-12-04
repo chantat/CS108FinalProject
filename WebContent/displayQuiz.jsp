@@ -43,7 +43,7 @@ for (int i = 0; i < questIds.size(); i++) {
 		<p><%= quest.getQText() %></p>
 		<%
 		for (int j = 0; j < quest.getNumAnswers(); j++) {%>
-			<input type="radio" name="<%= quest.getID() %>answer<%=+ j %>"/> <!-- TODO: get possibilities -->
+			<input type="radio" name="<%= quest.getID() %>answer0" value=""/> <!-- TODO: get possibilities -->
 		<%}%>
 		<%break;
 	case QuestionManager.PICTURE_RESPONSE:%>
@@ -52,9 +52,15 @@ for (int i = 0; i < questIds.size(); i++) {
 		<%break;
 	case QuestionManager.MULTI_ANSWER:%>
 		<p><%= quest.getQText() %></p>
+		<%for (int j = 0; j < quest.getNumAnswers(); j++) { %>
+			<input type="text" name="<%= quest.getID() %>answer<%= + j %>"/>
+		<%} %>
 		<%break;
 	case QuestionManager.MULTI_CHOICE_MULTI_ANSWER:%>
-		
+		<p><%= quest.getQText() %></p>
+		<%for (int j= 0; j < quest.getNumAnswers(); j++) { %>
+			<input type="checkbox"/>
+		<%} %>
 		<%break;
 	case QuestionManager.MATCHING:%>
 		
