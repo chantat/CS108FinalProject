@@ -36,8 +36,16 @@ for (int i = 0; i < questIds.size(); i++) {
 		<input type="text" name="<%= quest.getID() %>answer0"/>
 		<%break;
 	case QuestionManager.FILL_IN_THE_BLANK:%>
-		<p><%= quest.getQText() %></p>
+		<%
+		String fibStr = quest.getQText();
+		int index = fibStr.indexOf("###");
+		String firstHalf = fibStr.substring(0, index);
+		String secondHalf = fibStr.substring(index);
+		%>
+		<p><%= firstHalf %>
 		<input type="text" name="<%= quest.getID() %>answer0"/>
+		<%= secondHalf %></p>
+		
 		<%break;
 	case QuestionManager.MULTIPLE_CHOICE:%>
 		<p><%= quest.getQText() %></p>

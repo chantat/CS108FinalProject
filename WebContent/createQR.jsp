@@ -15,9 +15,11 @@
 	
 	String oldQuestion = "";
 	String oldAnswer = "";
-	ArrayList<Answer> oldAnswers=pendingAnswers.get(questionIndex);
+	System.out.println("QuestionIndex: " + questionIndex);
+	
 	
 	if (questionIndex != -1) {
+		ArrayList<Answer> oldAnswers=pendingAnswers.get(questionIndex);
 		oldQuestion = pendingQuestions.get(questionIndex).getQText();
 		oldAnswer = oldAnswers.get(0).getAnswerList().get(0);
 	}
