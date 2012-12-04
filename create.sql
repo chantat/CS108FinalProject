@@ -1,29 +1,17 @@
-USE c_cs108_adchang1;
+USE c_cs108_;
 
 drop table if exists Question;
 create table Question(
   qID int primary key,
   qType int,
+  qText char(255),
   numAnswers int,
   isOrdered bool
-);
-
-drop table if exists QR;
-create table QR(
-  qID int,
-  qText char(255)
-);
-
-drop table if exists FIB;
-create table FIB(
-  qID int,
-  qText char(255)
 );
 
 drop table if exists PR;
 create table PR(
   qID int,
-  qText char(255),
   qPicUrl char(255)
 );
 

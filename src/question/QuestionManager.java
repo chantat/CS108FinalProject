@@ -33,7 +33,7 @@ public class QuestionManager {
 	final public static int MATCHING = 7;
 	
 	public QuestionManager(DBConnection con){
-		this.con  =con;
+		this.con = con;
 		stmnt = con.getStatement();
 		
 		currentQuestionId = getCurrentQuestionId();
@@ -64,23 +64,25 @@ public class QuestionManager {
 			rs = stmnt.executeQuery(query);
 			rs.first();
 			
-			qType=(Integer)rs.getObject(2);
-			numAnswers=(Integer)rs.getObject(3);
-			isOrdered=(Boolean)rs.getObject(4);
+			qType = rs.getInt("qType");
+			numAnswers = rs.getInt("numAnswers");
+			isOrdered = rs.getBoolean("isOrdered");
+			qText = rs.getString("qText");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		query = "SELECT * FROM QR WHERE qID = " + qID + ";";
-		try{
-			rs = stmnt.executeQuery(query);
-			rs.first();
-			
-			qText=(String)rs.getObject(2);
-			System.out.println(qText);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		// qText now in Question table
+//		query = "SELECT * FROM QR WHERE qID = " + qID + ";";
+//		try{
+//			rs = stmnt.executeQuery(query);
+//			rs.first();
+//			
+//			qText=(String)rs.getObject(2);
+//			System.out.println(qText);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 		switch(qType){
 		case QUESTION_RESPONSE:
 			question=new QuestionResponse(qID, qText);
@@ -92,7 +94,17 @@ public class QuestionManager {
 			question=new MultipleChoiceQuestion(qID, qText);
 			break;
 		case PICTURE_RESPONSE:
-			question=new PictureResponseQuestion(qID, qText);
+			query = "SELECT * FROM PR WHERE qID = " + qID + ";";
+			String qPicUrl="";
+			try{
+				rs = stmnt.executeQuery(query);
+				rs.first();
+				qPicUrl = rs.getString("qPicUrl");
+				System.out.println(qText);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			question=new PictureResponseQuestion(qID, qText, qPicUrl);
 			break;
 		case MULTI_ANSWER:
 			question = new MultiAnswerQuestion(qID, qText, numAnswers, isOrdered);
@@ -109,10 +121,14 @@ public class QuestionManager {
 	public int createQuestion(Question question) {
 		question.setID(currentQuestionId);
 		addQuestionToDatabase(question);
-		
-		if (question.getType() == QUESTION_RESPONSE) {
-			addQuestionTextToDatabase(question);
-		}
+//		switch (question.getType()) {
+//			case QUESTION_RESPONSE:
+//				addQuestionTextToQRTable(question);
+//				break;
+//			case FILL_IN_THE_BLANK:
+//				addQuestionTextToFIBTable(question);
+//				break;
+//		}
 		return currentQuestionId++;
 	}
 	
@@ -129,6 +145,7 @@ public class QuestionManager {
 	public void addQuestionToDatabase(Question question){
 		int qType=question.getType();
 		int qID=question.getID();
+		String qText = question.getQText();
 		int numAnswers=question.getNumAnswers();
 		boolean isOrdered = false;
 		if (qType == 5) {
@@ -136,7 +153,7 @@ public class QuestionManager {
 			isOrdered=sameQuestion.isOrdered();
 		}
 		
-		String query="INSERT INTO Question (qID, qType, numAnswers, isOrdered) VALUES (" + qID + ", " + qType + ", " + numAnswers + ", " + isOrdered + ");";
+		String query="INSERT INTO Question (qID, qType, qText, numAnswers, isOrdered) VALUES (" + qID + ", " + qType + ", \"" + qText + "\", "+ numAnswers + ", " + isOrdered + ");";
 		System.out.println(query); // for verification purposes
 		try {
 			Statement stmt = con.getStatement();
@@ -146,10 +163,11 @@ public class QuestionManager {
 		}
 	}
 	
-	public void addQuestionTextToDatabase(Question question){
-		String qText=question.getQText();
-		int qID=question.getID();
-		String query="INSERT INTO QR (qID, qText) VALUES (" + qID + ", \"" + qText + "\");";
+	/*
+	public void addQuestionTextToQRTable(Question question){
+		String qText = question.getQText();
+		int qID = question.getID();
+		String query = "INSERT INTO QR (qID, qText) VALUES (" + qID + ", \"" + qText + "\");";
 		System.out.println(query); // for verification purposes
 		try {
 			Statement stmt = con.getStatement();
@@ -158,6 +176,34 @@ public class QuestionManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public void addQuestionTextToFIBTable(Question question){
+		String qText = question.getQText();
+		int qID = question.getID();
+		String query = "INSERT INTO FIB (qID, qText) VALUES (" + qID + ", \"" + qText + "\");";
+		System.out.println(query); // for verification purposes
+		try {
+			Statement stmt = con.getStatement();
+			stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void addQuestionTextToPRTable(Question question){
+		String qText=question.getQText();
+		int qID=question.getID();
+		String qPicUrl = ((PictureResponseQuestion) question).getURL();
+		String query="INSERT INTO PR (qID, qText, qPicUrl) VALUES (" + qID + ", \"" + qText + ",\"" + qPicUrl + "\");";
+		System.out.println(query); // for verification purposes
+		try {
+			Statement stmt = con.getStatement();
+			stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	*/
 	
 	public static String getTypeName(int type) {
 		return typeName[type - 1];
