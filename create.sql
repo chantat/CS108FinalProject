@@ -1,4 +1,4 @@
-USE c_cs108_;
+USE c_cs108_adchang1;
 
 drop table if exists Question;
 create table Question(
@@ -36,6 +36,7 @@ create table Quiz(
   description char(255),
   category char(255),
   quizName char(255)
+  timeCreated timestamp default current_timestamp,
 );
 
 drop table if exists Tag;
@@ -102,7 +103,7 @@ create table Announcement(
   adminID char(255),
   announcementText varchar(1000),
   subject char(255),
-  announcementTime timestamp
+  announcementTime timestamp default current_timestamp,
 );
 
 drop table if exists Rating;

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="java.util.*, userPackage.* ,announcement.*, achievement.*, quiz.*, java.sql.*, mail.*" %>
+    <%@ page import="java.util.*, java.lang.Math.*, userPackage.* ,announcement.*, achievement.*, quiz.*, java.sql.*, mail.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -116,6 +116,26 @@ for(int i=0; i<announce.length;i++){
 <h2>Quiz List</h2>
 
 <h2>Newest Quizzes</h2>
+<table border="1">
+<% 
+QuizManager quizMGR = (QuizManager)application.getAttribute("quizManager");
+Quiz[] quizzes = quizMGR.getAllQuizzesSortTime();
+
+for(int i=0; i<Math.min(10,quizzes.length);i++){
+	out.println("<tr>");;
+	int quizID = quizzes[i].getQuizId();
+	String quizName = quizMGR.getQuizName(quizID);
+	String time = quizzes[i].getTimeCreated().toString();
+	String category = quizzes[i].getCategory();
+	out.println("<td> "+quizName+"</td>");
+	out.println("<td> "+category+"</td>");
+	out.println("<td> "+time+"</td>");
+	out.println("</tr>");
+}
+%>
+
+</table>
+<A HREF="http://localhost:8080/CS108FinalProject/fullQuizList.jsp">See Full History</A>
 
 
 <h2>Popular Quizzes</h2>
@@ -126,17 +146,17 @@ for(int i=0; i<announce.length;i++){
 <%
 AttemptManager attemptMGR = (AttemptManager)application.getAttribute("attemptManager");
 Attempt[] attempts = attemptMGR.getAllAttempts(user);
-/*
-for(int i=0; i<10;i++){
+for(int i=0; i<Math.min(10,attempts.length);i++){
 	out.println("<tr>");;
 	int quizID = attempts[i].getQuizId();
+	String quizName =quizMGR.getQuizName(quizID);
 	double score = attempts[i].getScore();
 	String time = attempts[i].getTimeTaken().toString();
 	out.println("<td> "+quizID+"</td>");
 	out.println("<td> "+score+"</td>");
 	out.println("<td> "+time+"</td>");
 	out.println("</tr>");
-}*/
+}
 %>
 
 </table>
