@@ -55,10 +55,10 @@ public class LoginServlet extends HttpServlet {
 		
 		if(acct.containsAccount(name) && acct.passwordMatch(name, pass)){
 			HttpSession session = request.getSession();
-			ArrayList<Question> pendingQuestions = new ArrayList<Question>();
-			ArrayList<Answer> pendingAnswers = new ArrayList<Answer>();
-			session.setAttribute("pendingQuestions", pendingQuestions);  //store the questions that the user is creating
-			session.setAttribute("pendingAnswers", pendingAnswers);  //store the answers that the user is creating
+//			ArrayList<Question> pendingQuestions = new ArrayList<Question>();
+//			ArrayList<Answer> pendingAnswers = new ArrayList<Answer>();
+//			session.setAttribute("pendingQuestions", pendingQuestions);  //store the questions that the user is creating
+//			session.setAttribute("pendingAnswers", pendingAnswers);  //store the answers that the user is creating
 			session.setAttribute("username", name);     //store the username for this session so all pages and servlets can access.
 			session.setAttribute("mode", "normal");     //set to non-guest mode
 			if(acct.isDeact(name)){

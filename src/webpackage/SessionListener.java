@@ -1,9 +1,14 @@
 package webpackage;
 
+import java.util.ArrayList;
+
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+
+import question.Question;
+import answer.Answer;
 
 /**
  * Application Lifecycle Listener implementation class SessionListener
@@ -24,6 +29,10 @@ public class SessionListener implements HttpSessionListener {
      */
     public void sessionCreated(HttpSessionEvent hse) {
         HttpSession hs = hse.getSession();
+        ArrayList<Question> pendingQuestions = new ArrayList<Question>();
+		ArrayList<Answer> pendingAnswers = new ArrayList<Answer>();
+		hs.setAttribute("pendingQuestions", pendingQuestions);  //store the questions that the user is creating
+		hs.setAttribute("pendingAnswers", pendingAnswers);  //store the answers that the user is creating
     }
 
 	/**
