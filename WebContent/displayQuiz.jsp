@@ -67,7 +67,7 @@ for (int i = 0; i < questIds.size(); i++) {
 	<%}
 }
 %>
-
+<input type="hidden" name="currentQuiz" value="<% out.print(quizID); %>"/>
 <input type="submit" value="Submit"/>
 </form>
 </body>

@@ -17,15 +17,16 @@ public class AnswerManager {
 		
 		String answerKey = answerList.get(0);
 		for (int i = 0; i < answerList.size(); i++) {
-			insertAnswerIntoDatabase(questionId, answerKey, answerList.get(i), answer.getScore());
+			insertAnswerIntoDatabase(questionId, answerKey, answerList.get(i), answer.getAnswerOrder(), answer.getScore());
 		}
 	}
 	
-	private void insertAnswerIntoDatabase(int qID, String answerKey, String equivalentAnswer, double score){
-		String query = "INSERT INTO Answer (qID, answerKey, answerText, score) VALUES (";
+	private void insertAnswerIntoDatabase(int qID, String answerKey, String equivalentAnswer, int answerOrder, double score){
+		String query = "INSERT INTO Answer (qID, answerKey, answerText, answerOrder, score) VALUES (";
 		query += qID + ",";
 		query += "\"" + answerKey + "\",";
 		query += "\"" + equivalentAnswer+ "\",";
+		query += answerOrder + ",";
 		query += score + ");";
 		
 		System.out.println(query); // for verification purposes
@@ -41,6 +42,7 @@ public class AnswerManager {
 		ResultSet rs = null;
 		HashMap<String, ArrayList<String> > answerLists = new HashMap<String, ArrayList<String> >();
 		HashMap<String, Double> scores = new HashMap<String, Double>();
+		HashMap<String, Integer> answerOrders = new HashMap<String, Integer>();
 		
 		//get answers
 		try {
@@ -49,7 +51,8 @@ public class AnswerManager {
 			while (rs.next()) {
 				String answerKey = rs.getString(2);
 				String equivalentAnswer = rs.getString(3);
-				double score = rs.getDouble(4);
+				int answerOrder = rs.getInt(4);
+				double score = rs.getDouble(5);
 				
 				ArrayList<String> answerList = answerLists.get(answerKey);
 				if (answerList == null) {
@@ -60,6 +63,10 @@ public class AnswerManager {
 				
 				if (!scores.containsKey(answerKey)) {
 					scores.put(answerKey, score);
+				}
+				
+				if (!answerOrders.containsKey(answerKey)) {
+					answerOrders.put(answerKey, answerOrder);
 				}
 			}
 		} catch (SQLException e) {
@@ -81,9 +88,10 @@ public class AnswerManager {
 		while(iter.hasNext()) {
 			String key = iter.next();
 			ArrayList<String> val = answerLists.get(key);
+			int answerOrder = answerOrders.get(key);
 			double score = scores.get(key);
 			
-			answers.add(new Answer(qID, val, qType, score));
+			answers.add(new Answer(qID, val, qType, answerOrder, score));
 		}
 		return answers;
 	}

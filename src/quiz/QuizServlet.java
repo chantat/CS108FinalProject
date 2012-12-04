@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import mail.MailSystem;
-
 /**
  * Servlet implementation class QuizServlet
  */
@@ -42,14 +40,12 @@ public class QuizServlet extends HttpServlet {
 		QuizManager qm = (QuizManager) sc.getAttribute("quizManager");
 		HttpSession session = request.getSession();
 		String quizID = request.getParameter("quizId");
-		System.out.println(quizID);
 		request.setAttribute("currentQuiz", quizID);
 		session.setAttribute("currentScore", 0);
 		request.setAttribute("totalPossibleScore", 0);
 		request.setAttribute("currentQuestion", 1);
 		request.setAttribute("numQuestions", qm.getNumQuestions(Integer.parseInt(quizID)));
 		request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
-		// TODO Auto-generated method stub
 	}
 
 }

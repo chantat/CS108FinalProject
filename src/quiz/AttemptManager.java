@@ -8,22 +8,23 @@ import webpackage.DBConnection;
 
 public class AttemptManager {
 	
-	private DBConnection con;
+	private static Statement stmnt;
 	
 	public AttemptManager(DBConnection con){
-		this.con=con;
+		stmnt = con.getStatement();	
 	}
 	
-	public Attempt createAttempt(String userId, int quizId, double score, Timestamp timeTaken){
-		String query="INSERT INTO Attemps (userID, quizID, score, timeTaken) VALUES (" + userId + ", \"" + quizId + "\", " + score + "\", " + timeTaken + "\");";
+	public void createAttempt(String userId, int quizId, double score) {
+		String query="INSERT INTO Attempts (userID, quizID, score) VALUES (";
+		query += "\"" + userId + "\",";
+		query += quizId + ",";
+		query += score + ");";
 		System.out.println(query); // for verification purposes
 		try {
-			Statement stmt = con.getStatement();
-			stmt.executeUpdate(query);
+			stmnt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return new Attempt(userId, quizId, score, timeTaken);
 	}
 
 }

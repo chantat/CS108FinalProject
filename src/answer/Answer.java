@@ -4,19 +4,25 @@ import java.util.*;
 
 public class Answer {
 	private int questionId;
+	private int answerOrder;
 	private ArrayList<String> answerList;
 	private int questionType;
 	private double score;
 	
-	public Answer(int questionId, ArrayList<String> answerList, int questionType, double score) {
+	public Answer(int questionId, ArrayList<String> answerList, int questionType, int answerOrder, double score) {
 		this.questionId = questionId;
 		this.answerList = answerList;
 		this.questionType = questionType;
+		this.answerOrder = answerOrder;
 		this.score = score;
 	}
 	
 	public int getQuestionId() {
 		return questionId;
+	}
+	
+	public int getAnswerOrder() {
+		return answerOrder;
 	}
 	
 	public ArrayList<String> getAnswerList() {
@@ -32,17 +38,19 @@ public class Answer {
 	}
 	
 	public static double scoreUserInput(ArrayList<Answer> correctAnswers, ArrayList<String> userInput) {
-		HashSet<String> userInputSet = new HashSet<String>();
+		HashMap<String, Integer> userInputSet = new HashMap<String, Integer>();
 		for (int i = 0; i < userInput.size(); i++) {
-			userInputSet.add(userInput.get(i));
+			userInputSet.put(userInput.get(i), i);
 		}
 		
 		double totalScore = 0;
 		for (int i = 0; i < correctAnswers.size(); i++) {
-			ArrayList<String> answerList = correctAnswers.get(i).getAnswerList();
+			Answer answer = correctAnswers.get(i);
+			ArrayList<String> answerList = answer.getAnswerList();
 			for (int j = 0; j < answerList.size(); j++) {
-				String answer = answerList.get(j);
-				if (userInputSet.contains(answer)) {
+				String answerText = answerList.get(j);
+				int answerOrder = answer.getAnswerOrder();
+				if (userInputSet.containsKey(answerText)) {
 					totalScore += correctAnswers.get(i).getScore();
 					break;
 				}
