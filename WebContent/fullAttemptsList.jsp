@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Taken Quizzes</title>
 </head>
 <body>
 
 
-<h2>Recently Taken Quizzes</h2>
+<h2>Taken Quizzes</h2>
 <table border="1">
 <% 
 String user = (String)session.getAttribute("username");

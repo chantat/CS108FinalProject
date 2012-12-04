@@ -103,7 +103,7 @@ create table Announcement(
   adminID char(255),
   announcementText varchar(1000),
   subject char(255),
-  announcementTime timestamp default current_timestamp,
+  announcementTime timestamp default current_timestamp
 );
 
 drop table if exists Rating;
@@ -119,7 +119,8 @@ create table Attempts(
   userID char(255), 
   quizID int, 
   score int, 
-  timeTaken timestamp
+  timeTaken timestamp default current_timestamp,
+  timeSpent int
 );
 
 drop table if exists Achievements;
