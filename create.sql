@@ -35,8 +35,8 @@ create table Quiz(
   immediateFeedback bool,
   description char(255),
   category char(255),
-  quizName char(255)
-  timeCreated timestamp default current_timestamp,
+  quizName char(255),
+  timeCreated timestamp default current_timestamp
 );
 
 drop table if exists Tag;
