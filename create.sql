@@ -119,8 +119,9 @@ create table Attempts(
   userID char(255), 
   quizID int, 
   score int, 
-  timeTaken timestamp default current_timestamp,
-  timeSpent int
+  timeSpent int,
+  timeTaken timestamp default current_timestamp
+  
 );
 
 drop table if exists Achievements;
