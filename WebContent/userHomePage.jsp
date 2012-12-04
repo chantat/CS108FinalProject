@@ -123,10 +123,10 @@ for(int i=0; i<announce.length;i++){
 
 <h2>Recently Taken Quizzes</h2>
 <table border="1">
-<% 
+<%
 AttemptManager attemptMGR = (AttemptManager)application.getAttribute("attemptManager");
 Attempt[] attempts = attemptMGR.getAllAttempts(user);
-
+/*
 for(int i=0; i<10;i++){
 	out.println("<tr>");;
 	int quizID = attempts[i].getQuizId();
@@ -136,7 +136,7 @@ for(int i=0; i<10;i++){
 	out.println("<td> "+score+"</td>");
 	out.println("<td> "+time+"</td>");
 	out.println("</tr>");
-}
+}*/
 %>
 
 </table>
