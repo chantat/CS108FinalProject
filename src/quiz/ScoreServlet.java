@@ -41,21 +41,38 @@ public class ScoreServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		ServletContext context = request.getServletContext();
 		HttpSession session = request.getSession();
 		
 		AnswerManager am = (AnswerManager) context.getAttribute("answerManager");
+		QuizManager quizManager = (QuizManager)context.getAttribute("quizManager");
 		
-		ArrayList<ArrayList<String> > questionResponses = (ArrayList<ArrayList<String>>)session.getAttribute("questionResponses");
-		ArrayList<Integer> questionIdsList = (ArrayList<Integer>)session.getAttribute("questionIdsList");
+		Map<String, String[]> requestMap = request.getParameterMap();
+		
+		int quizId = (Integer)request.getAttribute("currentQuiz");
+		Quiz quiz = quizManager.getQuiz(quizId);
+		ArrayList<Integer> questionIds = quiz.getQuestionIds();
 		
 		double totalScore = 0;
 		double totalPossibleScore = 0;
-		for (int i = 0; i < questionIdsList.size(); i++) {
-			int qId = questionIdsList.get(i);
+		for (int i = 0; i < questionIds.size(); i++) {
+			int qId = questionIds.get(i);
+			int index = 0;
+			
+			ArrayList<String> userInputs = new ArrayList<String>();
+			while (true) {
+				String parameterName = qId + "answer" + index;
+				if (!requestMap.containsKey(parameterName)) {
+					break;
+				}
+				
+				String userInput = (String)request.getParameter(parameterName);
+				userInputs.add(userInput);
+				index++;
+			}
+			
 			ArrayList<Answer> answers = am.getAnswers(qId);
-			totalScore += Answer.scoreUserInput(answers, questionResponses.get(i));
+			totalScore += Answer.scoreUserInput(answers, userInputs);
 			totalPossibleScore += Answer.getPossibleScore(answers);
 		}
 		

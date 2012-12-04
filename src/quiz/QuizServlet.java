@@ -41,7 +41,8 @@ public class QuizServlet extends HttpServlet {
 		ServletContext sc = request.getServletContext();
 		QuizManager qm = (QuizManager) sc.getAttribute("quizManager");
 		HttpSession session = request.getSession();
-		String quizID = request.getParameter("quizID");
+		String quizID = request.getParameter("quizId");
+		System.out.println(quizID);
 		request.setAttribute("currentQuiz", quizID);
 		session.setAttribute("currentScore", 0);
 		request.setAttribute("totalPossibleScore", 0);
