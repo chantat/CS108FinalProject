@@ -79,11 +79,11 @@ public class QuizManager {
 	public int getNumQuestions(int quizID){
 		String query = "SELECT COUNT(qID) FROM QuizQuestion WHERE quizID = " + quizID + ";";
 		ResultSet rs = null;
-		int count=0;
+		int count = 0;
 		try {
 			rs = stmnt.executeQuery(query);
 			rs.first();
-			count=(Integer)rs.getObject(1);
+			count = rs.getInt(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

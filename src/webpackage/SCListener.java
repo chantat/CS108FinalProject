@@ -4,6 +4,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.*;
 
 import question.QuestionManager;
+import quiz.AttemptManager;
 import quiz.QuizManager;
 import achievement.AchievementManager;
 import announcement.AnnouncementManager;
@@ -42,6 +43,7 @@ public class SCListener implements ServletContextListener {
         MailSystem ms = new MailSystem(con);
         QuestionManager qm = new QuestionManager(con);
         AnswerManager am = new AnswerManager(con);
+        AttemptManager attemptManager = new AttemptManager(con);
         
         ServletContext sc = sce.getServletContext();
         sc.setAttribute("manager",acctmgr);
@@ -52,6 +54,7 @@ public class SCListener implements ServletContextListener {
         sc.setAttribute("mailSystem", ms);
         sc.setAttribute("questionManager", qm);
         sc.setAttribute("answerManager", am);
+        sc.setAttribute("attemptManager", attemptManager);
     }
 
 	/**

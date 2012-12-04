@@ -11,7 +11,7 @@
 <body>
 <h1>Quiz score</h1>
 <%
-double score = (Double)request.getAttribute("currentScore");
+double score = (Double)request.getAttribute("totalScore");
 double possibleScore = (Double)request.getAttribute("totalPossibleScore");
 out.println("<p>You score a " + score + " out of " + possibleScore + " on the quiz</p>");
 %>
