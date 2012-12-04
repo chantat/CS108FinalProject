@@ -46,6 +46,12 @@ public class QuizManager {
 		currentQuizId++;
 	}
 
+	public String getQuizName(int quizId){
+		Quiz quiz = getQuiz(quizId);
+		return quiz.getName();	
+	}
+	
+	
 	public Quiz getQuiz(int quizId) {
 		String query = "SELECT * FROM Quiz WHERE quizID = " + quizId + ";";
 		
@@ -64,11 +70,12 @@ public class QuizManager {
 			String description = rs.getString("description");
 			String category = rs.getString("category");
 			String quizName = rs.getString("quizName");
+			Timestamp timeCreated = rs.getTimestamp("timeCreated");
 			ArrayList<String> tags = getTags(quizId);
 			ArrayList<Integer> questionIds = getQuestionIds(quizId);
 			
 			quiz = new Quiz(quizId, authorId, isRandomized, isFlashcard, immediateFeedback, 
-					allowsPractice, prevId, description, category, questionIds, tags, quizName);
+					allowsPractice, prevId, description, category, questionIds, tags, quizName, timeCreated);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -188,6 +195,34 @@ public class QuizManager {
 	
 	public Quiz[] getAllQuizzes() {
 		String query = "SELECT * FROM Quiz;";
+		int resultSetSize=0;
+		ResultSet rs = null;
+		Quiz[] quizzes = null;
+		try{
+			rs = stmnt.executeQuery(query);
+			resultSetSize = DBConnection.getResultSetSize(rs);
+			quizzes = new Quiz[resultSetSize];
+			
+			ArrayList<Integer> QuizIds = new ArrayList<Integer>();
+			rs.beforeFirst();
+			for(int i = 0 ; i < resultSetSize; i++) {
+				rs.next();
+				QuizIds.add(rs.getInt("quizID"));
+			}
+			
+			for(int i = 0 ; i < resultSetSize; i++){
+				quizzes[i] = getQuiz(QuizIds.get(i));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return quizzes;
+	}
+	
+	
+	
+	public Quiz[] getAllQuizzesSortTime() {
+		String query = "SELECT * FROM Quiz ORDER BY timeCreated DESC;";
 		int resultSetSize=0;
 		ResultSet rs = null;
 		Quiz[] quizzes = null;

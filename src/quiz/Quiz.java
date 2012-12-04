@@ -1,5 +1,6 @@
 package quiz;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 public class Quiz {
@@ -15,12 +16,12 @@ public class Quiz {
 	private final ArrayList<Integer> questionIds; 
 	private final ArrayList<String> tags;
 	private final String quizName;
-	
+	private final Timestamp timeCreated;
 	
 	public Quiz(int quizId, String authorId, boolean isRandomized, boolean isFlashcard, 
 			boolean immediateFeedback, boolean allowsPractice, int previousId, 
 			String description, String category, ArrayList<Integer> questionIds, 
-			ArrayList<String> tags, String quizName){
+			ArrayList<String> tags, String quizName, Timestamp timeCreated){
 		this.quizId = quizId;
 		this.authorId = authorId;
 		this.isRandomized = isRandomized;
@@ -33,6 +34,7 @@ public class Quiz {
 		this.questionIds = questionIds; 
 		this.tags = tags;
 		this.quizName = quizName;
+		this.timeCreated = timeCreated;
 	}
 	
 	public int getQuizId() {
@@ -85,6 +87,10 @@ public class Quiz {
 	
 	public int getNumQuestions(){
 		return questionIds.size();
+	}
+	
+	public Timestamp getTimeCreated(){
+		return timeCreated;
 	}
 	
 	public ArrayList<Integer> getRandomizedQuestionIds() {
