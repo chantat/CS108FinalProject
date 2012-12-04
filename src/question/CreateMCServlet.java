@@ -44,27 +44,18 @@ public class CreateMCServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
-		ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
 		int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
 		
 		String questionText = (String)request.getParameter("questionText");
-		String answerText = (String)request.getParameter("answer");
-		
-		// TODO: allow multiple answers
-		ArrayList<String> answerTextList = new ArrayList<String>();
-		answerTextList.add(answerText);
 		
 		Question question = new MultipleChoiceQuestion(-1, questionText);
-		Answer answer = new FillInTheBlankAnswer(-1, answerTextList);
 		if (questionIndex == -1) {
 			pendingQuestions.add(question);
-			pendingAnswers.add(answer);
 		} else {
 			pendingQuestions.set(questionIndex, question);
-			pendingAnswers.set(questionIndex, answer);
 		}
-		
-		request.getRequestDispatcher("createQuiz.jsp").forward(request, response);
+		session.setAttribute("numAnswers", 0);
+		request.getRequestDispatcher("MCanswer.jsp").forward(request, response);
 	}
 
 }

@@ -11,24 +11,22 @@
 <body>
 <% 
 	ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
-	ArrayList<Answer> pendingAnswers = (ArrayList<Answer>)session.getAttribute("pendingAnswers");
+	ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
 	int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
 	
 	String oldQuestion = "";
 	String oldAnswer = "";
 	
-	if (questionIndex != -1) {
+	if (questionIndex != -1){
 		oldQuestion = pendingQuestions.get(questionIndex).getQText();
-		oldAnswer = pendingAnswers.get(questionIndex).getAnswerList().get(0);
+		oldAnswer = pendingAnswers.get(questionIndex).get(0).getAnswerList().get(0);
 	}
 	
 %>
 
-<h1>Question-Response Question</h1>
-<form action="CreateQRServlet" method="post">
-Enter your question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
-Enter your answer: <input type="text" value="<% out.print(oldAnswer); %>"name="answer"> <br>
-<input type="submit" value="Submit">
+<h1>Multiple Choice Question</h1>
+<form action="CreateMCServlet" method="post">
+Enter your question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <input type="submit" value="Submit">
 </form>
 
 </body>
