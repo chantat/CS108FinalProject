@@ -42,11 +42,34 @@ public class ScoreServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ServletContext sc = request.getServletContext();
-		AnswerManager am = (AnswerManager) sc.getAttribute("answerManager");
+		ServletContext context = request.getServletContext();
+		HttpSession session = request.getSession();
 		
+		AnswerManager am = (AnswerManager) context.getAttribute("answerManager");
 		
-		int numQuestions=0;
+		ArrayList<ArrayList<String> > questionResponses = (ArrayList<ArrayList<String>>)session.getAttribute("questionResponses");
+		ArrayList<Integer> questionIdsList = (ArrayList<Integer>)session.getAttribute("questionIdsList");
+		
+		double totalScore = 0;
+		double totalPossibleScore = 0;
+		for (int i = 0; i < questionIdsList.size(); i++) {
+			int qId = questionIdsList.get(i);
+			ArrayList<Answer> answers = am.getAnswers(qId);
+			totalScore += Answer.scoreUserInput(answers, questionResponses.get(i));
+			totalPossibleScore += Answer.getPossibleScore(answers);
+		}
+		
+		AttemptManager attemptMngr = (AttemptManager)context.getAttribute("attemptManager");
+		String username = (String)session.getAttribute("username");
+		String quizID = request.getParameter("quizID");
+		attemptMngr.createAttempt(username, Integer.parseInt(quizID), totalScore, new Timestamp(new java.util.Date().getTime()));
+		
+		request.setAttribute("totalScore", totalScore);
+		request.setAttribute("totalPossibleScore", totalPossibleScore);
+		
+		request.getRequestDispatcher("scoreQuiz.jsp").forward(request, response);
+			// OLD CODE
+		/*int numQuestions=0;
 		int currentQuestion=0;
 		double currentScore=0.0;
 		int count = Integer.parseInt(request.getParameter("qID"));
@@ -85,7 +108,7 @@ public class ScoreServlet extends HttpServlet {
 		}else{ //go to next question
 			request.setAttribute("currentQuestion", currentQuestion+1);
 			request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
-		}
+		}*/
 	}
 
 }
