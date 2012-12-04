@@ -1,7 +1,5 @@
 package quiz;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 
 public class Quiz {
@@ -87,6 +85,14 @@ public class Quiz {
 	
 	public int getNumQuestions(){
 		return questionIds.size();
+	}
+	
+	public ArrayList<Integer> getRandomizedQuestionIds() {
+		ArrayList<Integer> randomIds = new ArrayList<Integer>();
+		randomIds = questionIds;
+		Random generator = new Random();
+		Collections.shuffle(randomIds, generator);
+		return randomIds;
 	}
 	
 	/* Old code: might be useful

@@ -1,16 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="quiz.*, java.util.*" %>
+<%@ page import="quiz.*, question.*, java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <%
 int quizID = (Integer) request.getAttribute("currentQuiz");
+int currQuest = (Integer) request.getAttribute("currentQuestion");
 QuizManager quizM = (QuizManager) application.getAttribute("quizManager");
 QuestionManager questM = (QuestionManager) application.getAttribute("questionManager");
 Quiz quiz = quizM.getQuiz(quizID);
 String quizName = quiz.getName();
-ArrayList<Integer> questIds = quiz.getQuestionIds();
+ArrayList<Integer> questIds;
+if (quiz.getIsRandomized()) {
+	questIds = quiz.getRandomizedQuestionIds();
+} else {
+	questIds = quiz.getQuestionIds();
+}
 Question quest;
+ArrayList<ArrayList<String>> questionResponses = (ArrayList<ArrayList<String>>) session.getAttribute("questionResponses");
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -19,19 +26,42 @@ Question quest;
 <body>
 <h1><%= quizName %></h1>
 
-<form action="ScoringServlet" method="post">
+<form action="ScoreServlet" method="post">
 <%
 for (int i = 0; i < questIds.size(); i++) {
 	quest = questM.getQuestion(questIds.get(i));
-	if (quest.getType() == questM.QUESTION_RESPONSE) {
-%>
-<p><%= quest.getQText() %></p>
-<input type="text" name="answer<%= + quest.getID() %>"/>
-<input type="hidden" name="qID" value="<%= quest.getID() %>">
-<%
-	}
+	switch(quest.getType()){
+	case QuestionManager.QUESTION_RESPONSE:%>
+		<p><%= quest.getQText() %></p>
+		<input type="text" name="<%= quest.getID() %>answer0"/>
+		<%break;
+	case QuestionManager.FILL_IN_THE_BLANK:%>
+		<p><%= quest.getQText() %></p>
+		<input type="text" name="<%= quest.getID() %>answer0"/>
+		<%break;
+	case QuestionManager.MULTIPLE_CHOICE:%>
+		<p><%= quest.getQText() %></p>
+		<%
+		for (int j = 0; j < quest.getNumAnswers(); j++) {%>
+			<input type="radio" name="<%= quest.getID() %>answer<%=+ j %>"/> <!-- TODO: get possibilities -->
+		<%}%>
+		<%break;
+	case QuestionManager.PICTURE_RESPONSE:%>
+		<img src="<%= quest.getQText() %>"/>
+		<input type="text" name="<%= quest.getID() %>answer0"/>
+		<%break;
+	case QuestionManager.MULTI_ANSWER:%>
+		<p><%= quest.getQText() %></p>
+		<%break;
+	case QuestionManager.MULTI_CHOICE_MULTI_ANSWER:%>
+		
+		<%break;
+	case QuestionManager.MATCHING:%>
+		
+	<%}
 }
 %>
+
 <input type="submit" value="Submit"/>
 </form>
 </body>
