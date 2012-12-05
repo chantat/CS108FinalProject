@@ -34,6 +34,35 @@ public class MailSystem {
 		}
 	}
 	
+	public void send(ChallengeMessage msg) {
+		sqlStr = "INSERT INTO Message(toID,fromID,subject,messageText,status,msgType) VALUES (";
+		sqlStr += "\"" + msg.getToID() + "\",";
+		sqlStr += "\"" + msg.getFromID() + "\",";
+		sqlStr += "\"" + msg.getSubject() + "\",";
+		sqlStr += "\"" + msg.getMessage() + "\",";
+		sqlStr += msg.getStatus() + ",";
+		sqlStr += "\"" + msg.getType() + "\"";
+		sqlStr += ");";
+		//System.out.println(sqlStr);
+		try {
+			stmt.executeUpdate(sqlStr);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		sqlStr = "INSERT INTO Challenge(toID,fromID,status,quizID,score) VALUES (";
+		sqlStr += "\"" + msg.getToID() + "\",";
+		sqlStr += "\"" + msg.getFromID() + "\",";
+		sqlStr += msg.getStatus() + ",";
+		sqlStr += "\"" + msg.getQuizID() + "\",";
+		sqlStr += "\"" + msg.getScore() + "\"";
+		sqlStr += ")";
+		try {
+			stmt.executeUpdate(sqlStr);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void markAsRead(Message msg) {
 		sqlStr = "UPDATE Message SET status=1 WHERE ";
 		sqlStr += "fromID=\"";
@@ -75,6 +104,89 @@ public class MailSystem {
 		return msg;
 	}
 	
+	public ChallengeMessage findChallenge(String fromID, String timeStr) {
+		ChallengeMessage chlg = null;
+		String toID = "";
+		String subject = "";
+		String message = "";
+		Timestamp time = null;
+		int status = -1;
+		int quizID = -1;
+		double score = -1;
+		sqlStr = "SELECT * FROM ";
+		sqlStr += "Message";
+		sqlStr += " WHERE fromID=\"";
+		sqlStr += fromID;
+		sqlStr += "\" AND messageTime=\"";
+		sqlStr += timeStr + "\"";
+		//System.out.println(sqlStr);
+		try {
+			rs = stmt.executeQuery(sqlStr);
+			rs.next();
+			toID = rs.getString("toID");
+			subject = rs.getString("subject");
+			message = rs.getString("messageText");
+			time = rs.getTimestamp("messageTime");
+			status = rs.getInt("status");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		sqlStr = "SELECT * FROM ";
+		sqlStr += "Challenge";
+		sqlStr += " WHERE fromID=\"";
+		sqlStr += fromID;
+		sqlStr += "\" AND challengeTime=\"";
+		sqlStr += timeStr + "\"";
+		try {
+			rs = stmt.executeQuery(sqlStr);
+			rs.next();
+			quizID = rs.getInt("quizID");
+			score = rs.getDouble("score");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		chlg = new ChallengeMessage(toID, fromID, subject, message, time, status, quizID, score);
+		return chlg;
+	}
+	
+//	public int findChallengeQuizID(String fromID, String timeStr) {
+//		int quizID = -1;
+//		sqlStr = "SELECT * FROM ";
+//		sqlStr += "Challenge";
+//		sqlStr += " WHERE fromID=\"";
+//		sqlStr += fromID;
+//		sqlStr += "\" AND challengeTime=\"";
+//		sqlStr += timeStr + "\"";
+//		//System.out.println(sqlStr);
+//		try {
+//			rs = stmt.executeQuery(sqlStr);
+//			rs.next();
+//				quizID = rs.getInt("quizID");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return quizID;
+//	}
+//	
+//	public double findChallengeScore(String fromID, String timeStr) {
+//		double score = 0;
+//		sqlStr = "SELECT * FROM ";
+//		sqlStr += "Challenge";
+//		sqlStr += " WHERE fromID=\"";
+//		sqlStr += fromID;
+//		sqlStr += "\" AND challengeTime=\"";
+//		sqlStr += timeStr + "\"";
+//		//System.out.println(sqlStr);
+//		try {
+//			rs = stmt.executeQuery(sqlStr);
+//			rs.next();
+//				score = rs.getDouble("score");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return score;
+//	}
+	
 	public List<Message> getInboxForUser(String user) {
 		List<Message> inbox = new ArrayList<Message>();
 		String fromID, subject, message, msgType;
@@ -94,7 +206,16 @@ public class MailSystem {
 				time = rs.getTimestamp("messageTime");
 				status = rs.getInt("status");
 				msgType = rs.getString("msgType");
-				inbox.add(new Message(user, fromID, subject, message, time, status, msgType));
+				if (msgType.equals("Challenge")) {
+					System.out.println("ADDING CHALLENGE TO INBOX");
+					inbox.add(findChallenge(fromID, time.toString()));
+//					int quizID = findChallengeQuizID(fromID, time.toString());
+//					double score = findChallengeScore(fromID, time.toString());
+//					inbox.add(new ChallengeMessage(user, fromID, subject, message, time, status, quizID, score));
+				} else {
+					System.out.println("ADDING MESSAGE TO INBOX");
+					inbox.add(new Message(user, fromID, subject, message, time, status, msgType));
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

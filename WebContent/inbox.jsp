@@ -27,6 +27,7 @@ Challenge chlg;
 <th>Time</th>
 </tr>
 <%
+/* Display Inbox as a link to each message. */
 user = (String) session.getAttribute("username");
 ms = (mail.MailSystem) application.getAttribute("mailSystem");
 inbox = ms.getInboxForUser(user);

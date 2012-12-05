@@ -153,7 +153,7 @@ for(int i=0; i<Math.min(10,attempts.length);i++){
 	String quizName =quizMGR.getQuizName(quizID);
 	double score = attempts[i].getScore();
 	String time = attempts[i].getTimeTaken().toString();
-	out.println("<td> "+quizID+"</td>");
+	out.println("<td> "+quizName+"</td>");
 	out.println("<td> "+score+"</td>");
 	out.println("<td> "+time+"</td>");
 	out.println("</tr>");
@@ -169,7 +169,7 @@ for(int i=0; i<Math.min(10,attempts.length);i++){
 
 <table border="1">
 <% 
-
+/*
 ArrayList<Attempt> recentAttempts = friendMgr.getFriendRecentAttempts(user);
 
 for(int i=0; i<recentAttempts.size();i++){
@@ -184,7 +184,7 @@ for(int i=0; i<recentAttempts.size();i++){
 	out.println("<td> "+score+"</td>");
 	out.println("<td> "+time+"</td>");
 	out.println("</tr>");
-}
+}*/
 %>
 
 </table>
@@ -192,7 +192,7 @@ for(int i=0; i<recentAttempts.size();i++){
 <h3>Recent Friend Achievements</h3>
 <table border="1">
 <% 
-
+/*
 ArrayList<Achievement> recentAchievements = friendMgr.getFriendRecentAchievements(user);
 
 for(int i=0; i<recentAchievements.size();i++){
@@ -204,7 +204,7 @@ for(int i=0; i<recentAchievements.size();i++){
 	out.println("<td> "+desc+"</td>");
 	out.println("<td> "+time+"</td>");
 	out.println("</tr>");
-}
+}*/
 %>
 
 </table>

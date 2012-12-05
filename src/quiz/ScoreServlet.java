@@ -64,12 +64,12 @@ public class ScoreServlet extends HttpServlet {
 			int index = 0;
 			
 			ArrayList<String> userInputs = new ArrayList<String>();
+			
 			while (true) {
 				String parameterName = qId + "answer" + index;
 				if (!requestMap.containsKey(parameterName)) {
 					break;
 				}
-				
 				String userInput = (String)request.getParameter(parameterName);
 				userInputs.add(userInput);
 				index++;

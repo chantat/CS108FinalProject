@@ -1,4 +1,4 @@
-USE c_cs108_adchang1;
+USE c_cs108_;
 
 drop table if exists Question;
 create table Question(
@@ -84,6 +84,7 @@ create table Message(
 drop table if exists Challenge;
 create table Challenge(
   quizID int,
+  score double,
   fromID char(255),
   toID char(255),
   challengeTime timestamp default current_timestamp,

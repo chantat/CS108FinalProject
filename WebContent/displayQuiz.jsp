@@ -13,6 +13,7 @@ Quiz quiz = quizM.getQuiz(quizID);
 String quizName = quiz.getName();
 ArrayList<Integer> questIds;
 ArrayList<Answer> answerChoices;
+ArrayList<String> answers;
 if (quiz.getIsRandomized()) {
 	questIds = quiz.getRandomizedQuestionIds();
 } else {
@@ -54,10 +55,22 @@ for (int i = 0; i < questIds.size(); i++) {
 		<p><%= quest.getQText() %></p>
 		<%
 		answerChoices = am.getAnswers(quest.getID());
-		for (int j = 0; j < answerChoices.size(); j++) {%>
-			<input type="radio" name="<%= quest.getID() %>answer0" value=""/> <!-- TODO: get possibilities -->
-			<input type="radio" name="<%out.println("answer" + j); %>" value="" <%= answerChoices.get(j).getAnswerList().get(0) %>/>
-		<%}%>
+		answers=new ArrayList<String>();
+		for(int j = 0; j < answerChoices.size(); j++){
+			for(int k = 0; k < answerChoices.size(); k++){
+				if(answerChoices.get(k).getAnswerOrder() == j+1){
+					answers.add(answerChoices.get(k).getAnswerList().get(0));
+				}
+			}
+		}
+		for (int j = 0; j < answers.size(); j++) {
+			String radioButton = "<input type=\"radio\" name=\"" + quest.getID() + "answer" + 0 + "\">";
+			radioButton += "<value=\"" + answers.get(j) + "\">" + answers.get(j);
+			radioButton += "<br>";
+			out.print(radioButton);
+		}
+		%>
+		<br>
 		<%break;
 	case QuestionManager.PICTURE_RESPONSE:%>
 		<p><%= quest.getQText() %></p>
@@ -76,10 +89,22 @@ for (int i = 0; i < questIds.size(); i++) {
 		<p><%= quest.getQText() %></p>
 		<%
 		answerChoices = am.getAnswers(quest.getID());
-		for (int j = 0; j < answerChoices.size(); j++) {%>
-			<input type="radio" name="<%= quest.getID() %>answer0" value=""/> <!-- TODO: get possibilities -->
-			<input type="radio" name="<%out.println("answer" + j); %>" value="" <%= answerChoices.get(j).getAnswerList().get(0) %>/>
-		<%}%>
+		answers=new ArrayList<String>();
+		for(int j = 0; j < answerChoices.size(); j++){
+			for(int k = 0; k < answerChoices.size(); k++){
+				if(answerChoices.get(k).getAnswerOrder() == j+1){
+					answers.add(answerChoices.get(k).getAnswerList().get(0));
+				}
+			}
+		}
+		for (int j = 0; j < answers.size(); j++) {
+			String radioButton = "<input type=\"checkbox\" name=\"" + quest.getID() + "answer" + 0 + "\">";
+			radioButton += "<value=\"" + answers.get(j) + "\">" + answers.get(j);
+			radioButton += "<br>";
+			out.print(radioButton);
+		}
+		%>
+		<br>
 		<%break;
 	case QuestionManager.MATCHING:%>
 		<p><%= quest.getQText() %></p>
