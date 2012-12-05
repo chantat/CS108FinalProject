@@ -22,7 +22,7 @@ public class AttemptManager {
 		query += "\"" + userId + "\",";
 		query += "\"" + quizId + "\",";
 		query += "\"" + score + "\",";
-		query += "\"" + time + ");";
+		query += time + ");";
 		System.out.println(query); // for verification purposes
 		try {
 			stmnt.executeUpdate(query);

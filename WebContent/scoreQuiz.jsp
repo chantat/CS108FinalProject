@@ -14,6 +14,14 @@
 double score = (Double)request.getAttribute("totalScore");
 double possibleScore = (Double)request.getAttribute("totalPossibleScore");
 out.println("<p>You score a " + score + " out of " + possibleScore + " on the quiz</p>");
+out.println("<p>Challenge a friend to beat your score!</p>");
+System.out.println("QuizID of Challenge: " + request.getParameter("currentQuiz"));
 %>
+<form action="ChallengeServlet" method="post">
+<input type="hidden" name="quizId" value="<%= request.getParameter("currentQuiz") %>"/>
+<input type="hidden" name="score" value="<%= score %>"/>
+<input type="text" name="victim"/>
+<input type="submit" value="Challenge!"/>
+</form>
 </body>
 </html>

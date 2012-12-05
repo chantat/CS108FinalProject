@@ -39,12 +39,12 @@ public class QuizServlet extends HttpServlet {
 		ServletContext sc = request.getServletContext();
 		QuizManager qm = (QuizManager) sc.getAttribute("quizManager");
 		HttpSession session = request.getSession();
-		String quizID = request.getParameter("quizId");
-		request.setAttribute("currentQuiz", quizID);
+		String quizId = request.getParameter("quizId");
+		request.setAttribute("currentQuiz", quizId);
 		session.setAttribute("currentScore", 0);
 		request.setAttribute("totalPossibleScore", 0);
 		request.setAttribute("currentQuestion", 1);
-		request.setAttribute("numQuestions", qm.getNumQuestions(Integer.parseInt(quizID)));
+		request.setAttribute("numQuestions", qm.getNumQuestions(Integer.parseInt(quizId)));
 		request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
 	}
 

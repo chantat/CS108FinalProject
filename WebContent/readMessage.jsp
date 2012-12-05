@@ -17,6 +17,8 @@ Message msg = (Message) request.getAttribute("message");
 <%if (msg.getType().equals("Message")) { %>
 <p><%= msg.getMessage() %></p>
 <%} %>
+
+<!-- Friend Request -->
 <%if (msg.getType().equals("Request")) { %>
 <p><%= msg.getMessage() %></p>
 <form action="AddFriendServlet" method="post">
@@ -24,14 +26,16 @@ Message msg = (Message) request.getAttribute("message");
 <input type="submit" value="Approve Request">
 </form>
 <%} %>
+
+<!-- Challenge -->
 <%if (msg.getType().equals("Challenge")) { %>
-<p><%= msg.getFromID() %> has challenged you to take a quiz! 
-Follow the link below to try to beat <%= msg.getFromID() %>'s score!</p>
-<form action="FILL_IN_THIS_SERVLET" method="post">
-<input type="hidden" name="quizID" value=<%= msg.getMessage() %>>
+<% ChallengeMessage chlg = (ChallengeMessage) request.getAttribute("message"); %>
+<p><%= msg.getMessage() %></p>
+<form action="QuizServlet" method="post">
+<input type="hidden" name="quizId" value="<%=chlg.getQuizID() %>"/>
 <input type="submit" value="Take Quiz">
 </form>
 <%} %>
-<a href="inbox.jsp">Inbox</a>
+<a href="inbox.jsp"><button>Inbox</button></a>
 </body>
 </html>
