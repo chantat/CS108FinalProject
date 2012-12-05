@@ -40,7 +40,7 @@ for (int i = 0; i < questIds.size(); i++) {
 		String fibStr = quest.getQText();
 		int index = fibStr.indexOf("###");
 		String firstHalf = fibStr.substring(0, index);
-		String secondHalf = fibStr.substring(index);
+		String secondHalf = fibStr.substring(index+3);
 		%>
 		<p><%= firstHalf %>
 		<input type="text" name="<%= quest.getID() %>answer0"/>
