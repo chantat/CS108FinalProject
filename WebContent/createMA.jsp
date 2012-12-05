@@ -10,16 +10,16 @@
 <script type="text/javascript">
 	
 	var row = 0;
-	
+	var id = 1;
 	$(document).ready(function() {
 		$("#addAnswer").click(function () {
 			var newAnswerField = $(document.createElement('div')).attr("id", row+"_answers");
-			newAnswerField.append('<label id="label_' + row + '">Answer #' + (row+1) + ' : </label><br>' +
-					'<input type="text" name="'+row+'_answer_0"'+'><br>');
+			newAnswerField.append('<label for="label_' + row + '" id="label_' + row + '">Answer #' + (row+1) + ' : </label><br>' +
+					'<input type="text" id="label_' + row + '" name="'+row+'_answer_0"'+'><br>');
 			newAnswerField.val(1);
 			newAnswerField.appendTo('#AnswerForm');
 			
-			var newAnswerButton = $(document.createElement('input')).attr("id", "addEquiv");
+			var newAnswerButton = $(document.createElement('input'));
 			newAnswerButton.attr("type", "button");
 			newAnswerButton.attr("name", row);
 			newAnswerButton.attr("value", "Add Equivalent Answer");
@@ -28,10 +28,11 @@
 			newAnswerField.after('<p></p>');
 			
 			newAnswerButton.click(function () {
-				var numQs = newAnswerField.val();
+				var numQs = parseInt(newAnswerField.val());
 				var curLabel = $("#label_" + $(this).attr("name"));
-				curLabel.append('<br><input type="text" name="' + $(this).attr("name") + '_answer_' + numQs + '"><br>');
-				newAnswerField.val(numQs+1);
+				curLabel.append('<br><input type="text" value="New Answer" id="' + id + '" name="' + $(this).attr("name") + '_answer_' + numQs + '"><br>');
+				newAnswerField.val((numQs+1)+"");
+				id++;
 			});
 			
 			row++;
@@ -73,8 +74,13 @@
 </script>
 
 </head>
-<body >
-	<form id="AnswerForm"></form>
+<body>
+	<form id="AnswerForm" action="CreateMAServlet" method="post">
+	Enter your question: <input type="text" name="questionText"> <br>
+	<input type="checkbox" name="isOrdered" value="isOrdered">Order Matters<br>
+	Enter required number of answers: <input type="text" name="numAnswers"> <br>
+	<input type="submit" value="Submit">
+	</form>
 	<input type="button" value="Add Unique Answer" id="addAnswer">
 	<input type="button" value="Remove Answer" id="removeAnswer">
 </body>

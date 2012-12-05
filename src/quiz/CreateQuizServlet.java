@@ -61,6 +61,7 @@ public class CreateQuizServlet extends HttpServlet {
 			questionIds.add(questionId);
 		}
 		pendingQuestions.clear();
+		pendingAnswers.clear();
 		
 		String authorId = (String)session.getAttribute("username");
 		String quizName = request.getParameter("quizName");

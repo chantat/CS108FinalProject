@@ -36,6 +36,7 @@ for (int i = 0; i < questIds.size(); i++) {
 	case QuestionManager.QUESTION_RESPONSE:%>
 		<p><%= quest.getQText() %></p>
 		<input type="text" name="<%= quest.getID() %>answer0"/>
+		<br>
 		<%break;
 	case QuestionManager.FILL_IN_THE_BLANK:%>
 		<%
@@ -47,7 +48,7 @@ for (int i = 0; i < questIds.size(); i++) {
 		<p><%= firstHalf %>
 		<input type="text" name="<%= quest.getID() %>answer0"/>
 		<%= secondHalf %></p>
-		
+		<br>
 		<%break;
 	case QuestionManager.MULTIPLE_CHOICE:%>
 		<p><%= quest.getQText() %></p>
@@ -59,15 +60,17 @@ for (int i = 0; i < questIds.size(); i++) {
 		<%}%>
 		<%break;
 	case QuestionManager.PICTURE_RESPONSE:%>
-		<img src="<%= ((PictureResponseQuestion)quest).getURL() %>" width="100"/> <br>
 		<p><%= quest.getQText() %></p>
+		<img src="<%= ((PictureResponseQuestion)quest).getURL() %>" width="100"/> <br>
 		<input type="text" name="<%= quest.getID() %>answer0"/>
+		<br>
 		<%break;
 	case QuestionManager.MULTI_ANSWER:%>
 		<p><%= quest.getQText() %></p>
 		<%for (int j = 0; j < quest.getNumAnswers(); j++) { %>
 			<input type="text" name="<%= quest.getID() %>answer<%= + j %>"/>
 		<%} %>
+		<br>
 		<%break;
 	case QuestionManager.MULTI_CHOICE_MULTI_ANSWER:%>
 		<p><%= quest.getQText() %></p>
@@ -79,8 +82,32 @@ for (int i = 0; i < questIds.size(); i++) {
 		<%}%>
 		<%break;
 	case QuestionManager.MATCHING:%>
+		<p><%= quest.getQText() %></p>
+		<%
+		answerChoices = am.getAnswers(quest.getID());
 		
-	<%}
+		ArrayList<String> leftChoices = new ArrayList<String>();
+		ArrayList<String> rightChoices = new ArrayList<String>();
+		for (int j = 0; j < answerChoices.size(); j++) {
+			String answerText = answerChoices.get(j).getAnswerList().get(0);
+			String[] tokens = answerText.split("#");
+			leftChoices.add(tokens[0]);
+			rightChoices.add(tokens[1]);
+		}
+		Collections.shuffle(rightChoices);
+		
+		for (int j = 0; j < leftChoices.size(); j++) {
+			out.print(leftChoices.get(j));
+			String dropDownString = "<select name=\"" + quest.getID() + "answer" + j + "\">";
+			for (int k = 0; k < rightChoices.size(); k++) {
+				dropDownString += "<option value=\"" + rightChoices.get(k) + "\">" + rightChoices.get(k) + "</option>";
+			}
+			dropDownString += "</select><br>";
+			out.print(dropDownString);
+		}%>
+		<br>
+		<%break;
+	}
 }
 %>
 <input type="hidden" name="currentQuiz" value="<% out.print(quizID); %>"/>

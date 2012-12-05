@@ -81,7 +81,7 @@ public class AchievementManager {
 		
 		if (newlyAchieved) {
 			
-			command = "INSERT INTO Achievements(userID, achievementID, timeAchieved) VALUES (";
+			command = "INSERT INTO Achievements(userID, achievementID) VALUES (";
 			command += "\"" + username + "\",";
 			command += "\"" + achievementId + "\");";
 			

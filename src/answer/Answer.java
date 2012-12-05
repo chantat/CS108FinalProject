@@ -2,6 +2,8 @@ package answer;
 
 import java.util.*;
 
+import question.QuestionManager;
+
 public class Answer {
 	private int questionId;
 	private int answerOrder;
@@ -38,6 +40,14 @@ public class Answer {
 	}
 	
 	public static double scoreUserInput(ArrayList<Answer> correctAnswers, ArrayList<String> userInput) {
+		if (correctAnswers.get(0).getQuestionType() == QuestionManager.MATCHING) {
+			return MatchingAnswer.scoreUserInput(correctAnswers, userInput);
+		} else if (correctAnswers.get(0).getQuestionType() == QuestionManager.MULTI_ANSWER) {
+			if (correctAnswers.get(0).getAnswerOrder() != -1) {
+				return MultipleAnswerAnswer.scoreUserInput(correctAnswers, userInput);
+			}
+		}
+		
 		HashMap<String, Integer> userInputSet = new HashMap<String, Integer>();
 		for (int i = 0; i < userInput.size(); i++) {
 			userInputSet.put(userInput.get(i), i);
@@ -49,7 +59,6 @@ public class Answer {
 			ArrayList<String> answerList = answer.getAnswerList();
 			for (int j = 0; j < answerList.size(); j++) {
 				String answerText = answerList.get(j);
-				int answerOrder = answer.getAnswerOrder();
 				if (userInputSet.containsKey(answerText)) {
 					totalScore += correctAnswers.get(i).getScore();
 					break;
