@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import question.Question;
+import question.QuestionManager;
+
 import answer.*;
 
 /**
@@ -45,6 +48,7 @@ public class ScoreServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		AnswerManager am = (AnswerManager) context.getAttribute("answerManager");
+		QuestionManager questionManager = (QuestionManager) context.getAttribute("questionManager");
 		QuizManager quizManager = (QuizManager)context.getAttribute("quizManager");
 		
 		Map<String, String[]> requestMap = request.getParameterMap();
@@ -73,7 +77,8 @@ public class ScoreServlet extends HttpServlet {
 			
 			ArrayList<Answer> answers = am.getAnswers(qId);
 			totalScore += Answer.scoreUserInput(answers, userInputs);
-			totalPossibleScore += Answer.getPossibleScore(answers);
+			Question question = questionManager.getQuestion(qId);
+			totalPossibleScore += question.getNumAnswers();
 		}
 		
 		AttemptManager attemptMngr = (AttemptManager)context.getAttribute("attemptManager");
