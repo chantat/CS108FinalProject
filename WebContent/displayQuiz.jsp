@@ -50,14 +50,15 @@ for (int i = 0; i < questIds.size(); i++) {
 		
 		<%break;
 	case QuestionManager.MULTIPLE_CHOICE:%>
-		<p><%= quest.getQText() %></p>
 		<%
 		answerChoices = am.getAnswers(quest.getID());
+		out.println(answerChoices.size());
+		out.println(quizID);
 		for (int j = 0; j < answerChoices.size(); j++) {%>
-			<input type="radio" name="<%= quest.getID() %>answer0" value=""/> <!-- TODO: get possibilities -->
-			<input type="radio" name="<%out.println("answer" + j); %>" value="" <%= answerChoices.get(j).getAnswerList().get(0) %>/>
-		<%}%>
-		<%break;
+			<p><%answerChoices.get(j).getAnswerList().get(0);
+			out.println("</p>");
+		}
+		break;
 	case QuestionManager.PICTURE_RESPONSE:%>
 		<img src="<%= quest.getQText() %>"/>
 		<input type="text" name="<%= quest.getID() %>answer0"/>
@@ -70,12 +71,7 @@ for (int i = 0; i < questIds.size(); i++) {
 		<%break;
 	case QuestionManager.MULTI_CHOICE_MULTI_ANSWER:%>
 		<p><%= quest.getQText() %></p>
-		<%
-		answerChoices = am.getAnswers(quest.getID());
-		for (int j = 0; j < answerChoices.size(); j++) {%>
-			<input type="radio" name="<%= quest.getID() %>answer0" value=""/> <!-- TODO: get possibilities -->
-			<input type="radio" name="<%out.println("answer" + j); %>" value="" <%= answerChoices.get(j).getAnswerList().get(0) %>/>
-		<%}%>
+	
 		<%break;
 	case QuestionManager.MATCHING:%>
 		

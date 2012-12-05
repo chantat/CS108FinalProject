@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import answer.Answer;
+import answer.AnswerManager;
 import answer.MultipleChoiceAnswer;
 import answer.QuestionResponseAnswer;
 
@@ -46,6 +47,7 @@ public class AddMCAnswersServlet extends HttpServlet {
 		ServletContext context = request.getServletContext();
 		HttpSession session = request.getSession();
 		
+		AnswerManager am = (AnswerManager) context.getAttribute("answerManager");
 		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 		ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
 		int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
@@ -61,6 +63,7 @@ public class AddMCAnswersServlet extends HttpServlet {
 		System.out.println("score:"+score);
 		int numAnswers=(Integer)session.getAttribute("numAnswers");
 		Answer answer = new MultipleChoiceAnswer(-1, answerTexts, numAnswers, score);
+		//am.createAnswer(answer, questionIndex);
 		
 		ArrayList<Answer> currAnswer;
 		if(questionIndex == -1){

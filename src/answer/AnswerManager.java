@@ -90,7 +90,7 @@ public class AnswerManager {
 			ArrayList<String> val = answerLists.get(key);
 			int answerOrder = answerOrders.get(key);
 			double score = scores.get(key);
-			
+			System.out.println(key + " " + val + " " + answerOrder + " " + score); //TODO remove
 			answers.add(new Answer(qID, val, qType, answerOrder, score));
 		}
 		return answers;
