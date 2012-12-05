@@ -219,7 +219,57 @@ public class QuizManager {
 		return quizzes;
 	}
 	
+	public Quiz[] getAllQuizByCategory(String category) {
+		String query = "SELECT * FROM Quiz WHERE category = " + category + ";";
+		int resultSetSize=0;
+		ResultSet rs = null;
+		Quiz[] quizzes = null;
+		try{
+			rs = stmnt.executeQuery(query);
+			resultSetSize = DBConnection.getResultSetSize(rs);
+			quizzes = new Quiz[resultSetSize];
+			
+			ArrayList<Integer> QuizIds = new ArrayList<Integer>();
+			rs.beforeFirst();
+			for(int i = 0 ; i < resultSetSize; i++) {
+				rs.next();
+				QuizIds.add(rs.getInt("quizID"));
+			}
+			
+			for(int i = 0 ; i < resultSetSize; i++){
+				quizzes[i] = getQuiz(QuizIds.get(i));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return quizzes;
+	}
 	
+	public Quiz[] getAllQuizByTag(String tag) {
+		String query = "SELECT * FROM Tag WHERE tag = " + tag + ";";
+		int resultSetSize=0;
+		ResultSet rs = null;
+		Quiz[] quizzes = null;
+		try{
+			rs = stmnt.executeQuery(query);
+			resultSetSize = DBConnection.getResultSetSize(rs);
+			quizzes = new Quiz[resultSetSize];
+			
+			ArrayList<Integer> QuizIds = new ArrayList<Integer>();
+			rs.beforeFirst();
+			for(int i = 0 ; i < resultSetSize; i++) {
+				rs.next();
+				QuizIds.add(rs.getInt("quizID"));
+			}
+			
+			for(int i = 0 ; i < resultSetSize; i++){
+				quizzes[i] = getQuiz(QuizIds.get(i));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return quizzes;
+	}
 	
 	public Quiz[] getAllQuizzesSortTime() {
 		String query = "SELECT * FROM Quiz ORDER BY timeCreated DESC;";
