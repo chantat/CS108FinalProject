@@ -143,9 +143,10 @@ for(int i=0; i<Math.min(10,quizzes.length);i++){
 
 <h2>Recently Taken Quizzes</h2>
 <table border="1">
-<%
+<% 
 AttemptManager attemptMGR = (AttemptManager)application.getAttribute("attemptManager");
 Attempt[] attempts = attemptMGR.getAllAttempts(user);
+
 for(int i=0; i<Math.min(10,attempts.length);i++){
 	out.println("<tr>");;
 	int quizID = attempts[i].getQuizId();
@@ -194,13 +195,13 @@ for(int i=0; i<recentAttempts.size();i++){
 
 ArrayList<Attempt> recentAchievements = friendMgr.getFriendRecentAchievements(user);
 
-for(int i=0; i<recentAttempts.size();i++){
+for(int i=0; i<recentAchievements.size();i++){
 	out.println("<tr>");
-	String friendID = recentAttempts.get(i).getUserId();
-	int quizID = recentAttempts.get(i).getQuizId();
+	String friendID = recentAchievements.get(i).getUserId();
+	int quizID = recentAchievements.get(i).getQuizId();
 	String quizName =quizMGR.getQuizName(quizID);
-	double score = recentAttempts.get(i).getScore();
-	String time = recentAttempts.get(i).getTimeTaken().toString();
+	double score = recentAchievements.get(i).getScore();
+	String time = recentAchievements.get(i).getTimeTaken().toString();
 	out.println("<td> "+friendID+"</td>");
 	out.println("<td> "+quizID+"</td>");
 	out.println("<td> "+score+"</td>");
