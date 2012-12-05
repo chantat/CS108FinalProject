@@ -11,7 +11,6 @@ public class MultipleAnswerAnswer extends Answer{
 	}
 	
 	public static double scoreUserInput(ArrayList<Answer> correctAnswers, ArrayList<String> userInput) {
-		System.out.println("MAScoreuserinput");
 		double totalScore = 0;
 		for (int i = 0; i < correctAnswers.size(); i++) {
 			Answer answer = correctAnswers.get(i);
