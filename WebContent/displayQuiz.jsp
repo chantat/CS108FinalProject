@@ -78,8 +78,31 @@ for (int i = 0; i < questIds.size(); i++) {
 		<%}%>
 		<%break;
 	case QuestionManager.MATCHING:%>
+		<p><%= quest.getQText() %></p>
+		<%
+		answerChoices = am.getAnswers(quest.getID());
 		
-	<%}
+		ArrayList<String> leftChoices = new ArrayList<String>();
+		ArrayList<String> rightChoices = new ArrayList<String>();
+		for (int j = 0; j < answerChoices.size(); j++) {
+			String answerText = answerChoices.get(j).getAnswerList().get(0);
+			String[] tokens = answerText.split("#");
+			leftChoices.add(tokens[0]);
+			rightChoices.add(tokens[1]);
+		}
+		Collections.shuffle(rightChoices);
+		
+		for (int j = 0; j < leftChoices.size(); j++) {
+			out.print(leftChoices.get(j));
+			String dropDownString = "<select name=\"" + quest.getID() + "answer" + j + "\">";
+			for (int k = 0; k < rightChoices.size(); k++) {
+				dropDownString += "<option value=\"" + rightChoices.get(k) + "\">" + rightChoices.get(k) + "</option>";
+			}
+			dropDownString += "</select><br>";
+			out.print(dropDownString);
+		}%>
+		<%break;
+	}
 }
 %>
 <input type="hidden" name="currentQuiz" value="<% out.print(quizID); %>"/>
