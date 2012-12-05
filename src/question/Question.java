@@ -10,7 +10,7 @@ public class Question {
 	public Question(int qID, String questionText) {
 		this.qID = qID;
 		this.isOrdered = false;
-		this.qText=questionText;
+		this.qText = questionText;
 	}
 	
 	public void setID(int qID) {

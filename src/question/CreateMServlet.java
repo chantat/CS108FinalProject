@@ -2,7 +2,10 @@ package question;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -14,18 +17,17 @@ import javax.servlet.http.HttpSession;
 
 import answer.*;
 
-
 /**
- * Servlet implementation class CreateQRServlet
+ * Servlet implementation class CreateMServlet
  */
-@WebServlet("/CreateQRServlet")
-public class CreateQRServlet extends HttpServlet {
+@WebServlet("/CreateMServlet")
+public class CreateMServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateQRServlet() {
+    public CreateMServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,22 +49,40 @@ public class CreateQRServlet extends HttpServlet {
 		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 		ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
 		
-		// Create Question item
-		String questionText = (String)request.getParameter("questionText");
-		Question currentPendingQuestion = new QuestionResponse(-1, questionText);
-		
 		// Create ArrayList<Answer> item
-		ArrayList<Answer> currentPendingAnswer = new ArrayList<Answer>();
-		ArrayList<String> answerTexts = new ArrayList<String>();
+		HashMap<Integer, String> answerMap = new HashMap<Integer, String>();
 		Map<String, String[]> parameters = request.getParameterMap();
 		for(String parameter : parameters.keySet()) {
-		    if(parameter.toLowerCase().contains("_answer")) {
-		        String answerText = (String)request.getParameter(parameter);
-		        answerTexts.add(answerText);
+		    if(parameter.toLowerCase().contains("_left")) {
+		        String answerTextLeft = (String)request.getParameter(parameter);
+		        String[] tokens = parameter.split("_");
+		        String answerTextRight = (String)request.getParameter(tokens[0] + "_right");
+		        String answerText = answerTextLeft + "#" + answerTextRight;
+		        
+		        int answerIndex = Integer.parseInt(tokens[0]);
+		        
+		        if (!answerMap.containsKey(answerIndex)) {
+		        	answerMap.put(answerIndex, answerText);
+		        }
 		    }
 		}
-		Answer answer = new QuestionResponseAnswer(-1, answerTexts);
-		currentPendingAnswer.add(answer);
+		
+		ArrayList<Answer> currentPendingAnswer = new ArrayList<Answer>();
+		Set<Integer> keys = answerMap.keySet();
+		Integer keysArray[] = (Integer[])keys.toArray();
+		Arrays.sort(keysArray);
+		
+		int answerCounter = 0;
+		for (int i = 0; i < keysArray.length; i++) {
+			String answerText = answerMap.get(keysArray[i]);
+			currentPendingAnswer.add(new MatchingAnswer(-1, answerText, answerCounter++));
+		}
+		
+		
+		// Create Question item
+		String questionText = (String)request.getParameter("questionText");
+		Question currentPendingQuestion = new MatchingQuestion(-1, questionText, currentPendingAnswer.size());
+		
 		
 		// Add the items into pendingQuestions and pendingAnswers
 		int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
