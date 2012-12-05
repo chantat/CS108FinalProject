@@ -6,10 +6,45 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Create Multiple Answer Question</title>
-
+<%@include file="resources.jsp" %>
 <script type="text/javascript">
-	var counter = 0;
-	function addNew() {
+	
+	var row = 0;
+	var id = 1;
+	$(document).ready(function() {
+		$("#addAnswer").click(function () {
+			var newAnswerField = $(document.createElement('div')).attr("id", row+"_answers");
+			newAnswerField.append('<label for="label_' + row + '" id="label_' + row + '">Answer #' + (row+1) + ' : </label><br>' +
+					'<input type="text" id="label_' + row + '" name="'+row+'_answer_0"'+'><br>');
+			newAnswerField.val(1);
+			newAnswerField.appendTo('#AnswerForm');
+			
+			var newAnswerButton = $(document.createElement('input'));
+			newAnswerButton.attr("type", "button");
+			newAnswerButton.attr("name", row);
+			newAnswerButton.attr("value", "Add Equivalent Answer");
+			newAnswerButton.appendTo(newAnswerField);
+			
+			newAnswerField.after('<p></p>');
+			
+			newAnswerButton.click(function () {
+				var numQs = parseInt(newAnswerField.val());
+				var curLabel = $("#label_" + $(this).attr("name"));
+				curLabel.append('<br><input type="text" value="New Answer" id="' + id + '" name="' + $(this).attr("name") + '_answer_' + numQs + '"><br>');
+				newAnswerField.val((numQs+1)+"");
+				id++;
+			});
+			
+			row++;
+		});
+		
+		$("#removeAnswer").click(function() {
+			$("#" + (row-1) + "_answers").remove();
+			if (row > 0) row--;
+		});
+	});
+	
+	/*function addNew() {
 		var mainContainer = document.getElementById('AnswerForm');
 		
 		// Create a new div for holding text and button input elements
@@ -35,12 +70,18 @@
 		newDelButton.onclick = function() {
 			mainContainer.removeChild(newDiv);
 		}
-	}
+	}*/
 </script>
 
 </head>
-<body >
-	<form id="AnswerForm"></form>
-	<input type="button" value="Add" onClick="addNew()">
+<body>
+	<form id="AnswerForm" action="CreateMAServlet" method="post">
+	Enter your question: <input type="text" name="questionText"> <br>
+	<input type="checkbox" name="isOrdered" value="isOrdered">Order Matters<br>
+	Enter required number of answers: <input type="text" name="numAnswers"> <br>
+	<input type="submit" value="Submit">
+	</form>
+	<input type="button" value="Add Unique Answer" id="addAnswer">
+	<input type="button" value="Remove Answer" id="removeAnswer">
 </body>
 </html>

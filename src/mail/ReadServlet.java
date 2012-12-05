@@ -37,9 +37,20 @@ public class ReadServlet extends HttpServlet {
 		String fromID = request.getParameter("fromID");
 		String timeStr = request.getParameter("timeStamp");
 		Message msg = ms.findMessage(fromID, timeStr);
-		//System.out.println(msg);
-		ms.markAsRead(msg);
-		request.setAttribute("message", msg);
+		System.out.println("MESSAGE TYPE IS: " + msg.getType());
+		if (msg.getType().equals("Challenge")) {
+			System.out.println("MESSAGE IS A CHALLENGE");
+//			int quizID = ms.findChallengeQuizID(fromID, timeStr);
+//			double score = ms.findChallengeQuizID(fromID, timeStr);
+//			ChallengeMessage chlg = new ChallengeMessage()
+			ChallengeMessage chlg = ms.findChallenge(fromID, timeStr);
+			ms.markAsRead(chlg);
+			request.setAttribute("message", chlg);
+		} else {
+			System.out.println("MESSAGE IS A MESSAGE");
+			ms.markAsRead(msg);
+			request.setAttribute("message", msg);
+		}
 		request.getRequestDispatcher("readMessage.jsp").forward(request, response);
 	}
 

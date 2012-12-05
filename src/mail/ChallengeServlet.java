@@ -1,6 +1,5 @@
-package userPackage;
+package mail;
 
-import mail.*;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -12,19 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import mail.Message;
+import userPackage.FriendManager;
 
 /**
- * Servlet implementation class AddRequestServlet
+ * Servlet implementation class ChallengeServlet
  */
-@WebServlet("/AddRequestServlet")
-public class AddRequestServlet extends HttpServlet {
+@WebServlet("/ChallengeServlet")
+public class ChallengeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddRequestServlet() {
+    public ChallengeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,21 +41,21 @@ public class AddRequestServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext context = request.getServletContext();
 		MailSystem mail = (MailSystem) context.getAttribute("mailSystem");
-		FriendManager frnmgr = (FriendManager) context.getAttribute("friendManager");
 		HttpSession hs = request.getSession();
 		String name =(String)hs.getAttribute("username");
 		String victim = request.getParameter("victim");
-		frnmgr.requestFriend(name, victim);
 		
 		//notify the recipient with a mail system message
-		//String messageTxt = name + " wants to be your friend! Please click below to accept " + name + "'s request.";
-		//String messageTxt = "You have a pending request from "+name+".  Please check your Friends List to accept or reject this request.";
-		//Message requestMsg = new Message(victim, name, "Friend Request", messageTxt, "Request");
-		RequestMessage requestMsg = new RequestMessage(victim, name);
-		mail.send(requestMsg);
+//		String quizIDStr = request.getParameter("quizId"); // Quiz ID is recorded as message text in database
+//		Message requestMsg = new Message(victim, name, "Challenge!", quizIDStr, "Challenge");
+		int quizID = Integer.parseInt(request.getParameter("quizId"));
+		//String message = request.getParameter("message");
+		double score = Double.parseDouble(request.getParameter("score"));
+		String message = name + " has challenged you to a quiz! Can you beat a score of " + score + "?";
+		ChallengeMessage challengeMsg = new ChallengeMessage(victim, name, message, quizID, score);
+		mail.send(challengeMsg);
 		
-		RequestDispatcher dispatch = request.getRequestDispatcher("userInfoPage.jsp"); 
-		dispatch.forward(request, response);
+		request.getRequestDispatcher("quizHomepage.jsp").forward(request, response);
 	}
 
 }

@@ -22,7 +22,7 @@ public class AttemptManager {
 		query += "\"" + userId + "\",";
 		query += "\"" + quizId + "\",";
 		query += "\"" + score + "\",";
-		query += "\"" + time + ");";
+		query += time + ");";
 		System.out.println(query); // for verification purposes
 		try {
 			stmnt.executeUpdate(query);
@@ -31,7 +31,7 @@ public class AttemptManager {
 		}
 	}
 	
-	
+	// Is already sorted newest first!
 	public Attempt[] getAllAttempts(String userID) {
 		String command = "SELECT * FROM Attempts WHERE userID = \""+ userID + "\" ORDER BY timeTaken DESC;";
 		

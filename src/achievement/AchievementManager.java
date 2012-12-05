@@ -3,6 +3,10 @@ package achievement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
+import quiz.Attempt;
 
 import userPackage.*;
 import webpackage.DBConnection;
@@ -42,7 +46,7 @@ public class AchievementManager {
 		}
 	}
 	
-	public boolean checkAchievement(String username, int achievementId) {
+	public boolean checkAchievement(String username, int achievementId) {  //see if user has gotten this achievement yet
 		String command = "SELECT * FROM Achievements ";
 		command += "WHERE userId = \"" + username + "\" ";
 		command += "AND achievementId = " + achievementId + ";";
@@ -76,9 +80,10 @@ public class AchievementManager {
 		}
 		
 		if (newlyAchieved) {
+			
 			command = "INSERT INTO Achievements(userID, achievementID) VALUES (";
 			command += "\"" + username + "\",";
-			command += achievementId + ");";
+			command += "\"" + achievementId + "\");";
 			
 			try {
 				stmnt.executeUpdate(command);
@@ -98,4 +103,52 @@ public class AchievementManager {
 		
 		return ret;
 	}
+	
+	
+	public ArrayList<Achievement> getAllTimedAchievement(String username) {
+		ResultSet testRS;
+		ArrayList<Achievement> achieve = new ArrayList<Achievement>();
+		String quote = "\"";
+		String command = "SELECT * FROM Achievements WHERE userID = "+quote+username+quote+";";
+		try {
+			testRS = stmnt.executeQuery(command);
+			while(testRS.next()){
+				String user = testRS.getString("userID");
+				int achieveID = testRS.getInt("achievementID");
+				Timestamp time = testRS.getTimestamp("timeAchieved");
+				String description = achievementDescription[achieveID];
+				Achievement item = new Achievement(user,description,true,time);
+				achieve.add(item);  //add the friend's name to the list		
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		return achieve;  //returns an empty list if no friends are found :(
+
+	}
+	public void swapAchievements(ArrayList<Achievement> achieveList, int prim, int sec){
+		Achievement tempPrim = achieveList.get(prim);
+		Achievement tempSec = achieveList.get(sec);
+		achieveList.remove(prim);
+		achieveList.add(prim,tempSec);
+		achieveList.remove(sec);
+		achieveList.add(sec,tempPrim);
+		
+	}
+	
+	public ArrayList<Achievement> sortAchievementByTime(ArrayList<Achievement> achieveList){
+		for(int primary=0;primary < achieveList.size()-1;primary++){
+			for(int secondary=primary+1;secondary<achieveList.size();secondary++){
+				if(achieveList.get(primary).getWhenAchieved().before(achieveList.get(secondary).getWhenAchieved()) ){
+					swapAchievements(achieveList,primary,secondary);
+				}
+				
+			}
+			
+		}
+		return achieveList;
+	}
+
 }

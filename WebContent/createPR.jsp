@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*, answer.*, question.*" %>
+<%@ page import="java.util.*, question.*, answer.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Create Fill in the Blank Question</title>
+<title>Create Picture-Response Question</title>
 <%@include file="resources.jsp" %>
 <script type="text/javascript">
 	
@@ -39,9 +39,10 @@
 	
 %>
 
-<h1>Fill in the Blank Question</h1>
-<form id="AnswerForm" action="CreateFIBServlet" method="post">
-Enter your statement, with ### where the blank goes: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
+<h1>Picture-Response Question</h1>
+<form id="AnswerForm" action="CreatePRServlet" method="post">
+Enter the URL of your picture: <input type="text" name="picURL"/> <br>
+Enter your question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
 <input type="submit" value="Submit">
 Enter your answer: <br>
 <div id="0_answers"><input type="text" value="New Answer" id="label_0" name="0_answer_0"></div>

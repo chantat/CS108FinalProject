@@ -1,31 +1,25 @@
 package question;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.*;
+import javax.servlet.annotation.*;
+import javax.servlet.http.*;
 
 import answer.*;
 
-
 /**
- * Servlet implementation class CreateQRServlet
+ * Servlet implementation class CreatePRServlet
  */
-@WebServlet("/CreateQRServlet")
-public class CreateQRServlet extends HttpServlet {
+@WebServlet("/CreatePRServlet")
+public class CreatePRServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateQRServlet() {
+    public CreatePRServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,15 +35,10 @@ public class CreateQRServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletContext context = request.getServletContext();
 		HttpSession session = request.getSession();
 		
 		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 		ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
-		
-		// Create Question item
-		String questionText = (String)request.getParameter("questionText");
-		Question currentPendingQuestion = new QuestionResponse(-1, questionText);
 		
 		// Create ArrayList<Answer> item
 		ArrayList<Answer> currentPendingAnswer = new ArrayList<Answer>();
@@ -61,8 +50,13 @@ public class CreateQRServlet extends HttpServlet {
 		        answerTexts.add(answerText);
 		    }
 		}
-		Answer answer = new QuestionResponseAnswer(-1, answerTexts);
+		Answer answer = new PictureResponseAnswer(-1, answerTexts);
 		currentPendingAnswer.add(answer);
+		
+		// Create Question item
+		String picURL = (String)request.getParameter("picURL");
+		String questionText = (String)request.getParameter("questionText");
+		Question currentPendingQuestion = new PictureResponseQuestion(-1, questionText, picURL);
 		
 		// Add the items into pendingQuestions and pendingAnswers
 		int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
