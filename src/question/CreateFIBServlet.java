@@ -45,6 +45,7 @@ public class CreateFIBServlet extends HttpServlet {
 		
 		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 		ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
+		
 		int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
 		
 		String questionText = (String)request.getParameter("questionText");
