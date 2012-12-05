@@ -100,7 +100,7 @@ public class QuestionManager {
 				rs = stmnt.executeQuery(query);
 				rs.first();
 				qPicUrl = rs.getString("qPicUrl");
-				System.out.println(qText);
+				System.out.println(qPicUrl);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -148,7 +148,7 @@ public class QuestionManager {
 		String qText = question.getQText();
 		int numAnswers=question.getNumAnswers();
 		boolean isOrdered = false;
-		if (qType == 5) {
+		if (qType == MULTI_ANSWER) {
 			MultiAnswerQuestion sameQuestion=(MultiAnswerQuestion) question;
 			isOrdered=sameQuestion.isOrdered();
 		}
@@ -160,6 +160,18 @@ public class QuestionManager {
 			stmt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+		
+		if (qType == PICTURE_RESPONSE) {
+			String qPicUrl = ((PictureResponseQuestion) question).getURL();
+			query="INSERT INTO PR (qID, qPicUrl) VALUES (" + qID + ", \"" + qPicUrl + "\");";
+			System.out.println(query); // for verification purposes
+			try {
+				Statement stmt = con.getStatement();
+				stmt.executeUpdate(query);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

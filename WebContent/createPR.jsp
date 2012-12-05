@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Create Question-Response Question</title>
+<title>Create Picture-Response Question</title>
 </head>
 <body>
 <% 
@@ -17,15 +17,16 @@
 	String oldAnswer = "";	
 	
 	if (questionIndex != -1) {
-		ArrayList<Answer> oldAnswers = pendingAnswers.get(questionIndex);
+		ArrayList<Answer> oldAnswers=pendingAnswers.get(questionIndex);
 		oldQuestion = pendingQuestions.get(questionIndex).getQText();
 		oldAnswer = oldAnswers.get(0).getAnswerList().get(0);
 	}
 	
 %>
 
-<h1>Question-Response Question</h1>
-<form action="CreateQRServlet" method="post">
+<h1>Picture-Response Question</h1>
+<form action="CreatePRServlet" method="post">
+Enter the URL of your picture: <input type="text" name="picURL"/> <br>
 Enter your question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
 Enter your answer: <input type="text" value="<% out.print(oldAnswer); %>"name="answer"> <br>
 <input type="submit" value="Submit">
