@@ -25,7 +25,7 @@
 
 <h1>Fill in the Blank Question</h1>
 <form action="CreateFIBServlet" method="post">
-Enter your question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
+Enter your statement, with ### where the blank goes: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
 Enter your answer: <input type="text" value="<% out.print(oldAnswer); %>"name="answer"> <br>
 <input type="submit" value="Submit">
 </form>
