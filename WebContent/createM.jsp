@@ -5,25 +5,27 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Create Picture-Response Question</title>
+<title>Create Matching Question</title>
 <%@include file="resources.jsp" %>
 <script type="text/javascript">
 	
 	var row = 1;
 	$(document).ready(function() {
-		$("#addEquivalentAnswer").click(function () {
+		$("#addItem").click(function () {
 			var newAnswerField = $(document.createElement('div')).attr("id", row+"_answers");
-			newAnswerField.append('<input type="text" id="label_' + row + '" name="' + row + '_answer_0"><br>');
+			newAnswerField.append('<input type="text" name="' + row + '_left">');
+			newAnswerField.append('<input type="text" name="' + row + '_right">');
 			newAnswerField.appendTo('#AnswerForm');		
 			row++;
 		});
 		
-		$("#removeAnswer").click(function() {
+		$("#removeItem").click(function() {
 			$("#" + (row-1) + "_answers").remove();
 			if (row > 0) row--;
 		});
 	});
 </script>
+
 </head>
 <body>
 <% 
@@ -39,15 +41,14 @@
 	
 %>
 
-<h1>Picture-Response Question</h1>
-<form id="AnswerForm" action="CreatePRServlet" method="post">
-Enter the URL of your picture: <input type="text" name="picURL"/> <br>
-Enter your question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
+<h1>Matching Question</h1>
+<form id="AnswerForm" action="CreateMServlet" method="post">
+Enter question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
 <input type="submit" value="Submit">
-Enter your answer: <br>
-<div id="0_answers"><input type="text" value="New Answer" id="label_0" name="0_answer_0"></div>
+Enter the items: <br>
+<div id="0_answers"><input type="text" name="0_left"><input type="text" name="0_right"></div>
 </form>
-<input type="button" value="Add Equivalent Answer" id="addEquivalentAnswer">
-<input type="button" value="Remove Answer" id="removeAnswer">
+<input type="button" value="Add Item" id="addItem">
+<input type="button" value="Remove Item" id="removeItem">
 </body>
 </html>

@@ -40,27 +40,32 @@ public class CreatePRServlet extends HttpServlet {
 		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 		ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
 		
-		int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
+		// Create ArrayList<Answer> item
+		ArrayList<Answer> currentPendingAnswer = new ArrayList<Answer>();
+		ArrayList<String> answerTexts = new ArrayList<String>();
+		Map<String, String[]> parameters = request.getParameterMap();
+		for(String parameter : parameters.keySet()) {
+		    if(parameter.toLowerCase().contains("_answer")) {
+		        String answerText = (String)request.getParameter(parameter);
+		        answerTexts.add(answerText);
+		    }
+		}
+		Answer answer = new PictureResponseAnswer(-1, answerTexts);
+		currentPendingAnswer.add(answer);
 		
+		// Create Question item
 		String picURL = (String)request.getParameter("picURL");
 		String questionText = (String)request.getParameter("questionText");
-		String answerText = (String)request.getParameter("answer");
+		Question currentPendingQuestion = new PictureResponseQuestion(-1, questionText, picURL);
 		
-		// TODO: allow multiple answers
-		ArrayList<String> answerTexts = new ArrayList<String>();
-		answerTexts.add(answerText);
-		ArrayList<Answer> currentAnswer=new ArrayList<Answer>();
-		
-		Question question = new PictureResponseQuestion(-1, questionText, picURL);
-		Answer answer = new PictureResponseAnswer(-1, answerTexts);
+		// Add the items into pendingQuestions and pendingAnswers
+		int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
 		if (questionIndex == -1) {
-			pendingQuestions.add(question);
-			currentAnswer.add(answer);
-			pendingAnswers.add(currentAnswer);
+			pendingQuestions.add(currentPendingQuestion);
+			pendingAnswers.add(currentPendingAnswer);
 		} else {
-			pendingQuestions.set(questionIndex, question);
-			currentAnswer.add(answer);
-			pendingAnswers.set(questionIndex, currentAnswer);
+			pendingQuestions.set(questionIndex, currentPendingQuestion);
+			pendingAnswers.set(questionIndex, currentPendingAnswer);
 		}
 		
 		request.getRequestDispatcher("createQuiz.jsp").forward(request, response);
