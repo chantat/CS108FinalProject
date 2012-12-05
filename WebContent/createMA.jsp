@@ -73,8 +73,11 @@
 </script>
 
 </head>
-<body >
-	<form id="AnswerForm"></form>
+<body>
+	<form id="AnswerForm" action="CreateMAServlet" method="post">
+	Enter your question: <input type="text" name="questionText"> <br>
+	<input type="submit" value="Submit">
+	</form>
 	<input type="button" value="Add Unique Answer" id="addAnswer">
 	<input type="button" value="Remove Answer" id="removeAnswer">
 </body>
