@@ -89,7 +89,7 @@ public class CreateMCMAServlet extends HttpServlet {
 		
 		// Create Question item
 		String questionText = (String)request.getParameter("questionText");
-		Question currentPendingQuestion = new MultiChoiceMultiAnswerQuestion(-1, questionText, answerCounter);
+		Question currentPendingQuestion = new MultiChoiceMultiAnswerQuestion(-1, questionText);
 		
 		
 		// Add the items into pendingQuestions and pendingAnswers

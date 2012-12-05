@@ -70,14 +70,19 @@ public class ScoreServlet extends HttpServlet {
 				if (!requestMap.containsKey(parameterName)) {
 					break;
 				}
-				String userInput = (String)request.getParameter(parameterName);
-				userInputs.add(userInput);
+				
+				String userInput[] = request.getParameterValues(parameterName);
+				for (int j = 0; j < userInput.length; j++) {
+					userInputs.add(userInput[j]);
+				}
+				
 				index++;
 			}
 			
-			ArrayList<Answer> answers = am.getAnswers(qId);
-			totalScore += Answer.scoreUserInput(answers, userInputs);
 			Question question = questionManager.getQuestion(qId);
+			ArrayList<Answer> answers = am.getAnswers(qId);
+			
+			totalScore += Answer.scoreUserInput(answers, userInputs);
 			totalPossibleScore += question.getNumAnswers();
 		}
 		

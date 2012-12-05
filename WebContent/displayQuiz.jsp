@@ -98,8 +98,8 @@ for (int i = 0; i < questIds.size(); i++) {
 			}
 		}
 		for (int j = 0; j < answers.size(); j++) {
-			String radioButton = "<input type=\"checkbox\" name=\"" + quest.getID() + "answer" + 0 + "\">";
-			radioButton += "<value=\"" + answers.get(j) + "\">" + answers.get(j);
+			String radioButton = "<input type=\"checkbox\" name=\"" + quest.getID() + "answer" + 0 + "\"";
+			radioButton += "value=\"" + answers.get(j) + "\">" + answers.get(j);
 			radioButton += "<br>";
 			out.print(radioButton);
 		}

@@ -110,7 +110,7 @@ public class QuestionManager {
 			question = new MultiAnswerQuestion(qID, qText, numAnswers, isOrdered);
 			break;
 		case MULTI_CHOICE_MULTI_ANSWER:
-			question = new MultiChoiceMultiAnswerQuestion(qID, qText, numAnswers);
+			question = new MultiChoiceMultiAnswerQuestion(qID, qText);
 			break;
 		case MATCHING:
 			question = new MatchingQuestion(qID, qText, numAnswers);

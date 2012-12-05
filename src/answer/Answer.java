@@ -46,7 +46,7 @@ public class Answer {
 			if (correctAnswers.get(0).getAnswerOrder() != -1) {
 				return MultipleAnswerAnswer.scoreUserInput(correctAnswers, userInput);
 			}
-		} else if(correctAnswers.get(0).getQuestionType() == QuestionManager.MULTI_CHOICE_MULTI_ANSWER){
+		} else if(correctAnswers.get(0).getQuestionType() == QuestionManager.MULTI_CHOICE_MULTI_ANSWER) {
 			return MultiChoiceMultiAnswerAnswer.scoreUserInput(correctAnswers, userInput);
 		}
 		

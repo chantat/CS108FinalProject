@@ -7,11 +7,11 @@ import java.util.*;
 public class MultiChoiceMultiAnswerQuestion extends Question {
 
 	
-	public MultiChoiceMultiAnswerQuestion(int qID, String qText, int numAnswers) {
+	public MultiChoiceMultiAnswerQuestion(int qID, String qText) {
 		super(qID, qText);
 		//this.qText=qText;
-		type=6;
-		this.numAnswers=numAnswers;
+		this.type = 6;
+		this.numAnswers = 1;
 	}
 
 }
