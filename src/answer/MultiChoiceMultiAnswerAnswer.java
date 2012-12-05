@@ -11,5 +11,9 @@ public class MultiChoiceMultiAnswerAnswer extends Answer {
 			double score) {
 		super(questionId, answerList, QuestionManager.MULTI_CHOICE_MULTI_ANSWER, answerOrder, score);
 	}
+	
+	public static double scoreUserInput(ArrayList<Answer> correctAnswers, ArrayList<String> userInput) {
+		return 0;
+	}
 
 }
