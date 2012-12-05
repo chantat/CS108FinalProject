@@ -10,16 +10,16 @@
 <script type="text/javascript">
 	
 	var row = 0;
-	
+	var id = 1;
 	$(document).ready(function() {
 		$("#addAnswer").click(function () {
 			var newAnswerField = $(document.createElement('div')).attr("id", row+"_answers");
-			newAnswerField.append('<label id="label_' + row + '">Answer #' + (row+1) + ' : </label><br>' +
-					'<input type="text" name="'+row+'_answer_0"'+'><br>');
+			newAnswerField.append('<label for="label_' + row + '" id="label_' + row + '">Answer #' + (row+1) + ' : </label><br>' +
+					'<input type="text" id="label_' + row + '" name="'+row+'_answer_0"'+'><br>');
 			newAnswerField.val(1);
 			newAnswerField.appendTo('#AnswerForm');
 			
-			var newAnswerButton = $(document.createElement('input')).attr("id", "addEquiv");
+			var newAnswerButton = $(document.createElement('input'));
 			newAnswerButton.attr("type", "button");
 			newAnswerButton.attr("name", row);
 			newAnswerButton.attr("value", "Add Equivalent Answer");
@@ -28,10 +28,11 @@
 			newAnswerField.after('<p></p>');
 			
 			newAnswerButton.click(function () {
-				var numQs = newAnswerField.val();
+				var numQs = parseInt(newAnswerField.val());
 				var curLabel = $("#label_" + $(this).attr("name"));
-				curLabel.append('<br><input type="text" name="' + $(this).attr("name") + '_answer_' + numQs + '"><br>');
-				newAnswerField.val(numQs+1);
+				curLabel.append('<br><input type="text" value="New Answer" id="' + id + '" name="' + $(this).attr("name") + '_answer_' + numQs + '"><br>');
+				newAnswerField.val((numQs+1)+"");
+				id++;
 			});
 			
 			row++;
