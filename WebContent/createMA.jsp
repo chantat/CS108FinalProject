@@ -77,6 +77,8 @@
 <body>
 	<form id="AnswerForm" action="CreateMAServlet" method="post">
 	Enter your question: <input type="text" name="questionText"> <br>
+	<input type="checkbox" name="isOrdered" value="isOrdered">Order Matters<br>
+	Enter required number of answers: <input type="text" name="numAnswers"> <br>
 	<input type="submit" value="Submit">
 	</form>
 	<input type="button" value="Add Unique Answer" id="addAnswer">

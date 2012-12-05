@@ -66,7 +66,7 @@ public class CreateMAServlet extends HttpServlet {
 		
 		ArrayList<Answer> currentPendingAnswer = new ArrayList<Answer>();
 		Set<Integer> keys = answerMap.keySet();
-		Integer keysArray[] = (Integer[])keys.toArray();
+		Integer keysArray[] = keys.toArray(new Integer[keys.size()]);
 		Arrays.sort(keysArray);
 		
 		boolean isOrdered = parameters.containsKey("isOrdered");
