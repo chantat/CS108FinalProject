@@ -165,6 +165,51 @@ for(int i=0; i<Math.min(10,attempts.length);i++){
 
 <h2>Friends' Recent Activity</h2>
 
+<h3>Recent Friend Quiz Attempts</h3>
+
+<table border="1">
+<% 
+
+ArrayList<Attempt> recentAttempts = friendMgr.getFriendRecentAttempts(user);
+
+for(int i=0; i<recentAttempts.size();i++){
+	out.println("<tr>");
+	String friendID = recentAttempts.get(i).getUserId();
+	int quizID = recentAttempts.get(i).getQuizId();
+	String quizName =quizMGR.getQuizName(quizID);
+	double score = recentAttempts.get(i).getScore();
+	String time = recentAttempts.get(i).getTimeTaken().toString();
+	out.println("<td> "+friendID+"</td>");
+	out.println("<td> "+quizID+"</td>");
+	out.println("<td> "+score+"</td>");
+	out.println("<td> "+time+"</td>");
+	out.println("</tr>");
+}
+%>
+
+</table>
+
+<h3>Recent Friend Achievements</h3>
+<table border="1">
+<% 
+
+ArrayList<Achievement> recentAchievements = friendMgr.getFriendRecentAchievements(user);
+
+for(int i=0; i<recentAchievements.size();i++){
+	out.println("<tr>");
+	String friendID = recentAchievements.get(i).getName();
+	String desc = recentAchievements.get(i).getDescription();
+	String time = recentAchievements.get(i).getWhenAchieved().toString();
+	out.println("<td> "+friendID+"</td>");
+	out.println("<td> "+desc+"</td>");
+	out.println("<td> "+time+"</td>");
+	out.println("</tr>");
+}
+%>
+
+</table>
+
+
 <h2>Achievements</h2>
 
 <table border="1">
