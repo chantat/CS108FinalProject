@@ -36,6 +36,7 @@ for (int i = 0; i < questIds.size(); i++) {
 	case QuestionManager.QUESTION_RESPONSE:%>
 		<p><%= quest.getQText() %></p>
 		<input type="text" name="<%= quest.getID() %>answer0"/>
+		<br>
 		<%break;
 	case QuestionManager.FILL_IN_THE_BLANK:%>
 		<%
@@ -47,7 +48,7 @@ for (int i = 0; i < questIds.size(); i++) {
 		<p><%= firstHalf %>
 		<input type="text" name="<%= quest.getID() %>answer0"/>
 		<%= secondHalf %></p>
-		
+		<br>
 		<%break;
 	case QuestionManager.MULTIPLE_CHOICE:%>
 		<p><%= quest.getQText() %></p>
@@ -59,15 +60,17 @@ for (int i = 0; i < questIds.size(); i++) {
 		<%}%>
 		<%break;
 	case QuestionManager.PICTURE_RESPONSE:%>
-		<img src="<%= ((PictureResponseQuestion)quest).getURL() %>" width="100"/> <br>
 		<p><%= quest.getQText() %></p>
+		<img src="<%= ((PictureResponseQuestion)quest).getURL() %>" width="100"/> <br>
 		<input type="text" name="<%= quest.getID() %>answer0"/>
+		<br>
 		<%break;
 	case QuestionManager.MULTI_ANSWER:%>
 		<p><%= quest.getQText() %></p>
 		<%for (int j = 0; j < quest.getNumAnswers(); j++) { %>
 			<input type="text" name="<%= quest.getID() %>answer<%= + j %>"/>
 		<%} %>
+		<br>
 		<%break;
 	case QuestionManager.MULTI_CHOICE_MULTI_ANSWER:%>
 		<p><%= quest.getQText() %></p>
@@ -102,6 +105,7 @@ for (int i = 0; i < questIds.size(); i++) {
 			dropDownString += "</select><br>";
 			out.print(dropDownString);
 		}%>
+		<br>
 		<%break;
 	}
 }
