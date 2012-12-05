@@ -54,8 +54,10 @@ public class CreateQuizServlet extends HttpServlet {
 		
 		ArrayList<Integer> questionIds = new ArrayList<Integer>();
 		for (int i = 0; i < pendingQuestions.size(); i++) {
-			int questionId = questionManager.createQuestion(pendingQuestions.get(i)); 
-			answerManager.createAnswer(pendingAnswers.get(i).get(0), questionId);
+			int questionId = questionManager.createQuestion(pendingQuestions.get(i));
+			for(int j = 0; j < pendingAnswers.get(i).size(); j++){
+				answerManager.createAnswer(pendingAnswers.get(i).get(j), questionId);
+			}
 			questionIds.add(questionId);
 		}
 		pendingQuestions.clear();

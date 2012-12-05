@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="quiz.*, question.*, java.util.*" %>
+<%@ page import="quiz.*, question.*, java.util.*, answer.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <%
@@ -8,9 +8,11 @@ int quizID = Integer.parseInt((String)request.getAttribute("currentQuiz"));
 int currQuest = (Integer) request.getAttribute("currentQuestion");
 QuizManager quizM = (QuizManager) application.getAttribute("quizManager");
 QuestionManager questM = (QuestionManager) application.getAttribute("questionManager");
+AnswerManager am = (AnswerManager) application.getAttribute("answerManager");
 Quiz quiz = quizM.getQuiz(quizID);
 String quizName = quiz.getName();
 ArrayList<Integer> questIds;
+ArrayList<Answer> answerChoices;
 if (quiz.getIsRandomized()) {
 	questIds = quiz.getRandomizedQuestionIds();
 } else {
@@ -50,8 +52,10 @@ for (int i = 0; i < questIds.size(); i++) {
 	case QuestionManager.MULTIPLE_CHOICE:%>
 		<p><%= quest.getQText() %></p>
 		<%
-		for (int j = 0; j < quest.getNumAnswers(); j++) {%>
+		answerChoices = am.getAnswers(quest.getID());
+		for (int j = 0; j < answerChoices.size(); j++) {%>
 			<input type="radio" name="<%= quest.getID() %>answer0" value=""/> <!-- TODO: get possibilities -->
+			<input type="radio" name="<%out.println("answer" + j); %>" value="" <%= answerChoices.get(j).getAnswerList().get(0) %>/>
 		<%}%>
 		<%break;
 	case QuestionManager.PICTURE_RESPONSE:%>
@@ -66,9 +70,12 @@ for (int i = 0; i < questIds.size(); i++) {
 		<%break;
 	case QuestionManager.MULTI_CHOICE_MULTI_ANSWER:%>
 		<p><%= quest.getQText() %></p>
-		<%for (int j= 0; j < quest.getNumAnswers(); j++) { %>
-			<input type="checkbox"/>
-		<%} %>
+		<%
+		answerChoices = am.getAnswers(quest.getID());
+		for (int j = 0; j < answerChoices.size(); j++) {%>
+			<input type="radio" name="<%= quest.getID() %>answer0" value=""/> <!-- TODO: get possibilities -->
+			<input type="radio" name="<%out.println("answer" + j); %>" value="" <%= answerChoices.get(j).getAnswerList().get(0) %>/>
+		<%}%>
 		<%break;
 	case QuestionManager.MATCHING:%>
 		

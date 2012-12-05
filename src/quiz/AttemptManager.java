@@ -46,8 +46,9 @@ public class AttemptManager {
 				String user = rs.getString("userID");
 				int quizID = rs.getInt("quizID");
 				double score = rs.getDouble("score");
-				Timestamp time = rs.getTimestamp("timeTaken");
-				ret[i] = new Attempt(user, quizID, score, time);
+				int timeSpent = rs.getInt("timeSpent");
+				Timestamp timeTaken = rs.getTimestamp("timeTaken");
+				ret[i] = new Attempt(user, quizID, score, timeSpent, timeTaken);
 				rs.next();
 			}
 		} catch (SQLException e) {

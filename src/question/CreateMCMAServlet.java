@@ -11,20 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import answer.Answer;
-import answer.FillInTheBlankAnswer;
-
 /**
- * Servlet implementation class CreateMCServlet
+ * Servlet implementation class CreateMCMAServlet
  */
-@WebServlet("/CreateMCServlet")
-public class CreateMCServlet extends HttpServlet {
+@WebServlet("/CreateMCMAServlet")
+public class CreateMCMAServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateMCServlet() {
+    public CreateMCMAServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -48,14 +45,14 @@ public class CreateMCServlet extends HttpServlet {
 		
 		String questionText = (String)request.getParameter("questionText");
 		
-		Question question = new MultipleChoiceQuestion(-1, questionText);
+		Question question = new MultiChoiceMultiAnswerQuestion(-1, questionText, Integer.parseInt(request.getParameter("numCorrectAnswers")));
 		if (questionIndex == -1) {
 			pendingQuestions.add(question);
 		} else {
 			pendingQuestions.set(questionIndex, question);
 		}
 		session.setAttribute("numAnswers", 0);
-		request.getRequestDispatcher("MCanswer.jsp").forward(request, response);
+		request.getRequestDispatcher("MCMAanswer.jsp").forward(request, response);
 	}
 
 }
