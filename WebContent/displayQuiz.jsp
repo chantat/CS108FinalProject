@@ -59,7 +59,8 @@ for (int i = 0; i < questIds.size(); i++) {
 		<%}%>
 		<%break;
 	case QuestionManager.PICTURE_RESPONSE:%>
-		<img src="<%= quest.getQText() %>"/>
+		<img src="<%= ((PictureResponseQuestion)quest).getURL() %>" width="100"/> <br>
+		<p><%= quest.getQText() %></p>
 		<input type="text" name="<%= quest.getID() %>answer0"/>
 		<%break;
 	case QuestionManager.MULTI_ANSWER:%>

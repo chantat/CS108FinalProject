@@ -78,6 +78,7 @@ public class ScoreServlet extends HttpServlet {
 		
 		AttemptManager attemptMngr = (AttemptManager)context.getAttribute("attemptManager");
 		String username = (String)session.getAttribute("username");
+		Timestamp timeSpent = null;
 		attemptMngr.createAttempt(username, quizId, totalScore, timeSpent);
 		
 		request.setAttribute("totalScore", totalScore);
