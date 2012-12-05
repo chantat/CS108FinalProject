@@ -224,7 +224,7 @@ public class FriendManager{
 		AccountUtil acctUtil = new AccountUtil(connect);
 		AchievementManager achieveMGR = new AchievementManager(connect, acctUtil);
 		for(int i=0;i<friendList.size();i++){   //for each friend
-			ArrayList<Achievement> friendAchieveList = achieveMGR.getAllAchievement(friendList.get(i));
+			ArrayList<Achievement> friendAchieveList = achieveMGR.getAllTimedAchievement(friendList.get(i));
 			ArrayList<Achievement> sortedTimefriendAchieveList = achieveMGR.sortAchievementByTime(friendAchieveList);
 			recentAchieve.add(friendAchieveList.get(0));
 		}

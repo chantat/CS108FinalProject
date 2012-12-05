@@ -15,6 +15,13 @@ public class Achievement {
 		this.whenAchieved = when;
 	}
 	
+	public Achievement(String name, String description, boolean isAchieved) {
+		this.name = name;
+		this.description = description;
+		this.isAchieved = isAchieved;
+		this.whenAchieved = null;
+	}
+	
 	public String getName() {
 		return this.name;
 	}

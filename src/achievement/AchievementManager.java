@@ -94,7 +94,7 @@ public class AchievementManager {
 	
 		return newlyAchieved;
 	}
-/*	
+	
 	public Achievement[] getAllAchievement(String username) {
 		Achievement[] ret = new Achievement[numAchievement];
 		for (int i = 0; i < numAchievement; i++) {
@@ -104,8 +104,8 @@ public class AchievementManager {
 		return ret;
 	}
 	
-	*/
-	public ArrayList<Achievement> getAllAchievement(String username) {
+	
+	public ArrayList<Achievement> getAllTimedAchievement(String username) {
 		ResultSet testRS;
 		ArrayList<Achievement> achieve = new ArrayList<Achievement>();
 		String quote = "\"";
