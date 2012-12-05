@@ -60,7 +60,7 @@ public class CreateMCMAServlet extends HttpServlet {
 		        String answerText = (String)request.getParameter(parameter);
 		        String[] tokens = parameter.split("_");
 		        int answerIndex = Integer.parseInt(tokens[0]);		        
-		        boolean isOrdered = parameters.containsKey(answerIndex + "_isCorrect_");
+		        boolean isOrdered = parameters.containsKey(answerIndex + "_isCorrect_0");
 		        
 		        ArrayList<String> answerTextList = answerMap.get(answerIndex);
 		        Double scoreList = scoreMap.get(answerIndex);
