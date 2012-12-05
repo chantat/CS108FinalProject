@@ -47,6 +47,7 @@ public class AnswerManager {
 		//get answers
 		try {
 			rs = stmnt.executeQuery("SELECT * FROM Answer WHERE qID = '" + qID + "'");
+			System.out.println("SELECT * FROM Answer WHERE qID = '" + qID + "'");
 			rs.beforeFirst();
 			while (rs.next()) {
 				String answerKey = rs.getString(2);
