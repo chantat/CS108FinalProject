@@ -4,9 +4,15 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedList;
+
+import achievement.Achievement;
+import achievement.AchievementManager;
 
 import webpackage.DBConnection;
+import quiz.*;
 
 public class FriendManager{
 	Statement stmnt;
@@ -21,8 +27,16 @@ public class FriendManager{
 	String comma = ",";
 	ResultSet testRS;
 	ResultSetMetaData testRSMD;
+	DBConnection connect;
+	
+	
+	
+	
 	public FriendManager(DBConnection con) {
 		stmnt = con.getStatement();
+		connect = con;
+		
+		
 		try {
 			testRS = stmnt.executeQuery("SELECT * FROM "+tableName);   //get the column names from Friend table
 			testRSMD = testRS.getMetaData();
@@ -37,6 +51,7 @@ public class FriendManager{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
 		
 	}
 	
@@ -163,6 +178,61 @@ public class FriendManager{
 		return requests;  //returns an empty list if no friends are found :(
 	
 	}
+	
+	public void swapAttempts(ArrayList<Attempt> attemptList, int prim, int sec){
+		Attempt tempPrim = attemptList.get(prim);
+		Attempt tempSec = attemptList.get(sec);
+		attemptList.remove(prim);
+		attemptList.add(prim,tempSec);
+		attemptList.remove(sec);
+		attemptList.add(sec,tempPrim);
+		
+	}
+	
+	public ArrayList<Attempt> sortAttemptsByTime(ArrayList<Attempt> attemptList){
+		for(int primary=0;primary < attemptList.size()-1;primary++){
+			for(int secondary=primary+1;secondary<attemptList.size();secondary++){
+				if(attemptList.get(primary).getTimeTaken().before(attemptList.get(secondary).getTimeTaken()) ){
+					swapAttempts(attemptList,primary,secondary);
+				}
+				
+			}
+			
+		}
+		return attemptList;
+		
+	}
+	
+	public ArrayList<Attempt> getFriendRecentAttempts(String user){
+		AttemptManager attemptMGR= new AttemptManager(connect);
+		ArrayList<String> friendList = getFriends(user);
+		ArrayList<Attempt> recentAttempts = new ArrayList<Attempt>();
+		//get most recent attempt from each friend
+		for(int i=0;i<friendList.size();i++){   //for each friend
+			Attempt[] friendAttempts = attemptMGR.getAllAttempts(friendList.get(i));
+			
+			recentAttempts.add(friendAttempts[0]);
+		}
+		recentAttempts = sortAttemptsByTime(recentAttempts);
+		return recentAttempts;
+	
+	}
+	
+	public ArrayList<Achievement> getFriendRecentAchievements(String user){
+		ArrayList<Achievement> recentAchieve = new ArrayList<Achievement>();
+		ArrayList<String> friendList = getFriends(user);
+		AccountUtil acctUtil = new AccountUtil(connect);
+		AchievementManager achieveMGR = new AchievementManager(connect, acctUtil);
+		for(int i=0;i<friendList.size();i++){   //for each friend
+			ArrayList<Achievement> friendAchieveList = achieveMGR.getAllAchievement(friendList.get(i));
+			ArrayList<Achievement> sortedTimefriendAchieveList = achieveMGR.sortAchievementByTime(friendAchieveList);
+			recentAchieve.add(friendAchieveList.get(0));
+		}
+		recentAchieve = achieveMGR.sortAchievementByTime(recentAchieve);
+		return recentAchieve;
+		
+	}
+	
 	
 	public void dumpFriendTable(){
 		String tableName = "Friend";
