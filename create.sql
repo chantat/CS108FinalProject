@@ -1,4 +1,4 @@
-USE c_cs108_;
+USE c_cs108_adchang1;
 
 drop table if exists Question;
 create table Question(
