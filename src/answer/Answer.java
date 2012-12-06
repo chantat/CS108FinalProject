@@ -52,7 +52,7 @@ public class Answer {
 		
 		HashMap<String, Integer> userInputSet = new HashMap<String, Integer>();
 		for (int i = 0; i < userInput.size(); i++) {
-			userInputSet.put(userInput.get(i), i);
+			userInputSet.put(userInput.get(i).toLowerCase(), i);
 		}
 		
 		double totalScore = 0;
@@ -60,7 +60,7 @@ public class Answer {
 			Answer answer = correctAnswers.get(i);
 			ArrayList<String> answerList = answer.getAnswerList();
 			for (int j = 0; j < answerList.size(); j++) {
-				String answerText = answerList.get(j);
+				String answerText = answerList.get(j).toLowerCase();
 				if (userInputSet.containsKey(answerText)) {
 					totalScore += correctAnswers.get(i).getScore();
 					break;
