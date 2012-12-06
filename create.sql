@@ -132,6 +132,14 @@ create table Achievements(
   timeAchieved timestamp
 );
 
+drop table if exists Review;
+create table Review(
+  userID char(255),
+  quizID int,
+  review varchar(1000),
+  reviewTime timestamp
+);
+
 INSERT into QuizUser VALUES("admin","2ea66167ce4e9bd144ae6dd8f6082e2846518e33","0pq5lf.qjn",1,0,0,0,0,0);
 INSERT into QuizUser 
 VALUES("test1","2922d3a91a163473252e64b0f5e99bdb929b02b7","9r918n.4zx",0,0,0,0,0,0);

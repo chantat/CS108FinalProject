@@ -50,6 +50,22 @@ out.println("<br><input type=\"submit\" value=\"Submit rating!\"><br>");
 </form>
 
 
+<form action="ReviewServlet" method="post">
+<%
+ReviewManager revMnge = (ReviewManager)application.getAttribute("reviewManager");
+out.println("Write your review below:");
+String hiddenInput = "<input type=\"hidden\" name=\"quizId\" value=" + request.getParameter("currentQuiz") + ">";
+out.println(hiddenInput);
+String reviewBox = "<br><textarea cols=\"30\" rows=\"5\" name=\"reviewText\"";
+reviewBox += "value=\"" + "\">";
+reviewBox += "</textarea>";
+out.println(reviewBox);
+
+out.println("<br><input type=\"submit\" value=\"Submit review!\"><br>");
+%>
+</form>
+
+
 <% // Link to quiz Homepage 
 String quizHomepageLink = "<A HREF=\"quizHomepage.jsp\">Quiz Homepage</A>";
 out.println(quizHomepageLink);
