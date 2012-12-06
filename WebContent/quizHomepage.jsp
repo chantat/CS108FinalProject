@@ -49,8 +49,6 @@ for (int i = 0; i < quiz.length ; i++) {
 %>
 
 </table>
-
 <A HREF="http://localhost:8080/CS108FinalProject/userHomePage.jsp">Return to Home Page</A>
-
 </body>
 </html>

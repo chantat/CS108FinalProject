@@ -139,6 +139,21 @@ for(int i=0; i<Math.min(10,quizzes.length);i++){
 
 
 <h2>Popular Quizzes</h2>
+<table border="1">
+<% 
+RatingManager ratingManager = (RatingManager)application.getAttribute("ratingManager");
+Rating[] popularQuizIDs=ratingManager.getMostPopularQuizzes();
+for(int i=0; i<popularQuizIDs.length;i++){
+	out.println("<tr>");;
+	int quizID = popularQuizIDs[i].getQuizID();
+	String quizName =quizMGR.getQuizName(quizID);
+	double averageRating = popularQuizIDs[i].getRating();
+	out.println("<td> "+quizName+"</td>");
+	out.println("<td> "+ averageRating+"</td>");
+	out.println("</tr>");
+}
+%>
+</table>
 
 
 <h2>Recently Taken Quizzes</h2>
