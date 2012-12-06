@@ -210,8 +210,9 @@ public class FriendManager{
 		//get most recent attempt from each friend
 		for(int i=0;i<friendList.size();i++){   //for each friend
 			Attempt[] friendAttempts = attemptMGR.getAllAttempts(friendList.get(i));
-			
-			recentAttempts.add(friendAttempts[0]);
+			if(friendAttempts.length!=0){ 
+				recentAttempts.add(friendAttempts[0]);
+			}
 		}
 		recentAttempts = sortAttemptsByTime(recentAttempts);
 		return recentAttempts;
@@ -226,7 +227,9 @@ public class FriendManager{
 		for(int i=0;i<friendList.size();i++){   //for each friend
 			ArrayList<Achievement> friendAchieveList = achieveMGR.getAllTimedAchievement(friendList.get(i));
 			ArrayList<Achievement> sortedTimefriendAchieveList = achieveMGR.sortAchievementByTime(friendAchieveList);
-			recentAchieve.add(friendAchieveList.get(0));
+			if(friendAchieveList.size()!=0){  //check that this friend has some achievements
+				recentAchieve.add(friendAchieveList.get(0));
+			}
 		}
 		recentAchieve = achieveMGR.sortAchievementByTime(recentAchieve);
 		return recentAchieve;

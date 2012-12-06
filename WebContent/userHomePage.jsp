@@ -49,17 +49,19 @@ User Search: <input type="text" name="victim">
 <%
 ArrayList<String> requests = null;
 AccountManager acct = null;
+FriendManager friendMgr =null;
+
 if(user!=null){
-	FriendManager friendMgr = (FriendManager)application.getAttribute("friendManager");
+	friendMgr = (FriendManager)application.getAttribute("friendManager");
 	acct = (AccountManager)application.getAttribute("manager");
 	
-	
+/*	
 	//TEST
 	System.out.println("Friend Table");
 	friendMgr.dumpFriendTable();
 	System.out.println("Req Table");
 	friendMgr.dumpRequestTable();
-	
+*/	
 	
 	ArrayList<String> friends = friendMgr.getFriends(user);
 	requests = friendMgr.getRequests(user);
@@ -202,22 +204,23 @@ if(user!=null){
 
 <table border="1">
 <% 
-/*
-ArrayList<Attempt> recentAttempts = friendMgr.getFriendRecentAttempts(user);
 
-for(int i=0; i<recentAttempts.size();i++){
-	out.println("<tr>");
-	String friendID = recentAttempts.get(i).getUserId();
-	int quizID = recentAttempts.get(i).getQuizId();
-	String quizName =quizMGR.getQuizName(quizID);
-	double score = recentAttempts.get(i).getScore();
-	String time = recentAttempts.get(i).getTimeTaken().toString();
-	out.println("<td> "+friendID+"</td>");
-	out.println("<td> "+quizID+"</td>");
-	out.println("<td> "+score+"</td>");
-	out.println("<td> "+time+"</td>");
-	out.println("</tr>");
-}*/
+ArrayList<Attempt> recentAttempts = friendMgr.getFriendRecentAttempts(user);
+if(recentAttempts.size()!=0){   //make sure some attempts exist
+	for(int i=0; i<recentAttempts.size();i++){
+		out.println("<tr>");
+		String friendID = recentAttempts.get(i).getUserId();
+		int quizID = recentAttempts.get(i).getQuizId();
+		String quizName =quizMGR.getQuizName(quizID);
+		double score = recentAttempts.get(i).getScore();
+		String time = recentAttempts.get(i).getTimeTaken().toString();
+		out.println("<td> "+friendID+"</td>");
+		out.println("<td> "+quizID+"</td>");
+		out.println("<td> "+score+"</td>");
+		out.println("<td> "+time+"</td>");
+		out.println("</tr>");
+	}
+}
 %>
 
 </table>
@@ -225,19 +228,21 @@ for(int i=0; i<recentAttempts.size();i++){
 <h3>Recent Friend Achievements</h3>
 <table border="1">
 <% 
-/*
-ArrayList<Achievement> recentAchievements = friendMgr.getFriendRecentAchievements(user);
 
-for(int i=0; i<recentAchievements.size();i++){
-	out.println("<tr>");
-	String friendID = recentAchievements.get(i).getName();
-	String desc = recentAchievements.get(i).getDescription();
-	String time = recentAchievements.get(i).getWhenAchieved().toString();
-	out.println("<td> "+friendID+"</td>");
-	out.println("<td> "+desc+"</td>");
-	out.println("<td> "+time+"</td>");
-	out.println("</tr>");
-}*/
+ArrayList<Achievement> recentAchievements = friendMgr.getFriendRecentAchievements(user);
+if(recentAchievements.size()!=0){   //make sure some recent achievements exist	
+	for(int i=0; i<recentAchievements.size();i++){
+		out.println("<tr>");
+		String friendID = recentAchievements.get(i).getName();
+		String desc = recentAchievements.get(i).getDescription();
+		String time = recentAchievements.get(i).getWhenAchieved().toString();
+		out.println("<td> "+friendID+"</td>");
+		out.println("<td> "+desc+"</td>");
+		out.println("<td> "+time+"</td>");
+		out.println("</tr>");
+	}
+}
+
 %>
 
 </table>

@@ -44,13 +44,13 @@ public class LoginServlet extends HttpServlet {
 		AccountManager acct = (AccountManager) context.getAttribute("manager");
 		
 //TEST
-    	acct.promoteAdmin("allen");
+
 		String name = request.getParameter("user");
 		String pass = request.getParameter("pwd");
 		
 		
 //TEST
-		acct.dumpTable();
+		acct.dumpTable("Announcement");
 		
 		
 		if(acct.containsAccount(name) && acct.passwordMatch(name, pass)){
