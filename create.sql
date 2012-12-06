@@ -140,11 +140,11 @@ create table Review(
   reviewTime timestamp
 );
 
-drop table if exists Reported
+drop table if exists Reported;
 create table Reported(
   quizID int,
   occurrence int,
-  reviewTime timestamp 
+  date timestamp default current_timestamp
 );
 
 
