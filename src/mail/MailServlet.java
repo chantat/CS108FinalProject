@@ -35,12 +35,17 @@ public class MailServlet extends HttpServlet {
 		ServletContext sc = request.getServletContext();
 		HttpSession session = request.getSession();
 		MailSystem ms = (MailSystem) sc.getAttribute("mailSystem");
-		String toID = request.getParameter("toID");
+		String toIDStr = request.getParameter("toID");
+		toIDStr = toIDStr.replaceAll("\\s", "");
+		String toIDList[] = toIDStr.split(",");
 		String subject = request.getParameter("subject");
 		String message = request.getParameter("message");
 		String user = (String) session.getAttribute("username");
-		Message msg = new Message(toID, user, subject, message, "Message");
-		ms.send(msg);
+		for (int i = 0; i < toIDList.length; i++) {
+			String toID = toIDList[i];
+			Message msg = new Message(toID, user, subject, message, "Message");
+			ms.send(msg);
+		}
 		request.getRequestDispatcher("inbox.jsp").forward(request, response);
 	}
 

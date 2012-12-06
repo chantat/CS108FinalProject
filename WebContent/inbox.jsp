@@ -105,6 +105,6 @@ for (int i = 0; i < challenges.size(); i++) {
 <%}%>
 </table>
 
-<A HREF="http://localhost:8080/CS108FinalProject/userHomePage.jsp">Return to Home Page</A>
+<A HREF="userHomePage.jsp">Return to Home Page</A>
 </body>
 </html>
