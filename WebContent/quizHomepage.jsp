@@ -45,7 +45,13 @@ for (int i = 0; i < quiz.length ; i++) {
 	quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
 	quizButton += "</form>";
 	
+	String editButton = "<form action=\"EditQuizServlet\" method=\"post\">";
+	editButton += "<input type=\"hidden\" name = \"quizId\" value=\""+ quizId + "\">";
+	editButton += "<input type=\"submit\" value=\"Edit\">";
+	editButton += "</form>";
+	
 	out.println("<td> " + quizButton + "</td>");
+	out.println("<td> " + editButton + "</td>");
 	out.println("<td> " + authorId + "</td>");
 	out.println("<td> " + description + "</td>");
 	out.println("<td> " + category + "</td>");

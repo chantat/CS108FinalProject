@@ -29,10 +29,25 @@ public class SessionListener implements HttpSessionListener {
      */
     public void sessionCreated(HttpSessionEvent hse) {
         HttpSession hs = hse.getSession();
+        
         ArrayList<Question> pendingQuestions = new ArrayList<Question>();
 		ArrayList<Answer> pendingAnswers = new ArrayList<Answer>();
 		hs.setAttribute("pendingQuestions", pendingQuestions);  //store the questions that the user is creating
 		hs.setAttribute("pendingAnswers", pendingAnswers);  //store the answers that the user is creating
+		
+		ArrayList<String> pendingTags = new ArrayList<String>();
+		/*Boolean pendingIsRandomized = false;
+		Boolean pendingIsFlashcard = false;
+		Boolean pendingAllowsPractice = false;
+		Boolean pendingImmediateFeedback = false;*/
+		hs.setAttribute("pendingQuizName", "");
+		hs.setAttribute("pendingQuizDescription", "");
+		hs.setAttribute("pendingCategory", "");
+		hs.setAttribute("pendingTags", pendingTags);
+		hs.setAttribute("pendingIsRandomized", false);
+		hs.setAttribute("pendingIsFlashcard", false);
+		hs.setAttribute("pendingAllowsPractice", false);
+		hs.setAttribute("pendingImmediateFeedback", false);
     }
 
 	/**

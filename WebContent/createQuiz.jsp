@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*, quiz.*, question.*" %>
+<%@ page import="java.util.*, quiz.*, question.*, answer.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,36 +8,79 @@
 <title>Create Quiz</title>
 <%@include file="resources.jsp" %>
 <script type="text/javascript">
-	
-	var id = 1;
+
 	$(document).ready(function() {
 		$("#addTag").click(function () {
+			var id = parseInt($('#numTags').val());
 			var newTagField = $(document.createElement('div')).attr("id", id+"_tag");
 			newTagField.append('<input type="text" name="' + id + '_tag_0">');
 			newTagField.appendTo('#tags');		
-			id++;
+			$('#numTags').val(id + 1);
 		});
 	});
 </script>
 </head>
 <body>
+<% 
+ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
+ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
+String pendingQuizName = (String)session.getAttribute("pendingQuizName");
+String pendingQuizDescription = (String)session.getAttribute("pendingQuizDescription");
+String pendingCategory = (String)session.getAttribute("pendingCategory");
+ArrayList<String> pendingTags = (ArrayList<String>)session.getAttribute("pendingTags");
+Boolean pendingIsRandomized = (Boolean)session.getAttribute("pendingIsRandomized");;
+Boolean pendingIsFlashcard = (Boolean)session.getAttribute("pendingIsFlashcard");
+Boolean pendingAllowsPractice = (Boolean)session.getAttribute("pendingAllowsPractice");
+Boolean pendingImmediateFeedback = (Boolean)session.getAttribute("pendingImmediateFeedback");
+%>
 
 <form action="CreateQuizServlet" method="post">
-Quiz Name: <input type="text" name="quizName"> <br>
-Description: <input type="text" name="description">  <br>
-Category: <input type="text" name="category"> <br>
-Tags: <div id="tags"></div> <input type="button" value="Add Tag" id="addTag"> <br>
-<input type="checkbox" name="isRandomized" value="isRandomized">Randomize question order<br>
-<input type="checkbox" name="isFlashcard" value="isFlashcard">Show one question per page<br>
-<input type="checkbox" name="immediateFeedback" value="immediateFeedback">Give feedback after each page (Only in Flashcard Mode)<br>
-<input type="checkbox" name="allowsPractice" value="allowsPractice">Allow practice mode<br>
+Quiz Name: <input type="text" name="quizName" value="<% out.print(pendingQuizName); %>"> <br>
+Description: <input type="text" name="description" value="<% out.print(pendingQuizDescription); %>">  <br>
+Category: <input type="text" name="category" value="<% out.print(pendingCategory); %>"> <br>
+Tags: <div id="tags">
+
+<% for(int i = 0; i < pendingTags.size(); i++) { %>
+	<div id="<%out.print(i);%>_tag"><input type="text" name="<%out.print(i);%>_tag_0" value="<%out.print(pendingTags.get(i));%>"> </div>
+<% } %>
+<input id = 'numTags' type='hidden' value='<%out.print(pendingTags.size());%>'>
+
+</div> <input type="button" value="Add Tag" id="addTag"> <br>
+<%
+String checkString = "";
+if (pendingIsRandomized) {
+	checkString = "checked";
+}
+%>
+<input type="checkbox" name="isRandomized" value="isRandomized" <% out.print(checkString); %>>Randomize question order<br>
+<%
+checkString = "";
+if (pendingIsFlashcard) {
+	checkString = "checked";
+}
+%>
+<input type="checkbox" name="isFlashcard" value="isFlashcard" <% out.print(checkString); %>>Show one question per page<br>
+<%
+checkString = "";
+if (pendingImmediateFeedback) {
+	checkString = "checked";
+}
+%>
+<input type="checkbox" name="immediateFeedback" value="immediateFeedback" <% out.print(checkString); %>>Give feedback after each page (Only in Flashcard Mode)<br>
+<%
+checkString = "";
+if (pendingAllowsPractice) {
+	checkString = "checked";
+}
+%>
+<input type="checkbox" name="allowsPractice" value="allowsPractice" <% out.print(checkString); %>>Allow practice mode<br>
 <input type="submit" value="Create Quiz">
 </form>
 <br><br>
 
 <table border="1">
 <% 
-ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
+
 for (int i = 0; i < pendingQuestions.size(); i++) {
 	Question question = pendingQuestions.get(i);
 	String editButtonString = "<form action=\"EditQuestionServlet\" method=\"post\">";

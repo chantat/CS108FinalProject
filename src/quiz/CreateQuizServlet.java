@@ -51,7 +51,8 @@ public class CreateQuizServlet extends HttpServlet {
 		
 		ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 		ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
-		
+		ArrayList<String> pendingTags = (ArrayList<String>)session.getAttribute("pendingTags");
+
 		ArrayList<Integer> questionIds = new ArrayList<Integer>();
 		for (int i = 0; i < pendingQuestions.size(); i++) {
 			int questionId = questionManager.createQuestion(pendingQuestions.get(i));
@@ -60,8 +61,6 @@ public class CreateQuizServlet extends HttpServlet {
 			}
 			questionIds.add(questionId);
 		}
-		pendingQuestions.clear();
-		pendingAnswers.clear();
 		
 		String authorId = (String)session.getAttribute("username");
 		String quizName = request.getParameter("quizName");
@@ -84,6 +83,19 @@ public class CreateQuizServlet extends HttpServlet {
 		
 		quizManager.createQuiz(authorId, isRandomized, isFlashcard, immediateFeedback, allowsPractice, 
 				-1, description, category, questionIds, tags, quizName);
+		
+		// Clear stuff
+		pendingQuestions.clear();
+		pendingAnswers.clear();
+		pendingTags.clear();
+		
+		session.setAttribute("pendingQuizName", "");
+		session.setAttribute("pendingQuizDescription", "");
+		session.setAttribute("pendingCategory", "");
+		session.setAttribute("pendingIsRandomized", false);
+		session.setAttribute("pendingIsFlashcard", false);
+		session.setAttribute("pendingAllowsPractice", false);
+		session.setAttribute("pendingImmediateFeedback", false);
 		
 		request.getRequestDispatcher("userHomePage.jsp").forward(request, response);
 	}

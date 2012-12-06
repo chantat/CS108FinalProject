@@ -9,19 +9,14 @@
 <%@include file="resources.jsp" %>
 <script type="text/javascript">
 	
-	var row = 1;
 	$(document).ready(function() {
 		$("#addItem").click(function () {
+			var row = parseInt($('#numAnswers').val());
 			var newAnswerField = $(document.createElement('div')).attr("id", row+"_answers");
 			newAnswerField.append('<input type="text" name="' + row + '_left">');
 			newAnswerField.append('<input type="text" name="' + row + '_right">');
 			newAnswerField.appendTo('#AnswerForm');		
-			row++;
-		});
-		
-		$("#removeItem").click(function() {
-			$("#" + (row-1) + "_answers").remove();
-			if (row > 0) row--;
+			$('#numAnswers').val(row + 1);
 		});
 	});
 </script>
@@ -34,9 +29,13 @@
 	int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
 	
 	String oldQuestion = "";
+	ArrayList<String> oldAnswerList = new ArrayList<String>();
 	
 	if (questionIndex != -1) {
 		oldQuestion = pendingQuestions.get(questionIndex).getQText();
+		for (int i = 0; i < pendingAnswers.get(questionIndex).size(); i++) {
+			oldAnswerList.add(pendingAnswers.get(questionIndex).get(i).getAnswerList().get(0));
+		}
 	}
 	
 %>
@@ -44,11 +43,18 @@
 <h1>Matching Question</h1>
 <form id="AnswerForm" action="CreateMServlet" method="post">
 Enter question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
-<input type="submit" value="Submit">
+<input type="submit" value="Submit"> <br>
 Enter the items: <br>
-<div id="0_answers"><input type="text" name="0_left"><input type="text" name="0_right"></div>
+<% for(int i = 0; i < oldAnswerList.size(); i++) {
+	String answerText = oldAnswerList.get(i);
+	String tokens[] = answerText.split("#");
+	String leftText = tokens[0];
+	String rightText = tokens[1];
+%>
+	<div id="<%out.print(i);%>_answers"><input type="text" name="<%out.print(i);%>_left" value="<%out.print(leftText);%>"><input type="text" name="<%out.print(i);%>_right" value="<%out.print(rightText);%>"> </div>
+<% } %>
+<input id = 'numAnswers' type='hidden' value='<%out.print(oldAnswerList.size());%>'>
 </form>
 <input type="button" value="Add Item" id="addItem">
-<input type="button" value="Remove Item" id="removeItem">
 </body>
 </html>
