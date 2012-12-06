@@ -67,7 +67,7 @@ public class AdministratorServlet extends HttpServlet {
 			acctmgr.promoteAdmin(username);
 		}
 
-		request.getRequestDispatcher("admin.jsp").forward(request, response);
+		request.getRequestDispatcher("userHomePage.jsp").forward(request, response);
 	}
 
 }

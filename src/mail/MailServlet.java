@@ -46,7 +46,7 @@ public class MailServlet extends HttpServlet {
 			Message msg = new Message(toID, user, subject, message, "Message");
 			ms.send(msg);
 		}
-		request.getRequestDispatcher("inbox.jsp").forward(request, response);
+		request.getRequestDispatcher("userHomePage.jsp").forward(request, response);
 	}
 
 }

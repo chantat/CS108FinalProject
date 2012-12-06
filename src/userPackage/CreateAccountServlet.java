@@ -47,9 +47,18 @@ public class CreateAccountServlet extends HttpServlet {
 		String pagePriv = request.getParameter("privacy2");
 		
 		if(acct.containsAccount(name)){
-
+			//PUT ERROR HANDLING FOR REGISTRATION HERE
+			request.setAttribute("err", "alreadyExists");
 			//forward to Name Already Exists page
-			RequestDispatcher dispatch = request.getRequestDispatcher("exists.jsp"); 
+			RequestDispatcher dispatch = request.getRequestDispatcher("accountCreate.jsp"); 
+			dispatch.forward(request, response);
+		} else if (pass.isEmpty()) {
+			request.setAttribute("err", "emptyPass");
+			RequestDispatcher dispatch = request.getRequestDispatcher("accountCreate.jsp"); 
+			dispatch.forward(request, response);
+		} else if (name.isEmpty()) {
+			request.setAttribute("err", "emptyName");
+			RequestDispatcher dispatch = request.getRequestDispatcher("accountCreate.jsp"); 
 			dispatch.forward(request, response);
 		}
 		else{
