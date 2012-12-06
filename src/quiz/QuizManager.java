@@ -95,6 +95,35 @@ public class QuizManager {
 		return quiz;
 	}
 	
+	public void deleteQuiz(int quizID){
+		String commandQuiz = "DELETE FROM Quiz WHERE quizID = \""+ quizID + "\";";
+		String commandTag = "DELETE FROM Tag WHERE quizID = \""+ quizID + "\";";
+		String commandQuizQuestion = "DELETE FROM Question WHERE quizID = \""+ quizID + "\";";
+		String commandChallenge = "DELETE FROM Challenge WHERE quizID = \""+ quizID + "\";";
+		String commandRating = "DELETE FROM Rating WHERE quizID = \""+ quizID + "\";";
+		String commandAttempts = "DELETE FROM Attempts WHERE quizID = \""+ quizID + "\";";
+		String commandReview = "DELETE FROM Review WHERE quizID = \""+ quizID + "\";";
+		String commandReported = "DELETE FROM Reported WHERE quizID = \""+ quizID + "\";";
+		
+		
+		try {
+			stmnt.executeUpdate(commandQuiz);
+			stmnt.executeUpdate(commandTag);
+			stmnt.executeUpdate(commandQuizQuestion);
+			stmnt.executeUpdate(commandChallenge);
+			stmnt.executeUpdate(commandRating);
+			stmnt.executeUpdate(commandAttempts);
+			stmnt.executeUpdate(commandReview);
+			stmnt.executeUpdate(commandReported);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 	public int getNumQuestions(int quizID){
 		String query = "SELECT COUNT(qID) FROM QuizQuestion WHERE quizID = " + quizID + ";";
 		ResultSet rs = null;
