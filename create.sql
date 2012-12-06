@@ -140,6 +140,14 @@ create table Review(
   reviewTime timestamp
 );
 
+drop table if exists Reported
+create table Reported(
+  quizID int,
+  occurrence int
+  reviewTime timestamp 
+);
+
+
 INSERT into QuizUser VALUES("admin","2ea66167ce4e9bd144ae6dd8f6082e2846518e33","0pq5lf.qjn",1,0,0,0,0,0);
 INSERT into QuizUser 
 VALUES("test1","2922d3a91a163473252e64b0f5e99bdb929b02b7","9r918n.4zx",0,0,0,0,0,0);

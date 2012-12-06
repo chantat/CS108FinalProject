@@ -215,7 +215,7 @@ if(recentAttempts.size()!=0){   //make sure some attempts exist
 		double score = recentAttempts.get(i).getScore();
 		String time = recentAttempts.get(i).getTimeTaken().toString();
 		out.println("<td> "+friendID+"</td>");
-		out.println("<td> "+quizID+"</td>");
+		out.println("<td> "+quizName+"</td>");
 		out.println("<td> "+score+"</td>");
 		out.println("<td> "+time+"</td>");
 		out.println("</tr>");

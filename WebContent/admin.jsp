@@ -34,6 +34,30 @@ Username: <input type="text" name="username">  <br>
 <input type="submit" value="Submit"/>
 </form>
 
+Flagged Quizzes
+
+<table border="1">
+<% 
+ReportManager reportMGR = (ReportManager)application.getAttribute("reportManager");
+Report[] reports = reportMGR.getAllReported();
+for(int i=0; i<reports.length;i++){
+	Report temp = reports[i];
+	out.println("<tr>");
+	int quizID = temp.getQuizID();
+	int occurence = temp.getOccurence();
+	String date = temp.getDate().toString();
+	out.println("<td> "+quizID+"</td>");
+	out.println("<td> "+occurence+"</td>");
+	out.println("<td> "+date+"</td>");
+	out.println("</tr>");
+}
+
+
+
+%>
+
+</table>
+
 Remove quiz
 <form action="AdministratorServlet" method="post">
 QuizId: <input type="text" name="quizId">  <br>
