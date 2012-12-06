@@ -4,11 +4,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Logout</title>
+<title>Insert title here</title>
 </head>
 <body>
-<h1>You have been logged out.</h1>
+<h1>Your Account Has Been Deleted.  Goodbye.</h1>
+
 
 <A HREF="http://localhost:8080/CS108FinalProject/userLogin.jsp">Return to Login Page</A>
+
 </body>
 </html>
