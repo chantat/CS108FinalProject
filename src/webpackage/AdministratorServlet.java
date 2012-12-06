@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import quiz.AttemptManager;
+import quiz.*;
 
 import announcement.AnnouncementManager;
 
@@ -65,6 +65,10 @@ public class AdministratorServlet extends HttpServlet {
 			AccountManager acctmgr = (AccountManager)sc.getAttribute("manager");
 			String username = request.getParameter("username");
 			acctmgr.promoteAdmin(username);
+		} else if (function.equals("remove_quiz")) {
+			QuizManager quizMGR = (QuizManager)sc.getAttribute("quizManager");
+			int quizID = Integer.parseInt(request.getParameter("quizId"));
+			quizMGR.deleteQuiz(quizID);
 		}
 
 		request.getRequestDispatcher("admin.jsp").forward(request, response);
