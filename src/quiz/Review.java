@@ -23,7 +23,7 @@ public class Review {
 		return quizID;
 	}
 	
-	public String userID(){
+	public String getUserID(){
 		return userID;
 	}
 	public Timestamp getTimeRated(){
