@@ -22,9 +22,9 @@ Message msg = (Message) request.getAttribute("message");
 </head>
 <body>
 <%@include file="header.jsp" %>
+<center>
 <h1><%= msg.getSubject() %></h1>
-<p>From: <%= msg.getFromID() %></p>
-<p>Time: <%= msg.getTime() %></p>
+<p>From <%= msg.getFromID() %> at <%= msg.getTime() %></p>
 <%if (msg.getType().equals("Message")) { %>
 <p><%= msg.getMessage() %></p>
 <%} %>
@@ -60,5 +60,6 @@ replyText += msg.getMessage();
 <input type="submit" value="Reply">
 </form>
 <a href="userHomePage.jsp#inboxTab"><button>Inbox</button></a>
+</center>
 </body>
 </html>
