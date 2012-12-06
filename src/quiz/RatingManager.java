@@ -13,6 +13,7 @@ import webpackage.DBConnection;
 public class RatingManager {
 
 final public static int NUM_MOST_POPULAR_QUIZZES = 5;
+final public static int RATING_MAXIMUM = 5;
 private static Statement stmnt;
 	
 	public RatingManager(DBConnection con){
@@ -62,14 +63,6 @@ private static Statement stmnt;
 	}
 	
 	public double getAverageRating(int quizID){
-//		String query = "INSERT into Rating VALUES (\"admin\", 3, 2, CURRENT_TIMESTAMP);";
-//		String query2 = "INSERT into Rating VALUES (\"admin\", 4, 5, CURRENT_TIMESTAMP);";
-//		try {
-//			stmnt.executeUpdate(query);
-//			stmnt.executeUpdate(query2);
-//		} catch (SQLException e1) {
-//			e1.printStackTrace();
-//		}
 		String command = "SELECT userID, rating, ratingTime FROM Rating WHERE quizID = \""+ quizID + "\";";
 		ArrayList<String> distinctUsers = new ArrayList<String>();
 		ArrayList<Integer> ratings = new ArrayList<Integer>();
@@ -114,9 +107,9 @@ private static Statement stmnt;
 	public void createRating(String userId, int quizId, int rating, Timestamp time) {
 		String query="INSERT INTO Rating (userID, quizID, rating, ratingTime) VALUES (";
 		query += "\"" + userId + "\",";
-		query += "\"" + quizId + "\",";
-		query += "\"" + rating + "\",";
-		query += time + ");";
+		query += "" + quizId + ",";
+		query += "" + rating + ", '";
+		query += time + "');";
 		System.out.println(query); // for verification purposes
 		try {
 			stmnt.executeUpdate(query);

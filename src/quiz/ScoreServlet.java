@@ -93,7 +93,7 @@ public class ScoreServlet extends HttpServlet {
 		
 		request.setAttribute("totalScore", totalScore);
 		request.setAttribute("totalPossibleScore", totalPossibleScore);
-		
+		request.setAttribute("currentQuiz", quizId);
 		request.getRequestDispatcher("scoreQuiz.jsp").forward(request, response);
 			// OLD CODE
 		/*int numQuestions=0;
