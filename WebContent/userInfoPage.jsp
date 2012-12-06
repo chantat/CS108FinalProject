@@ -6,9 +6,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>User Public Info Page</title>
+<title>Quiz Master | <%=(String)request.getParameter("victim") %></title>
+<%@include file="resources.jsp" %>
 </head>
 <body>
+<%@include file="header.jsp" %>
 <h1><%=(String)request.getParameter("victim") %>'s Info Page</h1>
 <% 
 String user = (String)session.getAttribute("username");
@@ -66,8 +68,6 @@ if(acct.isPagePublic(victim) || fMgr.areFriends(user, victim) ){    //if the use
 
 
 %>
-
-<A HREF="http://localhost:8080/CS108FinalProject/userHomePage.jsp">Return to Home Page</A>
 
 </body>
 </html>

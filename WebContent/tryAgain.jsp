@@ -5,19 +5,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Try Again</title>
+<%@include file="resources.jsp" %>
 </head>
 <body>
-<h1>Please Try Again</h1>
-Either your username or password is incorrect. Please try again. 
-
-
-
+<%@include file="header.jsp" %>
+<center>
+<h1>Oops!</h1>
+Either your username or password is incorrect. Please try again.
+<br><br>
 <form action="LoginServlet" method="post">
 Username: <input type="text" name="user"> <br>
-Password: <input type="password" name="pwd">
-<input type="submit" value="Submit">
+Password: <input type="password" name="pwd"><br><br>
+<input type="submit" value="Log in">
 </form>
-<A HREF="http://localhost:8080/CS108FinalProject/accountCreate.jsp">Create a new account</A>
+</center>
 
 </body>
 </html>

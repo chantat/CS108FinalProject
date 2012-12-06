@@ -5,12 +5,12 @@
 <html>
 <head>
 <% 
-String quote = "\"";
-String redirect = "<meta http-equiv=" +quote+ "refresh"+quote+" content="+quote+"1;url=userLogin.jsp"+quote+">";
 String user = (String)session.getAttribute("username");
 if(user==null){
 	System.out.println("user = null");
-	out.print(redirect);
+	out.println("<script type='text/javascript'>");
+	out.println("window.location='announcements.jsp'");
+	out.println("</script>");
 }
 %>
 <%
@@ -18,8 +18,10 @@ Message msg = (Message) request.getAttribute("message");
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%= msg.getSubject() %></title>
+<%@include file="resources.jsp" %>
 </head>
 <body>
+<%@include file="header.jsp" %>
 <h1><%= msg.getSubject() %></h1>
 <p>From: <%= msg.getFromID() %></p>
 <p>Time: <%= msg.getTime() %></p>
@@ -57,6 +59,6 @@ replyText += msg.getMessage();
 <input type="hidden" name="msgText" value="<%= replyText %>">
 <input type="submit" value="Reply">
 </form>
-<a href="inbox.jsp"><button>Inbox</button></a>
+<a href="userHomePage.jsp#inboxTab"><button>Inbox</button></a>
 </body>
 </html>

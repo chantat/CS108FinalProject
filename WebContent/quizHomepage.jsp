@@ -4,26 +4,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<% 
-String quote = "\"";
-String redirect = "<meta http-equiv=" +quote+ "refresh"+quote+" content="+quote+"1;url=userLogin.jsp"+quote+">";
-String user = (String)session.getAttribute("username");
-if(user==null){
-	System.out.println("user = null");
-	out.print(redirect);
-}
-%>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Quiz Home Page</title>
+<%@include file="resources.jsp" %>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#quizTable").dataTable({
+			"bJQueryUI" : true
+		});
+	});
+</script>
 </head>
 <body>
-
-<table border="1">
+<%@include file="header.jsp" %>
+<center><h1>All Quizzes</h1></center>
+<div id="quizHomepageContent">
 <% 
 QuizManager quizManager = (QuizManager)application.getAttribute("quizManager");
 Quiz[] quiz = quizManager.getAllQuizzes();
 ReviewManager reviewmanager = (ReviewManager)application.getAttribute("reviewManager");
 
+out.println("<table id='quizTable'>");
+out.println("<thead>");
+out.println("<tr>");
+out.println("<th>Quiz</th>");
+out.println("<th>Author</th>");
+out.println("<th>Description</th>");
+out.println("<th>Category</th>");
+out.println("<th>Tags</th>");
+out.println("<th>Reviews</th>");
+out.println("</tr>");
+out.println("</thead>");
+out.println("<tbody>");
 for (int i = 0; i < quiz.length ; i++) {
 	out.println("<tr>");
 	int quizId = quiz[i].getQuizId();
@@ -46,13 +58,12 @@ for (int i = 0; i < quiz.length ; i++) {
 	quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
 	quizButton += "</form>";
 	
-	String editButton = "<form action=\"EditQuizServlet\" method=\"post\">";
+	/*String editButton = "<form action=\"EditQuizServlet\" method=\"post\">";
 	editButton += "<input type=\"hidden\" name = \"quizId\" value=\""+ quizId + "\">";
 	editButton += "<input type=\"submit\" value=\"Edit\">";
-	editButton += "</form>";
+	editButton += "</form>";*/
 	
 	out.println("<td> " + quizButton + "</td>");
-	out.println("<td> " + editButton + "</td>");
 	out.println("<td> " + authorId + "</td>");
 	out.println("<td> " + description + "</td>");
 	out.println("<td> " + category + "</td>");
@@ -61,12 +72,11 @@ for (int i = 0; i < quiz.length ; i++) {
 	out.println(reviewLink);
 	out.println("</tr>");
 }
-
+out.println("</tbody>");
+out.println("</table>");
 
 
 %>
-
-</table>
-<A HREF="http://localhost:8080/CS108FinalProject/userHomePage.jsp">Return to Home Page</A>
+</div>
 </body>
 </html>

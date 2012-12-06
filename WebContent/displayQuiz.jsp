@@ -26,8 +26,10 @@ ArrayList<ArrayList<String>> questionResponses = (ArrayList<ArrayList<String>>) 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%= quizName %></title>
+<%@include file="resources.jsp" %>
 </head>
 <body>
+<%@include file="header.jsp" %>
 <h1><%= quizName %></h1>
 
 <form action="ScoreServlet" method="post">

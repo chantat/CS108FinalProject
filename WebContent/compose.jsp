@@ -1,26 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="mail.*, javax.swing.*" %>
+<%@ page import="mail.*, javax.swing.*, userPackage.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>New Message</title>
+<%@include file="resources.jsp" %>
 <% 
-String quote = "\"";
-String redirect = "<meta http-equiv=" +quote+ "refresh"+quote+" content="+quote+"1;url=userLogin.jsp"+quote+">";
 String user = (String)session.getAttribute("username");
 if(user==null){
 	System.out.println("user = null");
-	out.print(redirect);
+	out.println("<script type='text/javascript'>");
+	out.println("window.location='announcements.jsp'");
+	out.println("</script>");
 }
 %>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Compose</title>
 </head>
 <body>
-<%!
-String toAddr, subject, replyText; 
-%>
-<% 
+<%@include file="header.jsp" %>
+<%!String toAddr, subject, replyText; %>
+<%
+
 if (request.getParameter("toID") == null) {
 	toAddr = ""; 
 } else {
@@ -37,7 +38,8 @@ if (request.getParameter("subject") == null) {
 	subject = (String)request.getParameter("subject");
 }
 %>
-<h1>Compose New Message</h1>
+<center>
+<h1>New Message</h1>
 <!--<script>
 alert('You cannot send a message to a user you are not friends with' +
 		'Check to make sure the username is spelled correctly');
@@ -49,9 +51,10 @@ alert('You cannot send a message to a user you are not friends with' +
 <p>Subject: <input type="text" name="subject" value="<%= subject %>"/></p>
 <p><textarea name="message" cols="50" rows="5"><%= replyText %></textarea></p>
 <input type="submit" name="Send" value="Send"/>
-<a href="inbox.jsp">
+<a href="userHomePage.jsp#inboxTab">
 <button>Discard</button>
 </a>
 </form>
+</center>
 </body>
 </html>

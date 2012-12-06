@@ -1,30 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Welcome To Quiz Website</title>
+<title>Quiz Master | Login</title>
+<%@include file="resources.jsp" %>
 </head>
 <body>
-<h1>Welcome to the Quiz Website (better name forthcoming)</h1>
-Please log in.
+<%@include file="header.jsp" %>
 
+<center>
+	<h2>Login</h2>
+	<div>
+		<form action="LoginServlet" method="post">
+			Username: <input type="text" name="user">  <br>
+			Password: <input type="password" name="pwd"> <br>
+			<br>
+			<input type="submit" value="Log in" class="ui-button ui-corner-all">
+		</form>
+	</div>
+</center>
 
-
-<form action="LoginServlet" method="post">
-Username: <input type="text" name="user">  <br>
-Password: <input type="password" name="pwd">
-<input type="submit" value="Submit">
-</form>
-<A HREF="http://localhost:8080/CS108FinalProject/accountCreate.jsp">Create a new account</A>
-
-Or Log in as a Guest: 
+<!--  Or Log in as a Guest: 
 <form action="GuestLoginServlet" method="post">
 <input type="hidden" name="mode" value="guest"> 
 <input type="submit" value="Log in as Guest">
 </form>
-Guests can see quizzes and users, but cannot take any quizzes.  
+Guests can see quizzes and users, but cannot take any quizzes.-->
 
 
 

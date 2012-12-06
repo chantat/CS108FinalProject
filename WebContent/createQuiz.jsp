@@ -21,6 +21,7 @@
 </script>
 </head>
 <body>
+<%@include file="header.jsp" %>
 <% 
 ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");

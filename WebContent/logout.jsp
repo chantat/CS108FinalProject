@@ -4,11 +4,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Logout</title>
+<title>Quiz Master | Logout</title>
+<%@include file="resources.jsp" %>
 </head>
+<%
+session.setAttribute("username", null);
+session.setAttribute("mode", "guest");
+%>
+<script type="text/javascript">
+	window.location="announcements.jsp";
+</script>
 <body>
+
+<%@include file="header.jsp" %>
 <h1>You have been logged out.</h1>
 
-<A HREF="http://localhost:8080/CS108FinalProject/userLogin.jsp">Return to Login Page</A>
+<A HREF="userLogin.jsp">Return to Login Page</A>
 </body>
 </html>
