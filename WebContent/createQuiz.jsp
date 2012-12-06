@@ -17,11 +17,14 @@
 			newTagField.appendTo('#tags');		
 			$('#numTags').val(id + 1);
 		});
+		$("#addTag").button();
 	});
 </script>
 </head>
 <body>
 <%@include file="header.jsp" %>
+<center><h1>Create New Quiz</h1></center>
+<div id="createQuiz">
 <% 
 ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
@@ -38,7 +41,7 @@ Boolean pendingImmediateFeedback = (Boolean)session.getAttribute("pendingImmedia
 <form action="CreateQuizServlet" method="post">
 Quiz Name: <input type="text" name="quizName" value="<% out.print(pendingQuizName); %>"> <br>
 Description: <input type="text" name="description" value="<% out.print(pendingQuizDescription); %>">  <br>
-Category: <input type="text" name="category" value="<% out.print(pendingCategory); %>"> <br>
+Category: <input type="text" name="category" value="<% out.print(pendingCategory); %>"> <br><br>
 Tags: <div id="tags">
 
 <% for(int i = 0; i < pendingTags.size(); i++) { %>
@@ -46,7 +49,7 @@ Tags: <div id="tags">
 <% } %>
 <input id = 'numTags' type='hidden' value='<%out.print(pendingTags.size());%>'>
 
-</div> <input type="button" value="Add Tag" id="addTag"> <br>
+</div> <input type="button" value="Add Tag" id="addTag"> <br><br>
 <%
 String checkString = "";
 if (pendingIsRandomized) {
@@ -115,5 +118,6 @@ out.println("</tr>");
 out.println("</form>");
 %>	
 </table>
+</div>
 </body>
 </html>
