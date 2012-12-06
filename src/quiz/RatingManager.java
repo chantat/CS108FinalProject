@@ -117,4 +117,19 @@ private static Statement stmnt;
 			e.printStackTrace();
 		}
 	}
+	
+	public double getTotalAverageRating(){
+		String command = "SELECT AVG(rating) FROM Rating;";
+		
+		try {
+			ResultSet rs = stmnt.executeQuery(command);			
+			if(rs.next()){
+				return rs.getDouble("AVG(rating)");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;  //case where no ratings exist yet
+	}
 }

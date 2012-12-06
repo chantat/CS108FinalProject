@@ -40,18 +40,19 @@ Flagged Quizzes
 <% 
 ReportManager reportMGR = (ReportManager)application.getAttribute("reportManager");
 Report[] reports = reportMGR.getAllReported();
-for(int i=0; i<reports.length;i++){
-	Report temp = reports[i];
-	out.println("<tr>");
-	int quizID = temp.getQuizID();
-	int occurence = temp.getOccurence();
-	String date = temp.getDate().toString();
-	out.println("<td> "+quizID+"</td>");
-	out.println("<td> "+occurence+"</td>");
-	out.println("<td> "+date+"</td>");
-	out.println("</tr>");
+if(reports.length>0){
+	for(int i=0; i<reports.length;i++){
+		Report temp = reports[i];
+		out.println("<tr>");
+		int quizID = temp.getQuizID();
+		int occurence = temp.getOccurence();
+		String date = temp.getDate().toString();
+		out.println("<td> "+quizID+"</td>");
+		out.println("<td> "+occurence+"</td>");
+		out.println("<td> "+date+"</td>");
+		out.println("</tr>");
+	}
 }
-
 
 
 %>
@@ -91,7 +92,11 @@ Total Number of Quizzes:  <%
 QuizManager quizMGR = (QuizManager)application.getAttribute("quizManager");
 Quiz[] allQuiz = quizMGR.getAllQuizzes();
 out.print(allQuiz.length);
-
+%>
+Average Quiz Rating:
+<% 
+RatingManager ratingMGR = (RatingManager)application.getAttribute("ratingManager");
+out.print(ratingMGR.getTotalAverageRating());
 %>
 
 

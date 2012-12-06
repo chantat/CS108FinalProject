@@ -143,7 +143,7 @@ create table Review(
 drop table if exists Reported
 create table Reported(
   quizID int,
-  occurrence int
+  occurrence int,
   reviewTime timestamp 
 );
 
