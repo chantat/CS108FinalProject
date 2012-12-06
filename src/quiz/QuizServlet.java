@@ -1,6 +1,7 @@
 package quiz;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -51,10 +52,16 @@ public class QuizServlet extends HttpServlet {
 				request.getRequestDispatcher("practiceMode.jsp").forward(request, response);
 			}else{
 				request.setAttribute("practiceMode", "false");
+				Timestamp startTime = new Timestamp(System.currentTimeMillis());
+				session.setAttribute("startTime", startTime);
+				System.out.println(startTime);
 				request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
 			}
 		}else{
 			request.setAttribute("practiceMode", request.getParameter("practiceMode"));
+			Timestamp startTime = new Timestamp(System.currentTimeMillis());
+			session.setAttribute("startTime", startTime);
+			System.out.println(startTime);
 			request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
 		}
 	}

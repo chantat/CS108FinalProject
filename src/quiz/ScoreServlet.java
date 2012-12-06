@@ -93,8 +93,10 @@ public class ScoreServlet extends HttpServlet {
 			System.out.println(achMGR.checkAchievement(username, 5));
 		}else{
 			AttemptManager attemptMngr = (AttemptManager)context.getAttribute("attemptManager");
-			Timestamp timeSpent = null;
-			attemptMngr.createAttempt(username, quizId, totalScore, timeSpent);
+			Timestamp startTime = (Timestamp)session.getAttribute("startTime");
+			Timestamp endTime = new Timestamp(System.currentTimeMillis());
+			long timeTaken = startTime.getTime() - startTime.getTime();
+			attemptMngr.createAttempt(username, quizId, totalScore, (int)timeTaken, endTime);
 
 			if(totalScore> attemptMngr.getQuizHighScore(quizId)){
 				acctMGR.setHighScorer(username);
