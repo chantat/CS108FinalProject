@@ -325,21 +325,46 @@ public class AccountManager {
 		}
 		
 	}
+
+	public int getPopulation(){
+		int pop = 0;
+		try {
+			String command = "SELECT * FROM "+tableName+";";
+			ResultSet rs = stmnt.executeQuery(command);
+			pop = DBConnection.getResultSetSize(rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pop;
+		
+	}
 	
-	
-	public void dumpTable(){
-		String tableName = "QuizUser";
+	public void dumpTable(String table){
+		
 		ResultSet rs;
+		ResultSetMetaData rsmd;
 		int rows=0;
-		String command = "SELECT * FROM "+tableName;
+		int colcount=0;
+		String command = "SELECT * FROM "+table+";";
 		try {
 			rs = stmnt.executeQuery(command);
+			rsmd = rs.getMetaData();
+			colcount = rsmd.getColumnCount();
 			rs.last();   //move to last row to get count of total number of rows
 			rows = rs.getRow();   //note the row #s start at 1, not 0, for ResultSets
 			rs.beforeFirst();
 		
 			for(int i=1;i<=rows;i++){
 				rs.next();
+				
+				for(int col =1;col<colcount;col++){
+					Object item = rs.getObject(col);
+					System.out.println(item);
+					
+				}
+				
+			/*
 				String user = (String)rs.getObject(USER);
 			    String pass = (String)rs.getObject(PASS);
 			    String salt = (String)rs.getObject(SALT);
@@ -354,11 +379,12 @@ public class AccountManager {
 			    System.out.println(pubperf);
 			    System.out.println(pubpage);
 			    System.out.println(deact);
-			
-			}
+			*/
 		
 
-		} catch (SQLException e) {
+			} 
+		}
+		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

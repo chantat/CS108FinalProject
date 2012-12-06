@@ -119,7 +119,7 @@ drop table if exists Attempts;
 create table Attempts(
   userID char(255), 
   quizID int, 
-  score int, 
+  score double, 
   timeSpent int,
   timeTaken timestamp default current_timestamp
   
@@ -154,7 +154,5 @@ INSERT into Friend
 VALUES("test2","test1");
 INSERT into Friend
 VALUES("test1","test2");
-
-
 
 

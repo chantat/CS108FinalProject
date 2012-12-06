@@ -17,8 +17,9 @@ public class MultipleAnswerAnswer extends Answer{
 			ArrayList<String> answerList = answer.getAnswerList();
 			int answerOrder = answer.getAnswerOrder();
 			for (int j = 0; j < answerList.size(); j++) {
-				String answerText = answerList.get(j);
-				if (userInput.get(answerOrder).equals(answerText)) {
+				String answerText = answerList.get(j).toLowerCase();
+				String userInputText = userInput.get(answerOrder).toLowerCase();
+				if (userInputText.equals(answerText)) {
 					totalScore += answer.getScore();
 					break;
 				}
