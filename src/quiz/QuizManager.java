@@ -12,7 +12,6 @@ public class QuizManager {
 	public QuizManager(DBConnection con) {
 		stmnt = con.getStatement();	
 		
-		// TODO: We have to save the currentQuizId somewhere so that when we start a new instance of the server it doesn't use old quizids
 		currentQuizId = getCurrentQuizId();
 	}
 	

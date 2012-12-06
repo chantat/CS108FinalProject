@@ -6,6 +6,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Create Quiz</title>
+<%@include file="resources.jsp" %>
+<script type="text/javascript">
+	
+	var id = 1;
+	$(document).ready(function() {
+		$("#addTag").click(function () {
+			var newTagField = $(document.createElement('div')).attr("id", id+"_tag");
+			newTagField.append('<input type="text" name="' + id + '_tag_0">');
+			newTagField.appendTo('#tags');		
+			id++;
+		});
+	});
+</script>
 </head>
 <body>
 
@@ -13,6 +26,11 @@
 Quiz Name: <input type="text" name="quizName"> <br>
 Description: <input type="text" name="description">  <br>
 Category: <input type="text" name="category"> <br>
+Tags: <div id="tags"></div> <input type="button" value="Add Tag" id="addTag"> <br>
+<input type="checkbox" name="isRandomized" value="isRandomized">Randomize question order<br>
+<input type="checkbox" name="isFlashcard" value="isFlashcard">Show one question per page<br>
+<input type="checkbox" name="immediateFeedback" value="immediateFeedback">Give feedback after each page (Only in Flashcard Mode)<br>
+<input type="checkbox" name="allowsPractice" value="allowsPractice">Allow practice mode<br>
 <input type="submit" value="Create Quiz">
 </form>
 <br><br>

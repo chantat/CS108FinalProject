@@ -131,7 +131,6 @@ public class ScoreServlet extends HttpServlet {
 			String username=(String) session.getAttribute("username");
 			String quizID=request.getParameter("quizID");
 			attemptMngr.createAttempt(username, Integer.parseInt(quizID), currentScore, new Timestamp(new java.util.Date().getTime()));
-			//TODO timestamp
 		}else{ //go to next question
 			request.setAttribute("currentQuestion", currentQuestion+1);
 			request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);

@@ -68,10 +68,22 @@ public class CreateQuizServlet extends HttpServlet {
 		String description = request.getParameter("description");
 		String category = request.getParameter("category");
 		
-		// TODO make tags work
-		ArrayList<String> tags = new ArrayList<String>();
+		boolean isRandomized = (request.getParameter("isRandomized") != null);
+		boolean isFlashcard = (request.getParameter("isFlashcard") != null);
+		boolean allowsPractice = (request.getParameter("allowsPractice") != null);
+		boolean immediateFeedback = (request.getParameter("immediateFeedback") != null);
 		
-		quizManager.createQuiz(authorId, false, false, false, false, -1, description, category, questionIds, tags, quizName);
+		ArrayList<String> tags = new ArrayList<String>();
+		Map<String, String[]> parameters = request.getParameterMap();
+		for(String parameter : parameters.keySet()) {
+		    if(parameter.toLowerCase().contains("_tag_0")) {
+		        String tagText = request.getParameter(parameter);
+		        tags.add(tagText);
+		    }
+		}
+		
+		quizManager.createQuiz(authorId, isRandomized, isFlashcard, immediateFeedback, allowsPractice, 
+				-1, description, category, questionIds, tags, quizName);
 		
 		request.getRequestDispatcher("userHomePage.jsp").forward(request, response);
 	}
