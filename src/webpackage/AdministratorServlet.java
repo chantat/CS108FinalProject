@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import quiz.AttemptManager;
+
 import announcement.AnnouncementManager;
 
 import userPackage.AccountManager;
@@ -55,6 +57,9 @@ public class AdministratorServlet extends HttpServlet {
 		} else if (function.equals("remove_quiz")) {
 			
 		} else if (function.equals("clear_quiz_history")) {
+			AttemptManager attemptMGR = (AttemptManager)sc.getAttribute("attemptManager");
+			int quizID = Integer.parseInt(request.getParameter("quizId"));
+			attemptMGR.deleteAllQuizAttempts(quizID); 
 			
 		} else if (function.equals("promote_admin")) {
 			AccountManager acctmgr = (AccountManager)sc.getAttribute("manager");

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import question.Question;
 import question.QuestionManager;
-
+import userPackage.*;
 import answer.*;
 
 /**
@@ -46,7 +46,7 @@ public class ScoreServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext context = request.getServletContext();
 		HttpSession session = request.getSession();
-		
+		AccountManager acctMGR = (AccountManager)context.getAttribute("manager");
 		AnswerManager am = (AnswerManager) context.getAttribute("answerManager");
 		QuestionManager questionManager = (QuestionManager) context.getAttribute("questionManager");
 		QuizManager quizManager = (QuizManager)context.getAttribute("quizManager");
@@ -91,9 +91,13 @@ public class ScoreServlet extends HttpServlet {
 		Timestamp timeSpent = null;
 		attemptMngr.createAttempt(username, quizId, totalScore, timeSpent);
 		
+		if(totalScore> attemptMngr.getQuizHighScore(quizId)){
+			acctMGR.setHighScorer(username);
+		}
+		
 		request.setAttribute("totalScore", totalScore);
 		request.setAttribute("totalPossibleScore", totalPossibleScore);
-		
+		request.setAttribute("currentQuiz", quizId);
 		request.getRequestDispatcher("scoreQuiz.jsp").forward(request, response);
 			// OLD CODE
 		/*int numQuestions=0;

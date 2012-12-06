@@ -65,9 +65,6 @@ public class CreateAccountServlet extends HttpServlet {
 			sess.setAttribute("username", name);   //set this session's user
 			sess.setAttribute("mode", "normal");   //set to non-guest mode
 			
-	//TEST
-			acct.dumpTable();
-			
 			
 			//then bring them to the user welcome page
 			RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
