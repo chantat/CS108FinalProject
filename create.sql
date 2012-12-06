@@ -133,3 +133,20 @@ create table Achievements(
 );
 
 INSERT into QuizUser VALUES("admin","2ea66167ce4e9bd144ae6dd8f6082e2846518e33","0pq5lf.qjn",1,0,0,0,0,0);
+INSERT into QuizUser 
+VALUES("test1","2922d3a91a163473252e64b0f5e99bdb929b02b7","9r918n.4zx",0,0,0,0,0,0);
+INSERT into QuizUser 
+VALUES("test2","d08027699144bad9ec55b8d203a90c816491148c","9rg!-sjmxb",0,0,0,0,0,0);
+
+INSERT into Friend
+VALUES("admin","test1");
+INSERT into Friend
+VALUES("test1","admin");
+INSERT into Friend
+VALUES("test2","test1");
+INSERT into Friend
+VALUES("test1","test2");
+
+
+
+
