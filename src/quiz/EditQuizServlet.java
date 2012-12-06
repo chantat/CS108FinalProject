@@ -67,6 +67,7 @@ public class EditQuizServlet extends HttpServlet {
 		session.setAttribute("pendingAllowsPractice", quiz.getAllowsPractice());
 		session.setAttribute("pendingImmediateFeedback", quiz.getImmediateFeedback());
 		session.setAttribute("pendingTags", quiz.getTags());
+		session.setAttribute("previousQuizId", quiz.getQuizId());
 		 
 		pendingQuestions.clear();
 		pendingAnswers.clear();

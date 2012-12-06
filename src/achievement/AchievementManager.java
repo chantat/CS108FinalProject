@@ -78,20 +78,10 @@ public class AchievementManager {
 		} else if (achievementId == 5) {
 			newlyAchieved = acctutil.isUsedPracticeMode(username);
 		}
-		
-		if (newlyAchieved) {
-			
-			command = "INSERT INTO Achievements(userID, achievementID) VALUES (";
-			command += "\"" + username + "\",";
-			command += "\"" + achievementId + "\");";
-			
-			try {
-				stmnt.executeUpdate(command);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		if(newlyAchieved){
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			insertAchievementIntoDatabase(username, achievementId, timestamp);
 		}
-	
 		return newlyAchieved;
 	}
 	
@@ -104,6 +94,19 @@ public class AchievementManager {
 		return ret;
 	}
 	
+	public void insertAchievementIntoDatabase(String username, int achievementId, Timestamp timestamp){
+		String command = "INSERT INTO Achievements(userID, achievementID, timeAchieved) VALUES (";
+		command += "\"" + username + "\",";
+		command += "" + achievementId + ",";
+		command += "'" + timestamp + "');";
+		System.out.println(command); // for verification purposes
+		
+		try {
+			stmnt.executeUpdate(command);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public ArrayList<Achievement> getAllTimedAchievement(String username) {
 		ResultSet testRS;

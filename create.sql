@@ -1,4 +1,4 @@
-USE c_cs108_;
+USE c_cs108_adchang1;
 
 drop table if exists Question;
 create table Question(
@@ -130,6 +130,14 @@ create table Achievements(
   userID char(255), 
   achievementID int, 
   timeAchieved timestamp
+);
+
+drop table if exists Review;
+create table Review(
+  userID char(255),
+  quizID int,
+  review varchar(1000),
+  reviewTime timestamp
 );
 
 INSERT into QuizUser VALUES("admin","2ea66167ce4e9bd144ae6dd8f6082e2846518e33","0pq5lf.qjn",1,0,0,0,0,0);

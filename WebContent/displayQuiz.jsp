@@ -6,6 +6,7 @@
 <%
 int quizID = Integer.parseInt((String)request.getAttribute("currentQuiz"));
 int currQuest = (Integer) request.getAttribute("currentQuestion");
+String practiceMode = (String) request.getAttribute("practiceMode");
 QuizManager quizM = (QuizManager) application.getAttribute("quizManager");
 QuestionManager questM = (QuestionManager) application.getAttribute("questionManager");
 AnswerManager am = (AnswerManager) application.getAttribute("answerManager");
@@ -55,13 +56,9 @@ for (int i = 0; i < questIds.size(); i++) {
 		<p><%= quest.getQText() %></p>
 		<%
 		answerChoices = am.getAnswers(quest.getID());
-		answers=new ArrayList<String>();
+		answers = new ArrayList<String>();
 		for(int j = 0; j < answerChoices.size(); j++){
-			for(int k = 0; k < answerChoices.size(); k++){
-				if(answerChoices.get(k).getAnswerOrder() == j+1){
-					answers.add(answerChoices.get(k).getAnswerList().get(0));
-				}
-			}
+			answers.add(answerChoices.get(j).getAnswerList().get(0));
 		}
 		for (int j = 0; j < answers.size(); j++) {
 			String radioButton = "<input type=\"radio\" name=\"" + quest.getID() + "answer" + 0 + "\"";
@@ -136,6 +133,7 @@ for (int i = 0; i < questIds.size(); i++) {
 }
 %>
 <input type="hidden" name="currentQuiz" value="<% out.print(quizID); %>"/>
+<input type="hidden" name="allowsPractice" value="<% out.print(practiceMode); %>"/>
 <input type="submit" value="Submit"/>
 </form>
 </body>

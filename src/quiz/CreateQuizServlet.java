@@ -71,6 +71,7 @@ public class CreateQuizServlet extends HttpServlet {
 		boolean isFlashcard = (request.getParameter("isFlashcard") != null);
 		boolean allowsPractice = (request.getParameter("allowsPractice") != null);
 		boolean immediateFeedback = (request.getParameter("immediateFeedback") != null);
+		int previousQuizId = (Integer)session.getAttribute("previousQuizId");
 		
 		ArrayList<String> tags = new ArrayList<String>();
 		Map<String, String[]> parameters = request.getParameterMap();
@@ -82,7 +83,7 @@ public class CreateQuizServlet extends HttpServlet {
 		}
 		
 		quizManager.createQuiz(authorId, isRandomized, isFlashcard, immediateFeedback, allowsPractice, 
-				-1, description, category, questionIds, tags, quizName);
+				previousQuizId, description, category, questionIds, tags, quizName);
 		
 		// Clear stuff
 		pendingQuestions.clear();
@@ -96,6 +97,7 @@ public class CreateQuizServlet extends HttpServlet {
 		session.setAttribute("pendingIsFlashcard", false);
 		session.setAttribute("pendingAllowsPractice", false);
 		session.setAttribute("pendingImmediateFeedback", false);
+		session.setAttribute("previousQuizId", -1);
 		
 		request.getRequestDispatcher("userHomePage.jsp").forward(request, response);
 	}

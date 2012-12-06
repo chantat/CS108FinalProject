@@ -50,6 +50,19 @@ public class QuizManager {
 		return quiz.getName();	
 	}
 	
+	public boolean getQuizAllowsPractice(int quizID){
+		boolean allowsPractice=false;
+		String query = "SELECT * FROM Quiz WHERE quizID = " + quizID + ";";
+		ResultSet rs = null;
+		try {
+			rs = stmnt.executeQuery(query);
+			rs.first();
+			allowsPractice=rs.getBoolean("allowsPractice");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return allowsPractice;
+	}
 	
 	public Quiz getQuiz(int quizId) {
 		String query = "SELECT * FROM Quiz WHERE quizID = " + quizId + ";";
@@ -194,13 +207,13 @@ public class QuizManager {
 	
 	public Quiz[] getAllQuizzes() {
 		String query = "SELECT * FROM Quiz;";
-		int resultSetSize=0;
 		ResultSet rs = null;
-		Quiz[] quizzes = null;
-		try{
+		int resultSetSize=0;
+		
+		ArrayList<Quiz> tempQuizzes = new ArrayList<Quiz>();
+		try {
 			rs = stmnt.executeQuery(query);
 			resultSetSize = DBConnection.getResultSetSize(rs);
-			quizzes = new Quiz[resultSetSize];
 			
 			ArrayList<Integer> QuizIds = new ArrayList<Integer>();
 			rs.beforeFirst();
@@ -210,12 +223,33 @@ public class QuizManager {
 			}
 			
 			for(int i = 0 ; i < resultSetSize; i++){
-				quizzes[i] = getQuiz(QuizIds.get(i));
+				tempQuizzes.add(getQuiz(QuizIds.get(i)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return quizzes;
+		
+		ArrayList<Quiz> quizzes = new ArrayList<Quiz>();
+		for (int i = 0; i < tempQuizzes.size(); i++) {
+			if (!hasNewerVersion(tempQuizzes.get(i).getQuizId())) {
+				quizzes.add(tempQuizzes.get(i));
+			}
+		}
+		return quizzes.toArray(new Quiz[quizzes.size()]);
+	}
+	
+	public boolean hasNewerVersion(int quizId) {
+		String query = "SELECT * FROM Quiz WHERE prevID=" + quizId + ";";
+		int resultSetSize=0;
+		ResultSet rs = null;
+		
+		try {
+			rs = stmnt.executeQuery(query);
+			resultSetSize = DBConnection.getResultSetSize(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return (resultSetSize != 0);
 	}
 	
 	public Quiz[] getAllQuizByCategory(String category) {

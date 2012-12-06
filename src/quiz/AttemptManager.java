@@ -17,12 +17,13 @@ public class AttemptManager {
 		stmnt = con.getStatement();	
 	}
 	
-	public void createAttempt(String userId, int quizId, double score, Timestamp time) {
-		String query="INSERT INTO Attempts (userID, quizID, score, timeTaken) VALUES (";
+	public void createAttempt(String userId, int quizId, double score, int timeTaken, Timestamp endTime) {
+		String query="INSERT INTO Attempts (userID, quizID, score, timeSpent, timeTaken) VALUES (";
 		query += "\"" + userId + "\",";
-		query += "\"" + quizId + "\",";
-		query += "\"" + score + "\",";
-		query += time + ");";
+		query += "" + quizId + ",";
+		query += "" + score + ",";
+		query += "" + timeTaken + ",'";
+		query += endTime + "');";
 		System.out.println(query); // for verification purposes
 		try {
 			stmnt.executeUpdate(query);

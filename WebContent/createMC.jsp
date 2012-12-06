@@ -9,40 +9,63 @@
 <%@include file="resources.jsp" %>
 <script type="text/javascript">
 	
-	var row = 0;
-	var id = 1;
 	$(document).ready(function() {
 		$("#addAnswer").click(function () {
+			var row = parseInt($('#numAnswers').val());
 			var newAnswerField = $(document.createElement('div')).attr("id", row+"_answers");
-			newAnswerField.append('<label for="label_' + row + '" id="label_' + row + '">Answer #' + (row+1) + ' : </label><br>' +
+			newAnswerField.append('<input type="radio" name="correct" value="' + row + '_answer_0">' + 
 					'<input type="text" id="label_' + row + '" name="'+row+'_answer_0"'+'><br>');
-			newAnswerField.val(1);
 			newAnswerField.appendTo('#AnswerForm');
-			
-			var newScoreField = $(document.createElement('div')).attr("id", row+"_isCorrect");
-			newScoreField.append('<label for="label_' + row + '" id="label_' + row + '">Check if is correct answer (only one correct answer per question) : </label><br>' +
-					'<input type="checkbox" id="label_' + row + '" name="'+row+'_isCorrect_0"'+'><br>');
-			newScoreField.val(1);
-			newScoreField.appendTo('#AnswerForm');
-			
-			row++;
+			$('#numAnswers').val(row + 1);
 		});
 		
-		$("#removeAnswer").click(function() {
-			$("#" + (row-1) + "_answers").remove();
-			$("#" + (row-1) + "_isCorrect").remove();
-			if (row > 0) row--;
-		});
 	});
 </script>
 
 </head>
+
 <body>
-	<form id="AnswerForm" action="CreateMCServlet" method="post">
-	Enter your question: <input type="text" name="questionText"> <br>
-	<input type="submit" value="Submit">
-	</form>
-	<input type="button" value="Add Answer" id="addAnswer">
-	<input type="button" value="Remove Answer" id="removeAnswer">
+<% 
+	ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
+	ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
+	int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
+	
+	String oldQuestion = "";
+	int correctAnswerIndex = -1;
+	ArrayList<String> oldAnswerList = new ArrayList<String>();
+	
+	if (questionIndex != -1) {
+		oldQuestion = pendingQuestions.get(questionIndex).getQText();
+		for (int i = 0; i < pendingAnswers.get(questionIndex).size(); i++) {
+			Answer answer = pendingAnswers.get(questionIndex).get(i);
+			String answerText = answer.getAnswerList().get(0);
+			oldAnswerList.add(answerText);
+			if (answer.getScore() == 1) {
+				correctAnswerIndex = i;
+			}
+		}
+	}
+	
+%>
+
+<form id="AnswerForm" action="CreateMCServlet" method="post">
+Enter question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
+<input type="submit" value="Submit"> <br>
+Enter the choices: <br>
+<% for(int i = 0; i < oldAnswerList.size(); i++) {
+	String answerText = oldAnswerList.get(i);
+	String checkString = "";
+	if (i == correctAnswerIndex) {
+		checkString = "checked";
+	}
+%>
+	<div id="<%out.print(i);%>_answers">
+		<input type="radio" name="correct" value="<%out.print(i);%>_answer_0" <% out.print(checkString); %>> 
+		<input type="text" name="<%out.print(i);%>_answer_0" value="<% out.print(oldAnswerList.get(i)); %>">
+	</div>
+<% } %>
+<input id = 'numAnswers' type='hidden' value='<%out.print(oldAnswerList.size());%>'>
+</form>
+<input type="button" value="Add Choice" id="addAnswer">
 </body>
 </html>

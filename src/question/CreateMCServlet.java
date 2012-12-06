@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import answer.Answer;
+import answer.MatchingAnswer;
 import answer.MultipleChoiceAnswer;
 
 /**
@@ -51,26 +52,24 @@ public class CreateMCServlet extends HttpServlet {
 		ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
 		
 		// Create ArrayList<Answer> item
-		HashMap<Integer, ArrayList<String> > answerMap = new HashMap<Integer, ArrayList<String> >();
-		HashMap<Integer, Double > scoreMap = new HashMap<Integer, Double >();
+		HashMap<Integer, String> answerMap = new HashMap<Integer, String>();
 		Map<String, String[]> parameters = request.getParameterMap();
+		String correctAnswer = "";
 		for(String parameter : parameters.keySet()) {
 		    if(parameter.toLowerCase().contains("_answer_")) {
 		        String answerText = (String)request.getParameter(parameter);
 		        String[] tokens = parameter.split("_");
-		        int answerIndex = Integer.parseInt(tokens[0]);		        
-		        boolean isOrdered = false;
-		        if(parameters.get(answerIndex + "_isCorrect_0") != null) isOrdered=true;
 		        
-		        ArrayList<String> answerTextList = answerMap.get(answerIndex);
-		        Double scoreList = scoreMap.get(answerIndex);
-		        if (answerTextList == null) {
-		        	answerTextList = new ArrayList<String>();
-		        	answerMap.put(answerIndex, answerTextList);
-		        	if(isOrdered) scoreMap.put(answerIndex, 1.0);
-		        	else scoreMap.put(answerIndex, 0.0);
+		        int answerIndex = Integer.parseInt(tokens[0]);		        
+		        
+		        String correctAnswerParameter = (String)request.getParameter("correct");
+		        if (correctAnswerParameter.equals(parameter)) {
+		        	correctAnswer = answerText;
 		        }
-		        answerTextList.add(answerText);
+		        
+		        if (!answerMap.containsKey(answerIndex)) {
+		        	answerMap.put(answerIndex, answerText);
+		        }
 		    }
 		}
 		
@@ -79,11 +78,14 @@ public class CreateMCServlet extends HttpServlet {
 		Integer keysArray[] = keys.toArray(new Integer[keys.size()]);
 		Arrays.sort(keysArray);
 		
-		int answerCounter = 0;
 		for (int i = 0; i < keysArray.length; i++) {
-			ArrayList<String> answerTextList = answerMap.get(keysArray[i]);
-			answerCounter++;
-			currentPendingAnswer.add(new MultipleChoiceAnswer(-1, answerTextList, answerCounter, scoreMap.get(keysArray[i])));
+			String answerText = answerMap.get(keysArray[i]);
+			
+			double score = 0;
+			if (correctAnswer.equals(answerText)) {
+				score = 1;
+			}
+			currentPendingAnswer.add(new MultipleChoiceAnswer(-1, answerText, score));
 		}
 		
 		

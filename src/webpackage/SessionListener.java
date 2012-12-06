@@ -48,6 +48,7 @@ public class SessionListener implements HttpSessionListener {
 		hs.setAttribute("pendingIsFlashcard", false);
 		hs.setAttribute("pendingAllowsPractice", false);
 		hs.setAttribute("pendingImmediateFeedback", false);
+		hs.setAttribute("previousQuizId", -1);
     }
 
 	/**

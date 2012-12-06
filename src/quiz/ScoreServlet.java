@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import question.Question;
 import question.QuestionManager;
 import userPackage.*;
+import achievement.AchievementManager;
 import answer.*;
 
 /**
@@ -49,6 +50,8 @@ public class ScoreServlet extends HttpServlet {
 		AccountManager acctMGR = (AccountManager)context.getAttribute("manager");
 		AnswerManager am = (AnswerManager) context.getAttribute("answerManager");
 		QuestionManager questionManager = (QuestionManager) context.getAttribute("questionManager");
+		AchievementManager achMGR = (AchievementManager) context.getAttribute("achievementManager");
+		String username = (String)session.getAttribute("username");
 		QuizManager quizManager = (QuizManager)context.getAttribute("quizManager");
 		
 		Map<String, String[]> requestMap = request.getParameterMap();
@@ -56,45 +59,50 @@ public class ScoreServlet extends HttpServlet {
 		int quizId = Integer.parseInt(request.getParameter("currentQuiz"));
 		Quiz quiz = quizManager.getQuiz(quizId);
 		ArrayList<Integer> questionIds = quiz.getQuestionIds();
-		
+		String practiceMode=request.getParameter("allowsPractice");
+
 		double totalScore = 0;
 		double totalPossibleScore = 0;
 		for (int i = 0; i < questionIds.size(); i++) {
 			int qId = questionIds.get(i);
 			int index = 0;
-			
+
 			ArrayList<String> userInputs = new ArrayList<String>();
-			
+
 			while (true) {
 				String parameterName = qId + "answer" + index;
 				if (!requestMap.containsKey(parameterName)) {
 					break;
 				}
-				
+
 				String userInput[] = request.getParameterValues(parameterName);
 				for (int j = 0; j < userInput.length; j++) {
 					userInputs.add(userInput[j]);
 				}
-				
+
 				index++;
 			}
-			
+
 			Question question = questionManager.getQuestion(qId);
 			ArrayList<Answer> answers = am.getAnswers(qId);
-			
+
 			totalScore += Answer.scoreUserInput(answers, userInputs);
 			totalPossibleScore += question.getNumAnswers();
 		}
-		
-		AttemptManager attemptMngr = (AttemptManager)context.getAttribute("attemptManager");
-		String username = (String)session.getAttribute("username");
-		Timestamp timeSpent = null;
-		attemptMngr.createAttempt(username, quizId, totalScore, timeSpent);
-		
-		if(totalScore> attemptMngr.getQuizHighScore(quizId)){
-			acctMGR.setHighScorer(username);
+		if(practiceMode.equals("true")){
+			System.out.println(achMGR.checkAchievement(username, 5));
+		}else{
+			AttemptManager attemptMngr = (AttemptManager)context.getAttribute("attemptManager");
+			Timestamp startTime = (Timestamp)session.getAttribute("startTime");
+			Timestamp endTime = new Timestamp(System.currentTimeMillis());
+			long timeTaken = startTime.getTime() - startTime.getTime();
+			attemptMngr.createAttempt(username, quizId, totalScore, (int)timeTaken, endTime);
+
+			if(totalScore> attemptMngr.getQuizHighScore(quizId)){
+				acctMGR.setHighScorer(username);
+			}
 		}
-		
+		request.setAttribute("practiceMode", practiceMode);
 		request.setAttribute("totalScore", totalScore);
 		request.setAttribute("totalPossibleScore", totalPossibleScore);
 		request.setAttribute("currentQuiz", quizId);

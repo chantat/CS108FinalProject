@@ -22,6 +22,7 @@ if(user==null){
 <% 
 QuizManager quizManager = (QuizManager)application.getAttribute("quizManager");
 Quiz[] quiz = quizManager.getAllQuizzes();
+ReviewManager reviewmanager = (ReviewManager)application.getAttribute("reviewManager");
 
 for (int i = 0; i < quiz.length ; i++) {
 	out.println("<tr>");
@@ -56,6 +57,8 @@ for (int i = 0; i < quiz.length ; i++) {
 	out.println("<td> " + description + "</td>");
 	out.println("<td> " + category + "</td>");
 	out.println("<td> " + tagString + "</td>");
+	String reviewLink="<td><a href=\"ReviewServlet?ID=" + quizId + "\"> Read reviews</a></td>";
+	out.println(reviewLink);
 	out.println("</tr>");
 }
 

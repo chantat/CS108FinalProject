@@ -5,10 +5,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Quiz Rated</title>
+<title>Quiz Feedback</title>
 </head>
 <body>
-<h2>Thank you for submitting a rating!</h2>
+<h2>Thank you for your feedback!</h2>
 
 <% // Link to quiz Homepage 
 String quizHomepageLink = "<A HREF=\"quizHomepage.jsp\">Quiz Homepage</A>";
