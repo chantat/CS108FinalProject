@@ -67,11 +67,13 @@ public class CreateQuizServlet extends HttpServlet {
 		String quizName = request.getParameter("quizName");
 		String description = request.getParameter("description");
 		String category = request.getParameter("category");
+		boolean allowsPractice=false;
+		if(request.getParameter("allowsPractice").equals("true")) allowsPractice = true;
 		
 		// TODO make tags work
 		ArrayList<String> tags = new ArrayList<String>();
 		
-		quizManager.createQuiz(authorId, false, false, false, false, -1, description, category, questionIds, tags, quizName);
+		quizManager.createQuiz(authorId, false, false, false, allowsPractice, -1, description, category, questionIds, tags, quizName);
 		
 		request.getRequestDispatcher("userHomePage.jsp").forward(request, response);
 	}

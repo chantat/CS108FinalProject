@@ -45,7 +45,17 @@ public class QuizServlet extends HttpServlet {
 		request.setAttribute("totalPossibleScore", 0);
 		request.setAttribute("currentQuestion", 1);
 		request.setAttribute("numQuestions", qm.getNumQuestions(Integer.parseInt(quizId)));
-		request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
+		boolean allowsPractice = qm.getQuizAllowsPractice(Integer.parseInt(quizId));
+		if(!request.getParameterMap().containsKey("practiceMode")){
+			if(allowsPractice){
+				request.getRequestDispatcher("practiceMode.jsp").forward(request, response);
+			}else{
+				request.setAttribute("practiceMode", "false");
+				request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
+			}
+		}else{
+			request.setAttribute("practiceMode", request.getParameter("practiceMode"));
+			request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
+		}
 	}
-
 }

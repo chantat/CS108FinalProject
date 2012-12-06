@@ -22,10 +22,14 @@ if(user==null){
 <%
 double score = (Double)request.getAttribute("totalScore");
 double possibleScore = (Double)request.getAttribute("totalPossibleScore");
+String practiceMode = (String)request.getAttribute("practiceMode");
+boolean practice=false;
+if(practiceMode.equals("true")) practice=true;
 out.println("<p>You score a " + score + " out of " + possibleScore + " on the quiz</p>");
-out.println("<p>Challenge a friend to beat your score!</p>");
-System.out.println("QuizID of Challenge: " + request.getParameter("currentQuiz"));
 application.setAttribute("currentQuiz", Integer.parseInt(request.getParameter("currentQuiz")));
+if(!practice){
+	out.println("<p>Challenge a friend to beat your score!</p>");
+	System.out.println("QuizID of Challenge: " + request.getParameter("currentQuiz"));
 %>
 <form action="ChallengeServlet" method="post">
 <input type="hidden" name="quizId" value="<%= request.getParameter("currentQuiz") %>"/>
@@ -33,7 +37,9 @@ application.setAttribute("currentQuiz", Integer.parseInt(request.getParameter("c
 <input type="text" name="victim"/>
 <input type="submit" value="Challenge!"/>
 </form>
-
+<% 
+}
+%>
 <form action="RatingServlet" method="post">
 <%
 RatingManager rm = (RatingManager)application.getAttribute("ratingManager");

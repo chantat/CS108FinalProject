@@ -6,6 +6,7 @@
 <%
 int quizID = Integer.parseInt((String)request.getAttribute("currentQuiz"));
 int currQuest = (Integer) request.getAttribute("currentQuestion");
+String practiceMode = (String) request.getAttribute("practiceMode");
 QuizManager quizM = (QuizManager) application.getAttribute("quizManager");
 QuestionManager questM = (QuestionManager) application.getAttribute("questionManager");
 AnswerManager am = (AnswerManager) application.getAttribute("answerManager");
@@ -136,6 +137,7 @@ for (int i = 0; i < questIds.size(); i++) {
 }
 %>
 <input type="hidden" name="currentQuiz" value="<% out.print(quizID); %>"/>
+<input type="hidden" name="allowsPractice" value="<% out.print(practiceMode); %>"/>
 <input type="submit" value="Submit"/>
 </form>
 </body>

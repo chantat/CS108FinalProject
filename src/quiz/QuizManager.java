@@ -51,6 +51,19 @@ public class QuizManager {
 		return quiz.getName();	
 	}
 	
+	public boolean getQuizAllowsPractice(int quizID){
+		boolean allowsPractice=false;
+		String query = "SELECT * FROM Quiz WHERE quizID = " + quizID + ";";
+		ResultSet rs = null;
+		try {
+			rs = stmnt.executeQuery(query);
+			rs.first();
+			allowsPractice=rs.getBoolean("allowsPractice");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return allowsPractice;
+	}
 	
 	public Quiz getQuiz(int quizId) {
 		String query = "SELECT * FROM Quiz WHERE quizID = " + quizId + ";";

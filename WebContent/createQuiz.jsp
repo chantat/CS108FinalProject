@@ -13,6 +13,7 @@
 Quiz Name: <input type="text" name="quizName"> <br>
 Description: <input type="text" name="description">  <br>
 Category: <input type="text" name="category"> <br>
+Allow practice mode: <input type="checkbox" name="allowsPractice" value="true"> <br>
 <input type="submit" value="Create Quiz">
 </form>
 <br><br>
