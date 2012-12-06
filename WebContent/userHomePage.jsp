@@ -4,12 +4,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<% 
+String quote = "\"";
+String redirect = "<meta http-equiv=" +quote+ "refresh"+quote+" content="+quote+"1;url=userLogin.jsp"+quote+">";
+String user = (String)session.getAttribute("username");
+if(user==null){
+	System.out.println("user = null");
+	out.print(redirect);
+}
+%>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>User Home Page</title>
 </head>
 <body>
-<% String user = (String)session.getAttribute("username"); %>
-<h1><%= user %>'s Home Page</h1>
+<h1><%
+if(user!=null){
+	out.print(user);
+	
+}
+%>'s Home Page</h1>
 
 <% MailSystem ms = (MailSystem)application.getAttribute("mailSystem"); %>
 <a href="inbox.jsp">Inbox(<%= ms.getUnreadForUser(user) %>)</a>
@@ -34,31 +47,34 @@ User Search: <input type="text" name="victim">
 <table border="1">
 
 <%
-FriendManager friendMgr = (FriendManager)application.getAttribute("friendManager");
-AccountManager acct = (AccountManager)application.getAttribute("manager");
-
-
-//TEST
-System.out.println("Friend Table");
-friendMgr.dumpFriendTable();
-System.out.println("Req Table");
-friendMgr.dumpRequestTable();
-
-
-ArrayList<String> friends = friendMgr.getFriends(user);
-ArrayList<String> requests = friendMgr.getRequests(user);
-for(int i=0; i<friends.size();i++){
-	String friendName = friends.get(i);
-	String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +friendName +"\"><input type=\"submit\" value=\""+friendName+"\"></form>";
-	out.println("<tr>");
-	out.println("<td> "+linkButton+"</td>");
-	String removeButton = "<form action=\"RemoveFriendServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +friendName +"\"><input type=\"submit\" value=\"Remove From Friend List\"></form>";
-	out.println("<td> "+removeButton+"</td>");
-	String composeLink = "<form action=\"ComposeServlet\" method=\"post\"><input type=\"hidden\" name=\"toID\" value=\"" +friendName+"\"><input type=\"submit\" value=\"Send Message\"></form>";
-	out.println("<td> "+composeLink+"</td>");
-	out.println("</tr>");
+ArrayList<String> requests = null;
+AccountManager acct = null;
+if(user!=null){
+	FriendManager friendMgr = (FriendManager)application.getAttribute("friendManager");
+	acct = (AccountManager)application.getAttribute("manager");
+	
+	
+	//TEST
+	System.out.println("Friend Table");
+	friendMgr.dumpFriendTable();
+	System.out.println("Req Table");
+	friendMgr.dumpRequestTable();
+	
+	
+	ArrayList<String> friends = friendMgr.getFriends(user);
+	requests = friendMgr.getRequests(user);
+	for(int i=0; i<friends.size();i++){
+		String friendName = friends.get(i);
+		String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +friendName +"\"><input type=\"submit\" value=\""+friendName+"\"></form>";
+		out.println("<tr>");
+		out.println("<td> "+linkButton+"</td>");
+		String removeButton = "<form action=\"RemoveFriendServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +friendName +"\"><input type=\"submit\" value=\"Remove From Friend List\"></form>";
+		out.println("<td> "+removeButton+"</td>");
+		String composeLink = "<form action=\"ComposeServlet\" method=\"post\"><input type=\"hidden\" name=\"toID\" value=\"" +friendName+"\"><input type=\"submit\" value=\"Send Message\"></form>";
+		out.println("<td> "+composeLink+"</td>");
+		out.println("</tr>");
+	}
 }
-
 %>
 
 </table>
@@ -135,7 +151,7 @@ for(int i=0; i<Math.min(10,quizzes.length);i++){
 %>
 
 </table>
-<A HREF="http://localhost:8080/CS108FinalProject/fullQuizList.jsp">See Full History</A>
+<A HREF="http://localhost:8080/CS108FinalProject/fullQuizList.jsp">See Full Quiz List</A>
 
 
 <h2>Popular Quizzes</h2>
@@ -159,19 +175,21 @@ for(int i=0; i<popularQuizIDs.length;i++){
 <h2>Recently Taken Quizzes</h2>
 <table border="1">
 <% 
-AttemptManager attemptMGR = (AttemptManager)application.getAttribute("attemptManager");
-Attempt[] attempts = attemptMGR.getAllAttempts(user);
-
-for(int i=0; i<Math.min(10,attempts.length);i++){
-	out.println("<tr>");;
-	int quizID = attempts[i].getQuizId();
-	String quizName =quizMGR.getQuizName(quizID);
-	double score = attempts[i].getScore();
-	String time = attempts[i].getTimeTaken().toString();
-	out.println("<td> "+quizName+"</td>");
-	out.println("<td> "+score+"</td>");
-	out.println("<td> "+time+"</td>");
-	out.println("</tr>");
+if(user!=null){
+	AttemptManager attemptMGR = (AttemptManager)application.getAttribute("attemptManager");
+	Attempt[] attempts = attemptMGR.getAllAttempts(user);
+	
+	for(int i=0; i<Math.min(10,attempts.length);i++){
+		out.println("<tr>");;
+		int quizID = attempts[i].getQuizId();
+		String quizName =quizMGR.getQuizName(quizID);
+		double score = attempts[i].getScore();
+		String time = attempts[i].getTimeTaken().toString();
+		out.println("<td> "+quizName+"</td>");
+		out.println("<td> "+score+"</td>");
+		out.println("<td> "+time+"</td>");
+		out.println("</tr>");
+	}
 }
 %>
 
@@ -229,24 +247,23 @@ for(int i=0; i<recentAchievements.size();i++){
 
 <table border="1">
 <% 
+if(user!=null){
 
-
-AchievementManager achMGR = (AchievementManager)application.getAttribute("achievementManager");
-Achievement[] achList = achMGR.getAllAchievement(user);
-
-for(int i=0; i<achList.length;i++){
-	if(achList[i].getIsAchieved()){
-		out.println("<tr>");
-		String achName = achList[i].getName();
-		String describe = achList[i].getDescription();
-		
-		out.println("<td> "+achName+"</td>");
-		out.println("<td> "+describe+"</td>");
-		out.println("</tr>");
+	AchievementManager achMGR = (AchievementManager)application.getAttribute("achievementManager");
+	Achievement[] achList = achMGR.getAllAchievement(user);
+	
+	for(int i=0; i<achList.length;i++){
+		if(achList[i].getIsAchieved()){
+			out.println("<tr>");
+			String achName = achList[i].getName();
+			String describe = achList[i].getDescription();
+			
+			out.println("<td> "+achName+"</td>");
+			out.println("<td> "+describe+"</td>");
+			out.println("</tr>");
+		}
 	}
 }
-
-
 
 
 %>
@@ -282,6 +299,12 @@ String createQuizLink = "<A HREF=\"createQuiz.jsp\">Create Quiz</A>";
 out.println(createQuizLink);
 
 %>
+
+
+
+<form action="DeleteServlet" method="post">
+<input type="submit" value="Delete My Account">
+</form>
 
 
 <form action="LogOutServlet" method="post">

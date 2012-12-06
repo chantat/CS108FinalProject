@@ -280,7 +280,6 @@ public class AccountManager {
 	
 	
 	
-	
 	public void reactivate(String name){
 		try {
 			String command = "UPDATE "+tableName+" SET "+deactColumnName+" = 0 WHERE "+userColumnName+" = \""+name+"\";";
@@ -315,6 +314,18 @@ public class AccountManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public void setHighScorer(String name){
+		try {
+			String command = "UPDATE "+tableName+" SET hadHighScore = 1 WHERE "+userColumnName+" = \""+name+"\";";
+			stmnt.executeUpdate(command);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	public void dumpTable(){
 		String tableName = "QuizUser";
