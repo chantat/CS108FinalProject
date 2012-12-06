@@ -7,21 +7,28 @@ public class Achievement {
 	private final String description;
 	private final boolean isAchieved;
 	private final Timestamp whenAchieved;
+	private final int achieveID;
 	
-	public Achievement(String name, String description, boolean isAchieved, Timestamp when) {
+	public Achievement(String name, String description, boolean isAchieved, int achieveID, Timestamp when) {
 		this.name = name;
 		this.description = description;
 		this.isAchieved = isAchieved;
 		this.whenAchieved = when;
+		this.achieveID = achieveID;
 	}
 	
-	public Achievement(String name, String description, boolean isAchieved) {
+	public Achievement(String name, String description, int achieveID, boolean isAchieved) {
 		this.name = name;
 		this.description = description;
 		this.isAchieved = isAchieved;
+		this.achieveID = achieveID;
 		this.whenAchieved = null;
 	}
 	
+	public int getAchieveID(){
+		return achieveID;
+		
+	}
 	public String getName() {
 		return this.name;
 	}

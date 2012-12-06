@@ -40,6 +40,13 @@ public class AchievementManager {
 		return numAchievement;
 	}
 	
+	public String getIconURL(int achieveID){
+		String quote = "\"";
+		String description = achievementDescription[achieveID];
+		String URL = "<IMG SRC="+quote+"http://localhost:8080/CS108FinalProject/"+achieveID+".gif"+quote+" TITLE="+quote+description+quote+" WIDTH=32 HEIGHT=32>";
+		return URL;
+	}
+	
 	public void checkAllAchievement(String username) {
 		for (int i = 0; i < numAchievement; i++) {
 			checkAchievement(username, i);
@@ -88,7 +95,7 @@ public class AchievementManager {
 	public Achievement[] getAllAchievement(String username) {
 		Achievement[] ret = new Achievement[numAchievement];
 		for (int i = 0; i < numAchievement; i++) {
-			ret[i] = new Achievement(achievementName[i], achievementDescription[i], checkAchievement(username, i));
+			ret[i] = new Achievement(achievementName[i], achievementDescription[i], i, checkAchievement(username, i));
 		}
 		
 		return ret;
@@ -120,7 +127,7 @@ public class AchievementManager {
 				int achieveID = testRS.getInt("achievementID");
 				Timestamp time = testRS.getTimestamp("timeAchieved");
 				String description = achievementDescription[achieveID];
-				Achievement item = new Achievement(user,description,true,time);
+				Achievement item = new Achievement(user,description,true,achieveID,time);
 				achieve.add(item);  //add the friend's name to the list		
 			}
 			

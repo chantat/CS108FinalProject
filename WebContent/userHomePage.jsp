@@ -47,6 +47,7 @@ if(user==null){
 AccountManager acct = (AccountManager)application.getAttribute("manager");
 MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 %>
+
 <div id="profileTabs">
 	<ul>
 		<li><a href="#quizTab">Quizzes</a></li>
