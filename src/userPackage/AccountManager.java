@@ -326,6 +326,19 @@ public class AccountManager {
 		
 	}
 
+	public int getPopulation(){
+		int pop = 0;
+		try {
+			String command = "SELECT * FROM "+tableName+";";
+			ResultSet rs = stmnt.executeQuery(command);
+			pop = DBConnection.getResultSetSize(rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pop;
+		
+	}
 	
 	public void dumpTable(String table){
 		
