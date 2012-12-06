@@ -58,7 +58,32 @@ public class AttemptManager {
 		return ret;
 	}
 	
+	public void deleteAllQuizAttempts(int quizID) {
+		String command = "DELETE FROM Attempts WHERE quizID = \""+ quizID + "\";";
+	
+		try {
+			stmnt.executeUpdate(command);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+	}
 	
 	
+	public double getQuizHighScore(int quizID){
+		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" ORDER BY score DESC;";
+		try {
+			ResultSet rs = stmnt.executeQuery(command);
+			if(rs.next()){
+				return rs.getDouble("score"); //returns the topmost attempt's score (which should be the high score)			
+			}
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;			  //returns a score that is lower than possible if no scores exist for this quiz
+	}
 
 }

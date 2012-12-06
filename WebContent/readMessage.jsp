@@ -39,12 +39,24 @@ Message msg = (Message) request.getAttribute("message");
 <!-- Challenge -->
 <%if (msg.getType().equals("Challenge")) { %>
 <% ChallengeMessage chlg = (ChallengeMessage) request.getAttribute("message"); %>
-<p><%= msg.getMessage() %></p>
+<p><%= chlg.getMessage() %></p>
 <form action="QuizServlet" method="post">
 <input type="hidden" name="quizId" value="<%=chlg.getQuizID() %>"/>
 <input type="submit" value="Take Quiz">
 </form>
 <%} %>
+
+<!-- Reply -->
+<form action="compose.jsp" method="post">
+<input type="hidden" name="toID" value="<%= msg.getFromID() %>">
+<input type="hidden" name="subject" value="RE: <%= msg.getSubject() %>">
+<% 
+String replyText = "-------------------------\n";
+replyText += msg.getMessage();
+%>
+<input type="hidden" name="msgText" value="<%= replyText %>">
+<input type="submit" value="Reply">
+</form>
 <a href="inbox.jsp"><button>Inbox</button></a>
 </body>
 </html>

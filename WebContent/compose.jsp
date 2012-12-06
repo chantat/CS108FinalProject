@@ -17,12 +17,24 @@ if(user==null){
 <title>Compose</title>
 </head>
 <body>
-<%!String toAddr; %>
+<%!
+String toAddr, subject, replyText; 
+%>
 <% 
 if (request.getParameter("toID") == null) {
 	toAddr = ""; 
 } else {
 	toAddr = (String)request.getParameter("toID");
+}
+if (request.getParameter("msgText") == null) {
+	replyText = "";
+} else {
+	replyText = (String)request.getParameter("msgText");
+}
+if (request.getParameter("subject") == null) {
+	subject = "";
+} else {
+	subject = (String)request.getParameter("subject");
 }
 %>
 <h1>Compose New Message</h1>
@@ -32,9 +44,10 @@ alert('You cannot send a message to a user you are not friends with' +
 </script>
 -->
 <form action="MailServlet" method="post">
-<p>To: <input type="text" name="toID" value="<%= toAddr %>"/></p>
-<p>Subject: <input type="text" name="subject"/></p>
-<p><textarea name="message" cols="50" rows="5"></textarea></p>
+<p>To: <input type="text" name="toID" value="<%= toAddr %>"/>
+(Separate names with commas)</p>
+<p>Subject: <input type="text" name="subject" value="<%= subject %>"/></p>
+<p><textarea name="message" cols="50" rows="5"><%= replyText %></textarea></p>
 <input type="submit" name="Send" value="Send"/>
 <a href="inbox.jsp">
 <button>Discard</button>

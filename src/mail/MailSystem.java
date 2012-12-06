@@ -8,17 +8,14 @@ import webpackage.DBConnection;
 
 public class MailSystem {
 	private DBConnection dbc;
-	private Statement stmt;
-	private ResultSet rs;
-	private String sqlStr;
 
 	public MailSystem(DBConnection con) {
 		dbc = con;
-		stmt = dbc.getStatement();
 	}
 	
 	public void send(Message msg) {
-		sqlStr = "INSERT INTO Message(toID,fromID,subject,messageText,status,msgType) VALUES (";
+		Statement stmt = dbc.getStatement();
+		String sqlStr = "INSERT INTO Message(toID,fromID,subject,messageText,status,msgType) VALUES (";
 		sqlStr += "\"" + msg.getToID() + "\",";
 		sqlStr += "\"" + msg.getFromID() + "\",";
 		sqlStr += "\"" + msg.getSubject() + "\",";
@@ -35,7 +32,8 @@ public class MailSystem {
 	}
 	
 	public void send(ChallengeMessage msg) {
-		sqlStr = "INSERT INTO Message(toID,fromID,subject,messageText,status,msgType) VALUES (";
+		Statement stmt = dbc.getStatement();
+		String sqlStr = "INSERT INTO Message(toID,fromID,subject,messageText,status,msgType) VALUES (";
 		sqlStr += "\"" + msg.getToID() + "\",";
 		sqlStr += "\"" + msg.getFromID() + "\",";
 		sqlStr += "\"" + msg.getSubject() + "\",";
@@ -64,11 +62,15 @@ public class MailSystem {
 	}
 	
 	public void markAsRead(Message msg) {
-		sqlStr = "UPDATE Message SET status=1 WHERE ";
-		sqlStr += "fromID=\"";
+		Statement stmt = dbc.getStatement();
+		String sqlStr = "UPDATE Message SET status=1 WHERE ";
+		sqlStr += "toID=\"";
+		sqlStr += msg.getToID();
+		sqlStr += "\" AND fromID=\"";
 		sqlStr += msg.getFromID();
 		sqlStr += "\" AND messageTime=\"";
 		sqlStr += msg.getTime() + "\"";
+		System.out.println(sqlStr);
 		try {
 			stmt.executeUpdate(sqlStr);
 		} catch (SQLException e) {
@@ -76,22 +78,25 @@ public class MailSystem {
 		}
 	}
 	
-	public Message findMessage(String fromID, String timeStr) {
+	public Message findMessage(String toID, String fromID, String timeStr) {
+		Statement stmt = dbc.getStatement();
+		ResultSet rs;
 		Message msg = null;
-		String toID, subject, message, msgType;
+		String subject, message, msgType;
 		Timestamp time;
 		int status;
-		sqlStr = "SELECT * FROM ";
+		String sqlStr = "SELECT * FROM ";
 		sqlStr += "Message";
 		sqlStr += " WHERE fromID=\"";
 		sqlStr += fromID;
+		sqlStr += "\" AND toID=\"";
+		sqlStr += toID;
 		sqlStr += "\" AND messageTime=\"";
 		sqlStr += timeStr + "\"";
 		//System.out.println(sqlStr);
 		try {
 			rs = stmt.executeQuery(sqlStr);
 			rs.next();
-				toID = rs.getString("toID");
 				subject = rs.getString("subject");
 				message = rs.getString("messageText");
 				time = rs.getTimestamp("messageTime");
@@ -104,26 +109,28 @@ public class MailSystem {
 		return msg;
 	}
 	
-	public ChallengeMessage findChallenge(String fromID, String timeStr) {
+	public ChallengeMessage findChallenge(String toID, String fromID, String timeStr) {
+		Statement stmt = dbc.getStatement();
+		ResultSet rs;
 		ChallengeMessage chlg = null;
-		String toID = "";
 		String subject = "";
 		String message = "";
 		Timestamp time = null;
 		int status = -1;
 		int quizID = -1;
 		double score = -1;
-		sqlStr = "SELECT * FROM ";
+		String sqlStr = "SELECT * FROM ";
 		sqlStr += "Message";
 		sqlStr += " WHERE fromID=\"";
 		sqlStr += fromID;
+		sqlStr += "\" AND toID=\"";
+		sqlStr += toID;
 		sqlStr += "\" AND messageTime=\"";
 		sqlStr += timeStr + "\"";
 		//System.out.println(sqlStr);
 		try {
 			rs = stmt.executeQuery(sqlStr);
 			rs.next();
-			toID = rs.getString("toID");
 			subject = rs.getString("subject");
 			message = rs.getString("messageText");
 			time = rs.getTimestamp("messageTime");
@@ -135,6 +142,8 @@ public class MailSystem {
 		sqlStr += "Challenge";
 		sqlStr += " WHERE fromID=\"";
 		sqlStr += fromID;
+		sqlStr += "\" AND toID=\"";
+		sqlStr += toID;
 		sqlStr += "\" AND challengeTime=\"";
 		sqlStr += timeStr + "\"";
 		try {
@@ -188,11 +197,13 @@ public class MailSystem {
 //	}
 	
 	public List<Message> getInboxForUser(String user) {
+		Statement stmt = dbc.getStatement();
+		ResultSet rs;
 		List<Message> inbox = new ArrayList<Message>();
 		String fromID, subject, message, msgType;
 		Timestamp time;
 		int status;
-		sqlStr = "SELECT * from ";
+		String sqlStr = "SELECT * from ";
 		sqlStr += "Message ";
 		sqlStr += "WHERE toID = \"";
 		sqlStr += user;
@@ -208,7 +219,7 @@ public class MailSystem {
 				msgType = rs.getString("msgType");
 				if (msgType.equals("Challenge")) {
 					System.out.println("ADDING CHALLENGE TO INBOX");
-					inbox.add(findChallenge(fromID, time.toString()));
+					inbox.add(findChallenge(user, fromID, time.toString()));
 //					int quizID = findChallengeQuizID(fromID, time.toString());
 //					double score = findChallengeScore(fromID, time.toString());
 //					inbox.add(new ChallengeMessage(user, fromID, subject, message, time, status, quizID, score));
@@ -220,12 +231,15 @@ public class MailSystem {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Inbox size: " + inbox.size());
 		return inbox;
 	}
 	
 	public int getUnreadForUser(String user) {
+		Statement stmt = dbc.getStatement();
+		ResultSet rs;
 		int numUnread = 0;
-		sqlStr = "SELECT * from ";
+		String sqlStr = "SELECT * from ";
 		sqlStr += "Message ";
 		sqlStr += "WHERE toID = \"";
 		sqlStr += user;
@@ -242,11 +256,13 @@ public class MailSystem {
 	}
 	
 	public List<Request> getRequestsForUser(String user) {
+		Statement stmt = dbc.getStatement();
+		ResultSet rs;
 		List<Request> requests = new ArrayList<Request>();
 		String fromID;
 		Timestamp time;
 		int status;
-		sqlStr = "SELECT * from ";
+		String sqlStr = "SELECT * from ";
 		sqlStr += "Request ";
 		sqlStr += "WHERE toID = \"";
 		sqlStr += user;
@@ -266,12 +282,14 @@ public class MailSystem {
 	}
 	
 	public List<Challenge> getChallengesForUser(String user) {
+		Statement stmt = dbc.getStatement();
+		ResultSet rs;
 		List<Challenge> challenges = new ArrayList<Challenge>();
 		int quizID;
 		String fromID;
 		Timestamp time;
 		int status;
-		sqlStr = "SELECT * from ";
+		String sqlStr = "SELECT * from ";
 		sqlStr += "Challenge ";
 		sqlStr += "WHERE toID = \"";
 		sqlStr += user;

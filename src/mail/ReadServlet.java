@@ -33,21 +33,24 @@ public class ReadServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext sc = request.getServletContext();
+		HttpSession session = request.getSession(); 
 		MailSystem ms = (MailSystem) sc.getAttribute("mailSystem");
 		String fromID = request.getParameter("fromID");
 		String timeStr = request.getParameter("timeStamp");
-		Message msg = ms.findMessage(fromID, timeStr);
+		String toID = (String)session.getAttribute("username");
+		Message msg = ms.findMessage(toID, fromID, timeStr);
 		System.out.println("MESSAGE TYPE IS: " + msg.getType());
 		if (msg.getType().equals("Challenge")) {
 			System.out.println("MESSAGE IS A CHALLENGE");
 //			int quizID = ms.findChallengeQuizID(fromID, timeStr);
 //			double score = ms.findChallengeQuizID(fromID, timeStr);
 //			ChallengeMessage chlg = new ChallengeMessage()
-			ChallengeMessage chlg = ms.findChallenge(fromID, timeStr);
+			ChallengeMessage chlg = ms.findChallenge(toID, fromID, timeStr);
 			ms.markAsRead(chlg);
 			request.setAttribute("message", chlg);
 		} else {
 			System.out.println("MESSAGE IS A MESSAGE");
+			System.out.println(msg.getToID());
 			ms.markAsRead(msg);
 			request.setAttribute("message", msg);
 		}

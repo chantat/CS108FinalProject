@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ page import="java.util.*, quiz.*, userPackage.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -53,6 +54,22 @@ Username: <input type="text" name="username">  <br>
 <input type="hidden" name="function" value="promote_admin"/>
 <input type="submit" value="Submit"/>
 </form>
+
+Site Statistics:
+
+Total Number of Users:  <% 
+
+AccountManager acctMGR = (AccountManager)application.getAttribute("manager");
+int userPop = acctMGR.getPopulation();
+out.print(userPop); %>
+
+Total Number of Quizzes:  <%
+QuizManager quizMGR = (QuizManager)application.getAttribute("quizManager");
+Quiz[] allQuiz = quizMGR.getAllQuizzes();
+out.print(allQuiz.length);
+
+%>
+
 
 <A HREF="http://localhost:8080/CS108FinalProject/userHomePage.jsp">Return to Home Page</A>
 
