@@ -118,7 +118,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		<thead>
 			<tr>
 				<th>Quiz</th>
-				<th>Author</th>
+				<th>Score</th>
 				<th>Time</th>
 			</tr>
 		</thead>
@@ -157,10 +157,8 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		<thead>
 			<tr>
 				<th>Quiz</th>
-				<th>Author</th>
-				<th>Description</th>
-				<th>Category</th>
-				<th>Tags</th>
+				<th>Category
+				<th>Time</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -210,10 +208,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		<thead>
 			<tr>
 				<th>Quiz</th>
-				<th>Author</th>
-				<th>Description</th>
-				<th>Category</th>
-				<th>Tags</th>
+				<th>Average Rating</th>
 			</tr>
 		</thead>
 		<tbody>
