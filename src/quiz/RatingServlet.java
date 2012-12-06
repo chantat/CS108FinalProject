@@ -44,13 +44,8 @@ public class RatingServlet extends HttpServlet {
 		RatingManager ratingManager = (RatingManager)context.getAttribute("ratingManager");
 		Map<String, String[]> requestMap = request.getParameterMap();
 		int ratingReceived=0;
-		for(int i = 0; i < ratingManager.RATING_MAXIMUM; i++){
-			int grade = i+1;
-			if(requestMap.containsKey("" + grade)){
-				ratingReceived=grade;
-				System.out.println(grade);
-			}
-		}
+		ratingReceived=Integer.parseInt(requestMap.get("grade")[0]);
+		System.out.println(ratingReceived + " " + request.getParameter("quizId"));
 		int currentQuiz = Integer.parseInt(request.getParameter("quizId"));
 		System.out.println("RATING SERVLET: " + currentQuiz);
 		String username = (String)session.getAttribute("username");

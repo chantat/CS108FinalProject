@@ -42,11 +42,9 @@ for (int i = 0; i < rm.RATING_MAXIMUM; i++) {
 	int grade = i+1;	
 	String radioButton = "<input type=\"radio\" name=\"grade\"";
 	radioButton += "value=\"" + grade + "\">" + grade;
+	radioButton += "<input type=\"hidden\" name=\"quizId\" value=" + request.getParameter("currentQuiz") + ">";
 	out.print(radioButton);
 }
-%>
-<input type="hidden" name="quizId" value="<%= request.getParameter("currentQuiz") %>"/>
-<%
 out.println("<br><input type=\"submit\" value=\"Submit rating!\"><br>");
 %>
 </form>
