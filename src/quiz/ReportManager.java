@@ -58,13 +58,13 @@ public class ReportManager {
 			
 		}
 		
-		public int getReportOccurence(int quizID){
+		public int getReportOccurrence(int quizID){
 			if(isReportExist(quizID)){
 				String command = "SELECT * FROM Reported WHERE quizID = "+ quizID + ";";
 				try {
 					ResultSet rs = stmnt.executeQuery(command);
 					rs.next();
-					int occur = rs.getInt("occurence");
+					int occur = rs.getInt("occurrence");
 					return occur;
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -115,12 +115,15 @@ public class ReportManager {
 			
 		}
 	*/	
-		public void incrementOccurence(int quizID){
+		public void incrementOccurrence(int quizID){
 			if(isReportExist(quizID)){
 				try {
-					int currentOccur = getReportOccurence(quizID);
+					
+	//TEST
+	System.out.println("INCREMENTING OCCURRENCE");
+					int currentOccur = getReportOccurrence(quizID);
 					int newOccur = currentOccur++;
-					String command = "UPDATE Reported SET occurence = "+newOccur+" WHERE quizID = "+quizID+";";
+					String command = "UPDATE Reported SET occurrence = "+newOccur+" WHERE quizID = "+quizID+";";
 					stmnt.executeUpdate(command);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block

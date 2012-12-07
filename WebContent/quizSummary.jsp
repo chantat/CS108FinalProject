@@ -14,12 +14,12 @@
 <%
 QuizManager quizManager = (QuizManager)application.getAttribute("quizManager");
 //int quizID = Integer.parseInt((String)request.getAttribute("currentQuiz"));
-int quizID=26;
+int quizID= Integer.parseInt(request.getParameter("qID"));
 ReviewManager reviewManager = (ReviewManager)application.getAttribute("reviewManager");
 RatingManager ratingManager = (RatingManager)application.getAttribute("ratingManager");
 AttemptManager attemptManager = (AttemptManager)application.getAttribute("attemptManager");
 
-
+String user = (String)session.getAttribute("username");
 Quiz quiz=quizManager.getQuiz(quizID);
 String quizName = quiz.getName(); 
 String authorId = quiz.getAuthorId();
@@ -47,10 +47,24 @@ out.print("Description: " + description);
 out.print("<br>");
 out.print("Category: " + category);
 out.print("<br>");
-out.print("Tags: <br>");
+out.print("Tags: ");
 for(int i = 0; i < tags.size(); i++){
 	out.print("#" + tags.get(i) + " ");
 }
+out.print("<br>");
+String quizButton = "<form action=\"QuizServlet\" method=\"post\">";
+quizButton += "<input type=\"hidden\" name = \"quizId\" value=\""+ quizID + "\">";
+quizButton += "<input type=\"submit\" value=\"" + "Start Quiz" + "\">";
+quizButton += "</form>";
+
+String editButton = "<form action=\"EditQuizServlet\" method=\"post\">";
+editButton += "<input type=\"hidden\" name = \"quizId\" value=\""+ quizID + "\">";
+editButton += "<input type=\"submit\" value=\"Edit Quiz\">";
+editButton += "</form>";
+
+out.print("<br>"+quizButton);
+if (authorId.equals(user)) out.print("<br>"+editButton+"<br>");
+
 out.print("</div>");
 out.print("<div id='quizSummaryLeaderboard'>");
 out.print("<br> <h2>Leaderboard</h2>");
@@ -112,7 +126,7 @@ out.print("</table>");
 <h2>Statistics</h2>
 <h3>Your Performance</h3>
 <%
-String user = (String)session.getAttribute("username");
+//String user = (String)session.getAttribute("username");
 ArrayList<Attempt> userScores = attemptManager.getUserPastPerformance(quizID, user, "score");
 
 //table
