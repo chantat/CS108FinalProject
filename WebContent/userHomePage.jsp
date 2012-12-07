@@ -220,7 +220,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				if (popularQuizIDs != null) {
 				
 					for (int i=0; i<popularQuizIDs.length;i++) {
-						if (quiz[i].getAuthorId().equals(user)) {
+			//			if (quiz[i].getAuthorId().equals(user)) {
 							out.println("<tr>");
 							int quizID = popularQuizIDs[i].getQuizID();
 							String quizName = quizManager.getQuizName(quizID);
@@ -234,7 +234,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 							out.println("<td> " + quizButton + "</td>");
 							out.println("<td> " + averageRating + "</td>");
 							out.println("</tr>");
-						}
+		//				}
 					}
 				}
 				%>
@@ -331,6 +331,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				String time = recentAchievements.get(i).getWhenAchieved().toString();
 				int achieveID = recentAchievements.get(i).getAchieveID();
 				String URL = achMGR.getIconURL(achieveID);
+				out.println("<td> "+URL+"</td>");
 				out.println("<td> "+friendID+"</td>");
 				out.println("<td> "+desc+"</td>");
 				out.println("<td> "+time+"</td>");
