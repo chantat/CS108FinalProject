@@ -1,7 +1,6 @@
 package quiz;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.*;
 
 import webpackage.DBConnection;
@@ -19,11 +18,13 @@ public class QuizManager {
 	//get currentQuizId by getting the max of the current quiz IDs in the database
 	private int getCurrentQuizId(){
 		int currentQuizID = 0;
-		String query = "SELECT * FROM Quiz;";
+		String query = "SELECT MAX(quizID) FROM Quiz;";
 		ResultSet rs = null;
 		try{
 			rs = stmnt.executeQuery(query);
-			currentQuizID = DBConnection.getResultSetSize(rs);
+			if (rs.next()) {
+				  currentQuizID = rs.getInt(1) + 1;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
