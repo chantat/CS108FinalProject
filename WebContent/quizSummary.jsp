@@ -7,8 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Quiz Summary</title>
+<%@include file="resources.jsp" %>
 </head>
 <body>
+<%@include file="header.jsp" %>
 <%
 QuizManager quizManager = (QuizManager)application.getAttribute("quizManager");
 //int quizID = Integer.parseInt((String)request.getAttribute("currentQuiz"));
@@ -32,16 +34,16 @@ if(avgRating == - 1){
 	rating="" + avgRating;
 }
 %>
-</body>
-<h1>Quiz Summary</h1>
+<center><h1><%out.print(quizName); %></h1></center>
 <br></br>
-<h2> <%out.print(quizName); %> </h2>
-<br></br>
-Quiz Author: <a href="userHomePage.jsp"> <%
+<div id="quizSummaryContent">
+<h2>Quiz Info</h2>
+<div id="quizSummaryInfo">
+Author: <a href="userHomePage.jsp"> <%
 out.print(authorId + "</a>");
 //TODO link this page correctly to user page
 out.print("<br>");
-out.print("Quiz Description: " + description);
+out.print("Description: " + description);
 out.print("<br>");
 out.print("Category: " + category);
 out.print("<br>");
@@ -49,18 +51,21 @@ out.print("Tags: <br>");
 for(int i = 0; i < tags.size(); i++){
 	out.print("#" + tags.get(i) + " ");
 }
-out.print("<br> Leaderboard: <br>");
+out.print("</div>");
+out.print("<div id='quizSummaryLeaderboard'>");
+out.print("<br> <h2>Leaderboard</h2>");
+out.print("<h3>All-Time</h3>");
 ArrayList<Attempt> topHighScorersOfAllTime=attemptManager.getTopHighScorersEver(quizID);
 
 
 //table
-out.print("<table id='leaderboard'>");
+out.print("<table id='allTimeLeaderboard'>");
 out.print("<thead>");
 out.print("<tr>");
 out.print("<th>Username</th>");
 out.print("<th>Score</th>");
-out.print("<th>Time spent</th>");
-out.print("<th>Time taken</th>");
+out.print("<th>Time Spent</th>");
+out.print("<th>Time Taken</th>");
 out.print("</tr>");
 out.print("</thead>");
 out.print("<tbody>");
@@ -69,14 +74,104 @@ for(int i = 0; i < topHighScorersOfAllTime.size(); i++){
 	out.print("<tr>");
 	out.print("<td> " + topHighScorersOfAllTime.get(i).getUserId() + "</td>");
 	out.print("<td> " + topHighScorersOfAllTime.get(i).getScore() + "</td>");
-	out.print("<td> " + topHighScorersOfAllTime.get(i).getTimeSpent() + "</td>");
+	out.print("<td> " + topHighScorersOfAllTime.get(i).getTimeSpent() + " sec</td>");
 	out.print("<td> " + topHighScorersOfAllTime.get(i).getTimeTaken() + "</td>");
 	out.print("</tr>");
 }
 out.print("</tbody>");
 out.print("</table>");
+
+out.print("<h3>Past Hour</h3>");
+ArrayList<Attempt> recentTopScores = attemptManager.getTopPerformersByTime(quizID);
+
+
+//table
+out.print("<table id='recentLeaderboard'>");
+out.print("<thead>");
+out.print("<tr>");
+out.print("<th>Username</th>");
+out.print("<th>Score</th>");
+out.print("<th>Time Spent</th>");
+out.print("<th>Time Taken</th>");
+out.print("</tr>");
+out.print("</thead>");
+out.print("<tbody>");
+
+for(int i = 0; i < recentTopScores.size(); i++){
+	out.print("<tr>");
+	out.print("<td> " + recentTopScores.get(i).getUserId() + "</td>");
+	out.print("<td> " + recentTopScores.get(i).getScore() + "</td>");
+	out.print("<td> " + recentTopScores.get(i).getTimeSpent() + " sec</td>");
+	out.print("<td> " + recentTopScores.get(i).getTimeTaken() + "</td>");
+	out.print("</tr>");
+}
+out.print("</tbody>");
+out.print("</table>");
 %>
+<div id="quizSummaryStats">
+<h2>Statistics</h2>
+<h3>Your Performance</h3>
+<%
+String user = (String)session.getAttribute("username");
+ArrayList<Attempt> userScores = attemptManager.getUserPastPerformance(quizID, user, "score");
+
+//table
+out.print("<table id='userPerformance'>");
+out.print("<thead>");
+out.print("<tr>");
+out.print("<th>Score</th>");
+out.print("<th>Time Spent</th>");
+out.print("<th>Time Taken</th>");
+out.print("</tr>");
+out.print("</thead>");
+out.print("<tbody>");
+
+for(int i = 0; i < userScores.size(); i++){
+	out.print("<tr>");
+	out.print("<td> " + userScores.get(i).getScore() + "</td>");
+	out.print("<td> " + userScores.get(i).getTimeSpent() + " sec</td>");
+	out.print("<td> " + userScores.get(i).getTimeTaken() + "</td>");
+	out.print("</tr>");
+}
+out.print("</tbody>");
+out.print("</table>");
+%>
+
+<h3>Recent Test Takers</h3>
+
+<%
+ArrayList<Attempt> recentScores = attemptManager.getMostRecentPerformers(quizID);
+
+//table
+out.print("<table id='recentPerformance'>");
+out.print("<thead>");
+out.print("<tr>");
+out.print("<th>Username</th>");
+out.print("<th>Score</th>");
+out.print("<th>Time Spent</th>");
+out.print("<th>Time Taken</th>");
+out.print("</tr>");
+out.print("</thead>");
+out.print("<tbody>");
+
+for(int i = 0; i < recentScores.size(); i++){
+	out.print("<tr>");
+	out.print("<td> " + recentScores.get(i).getUserId() + "</td>");
+	out.print("<td> " + recentScores.get(i).getScore() + "</td>");
+	out.print("<td> " + recentScores.get(i).getTimeSpent() + " sec</td>");
+	out.print("<td> " + recentScores.get(i).getTimeTaken() + "</td>");
+	out.print("</tr>");
+}
+out.print("</tbody>");
+out.print("</table>");
+%>
+
+</div>
+
+</div>
 <br></br>
+<div id="quizSummaryRating">
+<h2>Reviews</h2>
 <%
 
 out.print("Average Rating: " + rating);
@@ -94,11 +189,12 @@ if(numReviews !=0){
 }
 
 %>
-
+</div>
 
 <br></br>
 <%
 
 %>
-
+</div>
+</body>
 </html>

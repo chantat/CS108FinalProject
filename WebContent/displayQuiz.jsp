@@ -76,7 +76,7 @@ setInterval( function(){
 <%@include file="header.jsp" %>
 <div id="allQuizQuestions">
 <h1><%= quizName %></h1>
-<span id="minutes"></span>:<span id="seconds"></span>
+<span id="minutes">00</span>:<span id="seconds">00</span>
 <%
 	if (quiz.getIsFlashcard() && quiz.getImmediateFeedback() && currQuest > 0) {
 		if (session.getAttribute("prevAnswer").equals("correct")) {

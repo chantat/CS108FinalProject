@@ -78,6 +78,28 @@ body {
 	margin-left:400px;
 }
 
+#quizSummaryContent {
+	margin-left:200px;
+}
+
+#quizSummaryInfo {
+	float:left;
+}
+
+#quizSummaryLeaderboard {
+	float:right;
+	margin-right:200px;
+	margin-top:-85px;
+}
+
+#quizSummaryRating {
+	margin-top:120px;
+}
+
+#quizSummaryStats {
+	margin-top:100px;
+}
+
 .lgreen3d-gradient {
     background: rgb(249,252,247); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(249,252,247,1) 0%, rgba(245,249,240,1) 100%); /* FF3.6+ */
