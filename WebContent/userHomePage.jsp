@@ -47,6 +47,7 @@ if(user==null){
 AccountManager acct = (AccountManager)application.getAttribute("manager");
 MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 %>
+
 <div id="profileTabs">
 	<ul>
 		<li><a href="#quizTab">Quizzes</a></li>
@@ -167,7 +168,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				if (quiz != null) {
 				
 					for (int i=0; i<Math.min(10,quiz.length);i++) {
-						if (quiz[i].getAuthorId().equals(user)) {
+					//	if (quiz[i].getAuthorId().equals(user)) {
 							out.println("<tr>");
 							int quizId = quiz[i].getQuizId();
 							String quizName = quiz[i].getName(); 
@@ -195,7 +196,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 							out.println("<td> " + category + "</td>");
 							out.println("<td> " + time + "</td>");
 							out.println("</tr>");
-						}
+				//		}
 					}
 				}
 			%>
@@ -219,7 +220,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				if (popularQuizIDs != null) {
 				
 					for (int i=0; i<popularQuizIDs.length;i++) {
-						if (quiz[i].getAuthorId().equals(user)) {
+			//			if (quiz[i].getAuthorId().equals(user)) {
 							out.println("<tr>");
 							int quizID = popularQuizIDs[i].getQuizID();
 							String quizName = quizManager.getQuizName(quizID);
@@ -233,7 +234,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 							out.println("<td> " + quizButton + "</td>");
 							out.println("<td> " + averageRating + "</td>");
 							out.println("</tr>");
-						}
+		//				}
 					}
 				}
 				%>
@@ -320,7 +321,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		<h3>Recent Friend Achievements</h3>
 		<table border="1">
 		<% 
-		
+		AchievementManager achMGR = (AchievementManager)application.getAttribute("achievementManager");
 		ArrayList<Achievement> recentAchievements = friendMgr.getFriendRecentAchievements(user);
 		if(recentAchievements.size()!=0){   //make sure some recent achievements exist	
 			for(int i=0; i<recentAchievements.size();i++){
@@ -328,6 +329,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				String friendID = recentAchievements.get(i).getName();
 				String desc = recentAchievements.get(i).getDescription();
 				String time = recentAchievements.get(i).getWhenAchieved().toString();
+				int achieveID = recentAchievements.get(i).getAchieveID();
+				String URL = achMGR.getIconURL(achieveID);
+				out.println("<td> "+URL+"</td>");
 				out.println("<td> "+friendID+"</td>");
 				out.println("<td> "+desc+"</td>");
 				out.println("<td> "+time+"</td>");
@@ -435,7 +439,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 			<% 
 			
 			
-			AchievementManager achMGR = (AchievementManager)application.getAttribute("achievementManager");
+			
 			Achievement[] achList = achMGR.getAllAchievement(user);
 			
 			for(int i=0; i<achList.length;i++){
@@ -443,7 +447,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 					out.println("<tr>");
 					String achName = achList[i].getName();
 					String describe = achList[i].getDescription();
-					
+					int achieveID = achList[i].getAchieveID();
+					String URL = achMGR.getIconURL(achieveID);
+					out.println("<td> "+URL+"</td>");
 					out.println("<td> "+achName+"</td>");
 					out.println("<td> "+describe+"</td>");
 					out.println("</tr>");

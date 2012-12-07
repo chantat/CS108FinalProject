@@ -7,9 +7,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Practice mode</title>
+<%@include file="resources.jsp" %>
 </head>
-<h1>Would you like to play in practice mode?</h1>
 <body>
+<%@include file="header.jsp" %>
+<center>
+<h1>Would you like to play in practice mode?</h1>
 <form action="QuizServlet" method="post">
 <%
 int quizID = Integer.parseInt((String)request.getAttribute("currentQuiz"));
@@ -29,5 +32,6 @@ int currQuest = (Integer) request.getAttribute("currentQuestion");
 	out.println("<br><input type=\"submit\" value=\"Submit\"><br>");
 %>
 </form>
+</center>
 </body>
 </html>

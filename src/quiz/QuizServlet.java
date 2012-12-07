@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import userPackage.AccountManager;
+
 /**
  * Servlet implementation class QuizServlet
  */
@@ -72,6 +74,10 @@ public class QuizServlet extends HttpServlet {
 					session.setAttribute("practiceQuestionIds", practiceQuestionIds);
 					}
 			}
+			String user = (String)session.getAttribute("username");
+			AccountManager acctMGR = (AccountManager)sc.getAttribute("manager");
+			acctMGR.setPracticed(user);
+			request.setAttribute("practiceMode", request.getParameter("practiceMode"));
 			Timestamp startTime = new Timestamp(System.currentTimeMillis());
 			session.setAttribute("startTime", startTime);
 			System.out.println(startTime);

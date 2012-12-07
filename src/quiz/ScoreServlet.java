@@ -113,7 +113,14 @@ public class ScoreServlet extends HttpServlet {
 			long timeTaken = startTime.getTime() - startTime.getTime();
 			attemptMngr.createAttempt(username, quizId, totalScore, (int)timeTaken, endTime);
 
-			if(totalScore> attemptMngr.getQuizHighScore(quizId)){
+			
+//TEST
+	System.out.println("high score on quiz id "+quizId+" is "+ attemptMngr.getQuizHighScore(quizId)+ "and your score: "+ totalScore);		
+			
+			if(totalScore>= attemptMngr.getQuizHighScore(quizId)){
+				
+//TEST
+	System.out.println("NEW HIGH SCORE");
 				acctMGR.setHighScorer(username);
 			}
 		}
