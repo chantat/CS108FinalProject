@@ -104,7 +104,16 @@ create table Announcement(
   adminID char(255),
   announcementText varchar(1000),
   subject char(255),
+  announcementID int,
   announcementTime timestamp default current_timestamp
+);
+
+drop table if exists Comment;
+create table Comment(
+	announcementID int,
+	commentText varchar(1000),
+	userID char(255),
+	commentTime timestamp default current_timestamp
 );
 
 drop table if exists Rating;
@@ -171,4 +180,5 @@ VALUES("test2","test1");
 INSERT into Friend
 VALUES("test1","test2");
 
-
+INSERT into Announcement
+VALUES ("admin","checking the announcement table is changed","website creation", 1, null);
