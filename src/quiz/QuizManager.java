@@ -2,6 +2,7 @@ package quiz;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.*;
 
 import webpackage.DBConnection;
 
@@ -240,7 +241,6 @@ public class QuizManager {
 		String query = "SELECT * FROM Quiz;";
 		ResultSet rs = null;
 		int resultSetSize=0;
-		
 		ArrayList<Quiz> tempQuizzes = new ArrayList<Quiz>();
 		try {
 			rs = stmnt.executeQuery(query);
