@@ -44,6 +44,8 @@ Message msg = (Message) request.getAttribute("message");
 <p><%= chlg.getMessage() %></p>
 <form action="QuizServlet" method="post">
 <input type="hidden" name="quizId" value="<%=chlg.getQuizID() %>"/>
+<input type="hidden" name="challenger" value="<%= chlg.getFromID() %>"/>
+<input type="hidden" name="challengerScore" value="<%= chlg.getScore() %>"/>
 <input type="submit" value="Take Quiz">
 </form>
 <%} %>

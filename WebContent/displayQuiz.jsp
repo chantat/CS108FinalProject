@@ -21,7 +21,13 @@ if (quiz.getIsRandomized()) {
 	questIds = quiz.getQuestionIds();
 }
 Question quest;
-//ArrayList<ArrayList<String>> questionResponses = (ArrayList<ArrayList<String>>) session.getAttribute("questionResponses");
+ArrayList<ArrayList<String>> questionResponses = (ArrayList<ArrayList<String>>) session.getAttribute("questionResponses");
+double challengerScore = -1;
+String challenger = "";
+if (request.getParameterMap().containsKey("challenger")) {
+	challenger = request.getParameter("challenger");
+	challengerScore = Double.parseDouble(request.getParameter("challengerScore"));
+}
 
 
 //PRACTICE MODE
@@ -52,21 +58,46 @@ if(practiceMode.equals("true")){
 		}
 	}
 }
-
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%= quizName %></title>
 <%@include file="resources.jsp" %>
+<script type="text/javascript">
+var sec = 0;
+function pad ( val ) { return val > 9 ? val : "0" + val; }
+setInterval( function(){
+    $("#seconds").html(pad(++sec%60));
+    $("#minutes").html(pad(parseInt(sec/60,10)));
+}, 1000);
+</script>
 </head>
 <body>
 <%@include file="header.jsp" %>
+<div id="allQuizQuestions">
 <h1><%= quizName %></h1>
+<span id="minutes"></span>:<span id="seconds"></span>
+<%
+	if (quiz.getIsFlashcard() && quiz.getImmediateFeedback() && currQuest > 0) {
+		if (session.getAttribute("prevAnswer").equals("correct")) {
+			out.println("<p>Correct! Next question:</p>");
+		} else {
+			out.println("<p>You didn't get that question right! Better luck on this one.</p>");
+		}
+	}
+	if (quiz.getIsFlashcard() && currQuest > 0) {
+		long currTimeTaken = (Long)request.getAttribute("currentTimeTaken");
+		out.println("<p>Time taken for previous questions: " + (currTimeTaken/1000) + " seconds</p>");
+	}
+%>
 
 <form action="ScoreServlet" method="post">
 <%
 for (int i = 0; i < questIds.size(); i++) {
 	quest = questM.getQuestion(questIds.get(i));
+	if (quiz.getIsFlashcard()) {
+		quest = questM.getQuestion(questIds.get(currQuest));
+	}
 	switch(quest.getType()){
 	case QuestionManager.QUESTION_RESPONSE:%>
 		<p><%= quest.getQText() %></p>
@@ -163,11 +194,16 @@ for (int i = 0; i < questIds.size(); i++) {
 		<br>
 		<%break;
 	}
+	if (quiz.getIsFlashcard()) break;
 }
 %>
 <input type="hidden" name="currentQuiz" value="<% out.print(quizID); %>"/>
 <input type="hidden" name="allowsPractice" value="<% out.print(practiceMode); %>"/>
+<input type="hidden" name="challenger" value="<%= challenger %>"/>
+<input type="hidden" name="challengerScore" value="<%= challengerScore %>"/>
+<input type="hidden" name="currentQuestion" value="<% out.print(currQuest); %>"/>
 <input type="submit" value="Submit"/>
 </form>
+</div>
 </body>
 </html>

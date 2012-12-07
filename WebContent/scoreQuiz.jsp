@@ -15,26 +15,73 @@ if(user==null){
 }
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Quiz score</title>
+<%@include file="header.jsp" %>
+<title>Quiz Results</title>
+<%@include file="resources.jsp" %>
+<!--
+<link media="screen" rel="stylesheet" href="css/colorbox.css" />
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="js/jquery.colorbox-min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#challenge_button').colorbox({opacity:0.5});
+    });
+</script>
+-->
 </head>
 <body>
-<h1>Quiz score</h1>
+<%@include file="header.jsp" %>
+<center><h1>Quiz Results</h1></center>
+<div id="quizResults">
 <%
 double score = (Double)request.getAttribute("totalScore");
 double possibleScore = (Double)request.getAttribute("totalPossibleScore");
 String practiceMode = (String)request.getAttribute("practiceMode");
 boolean practice=false;
 if(practiceMode.equals("true")) practice=true;
-out.println("<p>You score a " + score + " out of " + possibleScore + " on the quiz</p>");
+int timeTaken = 0;
+if (!practice) timeTaken = (Integer)request.getAttribute("timeTaken");
+
+/* If user was challenged, tell them whether or not they won. */
+if (request.getParameterMap().containsKey("challenger")) {
+	String challenger = request.getParameter("challenger");
+	Double challengerScore = Double.parseDouble(request.getParameter("challengerScore"));
+	String challengeResponseMessage = "";
+	if (!challenger.equals("") && challengerScore != -1) {
+		if (score > challengerScore) {
+			challengeResponseMessage = "Congratulations! You won ";
+			challengeResponseMessage += challenger + "'s challenge! ";
+			challengeResponseMessage += challenger + " only scored " + challengerScore;
+			challengeResponseMessage += "/" + possibleScore + ".";
+		}
+		else if (score < challengerScore) {
+			challengeResponseMessage = "Too bad! You lost ";
+			challengeResponseMessage += challenger + "'s challenge! ";
+			challengeResponseMessage += challenger + " scored " + challengerScore;
+			challengeResponseMessage += "/" + possibleScore + ".";
+		}
+		else {
+			challengeResponseMessage = "Wow! You tied ";
+			challengeResponseMessage += challenger + "'s challenge! ";
+			challengeResponseMessage += challenger + " also scored " + challengerScore;
+			challengeResponseMessage += "/" + possibleScore + ".";
+		}
+		out.println("<p>" + challengeResponseMessage + "</p>");
+	}
+}
+
+out.println("<p>You scored a " + score + " out of " + possibleScore + " on the quiz.</p>");
+if (!practice) out.println("<p>Time taken: " + timeTaken + " seconds.<p>");
 application.setAttribute("currentQuiz", Integer.parseInt(request.getParameter("currentQuiz")));
 if(!practice){
 	out.println("<p>Challenge a friend to beat your score!</p>");
 	System.out.println("QuizID of Challenge: " + request.getParameter("currentQuiz"));
 %>
-<form action="ChallengeServlet" method="post">
+<form action="composeChallenge.jsp" method="post" id="challenge_button">
 <input type="hidden" name="quizId" value="<%= request.getParameter("currentQuiz") %>"/>
 <input type="hidden" name="score" value="<%= score %>"/>
-<input type="text" name="victim"/>
+<input type="hidden" name="possibleScore" value="<%= possibleScore %>"/>
 <input type="submit" value="Challenge!"/>
 </form>
 <% 
@@ -71,13 +118,7 @@ out.println(reviewBox);
 out.println("<br><input type=\"submit\" value=\"Submit rating and review!\"><br>");
 %>
 </form>
-
-
-<% // Link to quiz Homepage 
-String quizHomepageLink = "<A HREF=\"quizHomepage.jsp\">Quiz Homepage</A>";
-out.println(quizHomepageLink);
-%>
-
+</div>
 
 </body>
 </html>

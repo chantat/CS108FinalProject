@@ -207,7 +207,8 @@ public class MailSystem {
 		sqlStr += "Message ";
 		sqlStr += "WHERE toID = \"";
 		sqlStr += user;
-		sqlStr += "\"";
+		sqlStr += "\" ORDER BY ";
+		sqlStr += "messageTime DESC;";
 		try {
 			rs = stmt.executeQuery(sqlStr);
 			while (rs.next()) {

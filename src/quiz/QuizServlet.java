@@ -47,8 +47,8 @@ public class QuizServlet extends HttpServlet {
 		request.setAttribute("currentQuiz", quizId);
 		session.setAttribute("currentScore", 0);
 		request.setAttribute("totalPossibleScore", 0);
-		request.setAttribute("currentQuestion", 1);
-		request.setAttribute("numQuestions", qm.getNumQuestions(Integer.parseInt(quizId)));
+		request.setAttribute("currentQuestion", 0);
+		request.setAttribute("numQuestions", qm.getNumQuestions(Integer.parseInt(quizId)));		
 		boolean allowsPractice = qm.getQuizAllowsPractice(Integer.parseInt(quizId));
 		if(!request.getParameterMap().containsKey("practiceMode")){
 			if(allowsPractice){
@@ -72,7 +72,7 @@ public class QuizServlet extends HttpServlet {
 					ArrayList<ArrayList<String>> practiceQuestionResponses =new ArrayList<ArrayList<String>>();
 					session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
 					session.setAttribute("practiceQuestionIds", practiceQuestionIds);
-					}
+				}
 			}
 			String user = (String)session.getAttribute("username");
 			AccountManager acctMGR = (AccountManager)sc.getAttribute("manager");

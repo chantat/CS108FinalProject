@@ -49,15 +49,11 @@ public class AddFriendServlet extends HttpServlet {
 	
 		if(!frnmgr.areFriends(name, victim)){  //make sure they are not already friends...
 			frnmgr.addFriend(name, victim);
+			//notify the recipient with a mail system message
+			String messageTxt = name+" has accepted your Friend Request!";
+			Message requestMsg = new Message(victim, name, "Friend Request Accepted", messageTxt, "Message");
+			mail.send(requestMsg);
 		}
-
-		
-		
-		//notify the recipient with a mail system message
-		String messageTxt = name+" has accepted your Friend request!";
-		Message requestMsg = new Message(victim, name, "Friend Request Accepted", messageTxt, "Message");
-		mail.send(requestMsg);
-		
 
 		//return to your home page
 		RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 

@@ -18,6 +18,7 @@ import question.QuestionManager;
 import userPackage.*;
 import achievement.AchievementManager;
 import answer.*;
+import mail.*;
 
 /**
  * Servlet implementation class ScoreServlet
@@ -71,8 +72,18 @@ public class ScoreServlet extends HttpServlet {
 
 		double totalScore = 0;
 		double totalPossibleScore = 0;
-		for (int i = 0; i < questionIds.size(); i++) {
-			int qId = questionIds.get(i);
+		
+		if (quiz.getIsFlashcard()) {
+			int currQuest = Integer.parseInt(request.getParameter("currentQuestion"));
+			if (currQuest == 0) {
+				session.setAttribute("currScore", 0.0);
+				session.setAttribute("currPossibleScore", 0.0);
+				session.setAttribute("currTimeTaken", (long)0);
+			}
+			double currScore = (Double)session.getAttribute("currScore");
+			double currPossibleScore = (Double)session.getAttribute("currPossibleScore");
+			
+			int qId = questionIds.get(currQuest);
 			int index = 0;
 
 			ArrayList<String> userInputs = new ArrayList<String>();
@@ -93,25 +104,97 @@ public class ScoreServlet extends HttpServlet {
 
 			Question question = questionManager.getQuestion(qId);
 			ArrayList<Answer> answers = am.getAnswers(qId);
-			double scoreToIncrement=Answer.scoreUserInput(answers, userInputs);
 			
-			if(practiceMode.equals("true")){
-				if(scoreToIncrement >0){
-					numTimesCorrect.set(i, numTimesCorrect.get(i)+1);
+			currScore += Answer.scoreUserInput(answers, userInputs);
+			currPossibleScore += question.getNumAnswers();
+			
+			if (quiz.getImmediateFeedback()) {
+				if (Answer.scoreUserInput(answers, userInputs) != question.getNumAnswers()) {
+					session.setAttribute("prevAnswer", "incorrect");
+					session.setAttribute("prevCorrectAnswers", answers);
+					session.setAttribute("prevUserAnswers", userInputs);
+				} else {
+					session.setAttribute("prevAnswer", "correct");
 				}
 			}
 			
-			totalScore += scoreToIncrement;
-			totalPossibleScore += question.getNumAnswers();
+			Timestamp start = (Timestamp)session.getAttribute("startTime");
+			if (currQuest == 0) {
+				session.setAttribute("lastTime", start.getTime());
+			}
+			long lastTime = (Long)session.getAttribute("lastTime");
+			long inc = System.currentTimeMillis() - lastTime;
+			long curTime = (Long)session.getAttribute("currTimeTaken");
+			session.setAttribute("currTimeTaken", curTime+inc);
+			session.setAttribute("lastTime", System.currentTimeMillis());
+			
+			session.setAttribute("currScore", currScore);
+			session.setAttribute("currPossibleScore", currPossibleScore);
+			
+			if (!(currQuest == quiz.getNumQuestions() - 1)) {
+				request.setAttribute("currentQuestion", currQuest+1);
+				request.setAttribute("practiceMode", practiceMode);
+				request.setAttribute("totalScore", currScore);
+				request.setAttribute("totalPossibleScore", currPossibleScore);
+				request.setAttribute("currentQuiz", request.getParameter("currentQuiz"));
+				request.setAttribute("currentTimeTaken", curTime+inc);
+				request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
+				return;
+			}
+			totalScore = currScore;
+			totalPossibleScore = currPossibleScore;
 		}
+		
+		if (!quiz.getIsFlashcard()) {
+			for (int i = 0; i < questionIds.size(); i++) {
+				int qId = questionIds.get(i);
+				int index = 0;
+	
+				ArrayList<String> userInputs = new ArrayList<String>();
+	
+				while (true) {
+					String parameterName = qId + "answer" + index;
+					if (!requestMap.containsKey(parameterName)) {
+						break;
+					}
+	
+					String userInput[] = request.getParameterValues(parameterName);
+					for (int j = 0; j < userInput.length; j++) {
+						userInputs.add(userInput[j]);
+					}
+	
+					index++;
+				}
+	
+				Question question = questionManager.getQuestion(qId);
+				ArrayList<Answer> answers = am.getAnswers(qId);
+				double scoreToIncrement=Answer.scoreUserInput(answers, userInputs);
+				
+				if(practiceMode.equals("true")){
+					if(scoreToIncrement >0){
+						numTimesCorrect.set(i, numTimesCorrect.get(i)+1);
+					}
+				}
+				
+				totalScore += scoreToIncrement;
+				totalPossibleScore += question.getNumAnswers();
+			}
+		}
+		
 		if(practiceMode.equals("true")){
 			System.out.println(achMGR.checkAchievement(username, 5));
 		}else{
 			AttemptManager attemptMngr = (AttemptManager)context.getAttribute("attemptManager");
 			Timestamp startTime = (Timestamp)session.getAttribute("startTime");
 			Timestamp endTime = new Timestamp(System.currentTimeMillis());
-			long timeTaken = startTime.getTime() - startTime.getTime();
-			attemptMngr.createAttempt(username, quizId, totalScore, (int)timeTaken, endTime);
+			long timeTaken = endTime.getTime() - startTime.getTime();
+			
+			if (quiz.getIsFlashcard()) {
+				timeTaken = (Long)session.getAttribute("currTimeTaken");
+			}
+			
+			request.setAttribute("timeTaken", (int)(timeTaken/1000));
+			attemptMngr.createAttempt(username, quizId, totalScore, (int)(timeTaken/1000), endTime);
 
 			
 //TEST
@@ -128,8 +211,29 @@ public class ScoreServlet extends HttpServlet {
 		request.setAttribute("totalScore", totalScore);
 		request.setAttribute("totalPossibleScore", totalPossibleScore);
 		request.setAttribute("currentQuiz", quizId);
+		/* If user took this quiz as a challenge, send a message to challenger. */
+		if (request.getParameterMap().containsKey("challenger")) {
+			String challenger = request.getParameter("challenger");
+			Double challengerScore = Double.parseDouble(request.getParameter("challengerScore"));
+			if (!challenger.equals("") && challengerScore != -1) {
+				MailSystem ms = (MailSystem) context.getAttribute("mailSystem");
+				String subject = username + " has accepted your challenge!";
+				String message = username + " took the quiz " + quiz.getName();
+				if (totalScore > challengerScore)
+					message += " and beat you ";
+				else if (totalScore < challengerScore)
+					message += ", but couldn't beat you ";
+				else
+					message += " and tied you ";
+				message += "with a score of " + totalScore + "/" + totalPossibleScore + "!";
+				Message msg = new Message(challenger, username, subject, message, "Message");
+				ms.send(msg);
+			}
+		}
 		session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
 		request.getRequestDispatcher("scoreQuiz.jsp").forward(request, response);
+		
+		
 			// OLD CODE
 		/*int numQuestions=0;
 		int currentQuestion=0;
