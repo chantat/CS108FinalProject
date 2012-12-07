@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
-<%@ page import="java.util.*, userPackage.*,achievement.*,quiz.*" %>    
+<%@ page import="java.util.*, userPackage.*,achievement.*,quiz.*,java.lang.Math" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -39,80 +39,8 @@ else{  //already friends
 	String composeLink = "<form action=\"ComposeServlet\" method=\"post\"><input type=\"hidden\" name=\"toID\" value=\"" +victim+"\"><input type=\"submit\" value=\"Send Message\"></form>";
 	out.println(composeLink);
 }
-
-
-if(acct.isPagePublic(victim) || fMgr.areFriends(user, victim) ){    //if the user page is public or view is a friend..show cool content
-	
-	
-	//FILL WITH TABLES N STUFF
-	
-	out.println("<h2>Recent Quizzes Taken</h2>");
-%>	
-	
-<table id="quizTakenTable">
-		<thead>
-			<tr>
-				<th>Quiz</th>
-				<th>Score</th>
-				<th>Time</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% 
-				AttemptManager attemptManager = (AttemptManager)application.getAttribute("attemptManager");
-				Attempt[] attempts = attemptManager.getAllAttempts(victim);
-				
-				if (attempts != null) {
-				
-					for (int i = 0; i < attempts.length ; i++) {
-						out.println("<tr>");;
-						int quizID = attempts[i].getQuizId();
-						String quizName = quizMGR.getQuizName(quizID);
-						double score = attempts[i].getScore();
-						String time = attempts[i].getTimeTaken().toString();
-						
-						String quizButton = "<form action=\"QuizServlet\" method=\"post\">";
-						quizButton += "<input type=\"hidden\" name = \"quizId\" value=\""+ quizID + "\">";
-						quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
-						quizButton += "</form>";
-						
-						out.println("<td> " + quizButton + "</td>");
-						out.println("<td> " + score + "</td>");
-						out.println("<td> " + time + "</td>");
-						out.println("</tr>");
-					}
-				}
-				%>
-		</tbody>
-		</table>
-	
-<% 
-	out.println("<h2>Achievements</h2>");
-
-	%>
-	
-	
-<table border="1">
-<% 
-	
-	Achievement[] achList = achMGR.getAllAchievement(victim);
-	for(int i=0; i<achList.length;i++){
-		if(achList[i].getIsAchieved()){
-			out.println("<tr>");
-			String achName = achList[i].getName();
-			String describe = achList[i].getDescription();
-			int achieveID = achList[i].getAchieveID();
-			String URL = achMGR.getIconURL(achieveID);
-			out.println("<td> "+URL+"</td>");
-			out.println("<td> "+achName+"</td>");
-			out.println("<td> "+describe+"</td>");
-			out.println("</tr>");
-		}
-	}
-	
 %>
-</table>
-
+<table border="1">
 <% 
 	out.println("<h2>Friends in Common</h2>");
 	ArrayList<String>userFriends = fMgr.getFriends(user);
@@ -133,10 +61,84 @@ if(acct.isPagePublic(victim) || fMgr.areFriends(user, victim) ){    //if the use
 		out.println("</tr>");
 	}
 	
-}
 
 
 %>
+</table>
+
+<% 
+
+	out.println("<h2>Recent Quizzes Taken</h2>");
+%>	
+	
+<table id="quizTakenTable">
+		<thead>
+			<tr>
+				<th>Quiz</th>
+				<th>Score</th>
+				<th>Time</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% 
+				if(acct.isPagePublic(victim) || fMgr.areFriends(user, victim) ){    //if the user page is public or view is a friend..show cool content
+					AttemptManager attemptManager = (AttemptManager)application.getAttribute("attemptManager");
+					Attempt[] attempts = attemptManager.getAllAttempts(victim);
+					
+					if (attempts != null) {
+					
+						for (int i = 0; i < Math.min(5,attempts.length) ; i++) {
+							out.println("<tr>");;
+							int quizID = attempts[i].getQuizId();
+							String quizName = quizMGR.getQuizName(quizID);
+							double score = attempts[i].getScore();
+							String time = attempts[i].getTimeTaken().toString();
+							
+							String quizButton = "<form action=\"QuizServlet\" method=\"post\">";
+							quizButton += "<input type=\"hidden\" name = \"quizId\" value=\""+ quizID + "\">";
+							quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
+							quizButton += "</form>";
+							
+							out.println("<td> " + quizButton + "</td>");
+							out.println("<td> " + score + "</td>");
+							out.println("<td> " + time + "</td>");
+							out.println("</tr>");
+						}
+					}
+				}
+				%>
+		</tbody>
+		</table>
+	
+<% 
+	out.println("<h2>Achievements</h2>");
+
+	%>
+	
+	
+<table border="1">
+<%
+	if(acct.isPagePublic(victim) || fMgr.areFriends(user, victim) ){    //if the user page is public or view is a friend..show cool content
+		Achievement[] achList = achMGR.getAllAchievement(victim);
+		for(int i=0; i<achList.length;i++){
+			if(achList[i].getIsAchieved()){
+				out.println("<tr>");
+				String achName = achList[i].getName();
+				String describe = achList[i].getDescription();
+				int achieveID = achList[i].getAchieveID();
+				String URL = achMGR.getIconURL(achieveID);
+				out.println("<td> "+URL+"</td>");
+				out.println("<td> "+achName+"</td>");
+				out.println("<td> "+describe+"</td>");
+				out.println("</tr>");
+			}
+		}
+	}
+%>
+</table>
+
+
+
 
 </body>
 </html>
