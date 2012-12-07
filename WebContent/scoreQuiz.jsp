@@ -25,6 +25,35 @@ double possibleScore = (Double)request.getAttribute("totalPossibleScore");
 String practiceMode = (String)request.getAttribute("practiceMode");
 boolean practice=false;
 if(practiceMode.equals("true")) practice=true;
+
+/* If user was challenged, tell them whether or not they won. */
+if (request.getParameterMap().containsKey("challenger")) {
+	String challenger = request.getParameter("challenger");
+	Double challengerScore = Double.parseDouble(request.getParameter("challengerScore"));
+	String challengeResponseMessage = "";
+	if (!challenger.equals("") && challengerScore != -1) {
+		if (score > challengerScore) {
+			challengeResponseMessage = "Congratulations! You won ";
+			challengeResponseMessage += challenger + "'s challenge! ";
+			challengeResponseMessage += challenger + " only scored " + challengerScore;
+			challengeResponseMessage += "/" + possibleScore + ".";
+		}
+		else if (score < challengerScore) {
+			challengeResponseMessage = "Too bad! You lost ";
+			challengeResponseMessage += challenger + "'s challenge! ";
+			challengeResponseMessage += challenger + " scored " + challengerScore;
+			challengeResponseMessage += "/" + possibleScore + ".";
+		}
+		else {
+			challengeResponseMessage = "Wow! You tied ";
+			challengeResponseMessage += challenger + "'s challenge! ";
+			challengeResponseMessage += challenger + " also scored " + challengerScore;
+			challengeResponseMessage += "/" + possibleScore + ".";
+		}
+		out.println("<p>" + challengeResponseMessage + "</p>");
+	}
+}
+
 out.println("<p>You score a " + score + " out of " + possibleScore + " on the quiz</p>");
 application.setAttribute("currentQuiz", Integer.parseInt(request.getParameter("currentQuiz")));
 if(!practice){

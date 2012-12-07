@@ -18,6 +18,7 @@ import question.QuestionManager;
 import userPackage.*;
 import achievement.AchievementManager;
 import answer.*;
+import mail.*;
 
 /**
  * Servlet implementation class ScoreServlet
@@ -113,7 +114,30 @@ public class ScoreServlet extends HttpServlet {
 		request.setAttribute("totalScore", totalScore);
 		request.setAttribute("totalPossibleScore", totalPossibleScore);
 		request.setAttribute("currentQuiz", quizId);
+		
+		/* If user took this quiz as a challenge, send a message to challenger. */
+		if (request.getParameterMap().containsKey("challenger")) {
+			String challenger = request.getParameter("challenger");
+			Double challengerScore = Double.parseDouble(request.getParameter("challengerScore"));
+			if (!challenger.equals("") && challengerScore != -1) {
+				MailSystem ms = (MailSystem) context.getAttribute("mailSystem");
+				String subject = username + " has accepted your challenge!";
+				String message = username + " took the quiz " + quiz.getName();
+				if (totalScore > challengerScore)
+					message += " and beat you ";
+				else if (totalScore < challengerScore)
+					message += ", but couldn't beat you ";
+				else
+					message += " and tied you ";
+				message += "with a score of " + totalScore + "/" + totalPossibleScore + "!";
+				Message msg = new Message(challenger, username, subject, message, "Message");
+				ms.send(msg);
+			}
+		}
+		
 		request.getRequestDispatcher("scoreQuiz.jsp").forward(request, response);
+		
+		
 			// OLD CODE
 		/*int numQuestions=0;
 		int currentQuestion=0;

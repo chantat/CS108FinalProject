@@ -22,6 +22,12 @@ if (quiz.getIsRandomized()) {
 }
 Question quest;
 ArrayList<ArrayList<String>> questionResponses = (ArrayList<ArrayList<String>>) session.getAttribute("questionResponses");
+double challengerScore = -1;
+String challenger = "";
+if (request.getParameterMap().containsKey("challenger")) {
+	challenger = request.getParameter("challenger");
+	challengerScore = Double.parseDouble(request.getParameter("challengerScore"));
+}
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -136,6 +142,8 @@ for (int i = 0; i < questIds.size(); i++) {
 %>
 <input type="hidden" name="currentQuiz" value="<% out.print(quizID); %>"/>
 <input type="hidden" name="allowsPractice" value="<% out.print(practiceMode); %>"/>
+<input type="hidden" name="challenger" value="<%= challenger %>"/>
+<input type="hidden" name="challengerScore" value="<%= challengerScore %>"/>
 <input type="submit" value="Submit"/>
 </form>
 </body>

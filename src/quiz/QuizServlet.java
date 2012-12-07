@@ -47,7 +47,7 @@ public class QuizServlet extends HttpServlet {
 		session.setAttribute("currentScore", 0);
 		request.setAttribute("totalPossibleScore", 0);
 		request.setAttribute("currentQuestion", 1);
-		request.setAttribute("numQuestions", qm.getNumQuestions(Integer.parseInt(quizId)));
+		request.setAttribute("numQuestions", qm.getNumQuestions(Integer.parseInt(quizId)));		
 		boolean allowsPractice = qm.getQuizAllowsPractice(Integer.parseInt(quizId));
 		if(!request.getParameterMap().containsKey("practiceMode")){
 			if(allowsPractice){
