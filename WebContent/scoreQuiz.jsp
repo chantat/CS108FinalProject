@@ -102,7 +102,7 @@ String reviewBox = "<br><textarea cols=\"30\" rows=\"5\" name=\"reviewText\"";
 reviewBox += "value=\"" + "\">";
 reviewBox += "</textarea>";
 out.println(reviewBox);
-
+out.println("<br><input type=\"checkbox\" name=\"reportFlag\" value=\"Flag\">Flag this quiz as inappropriate<br>");
 out.println("<br><input type=\"submit\" value=\"Submit rating and review!\"><br>");
 %>
 </form>

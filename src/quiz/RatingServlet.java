@@ -43,13 +43,29 @@ public class RatingServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		RatingManager ratingManager = (RatingManager)context.getAttribute("ratingManager");
 		ReviewManager reviewManager = (ReviewManager)context.getAttribute("reviewManager");
+		ReportManager reportMGR = (ReportManager)context.getAttribute("reportManager");
 		Map<String, String[]> requestMap = request.getParameterMap();
+		
+		
 		int ratingReceived=0;
 		if(requestMap.get("grade")!= null){
 			ratingReceived=Integer.parseInt(requestMap.get("grade")[0]);
 		}
 		
 		int currentQuiz = Integer.parseInt(request.getParameter("quizId"));
+		if(request.getParameter("reportFlag")!=null){  //if checkbox was checked
+//TEST
+System.out.println("OMGGGGG FLAGGED QUIZ");
+			
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			if(reportMGR.isReportExist(currentQuiz)){
+				reportMGR.incrementOccurence(currentQuiz);
+			}
+			else{
+				reportMGR.createReport(currentQuiz, 1, time);
+			}	
+		}
+			
 		String username = (String)session.getAttribute("username");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		

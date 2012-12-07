@@ -448,10 +448,10 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				Report temp = reports[i];
 				out.println("<tr>");
 				int quizID = temp.getQuizID();
-				int occurence = temp.getOccurence();
+				int occurrence = temp.getOccurrence();
 				String date = temp.getDate().toString();
 				out.println("<td> "+quizID+"</td>");
-				out.println("<td> "+occurence+"</td>");
+				out.println("<td> "+occurrence+"</td>");
 				out.println("<td> "+date+"</td>");
 				out.println("</tr>");
 			}

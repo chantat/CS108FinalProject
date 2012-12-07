@@ -14,11 +14,11 @@ public class ReportManager {
 			stmnt = con.getStatement();	
 		}
 		
-		public void createReport(int quizId, int occurence, Timestamp date) {
+		public void createReport(int quizId, int occurrence, Timestamp date) {
 			if(!isReportExist(quizId)){
-				String query="INSERT INTO Reported (quizID, occurence, date) VALUES (";
+				String query="INSERT INTO Reported (quizID, occurrence, date) VALUES (";
 				query += "\"" + quizId + "\",";
-				query += "" + occurence + ",";
+				query += "" + occurrence + ",'";
 				query += date + "');";
 				System.out.println(query); // for verification purposes
 				try {
@@ -85,7 +85,7 @@ public class ReportManager {
 				rs.first();
 				for (int i = 0; i < numEntries; i++) {
 					int quizID = rs.getInt("quizID");
-					int occur = rs.getInt("occurence");
+					int occur = rs.getInt("occurrence");
 					Timestamp date = rs.getTimestamp("date");
 					reports[i] = new Report(quizID, occur, date);
 					rs.next();
