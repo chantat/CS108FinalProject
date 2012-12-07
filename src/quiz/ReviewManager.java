@@ -18,6 +18,7 @@ public class ReviewManager {
 	}
 	
 	public void createReview(String userId, int quizId, String review, Timestamp time) {
+		if(review.isEmpty()) return;
 		String query="INSERT INTO Review (userID, quizID, review, reviewTime) VALUES (";
 		query += "\"" + userId + "\",";
 		query += "" + quizId + ",";

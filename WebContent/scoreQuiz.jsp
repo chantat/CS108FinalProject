@@ -51,7 +51,7 @@ if(!practice){
 <form action="RatingServlet" method="post">
 <%
 RatingManager rm = (RatingManager)application.getAttribute("ratingManager");
-
+out.println("Submit a rating and review below!<br><br>");
 for (int i = 0; i < rm.RATING_MAXIMUM; i++) {
 	int grade = i+1;	
 	String radioButton = "<input type=\"radio\" name=\"grade\"";
@@ -59,14 +59,7 @@ for (int i = 0; i < rm.RATING_MAXIMUM; i++) {
 	radioButton += "<input type=\"hidden\" name=\"quizId\" value=" + request.getParameter("currentQuiz") + ">";
 	out.print(radioButton);
 }
-out.println("<br><input type=\"submit\" value=\"Submit rating!\"><br>");
-%>
-</form>
-
-
-<form action="ReviewServlet" method="post">
-<%
-ReviewManager revMnge = (ReviewManager)application.getAttribute("reviewManager");
+out.println("<br><br>");
 out.println("Write your review below:");
 String hiddenInput = "<input type=\"hidden\" name=\"quizId\" value=" + request.getParameter("currentQuiz") + ">";
 out.println(hiddenInput);
@@ -75,7 +68,7 @@ reviewBox += "value=\"" + "\">";
 reviewBox += "</textarea>";
 out.println(reviewBox);
 
-out.println("<br><input type=\"submit\" value=\"Submit review!\"><br>");
+out.println("<br><input type=\"submit\" value=\"Submit rating and review!\"><br>");
 %>
 </form>
 

@@ -42,16 +42,26 @@ public class RatingServlet extends HttpServlet {
 		ServletContext context = request.getServletContext();
 		HttpSession session = request.getSession();
 		RatingManager ratingManager = (RatingManager)context.getAttribute("ratingManager");
+		ReviewManager reviewManager = (ReviewManager)context.getAttribute("reviewManager");
 		Map<String, String[]> requestMap = request.getParameterMap();
 		int ratingReceived=0;
-		ratingReceived=Integer.parseInt(requestMap.get("grade")[0]);
-		System.out.println(ratingReceived + " " + request.getParameter("quizId"));
+		if(requestMap.get("grade")!= null){
+			ratingReceived=Integer.parseInt(requestMap.get("grade")[0]);
+		}
+		
 		int currentQuiz = Integer.parseInt(request.getParameter("quizId"));
-		System.out.println("RATING SERVLET: " + currentQuiz);
 		String username = (String)session.getAttribute("username");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		
-		ratingManager.createRating(username, currentQuiz, ratingReceived, timestamp);
+		String reviewText="";
+		reviewText=requestMap.get("reviewText")[0];
+		if(!reviewText.isEmpty()){
+			reviewManager.createReview(username, currentQuiz, reviewText, timestamp);
+		}
+		
+		System.out.println("RATING SERVLET: " + currentQuiz + " " + ratingReceived + " " + request.getParameter("quizId") + " " + reviewText);
+		
+		if(ratingReceived != 0) ratingManager.createRating(username, currentQuiz, ratingReceived, timestamp);
 		request.getRequestDispatcher("thankYouForRating.jsp").forward(request, response);
 	}
 
