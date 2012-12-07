@@ -41,12 +41,15 @@ public class ForumManager {
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numPosts = DBConnection.getResultSetSize(rs);
+			if(numPosts != 0) rs.first();
 			for(int i = 0; i < numPosts; i++){
 				String user = rs.getString("userID");
 				String postText = rs.getString("postText");
 				Timestamp datePosted = rs.getTimestamp("date");
 				ForumPost currentPost=new ForumPost(user, quizID, postText, datePosted);
 				forumPosts.add(currentPost);
+				System.out.println(user+ " " + postText + " " + datePosted + " " + currentPost);
+				rs.next();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
