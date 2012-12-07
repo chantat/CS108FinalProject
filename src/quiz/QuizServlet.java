@@ -2,6 +2,7 @@ package quiz;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -58,7 +59,19 @@ public class QuizServlet extends HttpServlet {
 				request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
 			}
 		}else{
-			request.setAttribute("practiceMode", request.getParameter("practiceMode"));
+			String practiceMode=request.getParameter("practiceMode");
+			request.setAttribute("practiceMode", practiceMode);
+			//playing in practice mode
+			if(practiceMode.equals("true")){
+				//first time
+				if(session.getAttribute("practiceQuestionsCounter")==null){
+					ArrayList<Integer> numTimesCorrect=new ArrayList<Integer>();
+					ArrayList<Integer> practiceQuestionIds =new ArrayList<Integer>();
+					ArrayList<ArrayList<String>> practiceQuestionResponses =new ArrayList<ArrayList<String>>();
+					session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
+					session.setAttribute("practiceQuestionIds", practiceQuestionIds);
+					}
+			}
 			Timestamp startTime = new Timestamp(System.currentTimeMillis());
 			session.setAttribute("startTime", startTime);
 			System.out.println(startTime);
