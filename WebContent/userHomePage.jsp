@@ -68,6 +68,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				<th>Description</th>
 				<th>Category</th>
 				<th>Tags</th>
+				<th>Edit</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -101,10 +102,16 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 							quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
 							quizButton += "</form>";
 							
+							String editButton = "<form action=\"EditQuizServlet\" method=\"post\">";
+							editButton += "<input type=\"hidden\" name = \"quizId\" value=\""+ quizId + "\">";
+							editButton += "<input type=\"submit\" value=\"" + "Edit" + "\">";
+							editButton += "</form>";
+							
 							out.println("<td> " + quizButton + "</td>");
 							out.println("<td> " + description + "</td>");
 							out.println("<td> " + category + "</td>");
 							out.println("<td> " + tagString + "</td>");
+							out.println("<td> " + editButton + "</td>");
 							out.println("</tr>");
 						}
 					}
