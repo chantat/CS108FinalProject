@@ -6,7 +6,12 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import mail.MailSystem;
+
 import quiz.Attempt;
+import quiz.AttemptManager;
+import quiz.QuizManager;
+import quiz.RatingManager;
 
 import userPackage.*;
 import webpackage.DBConnection;
@@ -58,10 +63,20 @@ public class AchievementManager {
 	private Statement stmnt;
 	private AccountUtil acctutil;
 	private FriendManager frnMGR;
+	private QuizManager quizMGR;
+	private AttemptManager attemptMGR;
+	private MailSystem mailMGR;
+	private RatingManager ratingMGR;
+	
 	public AchievementManager(DBConnection connection, AccountUtil acctutil) {
 		stmnt = connection.getStatement();
 		this.acctutil = acctutil;
 		this.frnMGR = new FriendManager(connection);
+		this.quizMGR = new QuizManager(connection);
+		this.attemptMGR = new AttemptManager(connection);
+		this.mailMGR = new MailSystem(connection);
+		this.ratingMGR = new RatingManager(connection);
+		
 	}
 	
 	public int getNumAchievement() {
@@ -118,6 +133,30 @@ public class AchievementManager {
 			newlyAchieved = (numFriends>=10);
 		}else if (achievementId == 8) {
 			newlyAchieved = (numFriends>=50);
+		}else if (achievementId == 9) {
+			int quizTaken = attemptMGR.getAllAttempts(username).length;
+			int quizMade = quizMGR.getAllQuizzesByAuthor(username).length;
+			newlyAchieved = ((numFriends>=10)&&(quizTaken>=10)&&(quizMade>=10));
+		}else if (achievementId == 10) {
+			int numReqs = frnMGR.getRequests(username).size();
+			newlyAchieved = (numReqs>=10);
+		}else if (achievementId == 11) {
+			int numChall = mailMGR.numChallengesSent(username);
+			newlyAchieved = (numChall>=10);
+		}else if (achievementId == 12) {
+			int numFives = ratingMGR.getNumStars(username,5);
+			newlyAchieved = (numFives >=1);
+		}else if (achievementId == 13) {
+			int numFives = ratingMGR.getNumStars(username,5);
+			newlyAchieved = (numFives >=10);
+		}else if (achievementId == 14) {
+			int numFives = ratingMGR.getNumStars(username,1);
+			newlyAchieved = (numFives >=1);
+		}else if (achievementId == 15) {
+			int numFives = ratingMGR.getNumStars(username,1);
+			newlyAchieved = (numFives >=10);
+		}else if (achievementId == 16) {
+			//handled in remove friend servlet
 		}
 		if(newlyAchieved){
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());

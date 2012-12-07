@@ -1,6 +1,7 @@
 package userPackage;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import achievement.AchievementManager;
 
 /**
  * Servlet implementation class RemoveFriendServlet
@@ -43,6 +46,9 @@ public class RemoveFriendServlet extends HttpServlet {
 		String name =(String)hs.getAttribute("username");
 		String victim = request.getParameter("victim");
 		frnmgr.removeFriend(name, victim);
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		AchievementManager achMGR = (AchievementManager) context.getAttribute("achievementManager");
+		achMGR.insertAchievementIntoDatabase(name, 16, timestamp);
 		
 		RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
 		dispatch.forward(request, response);	
