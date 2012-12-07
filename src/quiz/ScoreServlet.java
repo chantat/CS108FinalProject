@@ -72,8 +72,17 @@ public class ScoreServlet extends HttpServlet {
 
 		double totalScore = 0;
 		double totalPossibleScore = 0;
-		for (int i = 0; i < questionIds.size(); i++) {
-			int qId = questionIds.get(i);
+		
+		if (quiz.getIsFlashcard()) {
+			int currQuest = Integer.parseInt(request.getParameter("currentQuestion"));
+			if (currQuest == 0) {
+				session.setAttribute("currScore", 0.0);
+				session.setAttribute("currPossibleScore", 0.0);
+			}
+			double currScore = (Double)session.getAttribute("currScore");
+			double currPossibleScore = (Double)session.getAttribute("currPossibleScore");
+			
+			int qId = questionIds.get(currQuest);
 			int index = 0;
 
 			ArrayList<String> userInputs = new ArrayList<String>();
@@ -94,17 +103,61 @@ public class ScoreServlet extends HttpServlet {
 
 			Question question = questionManager.getQuestion(qId);
 			ArrayList<Answer> answers = am.getAnswers(qId);
-			double scoreToIncrement=Answer.scoreUserInput(answers, userInputs);
+
+			currScore += Answer.scoreUserInput(answers, userInputs);
+			currPossibleScore += question.getNumAnswers();
 			
-			if(practiceMode.equals("true")){
-				if(scoreToIncrement >0){
-					numTimesCorrect.set(i, numTimesCorrect.get(i)+1);
-				}
+			session.setAttribute("currScore", currScore);
+			session.setAttribute("currPossibleScore", currPossibleScore);
+			if (!(currQuest == quiz.getNumQuestions() - 1)) {
+				request.setAttribute("currentQuestion", currQuest+1);
+				request.setAttribute("practiceMode", practiceMode);
+				request.setAttribute("totalScore", currScore);
+				request.setAttribute("totalPossibleScore", currPossibleScore);
+				request.setAttribute("currentQuiz", request.getParameter("currentQuiz"));
+				request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
+				return;
 			}
-			
-			totalScore += scoreToIncrement;
-			totalPossibleScore += question.getNumAnswers();
+			totalScore = currScore;
+			totalPossibleScore = currPossibleScore;
 		}
+		
+		if (!quiz.getIsFlashcard()) {
+			for (int i = 0; i < questionIds.size(); i++) {
+				int qId = questionIds.get(i);
+				int index = 0;
+	
+				ArrayList<String> userInputs = new ArrayList<String>();
+	
+				while (true) {
+					String parameterName = qId + "answer" + index;
+					if (!requestMap.containsKey(parameterName)) {
+						break;
+					}
+	
+					String userInput[] = request.getParameterValues(parameterName);
+					for (int j = 0; j < userInput.length; j++) {
+						userInputs.add(userInput[j]);
+					}
+	
+					index++;
+				}
+	
+				Question question = questionManager.getQuestion(qId);
+				ArrayList<Answer> answers = am.getAnswers(qId);
+				double scoreToIncrement=Answer.scoreUserInput(answers, userInputs);
+				
+				if(practiceMode.equals("true")){
+					if(scoreToIncrement >0){
+						numTimesCorrect.set(i, numTimesCorrect.get(i)+1);
+					}
+				}
+				
+				totalScore += scoreToIncrement;
+				totalPossibleScore += question.getNumAnswers();
+			}
+		}
+		
 		if(practiceMode.equals("true")){
 			System.out.println(achMGR.checkAchievement(username, 5));
 		}else{

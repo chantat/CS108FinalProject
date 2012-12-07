@@ -15,10 +15,11 @@ if(user==null){
 }
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Quiz score</title>
+<title>Quiz Results</title>
 </head>
 <body>
-<h1>Quiz score</h1>
+<center><h1>Quiz Results</h1></center>
+<div id="quizResults">
 <%
 double score = (Double)request.getAttribute("totalScore");
 double possibleScore = (Double)request.getAttribute("totalPossibleScore");
@@ -101,13 +102,7 @@ out.println(reviewBox);
 out.println("<br><input type=\"submit\" value=\"Submit rating and review!\"><br>");
 %>
 </form>
-
-
-<% // Link to quiz Homepage 
-String quizHomepageLink = "<A HREF=\"quizHomepage.jsp\">Quiz Homepage</A>";
-out.println(quizHomepageLink);
-%>
-
+</div>
 
 </body>
 </html>
