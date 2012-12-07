@@ -99,8 +99,7 @@ public class QuizManager {
 	public void deleteQuiz(int quizID){
 		String commandQuiz = "DELETE FROM Quiz WHERE quizID = \""+ quizID + "\";";
 		
-//TEST
-System.out.println(commandQuiz);
+
 		String commandTag = "DELETE FROM Tag WHERE quizID = \""+ quizID + "\";";
 		String commandQuizQuestion = "DELETE FROM QuizQuestion WHERE quizID = \""+ quizID + "\";";
 		String commandChallenge = "DELETE FROM Challenge WHERE quizID = \""+ quizID + "\";";
