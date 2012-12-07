@@ -54,9 +54,7 @@ public class AdministratorServlet extends HttpServlet {
 			AccountManager acctmgr = (AccountManager)sc.getAttribute("manager");
 			String username = request.getParameter("username");
 			acctmgr.deleteAccount(username);
-		} else if (function.equals("remove_quiz")) {
-			
-		} else if (function.equals("clear_quiz_history")) {
+		}  else if (function.equals("clear_quiz_history")) {
 			AttemptManager attemptMGR = (AttemptManager)sc.getAttribute("attemptManager");
 			int quizID = Integer.parseInt(request.getParameter("quizId"));
 			attemptMGR.deleteAllQuizAttempts(quizID); 
