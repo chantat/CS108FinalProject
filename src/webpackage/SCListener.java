@@ -3,6 +3,8 @@ package webpackage;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 
+import forum.ForumManager;
+
 import question.QuestionManager;
 import quiz.AttemptManager;
 import quiz.QuizManager;
@@ -50,6 +52,7 @@ public class SCListener implements ServletContextListener {
         RatingManager ratingManager = new RatingManager(con);
         ReviewManager reviewManager = new ReviewManager(con);
         ReportManager reportManager = new ReportManager(con);
+        ForumManager forumManager = new ForumManager(con);
         
         ServletContext sc = sce.getServletContext();
         sc.setAttribute("manager",acctmgr);
@@ -64,6 +67,7 @@ public class SCListener implements ServletContextListener {
         sc.setAttribute("ratingManager", ratingManager);
         sc.setAttribute("reviewManager", reviewManager);
         sc.setAttribute("reportManager",reportManager);
+        sc.setAttribute("forumManager", forumManager);
     }
 
 	/**

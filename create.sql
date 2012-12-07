@@ -147,6 +147,14 @@ create table Reported(
   date timestamp default current_timestamp
 );
 
+drop table if exists Forum;
+create table Forum(
+  userID char(255),
+  quizID int,
+  postText varchar(1000),
+  date timestamp default current_timestamp
+);
+
 
 INSERT into QuizUser VALUES("admin","2ea66167ce4e9bd144ae6dd8f6082e2846518e33","0pq5lf.qjn",1,0,0,0,0,0);
 INSERT into QuizUser 
