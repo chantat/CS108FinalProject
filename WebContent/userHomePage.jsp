@@ -389,50 +389,6 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				</tr>
 			<%}%>
 			</table>
-			
-			<h1>Friend Requests</h1>
-			<% 
-			friendMgr = (userPackage.FriendManager)application.getAttribute("friendManager"); 
-			requests = friendMgr.getRequests(user);
-			%>
-			<table border="1">
-			<% 
-			for(int i=0; i<requests.size();i++){
-				out.println("<tr>");
-				String requestorName = requests.get(i);
-				out.println("<td> "+requestorName+"</td>");
-				String approveButton = "<form action=\"AddFriendServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\""+ requestorName+ "\"><input type=\"submit\" value=\"Approve Request\"></form>";
-				out.println("<td> "+approveButton+"</td>");
-				out.println("</tr>");
-			}
-			%>
-			</table>
-			
-			<h1>Challenges</h1>
-			<table>
-			<tr>
-			<th>Read</th>
-			<th>From</th>
-			<th>Quiz</th>
-			<th>Time</th>
-			</tr>
-			<%
-			challenges = ms.getChallengesForUser(user);
-			for (int i = 0; i < challenges.size(); i++) {
-				chlg = challenges.get(i);%>
-				<tr>
-				<% if(chlg.getStatus() == 1) {%>
-				<td>Read</td>
-				<% } else { %>
-				<td>Unread</td>
-				<% } %>
-				<td><%= chlg.getFromID() %></td>
-				<td><%= chlg.getQuizID() %></td>
-				<td><%= chlg.getTime() %></td>
-				</tr>
-			<%}
-			%>
-			</table>
 	</div>
 	<div id="achievementTab">
 		<table border="1">

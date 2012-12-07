@@ -15,8 +15,20 @@ if(user==null){
 }
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<%@include file="header.jsp" %>
 <title>Quiz Results</title>
 <%@include file="resources.jsp" %>
+<!--
+<link media="screen" rel="stylesheet" href="css/colorbox.css" />
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="js/jquery.colorbox-min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#challenge_button').colorbox({opacity:0.5});
+    });
+</script>
+-->
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -59,18 +71,17 @@ if (request.getParameterMap().containsKey("challenger")) {
 	}
 }
 
-out.println("<p>You score a " + score + " out of " + possibleScore + " on the quiz.</p>");
+out.println("<p>You scored a " + score + " out of " + possibleScore + " on the quiz.</p>");
 if (!practice) out.println("<p>Time taken: " + timeTaken + " seconds.<p>");
 application.setAttribute("currentQuiz", Integer.parseInt(request.getParameter("currentQuiz")));
 if(!practice){
-	out.println("<p>Challenge a friend to beat your score! Separate names with commas.</p>");
+	out.println("<p>Challenge a friend to beat your score!</p>");
 	System.out.println("QuizID of Challenge: " + request.getParameter("currentQuiz"));
 %>
-<form action="ChallengeServlet" method="post">
+<form action="composeChallenge.jsp" method="post" id="challenge_button">
 <input type="hidden" name="quizId" value="<%= request.getParameter("currentQuiz") %>"/>
 <input type="hidden" name="score" value="<%= score %>"/>
 <input type="hidden" name="possibleScore" value="<%= possibleScore %>"/>
-<input type="text" name="victim"/>
 <input type="submit" value="Challenge!"/>
 </form>
 <% 

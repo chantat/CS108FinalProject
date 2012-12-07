@@ -51,13 +51,14 @@ public class ChallengeServlet extends HttpServlet {
 		
 		//notify the recipient with a mail system message
 		int quizID = Integer.parseInt(request.getParameter("quizId"));
-		String quizStr = qm.getQuizName(quizID);
+		//String quizStr = qm.getQuizName(quizID);
 		double score = Double.parseDouble(request.getParameter("score"));
-		double possibleScore = Double.parseDouble(request.getParameter("possibleScore"));
-		String message = name + " has challenged you to a the quiz ";
+		//double possibleScore = Double.parseDouble(request.getParameter("possibleScore"));
+		/*String message = name + " has challenged you to a the quiz ";
 		message += quizStr;
-		message += "! Can you beat a score of " + score + "/" + possibleScore +"?";
-		String toIDStr = request.getParameter("victim");
+		message += "! Can you beat a score of " + score + "/" + possibleScore +"?";*/
+		String message = request.getParameter("message");
+		String toIDStr = request.getParameter("toID");
 		toIDStr = toIDStr.replaceAll("\\s", "");
 		String toIDList[] = toIDStr.split(",");
 		for (int i = 0; i < toIDList.length; i++) {
