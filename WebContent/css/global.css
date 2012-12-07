@@ -105,7 +105,8 @@ body {
 }
 
 #quizCreatedTableContent, #quizTakenTableContent, #popularQuizTableContent,
-	#newQuizTableContent, #recentFriendAttemptsTableContent, #recentFriendAchieveTableContent {
+	#newQuizTableContent, #recentFriendAttemptsTableContent, #recentFriendAchieveTableContent,
+	#inboxTableContent, #achieveTableContent {
 	width:600px;
 }
 
