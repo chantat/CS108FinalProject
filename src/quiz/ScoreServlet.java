@@ -61,6 +61,14 @@ public class ScoreServlet extends HttpServlet {
 		Quiz quiz = quizManager.getQuiz(quizId);
 		ArrayList<Integer> questionIds = quiz.getQuestionIds();
 		String practiceMode=request.getParameter("allowsPractice");
+		ArrayList<Integer> numTimesCorrect=null;
+		if(practiceMode.equals("true")){
+			numTimesCorrect=(ArrayList<Integer>)session.getAttribute("practiceQuestionsCounter");
+			for(int i = 0; i < numTimesCorrect.size(); i++){
+				System.out.println("from score servlet, numTimesCorrect at " + i + ": " + numTimesCorrect.get(i));
+			}
+			questionIds=(ArrayList<Integer>) session.getAttribute("practiceQuestionIds");
+		}
 
 		double totalScore = 0;
 		double totalPossibleScore = 0;
@@ -86,8 +94,15 @@ public class ScoreServlet extends HttpServlet {
 
 			Question question = questionManager.getQuestion(qId);
 			ArrayList<Answer> answers = am.getAnswers(qId);
-
-			totalScore += Answer.scoreUserInput(answers, userInputs);
+			double scoreToIncrement=Answer.scoreUserInput(answers, userInputs);
+			
+			if(practiceMode.equals("true")){
+				if(scoreToIncrement >0){
+					numTimesCorrect.set(i, numTimesCorrect.get(i)+1);
+				}
+			}
+			
+			totalScore += scoreToIncrement;
 			totalPossibleScore += question.getNumAnswers();
 		}
 		if(practiceMode.equals("true")){
@@ -134,7 +149,7 @@ public class ScoreServlet extends HttpServlet {
 				ms.send(msg);
 			}
 		}
-		
+		session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
 		request.getRequestDispatcher("scoreQuiz.jsp").forward(request, response);
 		
 		

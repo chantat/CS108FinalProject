@@ -68,6 +68,14 @@ if(!practice){
 <input type="submit" value="Challenge!"/>
 </form>
 <% 
+}else{
+	%>
+	<form action="QuizServlet" method="post">
+	<input type="hidden" name="quizId" value="<%= request.getParameter("currentQuiz") %>"/>
+	<input type="hidden" name="practiceMode" value="true"/>
+	<input type="submit" value="Practice this quiz again!"/>
+	</form>
+	<%
 }
 %>
 <form action="RatingServlet" method="post">

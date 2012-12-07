@@ -28,6 +28,36 @@ if (request.getParameterMap().containsKey("challenger")) {
 	challenger = request.getParameter("challenger");
 	challengerScore = Double.parseDouble(request.getParameter("challengerScore"));
 }
+
+
+//PRACTICE MODE
+ArrayList<Integer> numTimesCorrect=null;
+//ArrayList<ArrayList<Answer>> practiceQuestionAnswers=null;
+if(practiceMode.equals("true")){
+	numTimesCorrect=(ArrayList<Integer>)session.getAttribute("practiceQuestionsCounter");
+	
+	if(numTimesCorrect.size()==0){ //first time around, set all to 0
+		for(int j = 0; j < questIds.size(); j++){
+			numTimesCorrect.add(0);
+		}
+		session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
+		session.setAttribute("practiceQuestionIds", questIds);
+	}else{ //if greater or equal to 3, don't display (remove from array)
+		questIds=(ArrayList<Integer>)session.getAttribute("practiceQuestionIds");
+		for(int j = numTimesCorrect.size()-1; j >=0; j--){
+			if(numTimesCorrect.get(j) >= 3){
+				questIds.remove(j);
+				numTimesCorrect.remove(j);
+			}
+		}
+		session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
+		session.setAttribute("practiceQuestionIds", questIds);
+		if(numTimesCorrect.size()==0){
+			session.removeAttribute("practiceMode");
+			request.getRequestDispatcher("donePracticing.jsp").forward(request, response);
+		}
+	}
+}
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
