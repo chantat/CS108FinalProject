@@ -26,7 +26,7 @@ public class AchievementManager {
 		 "Triple Double",
 		 "Awkward Penguin",
 		 "Playground Bully",
-		 "Singing Praises",
+		 "High Praise",
 		 "Hired Reviewer",
 		 "Net Rage",
 		 "Scrooge",
@@ -71,7 +71,7 @@ public class AchievementManager {
 	public String getIconURL(int achieveID){
 		String quote = "\"";
 		String description = achievementDescription[achieveID];
-		String URL = "<IMG SRC="+quote+"http://localhost:8080/CS108FinalProject/"+achieveID+".gif"+quote+" TITLE="+quote+description+quote+" WIDTH=32 HEIGHT=32>";
+		String URL = "<IMG SRC="+quote+achieveID+".gif"+quote+" TITLE="+quote+description+quote+" WIDTH=32 HEIGHT=32>";
 		return URL;
 	}
 	

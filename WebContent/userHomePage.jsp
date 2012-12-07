@@ -506,6 +506,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		</thead>
 		<tbody>
 		<%
+		QuizManager quizMGR = (QuizManager)application.getAttribute("quizManager");
 		ReportManager reportMGR = (ReportManager)application.getAttribute("reportManager");
 		Report[] reports = reportMGR.getAllReported();
 		if(reports != null && reports.length>0){
@@ -515,6 +516,8 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				int quizID = temp.getQuizID();
 				int occurence = temp.getOccurrence();
 				String date = temp.getDate().toString();
+				String quizName = quizMGR.getQuizName(quizID);
+				out.println("<td> "+quizName+"</td>");
 				out.println("<td> "+quizID+"</td>");
 				out.println("<td> "+occurence+"</td>");
 				out.println("<td> "+date+"</td>");

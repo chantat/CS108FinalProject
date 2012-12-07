@@ -116,7 +116,7 @@ public class AccountManager {
 		String command7 = "DELETE FROM "+ChallengeTable+" WHERE toID = "+quote+username+quote+";";
 		String command8 = "DELETE FROM "+AttemptsTable+" WHERE userID = "+quote+username+quote+";";
 		String command9 = "DELETE FROM "+AchieveTable+" WHERE userID = "+quote+username+quote+";";
-	
+		String command10 = "UPDATE Quiz SET authorID = \"admin\" WHERE authorID = \""+username+"\";";
 	//TEST
 	System.out.println(command1);
 		try {
@@ -129,6 +129,7 @@ public class AccountManager {
 			stmnt.executeUpdate(command7);
 			stmnt.executeUpdate(command8);
 			stmnt.executeUpdate(command9);
+			stmnt.executeUpdate(command10);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
