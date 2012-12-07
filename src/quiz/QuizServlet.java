@@ -72,7 +72,7 @@ public class QuizServlet extends HttpServlet {
 					ArrayList<ArrayList<String>> practiceQuestionResponses =new ArrayList<ArrayList<String>>();
 					session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
 					session.setAttribute("practiceQuestionIds", practiceQuestionIds);
-					}
+				}
 			}
 			String user = (String)session.getAttribute("username");
 			AccountManager acctMGR = (AccountManager)sc.getAttribute("manager");
