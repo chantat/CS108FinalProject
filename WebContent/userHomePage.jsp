@@ -479,6 +479,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		<thead>
 		<tr>
 			<th>Quiz ID</th>
+			<th>Name</th>
 			<th>Occurrences</th>
 			<th>Last Flagged</th>
 		</tr>
@@ -496,8 +497,8 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				int occurence = temp.getOccurrence();
 				String date = temp.getDate().toString();
 				String quizName = quizMGR.getQuizName(quizID);
-				out.println("<td> "+quizName+"</td>");
 				out.println("<td> "+quizID+"</td>");
+				out.println("<td> "+quizName+"</td>");
 				out.println("<td> "+occurence+"</td>");
 				out.println("<td> "+date+"</td>");
 				out.println("</tr>");
