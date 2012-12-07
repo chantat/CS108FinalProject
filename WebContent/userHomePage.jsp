@@ -34,7 +34,7 @@ if(user==null){
 			"bJQueryUI" : true
 		});
 		$("#newMessage").button();
-		$("#createQuiz").button();
+		$("#createQuizLink").button();
 	})
 </script>
 </head>
@@ -58,7 +58,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		<% if (acct.isAdmin(user)) out.println("<li><a href='#adminTab'>Admin</a></li>"); %>
 	</ul>
 	<div id="quizTab">
-		<a id="createQuiz" href="createQuiz.jsp">Create New Quiz</a>
+		<a id="createQuizLink" href="createQuiz.jsp">Create New Quiz</a>
 		
 		<h2>Quizzes You've Made</h2>
 		<table id="quizCreatedTable">
@@ -276,7 +276,6 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		
 		%>
 		</table>
-		<a href="#">see all</a>
 		
 		<h2>Friend Requests Received</h2>
 		<table id="friendRequestTable">
