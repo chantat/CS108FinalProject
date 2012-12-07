@@ -67,7 +67,15 @@ body {
 }
 
 #createQuiz {
-	margin-left:450px;
+	margin-left:400px;
+}
+
+#allQuizQuestions {
+	margin-left:400px;
+}
+
+#quizResults {
+	margin-left:400px;
 }
 
 .lgreen3d-gradient {

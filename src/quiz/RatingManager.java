@@ -71,7 +71,7 @@ private static Statement stmnt;
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numRatings = DBConnection.getResultSetSize(rs);
-			
+			if(numRatings == 0) return -1;
 			rs.first();
 			for (int i = 0; i < numRatings; i++) {
 				String user = rs.getString("userID");

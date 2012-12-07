@@ -66,7 +66,18 @@ if(practiceMode.equals("true")){
 </head>
 <body>
 <%@include file="header.jsp" %>
+<div id="allQuizQuestions">
 <h1><%= quizName %></h1>
+
+<%
+	if (quiz.getIsFlashcard() && quiz.getImmediateFeedback() && currQuest > 0) {
+		if (session.getAttribute("prevAnswer").equals("correct")) {
+			out.println("<p>Correct! Next question:</p>");
+		} else {
+			out.println("<p>You didn't get that question right! Better luck on this one.</p>");
+		}
+	}
+%>
 
 <form action="ScoreServlet" method="post">
 <%
@@ -181,5 +192,6 @@ for (int i = 0; i < questIds.size(); i++) {
 <input type="hidden" name="currentQuestion" value="<% out.print(currQuest); %>"/>
 <input type="submit" value="Submit"/>
 </form>
+</div>
 </body>
 </html>

@@ -23,6 +23,7 @@
 QuizManager quizManager = (QuizManager)application.getAttribute("quizManager");
 Quiz[] quiz = quizManager.getAllQuizzes();
 ReviewManager reviewmanager = (ReviewManager)application.getAttribute("reviewManager");
+RatingManager ratingManager = (RatingManager)application.getAttribute("ratingManager");
 
 out.println("<table id='quizTable'>");
 out.println("<thead>");
@@ -32,6 +33,7 @@ out.println("<th>Author</th>");
 out.println("<th>Description</th>");
 out.println("<th>Category</th>");
 out.println("<th>Tags</th>");
+out.println("<th>Average Rating</th>");
 out.println("<th>Reviews</th>");
 out.println("</tr>");
 out.println("</thead>");
@@ -43,6 +45,13 @@ for (int i = 0; i < quiz.length ; i++) {
 	String authorId = quiz[i].getAuthorId();
 	String description = quiz[i].getDescription();
 	String category = quiz[i].getCategory();
+	double avgRating = ratingManager.getAverageRating(quizId);
+	String rating="";
+	if(avgRating == - 1){
+		rating="No ratings";
+	}else{
+		rating="" + avgRating;
+	}
 	ArrayList<String> tags = quiz[i].getTags();
 	
 	String tagString = "";
@@ -68,6 +77,7 @@ for (int i = 0; i < quiz.length ; i++) {
 	out.println("<td> " + description + "</td>");
 	out.println("<td> " + category + "</td>");
 	out.println("<td> " + tagString + "</td>");
+	out.println("<td> " + rating + "</td>");
 	String reviewLink="<td><a href=\"ReviewServlet?ID=" + quizId + "\"> Read reviews</a></td>";
 	out.println(reviewLink);
 	out.println("</tr>");

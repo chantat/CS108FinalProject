@@ -17,7 +17,8 @@
 <%
 int quizID = Integer.parseInt((String)request.getAttribute("currentQuiz"));
 int currQuest = (Integer) request.getAttribute("currentQuestion");
-
+request.removeAttribute("practiceMode");
+session.setAttribute("practiceQuestionsCounter", null);
 	String yesButton = "<input type=\"radio\" name=\"practiceMode\"";
 	yesButton += "value=\"" + "true" + "\">" + "Yes";
 	yesButton += "<input type=\"hidden\" name=\"quizId\" value=\"" + quizID + "\"/>";
