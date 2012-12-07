@@ -16,8 +16,10 @@ if(user==null){
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Quiz Results</title>
+<%@include file="resources.jsp" %>
 </head>
 <body>
+<%@include file="header.jsp" %>
 <center><h1>Quiz Results</h1></center>
 <div id="quizResults">
 <%
@@ -26,6 +28,8 @@ double possibleScore = (Double)request.getAttribute("totalPossibleScore");
 String practiceMode = (String)request.getAttribute("practiceMode");
 boolean practice=false;
 if(practiceMode.equals("true")) practice=true;
+int timeTaken = 0;
+if (!practice) timeTaken = (Integer)request.getAttribute("timeTaken");
 
 /* If user was challenged, tell them whether or not they won. */
 if (request.getParameterMap().containsKey("challenger")) {
@@ -55,7 +59,8 @@ if (request.getParameterMap().containsKey("challenger")) {
 	}
 }
 
-out.println("<p>You score a " + score + " out of " + possibleScore + " on the quiz</p>");
+out.println("<p>You score a " + score + " out of " + possibleScore + " on the quiz.</p>");
+if (!practice) out.println("<p>Time taken: " + timeTaken + " seconds.<p>");
 application.setAttribute("currentQuiz", Integer.parseInt(request.getParameter("currentQuiz")));
 if(!practice){
 	out.println("<p>Challenge a friend to beat your score! Separate names with commas.</p>");

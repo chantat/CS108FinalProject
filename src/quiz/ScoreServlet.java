@@ -78,6 +78,7 @@ public class ScoreServlet extends HttpServlet {
 			if (currQuest == 0) {
 				session.setAttribute("currScore", 0.0);
 				session.setAttribute("currPossibleScore", 0.0);
+				session.setAttribute("currTimeTaken", (long)0);
 			}
 			double currScore = (Double)session.getAttribute("currScore");
 			double currPossibleScore = (Double)session.getAttribute("currPossibleScore");
@@ -117,14 +118,26 @@ public class ScoreServlet extends HttpServlet {
 				}
 			}
 			
+			Timestamp start = (Timestamp)session.getAttribute("startTime");
+			if (currQuest == 0) {
+				session.setAttribute("lastTime", start.getTime());
+			}
+			long lastTime = (Long)session.getAttribute("lastTime");
+			long inc = System.currentTimeMillis() - lastTime;
+			long curTime = (Long)session.getAttribute("currTimeTaken");
+			session.setAttribute("currTimeTaken", curTime+inc);
+			session.setAttribute("lastTime", System.currentTimeMillis());
+			
 			session.setAttribute("currScore", currScore);
 			session.setAttribute("currPossibleScore", currPossibleScore);
+			
 			if (!(currQuest == quiz.getNumQuestions() - 1)) {
 				request.setAttribute("currentQuestion", currQuest+1);
 				request.setAttribute("practiceMode", practiceMode);
 				request.setAttribute("totalScore", currScore);
 				request.setAttribute("totalPossibleScore", currPossibleScore);
 				request.setAttribute("currentQuiz", request.getParameter("currentQuiz"));
+				request.setAttribute("currentTimeTaken", curTime+inc);
 				request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
 				return;
 			}
@@ -174,8 +187,14 @@ public class ScoreServlet extends HttpServlet {
 			AttemptManager attemptMngr = (AttemptManager)context.getAttribute("attemptManager");
 			Timestamp startTime = (Timestamp)session.getAttribute("startTime");
 			Timestamp endTime = new Timestamp(System.currentTimeMillis());
-			long timeTaken = startTime.getTime() - startTime.getTime();
-			attemptMngr.createAttempt(username, quizId, totalScore, (int)timeTaken, endTime);
+			long timeTaken = endTime.getTime() - startTime.getTime();
+			
+			if (quiz.getIsFlashcard()) {
+				timeTaken = (Long)session.getAttribute("currTimeTaken");
+			}
+			
+			request.setAttribute("timeTaken", (int)(timeTaken/1000));
+			attemptMngr.createAttempt(username, quizId, totalScore, (int)(timeTaken/1000), endTime);
 
 			
 //TEST
@@ -192,7 +211,6 @@ public class ScoreServlet extends HttpServlet {
 		request.setAttribute("totalScore", totalScore);
 		request.setAttribute("totalPossibleScore", totalPossibleScore);
 		request.setAttribute("currentQuiz", quizId);
-		
 		/* If user took this quiz as a challenge, send a message to challenger. */
 		if (request.getParameterMap().containsKey("challenger")) {
 			String challenger = request.getParameter("challenger");

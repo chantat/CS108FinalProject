@@ -63,12 +63,20 @@ if(practiceMode.equals("true")){
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%= quizName %></title>
 <%@include file="resources.jsp" %>
+<script type="text/javascript">
+var sec = 0;
+function pad ( val ) { return val > 9 ? val : "0" + val; }
+setInterval( function(){
+    $("#seconds").html(pad(++sec%60));
+    $("#minutes").html(pad(parseInt(sec/60,10)));
+}, 1000);
+</script>
 </head>
 <body>
 <%@include file="header.jsp" %>
 <div id="allQuizQuestions">
 <h1><%= quizName %></h1>
-
+<span id="minutes"></span>:<span id="seconds"></span>
 <%
 	if (quiz.getIsFlashcard() && quiz.getImmediateFeedback() && currQuest > 0) {
 		if (session.getAttribute("prevAnswer").equals("correct")) {
@@ -76,6 +84,10 @@ if(practiceMode.equals("true")){
 		} else {
 			out.println("<p>You didn't get that question right! Better luck on this one.</p>");
 		}
+	}
+	if (quiz.getIsFlashcard() && currQuest > 0) {
+		long currTimeTaken = (Long)request.getAttribute("currentTimeTaken");
+		out.println("<p>Time taken for previous questions: " + (currTimeTaken/1000) + " seconds</p>");
 	}
 %>
 
