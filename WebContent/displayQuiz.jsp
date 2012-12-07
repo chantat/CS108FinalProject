@@ -66,6 +66,7 @@ if(practiceMode.equals("true")){
 </head>
 <body>
 <%@include file="header.jsp" %>
+<div id="allQuizQuestions">
 <h1><%= quizName %></h1>
 
 <form action="ScoreServlet" method="post">
@@ -181,5 +182,6 @@ for (int i = 0; i < questIds.size(); i++) {
 <input type="hidden" name="currentQuestion" value="<% out.print(currQuest); %>"/>
 <input type="submit" value="Submit"/>
 </form>
+</div>
 </body>
 </html>
