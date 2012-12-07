@@ -15,20 +15,8 @@ if(user==null){
 }
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<%@include file="header.jsp" %>
 <title>Quiz Results</title>
 <%@include file="resources.jsp" %>
-<!--
-<link media="screen" rel="stylesheet" href="css/colorbox.css" />
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-<script src="js/jquery.colorbox-min.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#challenge_button').colorbox({opacity:0.5});
-    });
-</script>
--->
 </head>
 <body>
 <%@include file="header.jsp" %>
