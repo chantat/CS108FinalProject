@@ -41,11 +41,13 @@ public class QuestionManager {
 	
 	private int getCurrentQuestionId(){
 		int currentQuestionID = 0;
-		String query = "SELECT * FROM Question;";
+		String query = "SELECT MAX(qID) FROM Question;";
 		ResultSet rs = null;
 		try{
 			rs = stmnt.executeQuery(query);
-			currentQuestionID = DBConnection.getResultSetSize(rs);
+			if (rs.next()) {
+				  currentQuestionID = rs.getInt(1) + 1;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
