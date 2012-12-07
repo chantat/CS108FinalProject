@@ -100,6 +100,7 @@ public class AttemptManager {
 					topHighScorers.add(attempt);
 				}
 				if(topHighScorers.size()==NUM_HIGH_SCORERS) return topHighScorers;
+				rs.next();
 			}
 		
 		} catch (SQLException e) {
@@ -121,6 +122,7 @@ public class AttemptManager {
 				int timeSpent=rs.getInt("timeSpent");
 				Attempt attempt=new Attempt(username, quizID, score, timeSpent, timeTaken);
 				sortedAttempts.add(attempt);
+				rs.next();
 			}
 		
 		} catch (SQLException e) {
@@ -134,7 +136,7 @@ public class AttemptManager {
 		ArrayList<Attempt> topPerformers=new ArrayList<Attempt>();
 		ArrayList<String> users=new ArrayList<String>();
 		Timestamp timeToCompareTo=new Timestamp(System.currentTimeMillis()-CUTOFF_HOURS * ONE_HOUR_MILLISECONDS);
-		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" AND WHERE timeTaken < " + "'" + timeToCompareTo + "'" + " ORDER BY score DESC";
+		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" AND timeTaken < " + "'" + timeToCompareTo + "'" + " ORDER BY score DESC";
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numAttempts = DBConnection.getResultSetSize(rs);
@@ -152,6 +154,7 @@ public class AttemptManager {
 					users.add(username);
 				}
 				if(topPerformers.size()==NUM_HIGH_SCORERS) return topPerformers;
+				rs.next();
 			}
 		
 		} catch (SQLException e) {
@@ -175,6 +178,7 @@ public class AttemptManager {
 				Attempt attempt=new Attempt(username, quizID, score, timeSpent, timeTaken);
 				mostRecentPerformers.add(attempt);
 				if(mostRecentPerformers.size()== NUM_HIGH_SCORERS) return mostRecentPerformers;
+				rs.next();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
