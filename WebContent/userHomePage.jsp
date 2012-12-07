@@ -33,6 +33,9 @@ if(user==null){
 		$("#popularQuizTable").dataTable({
 			"bJQueryUI" : true
 		});
+		$("#flaggedQuizTable").dataTable();
+		$("#recentFriendAttemptsTable").dataTable();
+		$("#recentFriendAchieveTable").dataTable();
 		$("#newMessage").button();
 		$("#createQuizLink").button();
 	})
@@ -61,6 +64,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		<a id="createQuizLink" href="createQuiz.jsp">Create New Quiz</a>
 		
 		<h2>Quizzes You've Made</h2>
+		<div id="quizCreatedTableContent">
 		<table id="quizCreatedTable">
 		<thead>
 			<tr>
@@ -119,9 +123,11 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				%>
 		</tbody>
 		</table>
+		</div>
 		<br>
 		
 		<h2>Recently Taken Quizzes</h2>
+		<div id="quizTakenTableContent">
 		<table id="quizTakenTable">
 		<thead>
 			<tr>
@@ -158,9 +164,11 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				%>
 		</tbody>
 		</table>
+		</div>
 		<br>
 		
 		<h2>New Quizzes</h2>
+		<div id="newQuizTableContent">
 		<table id="newQuizTable">
 		<thead>
 			<tr>
@@ -209,9 +217,11 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 			%>
 		</tbody>
 		</table>
+		</div>
 		<br>
 		
 		<h2>Popular Quizzes</h2>
+		<div id="popularQuizTableContent">
 		<table id="popularQuizTable">
 		<thead>
 			<tr>
@@ -247,6 +257,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				%>
 		</tbody>
 		</table>
+		</div>
 	</div>
 	<div id="friendTab">
 		<form action="UserSearchServlet" method="post">
@@ -300,8 +311,18 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		
 		<h2>Friends' Recent Activity</h2>
 		<h3>Recent Friend Quiz Attempts</h3>
-
-		<table border="1">
+		
+		<div id="recentFriendAttemptsTableContent">
+		<table id="recentFriendAttemptsTable">
+		<thead>
+			<tr>
+				<th>Friend</th>
+				<th>Quiz</th>
+				<th>Score</th>
+				<th>Time</th>
+			</tr>
+		</thead>
+		<tbody>
 		<% 
 		
 		ArrayList<Attempt> recentAttempts = friendMgr.getFriendRecentAttempts(user);
@@ -321,11 +342,23 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 			}
 		}
 		%>
-		
+		</tbody>
 		</table>
-		
+		</div>
+		<br><br>
 		<h3>Recent Friend Achievements</h3>
-		<table border="1">
+		
+		<div id="recentFriendAchieveTableContent">
+		<table id="recentFriendAchieveTable">
+		<thead>
+		<tr>
+			<th>Achievement</th>
+			<th>Friend</th>
+			<th>Description</th>
+			<th>Time</th>
+		</tr>
+		</thead>
+		<tbody>
 		<% 
 		AchievementManager achMGR = (AchievementManager)application.getAttribute("achievementManager");
 		ArrayList<Achievement> recentAchievements = friendMgr.getFriendRecentAchievements(user);
@@ -346,8 +379,10 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		}
 		
 		%>
-		
+		</tbody>
 		</table>
+		</div>
+		<br>
 		
 	</div>
 	<div id="inboxTab">
@@ -439,8 +474,17 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		out.println("<div id='adminTab'>");
 		
 		out.println("<h2>Flagged Quizzes</h2>");
-		out.println("<table id='flaggedQuizTable'>");
-		
+		out.println("<div id='flaggedQuizTableContent'>");
+		out.println("<table id='flaggedQuizTable'>");%>
+		<thead>
+		<tr>
+			<th>Quiz ID</th>
+			<th>Occurrences</th>
+			<th>Last Flagged</th>
+		</tr>
+		</thead>
+		<tbody>
+		<%
 		ReportManager reportMGR = (ReportManager)application.getAttribute("reportManager");
 		Report[] reports = reportMGR.getAllReported();
 		if(reports != null && reports.length>0){
@@ -456,10 +500,11 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				out.println("</tr>");
 			}
 		}
-		
+		out.println("</tbody>");
 		out.println("</table>");
+		out.println("</div><br>");
 		
-		out.println("<h2>Enter Announcement</h2>");
+		out.println("<h2>Post Announcement</h2>");
 		out.println("<form action='AdministratorServlet' method='post'>");
 		out.println("<input type='text' value='Subject' name='subject'><br>");
 		out.println("<textarea name='text'></textarea><br>");
