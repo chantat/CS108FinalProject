@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Quiz Master | <%= user %></title>
 <%@include file="resources.jsp" %>
 <% 
 String user = (String)session.getAttribute("username");
@@ -16,6 +15,7 @@ if(user==null){
 	out.println("</script>");
 }
 %>
+<title>Quiz Master | <%= user %></title>
 <script type="text/javascript">
 	$(function() {
 		$("#profileTabs").tabs({
@@ -36,6 +36,8 @@ if(user==null){
 		$("#flaggedQuizTable").dataTable();
 		$("#recentFriendAttemptsTable").dataTable();
 		$("#recentFriendAchieveTable").dataTable();
+		$("#inboxTable").dataTable();
+		$("#achieveTable").dataTable();
 		$("#newMessage").button();
 		$("#createQuizLink").button();
 	})
@@ -398,14 +400,19 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 			%>
 			<h1>Inbox</h1>
 			<a id="newMessage" href="compose.jsp">New Message</a>
+			<br><br>
 			
-			<table>
+			<div id="inboxTableContent">
+			<table id="inboxTable">
+			<thead>
 			<tr>
 			<th>Status</th>
 			<th>From</th>
 			<th>Subject</th>
 			<th>Time</th>
 			</tr>
+			</thead>
+			<tbody>
 			<%
 			user = (String) session.getAttribute("username");
 			ms = (mail.MailSystem) application.getAttribute("mailSystem");
@@ -429,10 +436,22 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				<td><%= msg.getTime() %></td>
 				</tr>
 			<%}%>
+			</tbody>
 			</table>
+			</div>
 	</div>
 	<div id="achievementTab">
-		<table border="1">
+		<h2>Achievements You've Unlocked</h2>
+		<div id="achieveTableContent">
+		<table id="achieveTable">
+		<thead>
+			<tr>
+			<th>Achievement</th>
+			<th>Name</th>
+			<th>Description</th>
+			</tr>
+		</thead>
+		<tbody>
 			<% 
 			
 			
@@ -457,7 +476,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 			
 			
 			%>
+		</tbody>
 		</table>
+		</div><br>
 	</div>
 	<div id="prefTab">
 		<h2>Privacy Preferences</h2>
