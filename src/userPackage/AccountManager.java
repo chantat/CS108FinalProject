@@ -325,6 +325,19 @@ public class AccountManager {
 		}
 		
 	}
+	
+	public void setPracticed(String name){
+			
+			try {
+				String command = "UPDATE "+tableName+" SET usedPracticeMode = 1 WHERE "+userColumnName+" = \""+name+"\";";
+				stmnt.executeUpdate(command);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
+	
+	}
 
 	public int getPopulation(){
 		int pop = 0;

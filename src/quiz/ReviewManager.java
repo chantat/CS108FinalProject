@@ -44,6 +44,7 @@ public class ReviewManager {
 				String reviewText = rs.getString("review");
 				Review review = new Review(reviewText, quizID, user, timestamp);
 				allReviews.add(review);
+				rs.next();
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();

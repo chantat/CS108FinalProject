@@ -168,7 +168,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				if (quiz != null) {
 				
 					for (int i=0; i<Math.min(10,quiz.length);i++) {
-						if (quiz[i].getAuthorId().equals(user)) {
+					//	if (quiz[i].getAuthorId().equals(user)) {
 							out.println("<tr>");
 							int quizId = quiz[i].getQuizId();
 							String quizName = quiz[i].getName(); 
@@ -196,7 +196,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 							out.println("<td> " + category + "</td>");
 							out.println("<td> " + time + "</td>");
 							out.println("</tr>");
-						}
+				//		}
 					}
 				}
 			%>
