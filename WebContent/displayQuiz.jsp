@@ -32,6 +32,7 @@ if (request.getParameterMap().containsKey("challenger")) {
 ArrayList<Integer> numTimesCorrect=null;
 if(practiceMode.equals("true")){
 	numTimesCorrect=(ArrayList<Integer>)session.getAttribute("practiceQuestionsCounter");
+	System.out.println("currQuest: " + currQuest);
 	if(numTimesCorrect.size()==0){ //first time around, set all to 0
 		for(int j = 0; j < questIds.size(); j++){
 			numTimesCorrect.add(0);

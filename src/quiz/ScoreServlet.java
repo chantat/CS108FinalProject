@@ -138,7 +138,8 @@ public class ScoreServlet extends HttpServlet {
 			session.setAttribute("currScore", currScore);
 			session.setAttribute("currPossibleScore", currPossibleScore);
 			
-			if (!(currQuest == quiz.getNumQuestions() - 1)) {
+			if ((!(currQuest == quiz.getNumQuestions() - 1) && practiceMode.equals("false")) || (practiceMode.equals("true") && currQuest != numTimesCorrect.size()-1)) {
+				//System.out.println("MOVING FROM: " + currQuest + " " + numTimesCorrect.size() + " " + quiz.getNumQuestions());
 				request.setAttribute("currentQuestion", currQuest+1);
 				request.setAttribute("practiceMode", practiceMode);
 				request.setAttribute("totalScore", currScore);
