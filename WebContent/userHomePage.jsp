@@ -40,7 +40,13 @@ if(user==null){
 		$("#achieveTable").dataTable();
 		$("#newMessage").button();
 		$("#createQuizLink").button();
-	})
+		$("#quizTakenTable a").button();
+		$("#quizCreatedTable a").button();
+		$("#newQuizTable a").button();
+		$("#popularQuizTable a").button();
+		$("#recentFriendAttemptsTable a").button();
+		$("#flaggedQuizTable a").button();
+	});
 </script>
 </head>
 <body>
@@ -113,7 +119,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 							editButton += "<input type=\"submit\" value=\"" + "Edit" + "\">";
 							editButton += "</form>";
 							
-							out.println("<td> " + quizButton + "</td>");
+							String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizId + "'>" + quizName + "</a>";
+							
+							out.println("<td> " + quizSummaryLink + "</td>");
 							out.println("<td> " + description + "</td>");
 							out.println("<td> " + category + "</td>");
 							out.println("<td> " + tagString + "</td>");
@@ -157,7 +165,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 						quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
 						quizButton += "</form>";
 						
-						out.println("<td> " + quizButton + "</td>");
+						String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizID + "'>" + quizName + "</a>";
+						
+						out.println("<td> " + quizSummaryLink + "</td>");
 						out.println("<td> " + score + "</td>");
 						out.println("<td> " + time + "</td>");
 						out.println("</tr>");
@@ -209,7 +219,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 							quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
 							quizButton += "</form>";
 							
-							out.println("<td> " + quizButton + "</td>");
+							String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizId + "'>" + quizName + "</a>";
+							
+							out.println("<td> " + quizSummaryLink + "</td>");
 							out.println("<td> " + category + "</td>");
 							out.println("<td> " + time + "</td>");
 							out.println("</tr>");
@@ -250,7 +262,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 							quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
 							quizButton += "</form>";
 							
-							out.println("<td> " + quizButton + "</td>");
+							String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizID + "'>" + quizName + "</a>";
+							
+							out.println("<td> " + quizSummaryLink + "</td>");
 							out.println("<td> " + averageRating + "</td>");
 							out.println("</tr>");
 		//				}
@@ -336,8 +350,11 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				String quizName = quizManager.getQuizName(quizID);
 				double score = recentAttempts.get(i).getScore();
 				String time = recentAttempts.get(i).getTimeTaken().toString();
+				
+				String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizID + "'>" + quizName + "</a>";
+				
 				out.println("<td> "+friendID+"</td>");
-				out.println("<td> "+quizName+"</td>");
+				out.println("<td> "+quizSummaryLink+"</td>");
 				out.println("<td> "+score+"</td>");
 				out.println("<td> "+time+"</td>");
 				out.println("</tr>");
@@ -500,6 +517,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		<thead>
 		<tr>
 			<th>Quiz ID</th>
+			<th>Name</th>
 			<th>Occurrences</th>
 			<th>Last Flagged</th>
 		</tr>
@@ -517,8 +535,10 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				int occurence = temp.getOccurrence();
 				String date = temp.getDate().toString();
 				String quizName = quizMGR.getQuizName(quizID);
-				out.println("<td> "+quizName+"</td>");
+				String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizID + "'>" + quizName + "</a>";
+				
 				out.println("<td> "+quizID+"</td>");
+				out.println("<td> "+quizSummaryLink+"</td>");
 				out.println("<td> "+occurence+"</td>");
 				out.println("<td> "+date+"</td>");
 				out.println("</tr>");
