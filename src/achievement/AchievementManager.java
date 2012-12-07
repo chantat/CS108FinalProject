@@ -12,28 +12,56 @@ import userPackage.*;
 import webpackage.DBConnection;
 
 public class AchievementManager {
-	private final int numAchievement = 6;
+	private final int numAchievement = 17;
 	private final String achievementName[] = 
 		{"Amateur Author", 
 		 "Prolific Author", 
 		 "Prodigous Author", 
 		 "Quiz Machine", 
 		 "I am the Greatest", 
-		 "Practice Makes Perfect"};
+		 "Practice Makes Perfect",
+		 "Extrovert",
+		 "LinkedIn Employee",
+		 "Facebook CEO",
+		 "Triple Double",
+		 "Awkward Penguin",
+		 "Playground Bully",
+		 "Singing Praises",
+		 "Hired Reviewer",
+		 "Net Rage",
+		 "Scrooge",
+		 "The Ex-Friend"
+		 
+		 
+		};
 	private final String achievementDescription[] = 
 		{"The user created a quiz.", 
 		 "The user created five quizzes.",
 		 "The user created ten quizzes.",
 		 "The user took ten quizzes.",
 		 "The user had the highest score on a quiz.",
-		 "The user took a quiz in practice mode."};
+		 "The user took a quiz in practice mode.",
+		 "The user has at least 5 friends.",
+		 "The user has at least 10 friends.",
+		 "The user has at least 50 friends.",
+		 "The user has made at least 10 quizzes, 10 quizzes taken, and 10 friends.",
+		 "The user has at least 10 unapproved friend requests",
+		 "The user has at least 10 unaccepted challenges",
+		 "The user has given at least 1 5-star review",
+		 "The user has given at least 10 5-star reviews",
+		 "The user has given at least 1 one-star review",
+		 "The user has given at least 10 1-star reviews",
+		 "The user has unfriended at least 1 person"
+	
+		};
 	
 	private Statement stmnt;
 	private AccountUtil acctutil;
-	
+	private FriendManager frnMGR;
 	public AchievementManager(DBConnection connection, AccountUtil acctutil) {
 		stmnt = connection.getStatement();
 		this.acctutil = acctutil;
+		this.frnMGR = new FriendManager(connection);
 	}
 	
 	public int getNumAchievement() {
@@ -57,7 +85,7 @@ public class AchievementManager {
 		String command = "SELECT * FROM Achievements ";
 		command += "WHERE userId = \"" + username + "\" ";
 		command += "AND achievementId = " + achievementId + ";";
-		
+		int numFriends = frnMGR.getFriends(username).size();
 		ResultSet rs = null;
 		try {
 			rs = stmnt.executeQuery(command);
@@ -84,6 +112,12 @@ public class AchievementManager {
 			newlyAchieved = acctutil.isHadHighScore(username);
 		} else if (achievementId == 5) {
 			newlyAchieved = acctutil.isUsedPracticeMode(username);
+		}else if (achievementId == 6) {		
+			newlyAchieved = (numFriends>=5);
+		}else if (achievementId == 7) {
+			newlyAchieved = (numFriends>=10);
+		}else if (achievementId == 8) {
+			newlyAchieved = (numFriends>=50);
 		}
 		if(newlyAchieved){
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());

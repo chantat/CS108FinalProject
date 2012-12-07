@@ -9,12 +9,12 @@ import announcement.Announcement;
 import webpackage.DBConnection;
 public class Report {
 	int quizID;
-	int occurence;
+	int occurrence;
 	Timestamp date;
 	
-	public Report(int quizID, int occurence, Timestamp date){
+	public Report(int quizID, int occurrence, Timestamp date){
 		this.quizID = quizID;
-		this.occurence = occurence;
+		this.occurrence = occurrence;
 		this.date = date;
 		
 	}
@@ -23,8 +23,8 @@ public class Report {
 		return quizID;
 		
 	}
-	public int getOccurence(){
-		return occurence;
+	public int getOccurrence(){
+		return occurrence;
 		
 	}
 	public Timestamp getDate(){
