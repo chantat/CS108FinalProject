@@ -6,7 +6,7 @@
 <%
 int quizID = Integer.parseInt((String)request.getAttribute("currentQuiz"));
 int currQuest = (Integer) request.getAttribute("currentQuestion");
-String practiceMode = (String) request.getAttribute("practiceMode");
+String practiceMode = (String) session.getAttribute("practiceMode");
 QuizManager quizM = (QuizManager) application.getAttribute("quizManager");
 QuestionManager questM = (QuestionManager) application.getAttribute("questionManager");
 AnswerManager am = (AnswerManager) application.getAttribute("answerManager");
@@ -28,34 +28,33 @@ if (request.getParameterMap().containsKey("challenger")) {
 	challenger = request.getParameter("challenger");
 	challengerScore = Double.parseDouble(request.getParameter("challengerScore"));
 }
-
-
 //PRACTICE MODE
 ArrayList<Integer> numTimesCorrect=null;
-//ArrayList<ArrayList<Answer>> practiceQuestionAnswers=null;
 if(practiceMode.equals("true")){
 	numTimesCorrect=(ArrayList<Integer>)session.getAttribute("practiceQuestionsCounter");
-	
 	if(numTimesCorrect.size()==0){ //first time around, set all to 0
 		for(int j = 0; j < questIds.size(); j++){
 			numTimesCorrect.add(0);
 		}
 		session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
 		session.setAttribute("practiceQuestionIds", questIds);
-	}else{ //if greater or equal to 3, don't display (remove from array)
+	}else{
 		questIds=(ArrayList<Integer>)session.getAttribute("practiceQuestionIds");
-		for(int j = numTimesCorrect.size()-1; j >=0; j--){
-			if(numTimesCorrect.get(j) >= 3){
-				questIds.remove(j);
-				numTimesCorrect.remove(j);
+		if(!quiz.getIsFlashcard() ||(quiz.getIsFlashcard() && currQuest == 0)){ //if greater or equal to 3, don't display (remove from array)
+			for(int j = numTimesCorrect.size()-1; j >=0; j--){
+				if(numTimesCorrect.get(j) >= 3){
+					questIds.remove(j);
+					numTimesCorrect.remove(j);
+				}
+			}
+			if(numTimesCorrect.size()==0){
+				session.setAttribute("practiceMode", "false");
+				request.getRequestDispatcher("donePracticing.jsp").forward(request, response);
+				return;
 			}
 		}
 		session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
 		session.setAttribute("practiceQuestionIds", questIds);
-		if(numTimesCorrect.size()==0){
-			session.removeAttribute("practiceMode");
-			request.getRequestDispatcher("donePracticing.jsp").forward(request, response);
-		}
 	}
 }
 %>

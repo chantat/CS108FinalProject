@@ -49,6 +49,7 @@ public class SessionListener implements HttpSessionListener {
 		hs.setAttribute("pendingAllowsPractice", false);
 		hs.setAttribute("pendingImmediateFeedback", false);
 		hs.setAttribute("previousQuizId", -1);
+		hs.setAttribute("practiceMode", "false");
     }
 
 	/**

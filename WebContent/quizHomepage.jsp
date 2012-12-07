@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="java.util.*, quiz.*, userPackage.*" %>
+    <%@ page import="java.util.*, quiz.*, userPackage.*, forum.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -35,6 +35,7 @@ out.println("<th>Category</th>");
 out.println("<th>Tags</th>");
 out.println("<th>Average Rating</th>");
 out.println("<th>Reviews</th>");
+out.println("<th>Forum</th>");
 out.println("</tr>");
 out.println("</thead>");
 out.println("<tbody>");
@@ -46,6 +47,7 @@ for (int i = 0; i < quiz.length ; i++) {
 	String description = quiz[i].getDescription();
 	String category = quiz[i].getCategory();
 	double avgRating = ratingManager.getAverageRating(quizId);
+	
 	String rating="";
 	if(avgRating == - 1){
 		rating="No ratings";
@@ -80,6 +82,8 @@ for (int i = 0; i < quiz.length ; i++) {
 	out.println("<td> " + rating + "</td>");
 	String reviewLink="<td><a href=\"ReviewServlet?ID=" + quizId + "\"> Read reviews</a></td>";
 	out.println(reviewLink);
+	String forumLink="<td><a href=\"ForumServlet?ID=" + quizId + "\"> Go to Quiz Forum</a></td>";
+	out.println(forumLink);
 	out.println("</tr>");
 }
 out.println("</tbody>");

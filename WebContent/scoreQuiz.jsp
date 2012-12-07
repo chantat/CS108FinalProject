@@ -77,7 +77,7 @@ if(!practice){
 	%>
 	<form action="QuizServlet" method="post">
 	<input type="hidden" name="quizId" value="<%= request.getParameter("currentQuiz") %>"/>
-	<input type="hidden" name="practiceMode" value="true"/>
+	<input type="hidden" name="practiceMode" value="ongoing"/>
 	<input type="submit" value="Practice this quiz again!"/>
 	</form>
 	<%

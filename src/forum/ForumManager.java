@@ -36,15 +36,14 @@ public class ForumManager {
 		ArrayList<ForumPost> forumPosts=new ArrayList<ForumPost>();
 		
 		String command = "SELECT * FROM Forum ";
-		command += "WHERE quizID = \"" + quizID + "\" ORDER BY date ASC;";
-		System.out.println(command); //TODO remove, for verification purporsed
+		command += "WHERE quizID = \"" + quizID + "\" ORDER BY date DESC;";
+		System.out.println(command); //TODO remove, for verification purposes
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numPosts = DBConnection.getResultSetSize(rs);
 			for(int i = 0; i < numPosts; i++){
 				String user = rs.getString("userID");
 				String postText = rs.getString("postText");
-				int timeSpent = rs.getInt("timeSpent");
 				Timestamp datePosted = rs.getTimestamp("date");
 				ForumPost currentPost=new ForumPost(user, quizID, postText, datePosted);
 				forumPosts.add(currentPost);

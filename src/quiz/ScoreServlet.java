@@ -60,13 +60,10 @@ public class ScoreServlet extends HttpServlet {
 		int quizId = Integer.parseInt(request.getParameter("currentQuiz"));
 		Quiz quiz = quizManager.getQuiz(quizId);
 		ArrayList<Integer> questionIds = quiz.getQuestionIds();
-		String practiceMode=request.getParameter("allowsPractice");
+		String practiceMode=(String)session.getAttribute("practiceMode");
 		ArrayList<Integer> numTimesCorrect=null;
 		if(practiceMode.equals("true")){
 			numTimesCorrect=(ArrayList<Integer>)session.getAttribute("practiceQuestionsCounter");
-			for(int i = 0; i < numTimesCorrect.size(); i++){
-				System.out.println("from score servlet, numTimesCorrect at " + i + ": " + numTimesCorrect.get(i));
-			}
 			questionIds=(ArrayList<Integer>) session.getAttribute("practiceQuestionIds");
 		}
 
@@ -78,7 +75,8 @@ public class ScoreServlet extends HttpServlet {
 			if (currQuest == 0) {
 				session.setAttribute("currScore", 0.0);
 				session.setAttribute("currPossibleScore", 0.0);
-				session.setAttribute("currTimeTaken", (long)0);
+				session.setAttribute("currTimeTaken", (long)0);	
+				
 			}
 			double currScore = (Double)session.getAttribute("currScore");
 			double currPossibleScore = (Double)session.getAttribute("currPossibleScore");
@@ -105,7 +103,8 @@ public class ScoreServlet extends HttpServlet {
 			Question question = questionManager.getQuestion(qId);
 			ArrayList<Answer> answers = am.getAnswers(qId);
 			
-			currScore += Answer.scoreUserInput(answers, userInputs);
+			double toIncrement=Answer.scoreUserInput(answers, userInputs);
+			currScore += toIncrement;
 			currPossibleScore += question.getNumAnswers();
 			
 			if (quiz.getImmediateFeedback()) {
@@ -115,6 +114,14 @@ public class ScoreServlet extends HttpServlet {
 					session.setAttribute("prevUserAnswers", userInputs);
 				} else {
 					session.setAttribute("prevAnswer", "correct");
+				}
+			}
+			
+			//PRACTICE MODE FOR FLASHCARDS
+			if(practiceMode.equals("true")){
+				if(toIncrement >0){
+					numTimesCorrect.set(currQuest, numTimesCorrect.get(currQuest)+1);
+					System.out.println("FROM SCORE SERVLET FLASHCARD: INCREMENTING " + currQuest + " " + numTimesCorrect.get(currQuest));
 				}
 			}
 			
@@ -142,7 +149,8 @@ public class ScoreServlet extends HttpServlet {
 				return;
 			}
 			totalScore = currScore;
-			totalPossibleScore = currPossibleScore;
+			totalPossibleScore = currPossibleScore;	
+		
 		}
 		
 		if (!quiz.getIsFlashcard()) {
@@ -173,6 +181,7 @@ public class ScoreServlet extends HttpServlet {
 				if(practiceMode.equals("true")){
 					if(scoreToIncrement >0){
 						numTimesCorrect.set(i, numTimesCorrect.get(i)+1);
+						System.out.println("FROM SCORE SERVLET NOT FLASHCARD: INCREMENTING " + i + " " + numTimesCorrect.get(i));
 					}
 				}
 				
@@ -183,6 +192,8 @@ public class ScoreServlet extends HttpServlet {
 		
 		if(practiceMode.equals("true")){
 			System.out.println(achMGR.checkAchievement(username, 5));
+			session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
+			session.setAttribute("practiceQuestionIds", questionIds);
 		}else{
 			AttemptManager attemptMngr = (AttemptManager)context.getAttribute("attemptManager");
 			Timestamp startTime = (Timestamp)session.getAttribute("startTime");
@@ -231,6 +242,7 @@ public class ScoreServlet extends HttpServlet {
 			}
 		}
 		session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
+		session.setAttribute("practiceQuestionIds", questionIds);
 		request.getRequestDispatcher("scoreQuiz.jsp").forward(request, response);
 		
 		
