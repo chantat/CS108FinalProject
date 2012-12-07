@@ -9,14 +9,14 @@
 <%@include file="resources.jsp" %>
 <script type="text/javascript">
 	
-	var row = 0;
 	var id = 1;
 	$(document).ready(function() {
 		$("#addAnswer").click(function () {
+			var row = parseInt($('#numRows').val());
 			var newAnswerField = $(document.createElement('div')).attr("id", row+"_answers");
+			newAnswerField.append('<input type="hidden" id="' + row + 'numEqAn" value="1">');
 			newAnswerField.append('<label for="label_' + row + '" id="label_' + row + '">Answer #' + (row+1) + ' : </label><br>' +
 					'<input type="text" id="label_' + row + '" name="'+row+'_answer_0"'+'><br>');
-			newAnswerField.val(1);
 			newAnswerField.appendTo('#AnswerForm');
 			
 			var newAnswerButton = $(document.createElement('input'));
@@ -28,14 +28,14 @@
 			newAnswerField.after('<p></p>');
 			
 			newAnswerButton.click(function () {
-				var numQs = parseInt(newAnswerField.val());
+				var numQs = parseInt($("#" + $(this).attr("name") + "numEqAn").val());
 				var curLabel = $("#label_" + $(this).attr("name"));
 				curLabel.append('<br><input type="text" value="New Answer" id="' + id + '" name="' + $(this).attr("name") + '_answer_' + numQs + '"><br>');
-				newAnswerField.val((numQs+1)+"");
+				$("#" + $(this).attr("name") + "numEqAn").val((numQs+1)+"");
 				id++;
 			});
 			
-			row++;
+			$('#numRows').val(row + 1);
 		});
 		
 		$("#removeAnswer").click(function() {
@@ -43,45 +43,60 @@
 			if (row > 0) row--;
 		});
 	});
-	
-	/*function addNew() {
-		var mainContainer = document.getElementById('AnswerForm');
-		
-		// Create a new div for holding text and button input elements
-		var newDiv = document.createElement('div');
-		// Create a new text input
-		var newText = document.createElement('input');
-		newText.type = "input"; 
-		newText.value = counter;
-		// Create a new button input
-		var newDelButton = document.createElement('input');
-		newDelButton.type = "button";
-		newDelButton.value = "Delete";
-	
-		// Append new text input to the newDiv
-		newDiv.appendChild(newText);
-		// Append new button input to the newDiv
-		newDiv.appendChild(newDelButton);
-		// Append newDiv input to the mainContainer
-		mainContainer.appendChild(newDiv);
-		counter++;
-				
-		// Add a handler to button for deleting the newDiv from the mainContainer
-		newDelButton.onclick = function() {
-			mainContainer.removeChild(newDiv);
-		}
-	}*/
 </script>
 
 </head>
 <body>
-	<form id="AnswerForm" action="CreateMAServlet" method="post">
-	Enter your question: <input type="text" name="questionText"> <br>
-	<input type="checkbox" name="isOrdered" value="isOrdered">Order Matters<br>
-	Enter required number of answers: <input type="text" name="numAnswers"> <br>
-	<input type="submit" value="Submit">
-	</form>
-	<input type="button" value="Add Unique Answer" id="addAnswer">
-	<input type="button" value="Remove Answer" id="removeAnswer">
+<% 
+	ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
+	ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
+	int questionIndex = (Integer)session.getAttribute("editPendingQuestionIndex");
+	
+	String oldQuestion = "";
+	ArrayList<Answer> oldAnswerList = new ArrayList<Answer>();
+	String orderString = "";
+	String oldNumAnswerString = "";
+	
+	if (questionIndex != -1) {
+		oldQuestion = pendingQuestions.get(questionIndex).getQText();
+		oldAnswerList = pendingAnswers.get(questionIndex);
+		oldNumAnswerString = "" + pendingQuestions.get(questionIndex).getNumAnswers();
+		if (oldAnswerList.get(0).getAnswerOrder() != -1) {
+			orderString = "checked";
+		}
+	}
+	
+%>
+
+<form id="AnswerForm" action="CreateMAServlet" method="post">
+Enter your question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
+<input type="checkbox" name="isOrdered" value="isOrdered" <% out.print(orderString); %>>Order Matters<br>
+Enter required number of answers: <input type="text" name="numAnswers" value="<% out.print(oldNumAnswerString); %>"> <br>
+<input type="submit" value="Submit">
+<% for(int i = 0; i < oldAnswerList.size(); i++) { 
+	ArrayList<String> answerTexts = oldAnswerList.get(i).getAnswerList(); %>
+	<div id="<% out.print(i); %>_answers"> 
+		<input type="hidden" id="<% out.print(i); %>numEqAn" value="<% out.print(answerTexts.size()); %>">
+		<label for="label_<% out.print(i); %>" id="label_<% out.print(i); %>">Answer #<% out.print(i + 1); %> : 
+		<% for (int j = 1; j < answerTexts.size(); j++) { %>
+			<br><input type="text" value="<% out.print(answerTexts.get(j)); %>" name="<% out.print(i); %>_answer_<% out.print(j); %>"><br>
+		<% } %>
+		</label><br>
+		<input type="text" id="label_0" value="<% out.print(answerTexts.get(0)); %>" name="<% out.print(i); %>_answer_0"><br>
+		<input type="button" id="button<% out.print(i); %>" name="<% out.print(i); %>" value="Add Equivalent Answer">
+		<script type="text/javascript">
+			$("#button<%=i%>").click(function () {
+				var numQs = parseInt($("#" + $(this).attr("name") + "numEqAn").val());
+				var curLabel = $("#label_" + $(this).attr("name"));
+				curLabel.append('<br><input type="text" value="New Answer" name="' + $(this).attr("name") + '_answer_' + numQs + '"><br>');
+				$("#" + $(this).attr("name") + "numEqAn").val((numQs+1)+"");
+			});
+		</script>
+	</div>
+<% } %>
+</form>
+<input type="hidden" id="numRows" value="<% out.print(oldAnswerList.size()); %>">
+<input type="button" value="Add Unique Answer" id="addAnswer">
+<input type="button" value="Remove Answer" id="removeAnswer">
 </body>
 </html>

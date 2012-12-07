@@ -4,7 +4,7 @@ import java.util.*;
 
 import question.QuestionManager;
 
-public class Answer {
+public class Answer implements Comparable {
 	private int questionId;
 	private int answerOrder;
 	private ArrayList<String> answerList;
@@ -78,6 +78,13 @@ public class Answer {
 		}
 		return totalScore;
 	}
+	
+	@Override
+	public int compareTo(Object o) {
+		Answer a = (Answer)o;
+		Integer t = answerOrder;
+		return t.compareTo(a.getAnswerOrder());
+	}
 	// OLD CODE
 	/*private boolean validateGuess(String entry, String entry2){ //entry2 only for matching
 	boolean isCorrectGuess=false;
@@ -100,6 +107,7 @@ public class Answer {
 	}
 	return isCorrectGuess;
 }*/
+
 
 /*public double scoreGuess(String entry, String entry2){
 	validateGuess(entry, entry2);

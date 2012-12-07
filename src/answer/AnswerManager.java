@@ -94,6 +94,8 @@ public class AnswerManager {
 			System.out.println(key + " " + val + " " + answerOrder + " " + score); //TODO remove
 			answers.add(new Answer(qID, val, qType, answerOrder, score));
 		}
+		
+		Collections.sort(answers);
 		return answers;
 	}
 }
