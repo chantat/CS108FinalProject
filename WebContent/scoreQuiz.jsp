@@ -34,6 +34,7 @@ if(!practice){
 <form action="ChallengeServlet" method="post">
 <input type="hidden" name="quizId" value="<%= request.getParameter("currentQuiz") %>"/>
 <input type="hidden" name="score" value="<%= score %>"/>
+<input type="hidden" name="possibleScore" value="<%= possibleScore %>"/>
 <input type="text" name="victim"/>
 <input type="submit" value="Challenge!"/>
 </form>
