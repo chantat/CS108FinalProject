@@ -103,9 +103,19 @@ public class ScoreServlet extends HttpServlet {
 
 			Question question = questionManager.getQuestion(qId);
 			ArrayList<Answer> answers = am.getAnswers(qId);
-
+			
 			currScore += Answer.scoreUserInput(answers, userInputs);
 			currPossibleScore += question.getNumAnswers();
+			
+			if (quiz.getImmediateFeedback()) {
+				if (Answer.scoreUserInput(answers, userInputs) != question.getNumAnswers()) {
+					session.setAttribute("prevAnswer", "incorrect");
+					session.setAttribute("prevCorrectAnswers", answers);
+					session.setAttribute("prevUserAnswers", userInputs);
+				} else {
+					session.setAttribute("prevAnswer", "correct");
+				}
+			}
 			
 			session.setAttribute("currScore", currScore);
 			session.setAttribute("currPossibleScore", currPossibleScore);
