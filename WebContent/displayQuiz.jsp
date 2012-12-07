@@ -72,6 +72,9 @@ if(practiceMode.equals("true")){
 <%
 for (int i = 0; i < questIds.size(); i++) {
 	quest = questM.getQuestion(questIds.get(i));
+	if (quiz.getIsFlashcard()) {
+		quest = questM.getQuestion(questIds.get(currQuest));
+	}
 	switch(quest.getType()){
 	case QuestionManager.QUESTION_RESPONSE:%>
 		<p><%= quest.getQText() %></p>
@@ -168,12 +171,14 @@ for (int i = 0; i < questIds.size(); i++) {
 		<br>
 		<%break;
 	}
+	if (quiz.getIsFlashcard()) break;
 }
 %>
 <input type="hidden" name="currentQuiz" value="<% out.print(quizID); %>"/>
 <input type="hidden" name="allowsPractice" value="<% out.print(practiceMode); %>"/>
 <input type="hidden" name="challenger" value="<%= challenger %>"/>
 <input type="hidden" name="challengerScore" value="<%= challengerScore %>"/>
+<input type="hidden" name="currentQuestion" value="<% out.print(currQuest); %>"/>
 <input type="submit" value="Submit"/>
 </form>
 </body>
