@@ -59,7 +59,7 @@ System.out.println("OMGGGGG FLAGGED QUIZ");
 			
 			Timestamp time = new Timestamp(System.currentTimeMillis());
 			if(reportMGR.isReportExist(currentQuiz)){
-				reportMGR.incrementOccurence(currentQuiz);
+				reportMGR.incrementOccurrence(currentQuiz);
 			}
 			else{
 				reportMGR.createReport(currentQuiz, 1, time);
