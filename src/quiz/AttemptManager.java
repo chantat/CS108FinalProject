@@ -81,12 +81,12 @@ public class AttemptManager {
 		ArrayList<Attempt> topHighScorers=new ArrayList<Attempt>();
 		ArrayList<String> users=new ArrayList<String>();
 		
-		//String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" ORDER BY score DESC;";
-		String command="SELECT * FROM Attempts";
+		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" ORDER BY score DESC;";
 		System.out.println(command); //TODO remove; for verification purposes
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numScores = DBConnection.getResultSetSize(rs);
+			System.out.println(numScores);
 			for(int i = 0; i < numScores; i++){
 				String username=rs.getString("userID");
 				Double score=rs.getDouble("score");
