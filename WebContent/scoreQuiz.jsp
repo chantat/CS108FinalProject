@@ -28,7 +28,7 @@ if(practiceMode.equals("true")) practice=true;
 out.println("<p>You score a " + score + " out of " + possibleScore + " on the quiz</p>");
 application.setAttribute("currentQuiz", Integer.parseInt(request.getParameter("currentQuiz")));
 if(!practice){
-	out.println("<p>Challenge a friend to beat your score!</p>");
+	out.println("<p>Challenge a friend to beat your score! Separate names with commas.</p>");
 	System.out.println("QuizID of Challenge: " + request.getParameter("currentQuiz"));
 %>
 <form action="ChallengeServlet" method="post">

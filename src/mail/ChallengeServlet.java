@@ -45,11 +45,11 @@ public class ChallengeServlet extends HttpServlet {
 		QuizManager qm = (QuizManager) context.getAttribute("quizManager");
 		HttpSession hs = request.getSession();
 		String name =(String)hs.getAttribute("username");
-		String victim = request.getParameter("victim");
+		//String victim = request.getParameter("victim");
+		
+		
 		
 		//notify the recipient with a mail system message
-//		String quizIDStr = request.getParameter("quizId"); // Quiz ID is recorded as message text in database
-//		Message requestMsg = new Message(victim, name, "Challenge!", quizIDStr, "Challenge");
 		int quizID = Integer.parseInt(request.getParameter("quizId"));
 		String quizStr = qm.getQuizName(quizID);
 		double score = Double.parseDouble(request.getParameter("score"));
@@ -57,8 +57,16 @@ public class ChallengeServlet extends HttpServlet {
 		String message = name + " has challenged you to a the quiz ";
 		message += quizStr;
 		message += "! Can you beat a score of " + score + "/" + possibleScore +"?";
-		ChallengeMessage challengeMsg = new ChallengeMessage(victim, name, message, quizID, score);
-		mail.send(challengeMsg);
+		String toIDStr = request.getParameter("victim");
+		toIDStr = toIDStr.replaceAll("\\s", "");
+		String toIDList[] = toIDStr.split(",");
+		for (int i = 0; i < toIDList.length; i++) {
+			String toID = toIDList[i];
+			ChallengeMessage msg = new ChallengeMessage(toID, name, message, quizID, score);
+			mail.send(msg);
+		}
+		//ChallengeMessage challengeMsg = new ChallengeMessage(victim, name, message, quizID, score);
+		//mail.send(challengeMsg);
 		
 		request.getRequestDispatcher("quizHomepage.jsp").forward(request, response);
 	}
