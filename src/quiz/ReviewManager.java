@@ -39,7 +39,7 @@ public class ReviewManager {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numReviews = DBConnection.getResultSetSize(rs);
 			rs.first();
-			for(int i = 0; i < Math.min(numReviews, NUM_MOST_RECENT_REVIEWS); i++){
+			for(int i = 0; i < numReviews; i++){
 				String user = rs.getString("userID");
 				Timestamp timestamp = rs.getTimestamp("reviewTime");
 				String reviewText = rs.getString("review");
@@ -51,6 +51,27 @@ public class ReviewManager {
 			e.printStackTrace();
 		}
 		return allReviews;
+	}
+	
+	public ArrayList<Review> getMostRecentReviews(int quizID){
+		ArrayList<Review> mostRecentReviews=new ArrayList<Review>();
+		String command = "SELECT * FROM Review WHERE quizID = \""+ quizID + "\" ORDER BY reviewTime DESC;";
+		try{
+			ResultSet rs = stmnt.executeQuery(command);
+			int numReviews = DBConnection.getResultSetSize(rs);
+			rs.first();
+			for(int i = 0; i < Math.min(numReviews, NUM_MOST_RECENT_REVIEWS); i++){
+				String user = rs.getString("userID");
+				Timestamp timestamp = rs.getTimestamp("reviewTime");
+				String reviewText = rs.getString("review");
+				Review review = new Review(reviewText, quizID, user, timestamp);
+				mostRecentReviews.add(review);
+				rs.next();
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return mostRecentReviews;
 	}
 	
 }

@@ -15,5 +15,7 @@ String quizHomepageLink = "<A HREF=\"quizHomepage.jsp\">Quiz Homepage</A>";
 out.println(quizHomepageLink);
 %>
 
+
+
 </body>
 </html>

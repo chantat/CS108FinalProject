@@ -17,7 +17,7 @@ ArrayList<Review> allQuizReviews= rm.getAllReviews(quizId);
 int numReviews=allQuizReviews.size();
 if(numReviews == 0) out.println("There are no reviews to display");
 else{
-	out.println("Displaying the " + numReviews + " most recent reviews<br><br>");
+	out.println("Displaying all reviews<br><br>");
 	for(int i = 0; i < allQuizReviews.size(); i++){
 		String reviewText=allQuizReviews.get(i).getReview();
 		out.println(reviewText + "<br>");
