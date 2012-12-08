@@ -40,12 +40,6 @@ if(user==null){
 		$("#achieveTable").dataTable();
 		$("#newMessage").button();
 		$("#createQuizLink").button();
-		$("#quizTakenTable a").button();
-		$("#quizCreatedTable a").button();
-		$("#newQuizTable a").button();
-		$("#popularQuizTable a").button();
-		$("#recentFriendAttemptsTable a").button();
-		$("#flaggedQuizTable a").button();
 	});
 </script>
 </head>
