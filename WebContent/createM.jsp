@@ -23,6 +23,7 @@
 
 </head>
 <body>
+<%@include file="header.jsp" %>
 <% 
 	ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 	ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
@@ -39,11 +40,11 @@
 	}
 	
 %>
-
+<center>
 <h1>Matching Question</h1>
 <form id="AnswerForm" action="CreateMServlet" method="post">
 Enter question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
-<input type="submit" value="Submit"> <br>
+<input type="submit" value="Submit"> <br><br>
 Enter the items: <br>
 <% for(int i = 0; i < oldAnswerList.size(); i++) {
 	String answerText = oldAnswerList.get(i);
@@ -57,4 +58,5 @@ Enter the items: <br>
 </form>
 <input type="button" value="Add Item" id="addItem">
 </body>
+</center>
 </html>

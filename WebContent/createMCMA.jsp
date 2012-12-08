@@ -25,6 +25,7 @@
 
 </head>
 <body>
+<%@include file="header.jsp" %>
 <% 
 	ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 	ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
@@ -47,11 +48,12 @@
 	}
 	
 %>
-
+<center>
+<h1>Multiple-Choice Multiple-Answer Question</h1>
 <form id="AnswerForm" action="CreateMCMAServlet" method="post">
 Enter your question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
-<input type="submit" value="Submit"> <br>
-Enter the choices: <br>
+<input type="submit" value="Submit"> <br><br>
+Enter your choices and select the correct answers: <br>
 <% for(int i = 0; i < oldAnswerList.size(); i++) {
 	String answerText = oldAnswerList.get(i);
 	String checkString = "";
@@ -67,5 +69,6 @@ Enter the choices: <br>
 <input id = 'numAnswers' type='hidden' value='<%out.print(oldAnswerList.size());%>'>
 </form>
 <input type="button" value="Add Answer" id="addAnswer">
+</center>
 </body>
 </html>

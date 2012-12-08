@@ -47,6 +47,7 @@
 
 </head>
 <body>
+<%@include file="header.jsp" %>
 <% 
 	ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 	ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
@@ -67,12 +68,13 @@
 	}
 	
 %>
-
+<center>
+<h1>Multiple Answer Question</h1>
 <form id="AnswerForm" action="CreateMAServlet" method="post">
 Enter your question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
-<input type="checkbox" name="isOrdered" value="isOrdered" <% out.print(orderString); %>>Order Matters<br>
+<input type="checkbox" name="isOrdered" value="isOrdered" <% out.print(orderString); %>>Order Matters<br><br>
 Enter required number of answers: <input type="text" name="numAnswers" value="<% out.print(oldNumAnswerString); %>"> <br>
-<input type="submit" value="Submit">
+<input type="submit" value="Submit"><br><br>
 <% for(int i = 0; i < oldAnswerList.size(); i++) { 
 	ArrayList<String> answerTexts = oldAnswerList.get(i).getAnswerList(); %>
 	<div id="<% out.print(i); %>_answers"> 
@@ -98,5 +100,6 @@ Enter required number of answers: <input type="text" name="numAnswers" value="<%
 <input type="hidden" id="numRows" value="<% out.print(oldAnswerList.size()); %>">
 <input type="button" value="Add Unique Answer" id="addAnswer">
 <input type="button" value="Remove Answer" id="removeAnswer">
+</center>
 </body>
 </html>

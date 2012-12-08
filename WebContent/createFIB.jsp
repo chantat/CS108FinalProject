@@ -21,6 +21,7 @@
 </script>
 </head>
 <body>
+<%@include file="header.jsp" %>
 <% 
 	ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 	ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
@@ -35,17 +36,18 @@
 	}
 	
 %>
-
+<center>
 <h1>Fill in the Blank Question</h1>
 <form id="AnswerForm" action="CreateFIBServlet" method="post">
 Enter your statement, with ### where the blank goes: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
-<input type="submit" value="Submit"> <br>
-Enter your answer: <br>
+<input type="submit" value="Submit"> <br><br>
+Enter your answer(s): <br>
 <% for(int i = 0; i < oldAnswerList.size(); i++) { %>
 <div id="<%out.print(i);%>_answers"><input type="text" name="<%out.print(i);%>_answer_0" value="<%out.print(oldAnswerList.get(i));%>"> </div>
 <% } %>
 <input id = 'numEquivalentAnswers' type='hidden' value='<%out.print(oldAnswerList.size());%>'>
 </form>
 <input type="button" value="Add Equivalent Answer" id="addEquivalentAnswer">
+</center>
 </body>
 </html>
