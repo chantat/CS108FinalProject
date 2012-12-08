@@ -49,7 +49,7 @@ public class ReviewServlet extends HttpServlet {
 		String reviewText="";
 		reviewText=requestMap.get("reviewText")[0];
 		int currentQuiz = Integer.parseInt(request.getParameter("quizId"));
-		System.out.println("REVIEW SERVLET: " + reviewText + " " + currentQuiz);
+		//System.out.println("REVIEW SERVLET: " + reviewText + " " + currentQuiz);
 		String username = (String)session.getAttribute("username");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		

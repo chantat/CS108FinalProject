@@ -230,7 +230,7 @@ public class AchievementManager {
 		command += "\"" + username + "\",";
 		command += "" + achievementId + ",";
 		command += "'" + timestamp + "');";
-		System.out.println(command); // for verification purposes
+		//System.out.println(command); // for verification purposes
 		
 		try {
 			stmnt.executeUpdate(command);

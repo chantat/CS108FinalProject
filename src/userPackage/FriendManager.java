@@ -163,7 +163,7 @@ public class FriendManager{
 		String command = "SELECT * FROM Request WHERE toID = "+quote+user+quote+";";
 
 //TEST
-	System.out.println("getRequest command is "+command);	
+	//System.out.println("getRequest command is "+command);	
 		
 		try {
 			
@@ -255,8 +255,8 @@ public class FriendManager{
 				String friend1 = (String)rs.getObject(1);
 			    String friend2 = (String)rs.getObject(2);
 			   
-			    System.out.println("friend 1 is" +  friend1);
-			    System.out.println("friend 2 is" +  friend2);
+			    //System.out.println("friend 1 is" +  friend1);
+			    //System.out.println("friend 2 is" +  friend2);
 	
 			}
 		
@@ -283,8 +283,8 @@ public class FriendManager{
 				String friend1 = (String)rs.getObject(1);
 			    String friend2 = (String)rs.getObject(2);
 			   
-			    System.out.println("Request originator is" +  friend1);
-			    System.out.println("Request recipient is" +  friend2);
+			    //System.out.println("Request originator is" +  friend1);
+			    //System.out.println("Request recipient is" +  friend2);
 	
 			}
 		

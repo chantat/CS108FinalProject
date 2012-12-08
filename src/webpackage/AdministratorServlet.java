@@ -57,7 +57,7 @@ public class AdministratorServlet extends HttpServlet {
 		}  else if (function.equals("clear_quiz_history")) {
 			
 //TEST
-System.out.println("Attempting to clear quiz history");
+//System.out.println("Attempting to clear quiz history");
 
 			AttemptManager attemptMGR = (AttemptManager)sc.getAttribute("attemptManager");
 			int quizID = Integer.parseInt(request.getParameter("quizId"));

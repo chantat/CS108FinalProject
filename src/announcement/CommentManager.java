@@ -24,7 +24,7 @@ public class CommentManager {
 		command += "\"" + commentText + "\",";
 		command += "\"" + username + "\",";
 		command += "'" + timeCommented + "');";
-		System.out.println(command); // for verification purposes
+		//System.out.println(command); // for verification purposes
 		
 		try {
 			stmnt.executeUpdate(command);

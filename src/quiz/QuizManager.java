@@ -189,7 +189,7 @@ public class QuizManager {
 			query += quizId + ",";
 			query += "\"" + tags.get(i) + "\");";
 			
-			System.out.println(query); //DEBUGGING
+			//System.out.println(query); //DEBUGGING
 			
 			try {
 				stmnt.executeUpdate(query);
@@ -205,7 +205,7 @@ public class QuizManager {
 			query += quizID + ",";
 			query += questionIDs.get(i) + ");";
 			
-			System.out.println(query); //DEBUGGING
+			//System.out.println(query); //DEBUGGING
 			
 			try {
 				stmnt.executeUpdate(query);
@@ -232,7 +232,7 @@ public class QuizManager {
 		query += "\"" + category + "\",";
 		query += "\"" + quizName + "\");";
 		
-		System.out.println(query); //DEBUGGING
+		//System.out.println(query); //DEBUGGING
 		
 		try {
 			stmnt.executeUpdate(query);

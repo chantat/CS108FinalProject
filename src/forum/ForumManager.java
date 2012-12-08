@@ -23,7 +23,7 @@ public class ForumManager {
 		command += threadID + ",";
 		command += "\"" + postText + "\",";
 		command += "'" + timePosted + "');";
-		System.out.println(command); // for verification purposes
+		//System.out.println(command); // for verification purposes
 		
 		try {
 			stmnt.executeUpdate(command);
@@ -37,7 +37,7 @@ public class ForumManager {
 		
 		String command = "SELECT * FROM Forum ";
 		command += "WHERE quizID = \"" + quizID + "\" ORDER BY date DESC;";
-		System.out.println(command); //TODO remove, for verification purposes
+		//System.out.println(command); //TODO remove, for verification purposes
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numPosts = DBConnection.getResultSetSize(rs);
@@ -48,7 +48,7 @@ public class ForumManager {
 				Timestamp datePosted = rs.getTimestamp("date");
 				ForumPost currentPost=new ForumPost(user, quizID, postText, datePosted);
 				forumPosts.add(currentPost);
-				System.out.println(user+ " " + postText + " " + datePosted + " " + currentPost);
+				//System.out.println(user+ " " + postText + " " + datePosted + " " + currentPost);
 				rs.next();
 			}
 		} catch (SQLException e) {
