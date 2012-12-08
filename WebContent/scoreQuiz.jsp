@@ -25,6 +25,7 @@ if(user==null){
 <%
 double score = (Double)request.getAttribute("totalScore");
 double possibleScore = (Double)request.getAttribute("totalPossibleScore");
+double percentScore = Double.parseDouble(String.format("%.2f", (score/possibleScore * 100.0)));
 String practiceMode = (String)request.getAttribute("practiceMode");
 boolean practice=false;
 if(practiceMode.equals("true")) practice=true;
@@ -40,21 +41,22 @@ if (request.getParameterMap().containsKey("challenger")) {
 		if (score > challengerScore) {
 			challengeResponseMessage = "Congratulations! You won ";
 			challengeResponseMessage += challenger + "'s challenge! ";
-			challengeResponseMessage += challenger + " only scored " + challengerScore;
-			challengeResponseMessage += "/" + possibleScore + ".";
+			challengeResponseMessage += challenger + " only scored ";
+			
 		}
 		else if (score < challengerScore) {
 			challengeResponseMessage = "Too bad! You lost ";
 			challengeResponseMessage += challenger + "'s challenge! ";
-			challengeResponseMessage += challenger + " scored " + challengerScore;
-			challengeResponseMessage += "/" + possibleScore + ".";
+			challengeResponseMessage += challenger + " scored ";
 		}
 		else {
 			challengeResponseMessage = "Wow! You tied ";
 			challengeResponseMessage += challenger + "'s challenge! ";
-			challengeResponseMessage += challenger + " also scored " + challengerScore;
-			challengeResponseMessage += "/" + possibleScore + ".";
+			challengeResponseMessage += challenger + " also scored ";
 		}
+		challengeResponseMessage += challengerScore;
+		challengeResponseMessage += "/" + possibleScore + " (";
+		challengeResponseMessage += percentScore + "%).";
 		out.println("<p>" + challengeResponseMessage + "</p>");
 	}
 }

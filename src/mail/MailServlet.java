@@ -35,6 +35,7 @@ public class MailServlet extends HttpServlet {
 		ServletContext sc = request.getServletContext();
 		HttpSession session = request.getSession();
 		MailSystem ms = (MailSystem) sc.getAttribute("mailSystem");
+		FriendManager fm = (FriendManager) sc.getAttribute("friendManager");
 		String toIDStr = request.getParameter("toID");
 		toIDStr = toIDStr.replaceAll("\\s", "");
 		String toIDList[] = toIDStr.split(",");
@@ -43,8 +44,10 @@ public class MailServlet extends HttpServlet {
 		String user = (String) session.getAttribute("username");
 		for (int i = 0; i < toIDList.length; i++) {
 			String toID = toIDList[i];
-			Message msg = new Message(toID, user, subject, message, "Message");
-			ms.send(msg);
+			if (fm.areFriends(user, toID)) {
+				Message msg = new Message(toID, user, subject, message, "Message");
+				ms.send(msg);
+			}
 		}
 		request.getRequestDispatcher("userHomePage.jsp").forward(request, response);
 	}

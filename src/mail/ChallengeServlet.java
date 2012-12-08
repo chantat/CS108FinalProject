@@ -43,6 +43,7 @@ public class ChallengeServlet extends HttpServlet {
 		ServletContext context = request.getServletContext();
 		MailSystem mail = (MailSystem) context.getAttribute("mailSystem");
 		QuizManager qm = (QuizManager) context.getAttribute("quizManager");
+		FriendManager fm = (FriendManager) context.getAttribute("friendManager");
 		HttpSession hs = request.getSession();
 		String name =(String)hs.getAttribute("username");
 		//String victim = request.getParameter("victim");
@@ -63,8 +64,10 @@ public class ChallengeServlet extends HttpServlet {
 		String toIDList[] = toIDStr.split(",");
 		for (int i = 0; i < toIDList.length; i++) {
 			String toID = toIDList[i];
-			ChallengeMessage msg = new ChallengeMessage(toID, name, message, quizID, score);
-			mail.send(msg);
+			if (fm.areFriends(name, toID)) {
+				ChallengeMessage msg = new ChallengeMessage(toID, name, message, quizID, score);
+				mail.send(msg);
+			}
 		}
 		
 		request.getRequestDispatcher("quizHomepage.jsp").forward(request, response);
