@@ -77,11 +77,49 @@ public class AttemptManager {
 
 	}
 	
+	public double getAverageScore(int quizID){
+		double totalScore = 0.0;
+		double numAttempts=0;
+		
+		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\";";
+		System.out.println(command); //TODO remove; for verification purposes
+		try {
+			ResultSet rs = stmnt.executeQuery(command);
+			numAttempts = DBConnection.getResultSetSize(rs);
+			System.out.println(numAttempts);
+			if(numAttempts==0) return -1.0;
+			rs.first();
+			for(int i = 0; i < numAttempts; i++){
+				Double score=rs.getDouble("score");
+				totalScore+=score;
+				rs.next();
+			}
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return (double)totalScore/numAttempts;
+	}
+	
+	public int getNumAttempts(int quizID){
+		int numAttempts=0;
+		String command = "SELECT COUNT(*) FROM Attempts WHERE quizID = \""+ quizID + "\";";
+		System.out.println(command); //TODO remove; for verification purposes
+		try {
+			ResultSet rs = stmnt.executeQuery(command);
+			numAttempts = DBConnection.getResultSetSize(rs);
+			System.out.println("NUMATTEMPTS: " + numAttempts);		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return numAttempts;
+	}
+	
 	public ArrayList<Attempt> getTopHighScorersEver(int quizID){
 		ArrayList<Attempt> topHighScorers=new ArrayList<Attempt>();
 		ArrayList<String> users=new ArrayList<String>();
 		
-		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" ORDER BY score DESC;";
+		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" ORDER BY score DESC, timeSpent ASC;";
 		System.out.println(command); //TODO remove; for verification purposes
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
@@ -138,7 +176,7 @@ public class AttemptManager {
 		ArrayList<Attempt> topPerformers=new ArrayList<Attempt>();
 		ArrayList<String> users=new ArrayList<String>();
 		Timestamp timeToCompareTo=new Timestamp(System.currentTimeMillis()-CUTOFF_HOURS * ONE_HOUR_MILLISECONDS);
-		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" AND timeTaken < " + "'" + timeToCompareTo + "'" + " ORDER BY score DESC";
+		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" AND timeTaken > " + "'" + timeToCompareTo + "'" + " ORDER BY score DESC";
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numAttempts = DBConnection.getResultSetSize(rs);
