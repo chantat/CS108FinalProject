@@ -1,26 +1,26 @@
-package userPackage;
+package mail;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class UserSearchServlet
+ * Servlet implementation class DeleteServlet
  */
-@WebServlet("/UserSearchServlet")
-public class UserSearchServlet extends HttpServlet {
+@WebServlet("/DeleteServlet")
+public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserSearchServlet() {
+    public DeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,21 +36,14 @@ public class UserSearchServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletContext context = request.getServletContext();
-		AccountManager acct = (AccountManager) context.getAttribute("manager");
-		String victimName = request.getParameter("victim");
-		if(!acct.containsAccount(victimName)){  //if nonexistent
-			//forward user to the User Does Not Exist
-			request.setAttribute("err", "doesNotExist");
-			RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
-			dispatch.forward(request, response);
-			
-		}
-		else{
-			//forward user to the dynamically generated user info page of their desired user
-			RequestDispatcher dispatch = request.getRequestDispatcher("userInfoPage.jsp"); 
-			dispatch.forward(request, response);
-		}
+		ServletContext sc = request.getServletContext();
+		HttpSession session = request.getSession();
+		MailSystem ms = (MailSystem) sc.getAttribute("mailSystem");
+		String fromID = request.getParameter("fromID");
+		String user = (String) session.getAttribute("username");
+		String timeStr = request.getParameter("timeStamp");
+		ms.delete(user, fromID, timeStr);
+		response.sendRedirect("userHomePage.jsp#inboxTab");
 	}
 
 }

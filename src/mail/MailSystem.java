@@ -7,7 +7,7 @@ import mail.Message;
 import webpackage.DBConnection;
 
 public class MailSystem {
-	private DBConnection dbc;
+	private static DBConnection dbc;
 
 	public MailSystem(DBConnection con) {
 		dbc = con;
@@ -24,6 +24,23 @@ public class MailSystem {
 		sqlStr += "\"" + msg.getType() + "\"";
 		sqlStr += ");";
 		//System.out.println(sqlStr);
+		try {
+			stmt.executeUpdate(sqlStr);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void delete(String toID, String fromID, String timeStr) {
+		Statement stmt = dbc.getStatement();
+		String sqlStr = "DELETE FROM Message WHERE ";
+		sqlStr += "toID=\"";
+		sqlStr += toID;
+		sqlStr += "\" AND fromID=\"";
+		sqlStr += fromID;
+		sqlStr += "\" AND messageTime=\"";
+		sqlStr += timeStr + "\"";
+		System.out.println(sqlStr);
 		try {
 			stmt.executeUpdate(sqlStr);
 		} catch (SQLException e) {
@@ -70,7 +87,7 @@ public class MailSystem {
 		sqlStr += msg.getFromID();
 		sqlStr += "\" AND messageTime=\"";
 		sqlStr += msg.getTime() + "\"";
-		System.out.println(sqlStr);
+		//System.out.println(sqlStr);
 		try {
 			stmt.executeUpdate(sqlStr);
 		} catch (SQLException e) {
@@ -78,7 +95,7 @@ public class MailSystem {
 		}
 	}
 	
-	public int numChallengesSent(String fromID){
+	public static int numChallengesSent(String fromID){
 		Statement stmt = dbc.getStatement();
 		ResultSet rs;
 		String quote = "\"";
@@ -93,7 +110,7 @@ public class MailSystem {
 		return 0;
 	}
 	
-	public int numMessageSent(String fromID){
+	public static int numMessageSent(String fromID){
 		Statement stmt = dbc.getStatement();
 		ResultSet rs;
 		String quote = "\"";
@@ -123,7 +140,7 @@ public class MailSystem {
 		sqlStr += toID;
 		sqlStr += "\" AND messageTime=\"";
 		sqlStr += timeStr + "\"";
-		//System.out.println(sqlStr);
+		System.out.println(sqlStr);
 		try {
 			rs = stmt.executeQuery(sqlStr);
 			rs.next();
@@ -136,6 +153,7 @@ public class MailSystem {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		//System.out.println("findMessage: " + msg.getMessage());
 		return msg;
 	}
 	

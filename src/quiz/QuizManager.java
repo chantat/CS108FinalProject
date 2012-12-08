@@ -66,7 +66,7 @@ public class QuizManager {
 		return allowsPractice;
 	}
 	
-	public Quiz getQuiz(int quizId) {
+	public static Quiz getQuiz(int quizId) {
 		String query = "SELECT * FROM Quiz WHERE quizID = " + quizId + ";";
 		
 		Quiz quiz = null;
@@ -241,7 +241,7 @@ public class QuizManager {
 		}
 	}
 	
-	public Quiz[] getAllQuizzes() {
+	public static Quiz[] getAllQuizzes() {
 		String query = "SELECT * FROM Quiz;";
 		ResultSet rs = null;
 		int resultSetSize=0;
@@ -274,7 +274,7 @@ public class QuizManager {
 	}
 	
 	
-	public Quiz[] getAllQuizzesByAuthor(String user) {
+	public static Quiz[] getAllQuizzesByAuthor(String user) {
 		String quote = "\"";
 		String query = "SELECT * FROM Quiz WHERE authorID = "+quote+user+quote+";";
 		ResultSet rs = null;
@@ -307,7 +307,7 @@ public class QuizManager {
 		return quizzes.toArray(new Quiz[quizzes.size()]);
 	}
 	
-	public boolean hasNewerVersion(int quizId) {
+	public static boolean hasNewerVersion(int quizId) {
 		String query = "SELECT * FROM Quiz WHERE prevID=" + quizId + ";";
 		int resultSetSize=0;
 		ResultSet rs = null;

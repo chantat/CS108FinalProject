@@ -7,13 +7,13 @@ import java.sql.*;
 
 
 public class AccountManager {
-	Statement stmnt;
-	String tableName = "QuizUser";
-	String friendTable = "Friend";
-	String requestTable = "Request";
-	String ChallengeTable = "Challenge";
-	String AttemptsTable = "Attempts";
-	String AchieveTable = "Achievements";
+	private static Statement stmnt;
+	static String tableName = "QuizUser";
+	static String friendTable = "Friend";
+	static String requestTable = "Request";
+	static String ChallengeTable = "Challenge";
+	static String AttemptsTable = "Attempts";
+	static String AchieveTable = "Achievements";
 	
 	String adminColumnName;
 	String userColumnName;
@@ -249,10 +249,10 @@ public class AccountManager {
 		return false;
 	}
 	
-	public boolean isAdmin(String name){
+	public static boolean isAdmin(String name){
 		try {
 			ResultSet rs;
-			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE "+userColumnName+" = \""+name+"\";");
+			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE username = \""+name+"\";");
 			rs.next();
 			Boolean adminFlag = (Boolean)rs.getObject(ADMIN);		
 			if(adminFlag==true){

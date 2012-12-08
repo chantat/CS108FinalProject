@@ -57,6 +57,19 @@ if(user==null){
 <% 
 AccountManager acct = (AccountManager)application.getAttribute("manager");
 MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
+if (request.getAttribute("err") != null) {
+	out.println("<center><div class='ui-widget' style='width:350px'>");
+	out.println("<div class='ui-state-error ui-corner-all' style='padding: 0 .7em;'>");
+	out.println("<p><span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span>");
+	
+	if (request.getAttribute("err").equals("doesNotExist")) {
+		out.println("<strong>Sorry!</strong> No such user found.</p>");
+	}
+	
+	out.println("</div>");
+	out.println("</div></center>");
+	out.println("<br>");
+}
 %>
 
 <div id="profileTabs">
@@ -451,6 +464,13 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				</form>
 				</td>
 				<td><%= msg.getTime() %></td>
+				<td>
+				<form action="DeleteServlet" method="post">
+				<input type="submit" value="Delete"/>
+				<input name="fromID" type="hidden" value="<%= msg.getFromID() %>"/>
+				<input name="timeStamp" type="hidden" value="<%= msg.getTime() %>"/>
+				</form>
+				</td>
 				</tr>
 			<%}%>
 			</tbody>
@@ -472,9 +492,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		<tbody>
 			<% 
 			
-			
-			
+
 			Achievement[] achList = achMGR.getAllAchievement(user);
+	
 			
 			for(int i=0; i<achList.length;i++){
 				if(achList[i].getIsAchieved()){
@@ -490,7 +510,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				}
 			}
 			
-			
+
 			
 			
 			%>

@@ -133,7 +133,7 @@ private static Statement stmnt;
 		return 0;  //case where no ratings exist yet
 	}
 	
-	public int getNumStars(String username, int stars){  //returns number of X-star ratings given by user
+	public static int getNumStars(String username, int stars){  //returns number of X-star ratings given by user
 		String quote = "\"";
 		String command = "SELECT * FROM Rating WHERE userID = "+quote+username+quote+" AND rating = "+stars+";";
 		try {
