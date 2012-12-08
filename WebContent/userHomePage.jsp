@@ -189,7 +189,8 @@ if (request.getAttribute("userRated") != null) {
 						String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizID + "'>" + quizName + "</a>";
 						
 						out.println("<td> " + quizSummaryLink + "</td>");
-						out.println("<td> " + score + "</td>");
+						String percentString = String.format("%.2f", score);
+						out.println("<td> " + percentString + "%</td>");
 						out.println("<td> " + time + "</td>");
 						out.println("</tr>");
 					}

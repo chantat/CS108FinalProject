@@ -92,7 +92,8 @@ for(int i = 0; i < topHighScorersOfAllTime.size(); i++){
 	String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +topHighScorersOfAllTime.get(i).getUserId() +"\"><input type=\"submit\" value=\""+topHighScorersOfAllTime.get(i).getUserId()+"\"></form>";
 	if (acctManager.isPerfPublic(curUserID)) out.print("<td> " + linkButton + "</td>");
 	else out.print("<td>Anonymous</td>");
-	out.print("<td> " + topHighScorersOfAllTime.get(i).getScore() + "</td>");
+	String percentString = String.format("%.2f", topHighScorersOfAllTime.get(i).getScore());
+	out.print("<td> " + percentString + "%</td>");
 	out.print("<td> " + topHighScorersOfAllTime.get(i).getTimeSpent() + " sec</td>");
 	out.print("<td> " + topHighScorersOfAllTime.get(i).getTimeTaken() + "</td>");
 	out.print("</tr>");
@@ -122,7 +123,8 @@ for(int i = 0; i < recentTopScores.size(); i++){
 	String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +recentTopScores.get(i).getUserId() +"\"><input type=\"submit\" value=\""+recentTopScores.get(i).getUserId()+"\"></form>";
 	if (acctManager.isPerfPublic(curUserID)) out.print("<td> " + linkButton + "</td>");
 	else out.print("<td>Anonymous</td>");
-	out.print("<td> " + recentTopScores.get(i).getScore() + "</td>");
+	String percentString = String.format("%.2f", recentTopScores.get(i).getScore());
+	out.print("<td> " + percentString + "%</td>");
 	out.print("<td> " + recentTopScores.get(i).getTimeSpent() + " sec</td>");
 	out.print("<td> " + recentTopScores.get(i).getTimeTaken() + "</td>");
 	out.print("</tr>");
@@ -150,7 +152,8 @@ out.print("<tbody>");
 
 for(int i = 0; i < userScores.size(); i++){
 	out.print("<tr>");
-	out.print("<td> " + userScores.get(i).getScore() + "</td>");
+	String percentString = String.format("%.2f", userScores.get(i).getScore());
+	out.print("<td> " + percentString + "%</td>");
 	out.print("<td> " + userScores.get(i).getTimeSpent() + " sec</td>");
 	out.print("<td> " + userScores.get(i).getTimeTaken() + "</td>");
 	out.print("</tr>");
@@ -182,7 +185,8 @@ for(int i = 0; i < recentScores.size(); i++){
 	String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +recentScores.get(i).getUserId() +"\"><input type=\"submit\" value=\""+recentScores.get(i).getUserId()+"\"></form>";
 	if (acctManager.isPerfPublic(curUserID)) out.print("<td> " + linkButton + "</td>");
 	else out.print("<td>Anonymous</td>");
-	out.print("<td> " + recentScores.get(i).getScore() + "</td>");
+	String percentString = String.format("%.2f", recentScores.get(i).getScore());
+	out.print("<td> " + percentString + "%</td>");
 	out.print("<td> " + recentScores.get(i).getTimeSpent() + " sec</td>");
 	out.print("<td> " + recentScores.get(i).getTimeTaken() + "</td>");
 	out.print("</tr>");
