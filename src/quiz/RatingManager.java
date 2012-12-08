@@ -14,7 +14,7 @@ public class RatingManager {
 
 final public static int NUM_MOST_POPULAR_QUIZZES = 5;
 final public static int RATING_MAXIMUM = 5;
-private  Statement stmnt;
+private static Statement stmnt;
 	
 	public RatingManager(DBConnection con){
 		stmnt = con.getStatement();	

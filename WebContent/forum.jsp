@@ -6,29 +6,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Quiz Forum</title>
+<title>Quiz Thread</title>
+<%@include file="resources.jsp" %>
 </head>
 <body>
-<h1>Welcome to the quiz forum!</h1><br></br>
+<%@include file="header.jsp" %>
 <%
 ForumManager fm = (ForumManager)application.getAttribute("forumManager");
 int quizID = (Integer)request.getAttribute("quizId");
 QuizManager quizManager = (QuizManager)application.getAttribute("quizManager");
 Quiz quiz=quizManager.getQuiz(quizID);
 String quizName = quiz.getName();
-out.print("<h2>" + quizName + "</h2>");
+%>
+<center><h1><% out.print(quizName); %></h1></center><br><br>
+<div id="quizThreadContent">
+<%
 
 ArrayList<ForumPost> allPosts= fm.getForumPosts(quizID);
 int numPosts=allPosts.size();
 if(numPosts == 0) out.print("There are no forum posts about this quiz.<br><br>");
 else{
-	out.print("Current thread<br><br>");
+	out.print("Discuss!<br><br>");
 	for(int i = 0; i < allPosts.size(); i++){
 		String postText=allPosts.get(i).getPostText();
 		String userID=allPosts.get(i).getUserID();
 		Timestamp timePosted=allPosts.get(i).getTimePosted();
 		out.println(postText + "<br>");
-		out.println("--Posted by " + userID + " on " + timePosted + "<br><br>");
+		String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +userID +"\"><input type=\"submit\" value=\""+userID+"\"></form>";
+		out.println("--" + linkButton + " on " + timePosted + "<br><br>");
 	}
 }
 out.print("<form action=\"ForumServlet\" method=\"post\">");
@@ -39,12 +44,12 @@ postBox += "value=\"" + "\">";
 postBox += "</textarea>";
 out.println(postBox);
 if(numPosts==0){
-	out.println("<br><input type=\"submit\" value=\"Create new thread\"><br>");
+	out.println("<br><input type=\"submit\" value=\"Create first post\"><br>");
 }else{
-	out.println("<br><input type=\"submit\" value=\"Post to forum\"><br>");
+	out.println("<br><input type=\"submit\" value=\"Post to thread\"><br>");
 }
 out.print("</form>");
 %>
-
+</div>
 </body>
 </html>
