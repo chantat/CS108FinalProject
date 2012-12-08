@@ -41,13 +41,8 @@ public class UserSearchServlet extends HttpServlet {
 		String victimName = request.getParameter("victim");
 		if(!acct.containsAccount(victimName)){  //if nonexistent
 			//forward user to the User Does Not Exist
-			RequestDispatcher dispatch = request.getRequestDispatcher("userNotExist.jsp"); 
-			dispatch.forward(request, response);
-			
-		}
-		else if(acct.isDeact(victimName)){
-			//forward user to the User Does Not Exist
-			RequestDispatcher dispatch = request.getRequestDispatcher("userDeact.jsp"); 
+			request.setAttribute("err", "doesNotExist");
+			RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
 			dispatch.forward(request, response);
 			
 		}
