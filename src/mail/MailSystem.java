@@ -7,7 +7,7 @@ import mail.Message;
 import webpackage.DBConnection;
 
 public class MailSystem {
-	private DBConnection dbc;
+	private static DBConnection dbc;
 
 	public MailSystem(DBConnection con) {
 		dbc = con;

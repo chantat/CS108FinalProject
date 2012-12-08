@@ -15,7 +15,7 @@ public class AttemptManager {
 	final public static long ONE_HOUR_MILLISECONDS = 60*60*1000;
 	final public static int CUTOFF_HOURS=1;
 	
-	private Statement stmnt;
+	private static Statement stmnt;
 	
 	public AttemptManager(DBConnection con){
 		stmnt = con.getStatement();	

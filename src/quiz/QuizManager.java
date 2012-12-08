@@ -7,7 +7,7 @@ import webpackage.DBConnection;
 
 public class QuizManager {
 	private int currentQuizId;
-	private  Statement stmnt;
+	private static Statement stmnt;
 	
 	public QuizManager(DBConnection con) {
 		stmnt = con.getStatement();	

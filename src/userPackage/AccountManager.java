@@ -7,7 +7,7 @@ import java.sql.*;
 
 
 public class AccountManager {
-	private  Statement stmnt;
+	private static Statement stmnt;
 	static String tableName = "QuizUser";
 	static String friendTable = "Friend";
 	static String requestTable = "Request";
