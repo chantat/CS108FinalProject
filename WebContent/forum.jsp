@@ -18,7 +18,7 @@ QuizManager quizManager = (QuizManager)application.getAttribute("quizManager");
 Quiz quiz=quizManager.getQuiz(quizID);
 String quizName = quiz.getName();
 %>
-<center><h1><% out.print(quizName); %></h1></center><br></br>
+<center><h1><% out.print(quizName); %></h1></center><br><br>
 <div id="quizThreadContent">
 <%
 
@@ -26,7 +26,7 @@ ArrayList<ForumPost> allPosts= fm.getForumPosts(quizID);
 int numPosts=allPosts.size();
 if(numPosts == 0) out.print("There are no forum posts about this quiz.<br><br>");
 else{
-	out.print("Current thread<br><br>");
+	out.print("Discuss!<br><br>");
 	for(int i = 0; i < allPosts.size(); i++){
 		String postText=allPosts.get(i).getPostText();
 		String userID=allPosts.get(i).getUserID();
@@ -43,9 +43,9 @@ postBox += "value=\"" + "\">";
 postBox += "</textarea>";
 out.println(postBox);
 if(numPosts==0){
-	out.println("<br><input type=\"submit\" value=\"Create new thread\"><br>");
+	out.println("<br><input type=\"submit\" value=\"Create first post\"><br>");
 }else{
-	out.println("<br><input type=\"submit\" value=\"Post to forum\"><br>");
+	out.println("<br><input type=\"submit\" value=\"Post to thread\"><br>");
 }
 out.print("</form>");
 %>
