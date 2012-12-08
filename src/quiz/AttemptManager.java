@@ -176,7 +176,7 @@ public class AttemptManager {
 		ArrayList<Attempt> topPerformers=new ArrayList<Attempt>();
 		ArrayList<String> users=new ArrayList<String>();
 		Timestamp timeToCompareTo=new Timestamp(System.currentTimeMillis()-CUTOFF_HOURS * ONE_HOUR_MILLISECONDS);
-		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" AND timeTaken > " + "'" + timeToCompareTo + "'" + " ORDER BY score DESC";
+		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" AND timeTaken > " + "'" + timeToCompareTo + "'" + " ORDER BY timeTaken DESC";
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numAttempts = DBConnection.getResultSetSize(rs);
