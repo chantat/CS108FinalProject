@@ -37,7 +37,7 @@ public class CommentManager {
 		ArrayList<Comment> sortedAnnouncementComments=new ArrayList<Comment>();
 		
 		String command = "SELECT * FROM Comment ";
-		command += "WHERE announcementID = " + announcementID + " ORDER BY commentTime ASC;";
+		command += "WHERE announcementID = " + announcementID + " ORDER BY commentTime DESC;";
 		System.out.println(command); //TODO remove, for verification purposes
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
