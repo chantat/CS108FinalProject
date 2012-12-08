@@ -8,10 +8,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Quiz Master | <%=(String)request.getParameter("victim") %></title>
 <%@include file="resources.jsp" %>
+<script type="text/javascript">
+	$(function() {
+		$("#commonFriendsTable").dataTable();
+		$("#quizTakenTable").dataTable();
+		$("#achieveTable").dataTable();
+	});
+</script>
 </head>
 <body>
 <%@include file="header.jsp" %>
-<h1><%=(String)request.getParameter("victim") %>'s Info Page</h1>
+<center><h1><%=(String)request.getParameter("victim") %></h1></center>
+<div id="userInfoContent">
 <% 
 String user = (String)session.getAttribute("username");
 String victim =(String)request.getParameter("victim");
@@ -40,9 +48,16 @@ else{  //already friends
 	out.println(composeLink);
 }
 %>
-<table border="1">
+<div id="commonFriendsTableContent">
+<h2>Friends in Common</h2>
+<table id="commonFriendsTable">
+<thead>
+<tr>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
 <% 
-	out.println("<h2>Friends in Common</h2>");
 	ArrayList<String>userFriends = fMgr.getFriends(user);
 	ArrayList<String>victimFriends = fMgr.getFriends(victim);
 	ArrayList<String>common = new ArrayList<String>();
@@ -64,13 +79,16 @@ else{  //already friends
 
 
 %>
+</tbody>
 </table>
+</div><br>
 
 <% 
 
 	out.println("<h2>Recent Quizzes Taken</h2>");
 %>	
-	
+
+<div id="quizTakenTableContent">
 <table id="quizTakenTable">
 		<thead>
 			<tr>
@@ -83,8 +101,8 @@ else{  //already friends
 			<% 
 				if(acct.isPagePublic(victim) || fMgr.areFriends(user, victim) ){    //if the user page is public or view is a friend..show cool content
 					AttemptManager attemptManager = (AttemptManager)application.getAttribute("attemptManager");
-					Attempt[] attempts = attemptManager.getAllAttempts(victim);
-					
+					//Attempt[] attempts = attemptManager.getAllAttempts(victim);
+					Attempt[] attempts = null;
 					if (attempts != null) {
 					
 						for (int i = 0; i < Math.min(5,attempts.length) ; i++) {
@@ -109,17 +127,27 @@ else{  //already friends
 				%>
 		</tbody>
 		</table>
+		</div><br>
 	
 <% 
 	out.println("<h2>Achievements</h2>");
 
 	%>
 	
-	
-<table border="1">
+<div id="achieveTableContent">
+<table id="achieveTable">
+<thead>
+<tr>
+<th>Achievement</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
 <%
 	if(acct.isPagePublic(victim) || fMgr.areFriends(user, victim) ){    //if the user page is public or view is a friend..show cool content
-		Achievement[] achList = achMGR.getAllAchievement(victim);
+		/*Achievement[] achList = achMGR.getAllAchievement(victim);
+		Achievement[] achList = null;
 		for(int i=0; i<achList.length;i++){
 			if(achList[i].getIsAchieved()){
 				out.println("<tr>");
@@ -132,13 +160,13 @@ else{  //already friends
 				out.println("<td> "+describe+"</td>");
 				out.println("</tr>");
 			}
-		}
+		}*/
 	}
 %>
+</tbody>
 </table>
+</div>
 
-
-
-
+</div>
 </body>
 </html>
