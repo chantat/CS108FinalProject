@@ -27,7 +27,7 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<center><h1>Create New Quiz</h1></center>
+<center><h1>Create/Edit Quiz</h1></center>
 <div id="createQuiz">
 <% 
 ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
@@ -82,7 +82,7 @@ if (pendingAllowsPractice) {
 }
 %>
 <input type="checkbox" name="allowsPractice" value="allowsPractice" <% out.print(checkString); %>>Allow practice mode<br>
-<input type="submit" value="Create Quiz">
+<input type="submit" value="Save Quiz">
 </form>
 <br><br>
 

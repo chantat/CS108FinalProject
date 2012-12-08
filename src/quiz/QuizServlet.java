@@ -71,7 +71,7 @@ public class QuizServlet extends HttpServlet {
 			}
 			Timestamp startTime = new Timestamp(System.currentTimeMillis());
 			session.setAttribute("startTime", startTime);
-			System.out.println(startTime);
+			//System.out.println(startTime);
 			request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
 			return;
 		}else{
@@ -81,7 +81,7 @@ public class QuizServlet extends HttpServlet {
 			}else{
 				Timestamp startTime = new Timestamp(System.currentTimeMillis());
 				session.setAttribute("startTime", startTime);
-				System.out.println(startTime);
+				//System.out.println(startTime);
 				request.getRequestDispatcher("displayQuiz.jsp").forward(request, response);
 			}
 		}

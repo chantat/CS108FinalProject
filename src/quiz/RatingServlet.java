@@ -58,7 +58,7 @@ public class RatingServlet extends HttpServlet {
 		int currentQuiz = Integer.parseInt(request.getParameter("quizId"));
 		if(request.getParameter("reportFlag")!=null){  //if checkbox was checked
 //TEST
-System.out.println("OMGGGGG FLAGGED QUIZ");
+//System.out.println("OMGGGGG FLAGGED QUIZ");
 			
 			
 			AchievementManager achMGR = (AchievementManager) context.getAttribute("achievementManager");
@@ -83,7 +83,7 @@ System.out.println("OMGGGGG FLAGGED QUIZ");
 			reviewManager.createReview(username, currentQuiz, reviewText, timestamp);
 		}
 		
-		System.out.println("RATING SERVLET: " + currentQuiz + " " + ratingReceived + " " + request.getParameter("quizId") + " " + reviewText);
+		//System.out.println("RATING SERVLET: " + currentQuiz + " " + ratingReceived + " " + request.getParameter("quizId") + " " + reviewText);
 		
 		if(ratingReceived != 0) ratingManager.createRating(username, currentQuiz, ratingReceived, timestamp);
 		

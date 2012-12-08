@@ -4,6 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <%
+
 int quizID = Integer.parseInt((String)request.getAttribute("currentQuiz"));
 int currQuest = (Integer) request.getAttribute("currentQuestion");
 String practiceMode = (String) session.getAttribute("practiceMode");
@@ -60,6 +61,15 @@ if(practiceMode.equals("true")){
 		session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
 		session.setAttribute("practiceQuestionIds", questIds);
 	}
+}
+%>
+<% 
+String user = (String)session.getAttribute("username");
+if(user==null){
+	//System.out.println("user = null");
+	out.println("<script type='text/javascript'>");
+	out.println("window.location='announcements.jsp'");
+	out.println("</script>");
 }
 %>
 <head>

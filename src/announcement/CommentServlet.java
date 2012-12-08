@@ -47,7 +47,7 @@ public class CommentServlet extends HttpServlet {
 		String commentText="";
 		commentText=requestMap.get("commentText")[0];
 		int announcementID = Integer.parseInt(request.getParameter("announcementID"));
-		System.out.println("COMMENT SERVLET: " + commentText + " " + announcementID);
+		//System.out.println("COMMENT SERVLET: " + commentText + " " + announcementID);
 		String username = (String)session.getAttribute("username");
 		Timestamp timeCommented = new Timestamp(System.currentTimeMillis());
 		if(!commentText.isEmpty()) commentManager.insertCommentIntoDatabase(announcementID, commentText, username, timeCommented);

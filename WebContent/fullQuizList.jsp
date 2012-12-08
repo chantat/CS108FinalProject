@@ -9,7 +9,7 @@ String quote = "\"";
 String redirect = "<meta http-equiv=" +quote+ "refresh"+quote+" content="+quote+"1;url=userLogin.jsp"+quote+">";
 String user = (String)session.getAttribute("username");
 if(user==null){
-	System.out.println("user = null");
+	//System.out.println("user = null");
 	out.print(redirect);
 }
 %>

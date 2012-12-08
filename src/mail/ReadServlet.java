@@ -39,9 +39,9 @@ public class ReadServlet extends HttpServlet {
 		String timeStr = request.getParameter("timeStamp");
 		String toID = (String)session.getAttribute("username");
 		Message msg = ms.findMessage(toID, fromID, timeStr);
-		System.out.println("MESSAGE TYPE IS: " + msg.getType());
+		//System.out.println("MESSAGE TYPE IS: " + msg.getType());
 		if (msg.getType().equals("Challenge")) {
-			System.out.println("MESSAGE IS A CHALLENGE");
+			//System.out.println("MESSAGE IS A CHALLENGE");
 //			int quizID = ms.findChallengeQuizID(fromID, timeStr);
 //			double score = ms.findChallengeQuizID(fromID, timeStr);
 //			ChallengeMessage chlg = new ChallengeMessage()
@@ -49,8 +49,8 @@ public class ReadServlet extends HttpServlet {
 			ms.markAsRead(chlg);
 			request.setAttribute("message", chlg);
 		} else {
-			System.out.println("MESSAGE IS A MESSAGE");
-			System.out.println(msg.getToID());
+			//System.out.println("MESSAGE IS A MESSAGE");
+			//System.out.println(msg.getToID());
 			ms.markAsRead(msg);
 			request.setAttribute("message", msg);
 		}
