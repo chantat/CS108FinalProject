@@ -12,6 +12,7 @@ import quiz.RatingManager;
 import quiz.ReviewManager;
 import achievement.AchievementManager;
 import announcement.AnnouncementManager;
+import announcement.CommentManager;
 import answer.AnswerManager;
 import quiz.*;
 
@@ -53,6 +54,7 @@ public class SCListener implements ServletContextListener {
         ReviewManager reviewManager = new ReviewManager(con);
         ReportManager reportManager = new ReportManager(con);
         ForumManager forumManager = new ForumManager(con);
+        CommentManager commentManager = new CommentManager(con);
         
         ServletContext sc = sce.getServletContext();
         sc.setAttribute("manager",acctmgr);
@@ -68,6 +70,7 @@ public class SCListener implements ServletContextListener {
         sc.setAttribute("reviewManager", reviewManager);
         sc.setAttribute("reportManager",reportManager);
         sc.setAttribute("forumManager", forumManager);
+        sc.setAttribute("commentManager", commentManager);
     }
 
 	/**

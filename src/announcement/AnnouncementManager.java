@@ -63,7 +63,7 @@ public class AnnouncementManager {
 	}
 	
 	public Announcement[] getAllAnnouncement() {
-		String command = "SELECT * FROM Announcement;";
+		String command = "SELECT * FROM Announcement ORDER BY announcementID DESC;";
 		System.out.println(command); //TODO remove, just checking it's working
 		
 		Announcement ret[] = null;

@@ -49,7 +49,7 @@ public class CommentManager {
 				Timestamp commentTime = rs.getTimestamp("commentTime");
 				Comment comment =new Comment(announcementID, commentText, userID, commentTime);
 				sortedAnnouncementComments.add(comment);
-				System.out.println(announcementID + " " + commentText + " " + userID + " " + commentTime); // TODO remore, for verification purposes
+				System.out.println("retrieved from comment table: " + announcementID + " " + commentText + " " + userID + " " + commentTime); // TODO remore, for verification purposes
 				rs.next();
 			}
 		} catch (SQLException e) {
