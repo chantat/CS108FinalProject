@@ -21,7 +21,7 @@
 	});
 	
 	$(function () {
-		$("#createQuizTable").dataTable();
+		//$("#createQuizTable").dataTable();
 	})
 </script>
 </head>
