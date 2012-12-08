@@ -192,6 +192,8 @@ public class ScoreServlet extends HttpServlet {
 			}
 		}
 		
+		Double percent = 100.0 * totalScore / totalPossibleScore;
+		
 		if(practiceMode.equals("true")){
 			System.out.println(achMGR.checkAchievement(username, 5));
 			session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
@@ -207,7 +209,7 @@ public class ScoreServlet extends HttpServlet {
 			}
 			
 			request.setAttribute("timeTaken", (int)(timeTaken/1000));
-			attemptMngr.createAttempt(username, quizId, totalScore, (int)(timeTaken/1000), endTime);
+			attemptMngr.createAttempt(username, quizId, percent, (int)(timeTaken/1000), endTime);
 
 			
 //TEST
@@ -238,7 +240,8 @@ public class ScoreServlet extends HttpServlet {
 					message += ", but couldn't beat you ";
 				else
 					message += " and tied you ";
-				message += "with a score of " + totalScore + "/" + totalPossibleScore + "!";
+				String percentString = String.format("%.2f", percent);
+				message += "with a score of " + percentString + "%!";
 				Message msg = new Message(challenger, username, subject, message, "Message");
 				ms.send(msg);
 			}

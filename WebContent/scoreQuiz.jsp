@@ -60,8 +60,9 @@ if (request.getParameterMap().containsKey("challenger")) {
 		out.println("<p>" + challengeResponseMessage + "</p>");
 	}
 }
-
-out.println("<p>You scored a " + score + " out of " + possibleScore + " on the quiz.</p>");
+Double percent = 100.0 * score / possibleScore;
+String percentString = String.format("%.2f", percent);
+out.println("<p>You scored a " + score + " out of " + possibleScore + " on the quiz. That is " + percentString + "%!</p>");
 if (!practice) out.println("<p>Time taken: " + timeTaken + " seconds.<p>");
 application.setAttribute("currentQuiz", Integer.parseInt(request.getParameter("currentQuiz")));
 if(!practice){
