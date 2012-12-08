@@ -64,6 +64,8 @@ if (request.getAttribute("err") != null) {
 	
 	if (request.getAttribute("err").equals("doesNotExist")) {
 		out.println("<strong>Sorry!</strong> No such user found.</p>");
+	} else if (request.getAttribute("err").equals("userPrivate")) {
+		out.println("<strong>Sorry!</strong> The user you searched for has a private profile page.</p>");
 	}
 	
 	out.println("</div>");

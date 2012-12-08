@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class UserSearchServlet
@@ -37,14 +38,19 @@ public class UserSearchServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext context = request.getServletContext();
+		HttpSession session = request.getSession();
 		AccountManager acct = (AccountManager) context.getAttribute("manager");
+		FriendManager fmgr = (FriendManager) context.getAttribute("friendManager");
 		String victimName = request.getParameter("victim");
 		if(!acct.containsAccount(victimName)){  //if nonexistent
 			//forward user to the User Does Not Exist
 			request.setAttribute("err", "doesNotExist");
 			RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
 			dispatch.forward(request, response);
-			
+		} else if (!fmgr.areFriends(victimName, (String)session.getAttribute("username")) && !acct.isPagePublic(victimName)) {
+			request.setAttribute("err", "userPrivate");
+			RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
+			dispatch.forward(request, response);
 		}
 		else{
 			//forward user to the dynamically generated user info page of their desired user
