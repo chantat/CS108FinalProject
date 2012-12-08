@@ -20,7 +20,7 @@ public class ReportManager {
 				query += "\"" + quizId + "\",";
 				query += "" + occurrence + ",'";
 				query += date + "');";
-				System.out.println(query); // for verification purposes
+				//System.out.println(query); // for verification purposes
 				try {
 					stmnt.executeUpdate(query);
 				} catch (SQLException e) {
@@ -28,7 +28,7 @@ public class ReportManager {
 				}
 			}
 			else{
-				System.out.println("Trying to add a Report that already exists");
+				//System.out.println("Trying to add a Report that already exists");
 			}
 		}
 		
@@ -124,7 +124,7 @@ public class ReportManager {
 					int newOccur = currentOccur+1;
 					
 	//TEST
-	System.out.println("INCREMENTING OCCURRENCE "+currentOccur+" and new is "+newOccur);
+	//System.out.println("INCREMENTING OCCURRENCE "+currentOccur+" and new is "+newOccur);
 					String command = "UPDATE Reported SET occurrence = "+newOccur+" WHERE quizID = "+quizID+";";
 					stmnt.executeUpdate(command);
 				} catch (SQLException e) {

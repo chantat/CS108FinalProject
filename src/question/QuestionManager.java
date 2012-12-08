@@ -156,7 +156,7 @@ public class QuestionManager {
 		}
 		
 		String query="INSERT INTO Question (qID, qType, qText, numAnswers, isOrdered) VALUES (" + qID + ", " + qType + ", \"" + qText + "\", "+ numAnswers + ", " + isOrdered + ");";
-		System.out.println(query); // for verification purposes
+		//System.out.println(query); // for verification purposes
 		try {
 			Statement stmt = con.getStatement();
 			stmt.executeUpdate(query);
@@ -167,7 +167,7 @@ public class QuestionManager {
 		if (qType == PICTURE_RESPONSE) {
 			String qPicUrl = ((PictureResponseQuestion) question).getURL();
 			query="INSERT INTO PR (qID, qPicUrl) VALUES (" + qID + ", \"" + qPicUrl + "\");";
-			System.out.println(query); // for verification purposes
+			//System.out.println(query); // for verification purposes
 			try {
 				Statement stmt = con.getStatement();
 				stmt.executeUpdate(query);

@@ -77,7 +77,7 @@ public class AccountManager {
 		String command = combinedCommand1+combinedCommand2;
 		
 	//TEST
-		System.out.println("account creation command is "+ command);	
+		//System.out.println("account creation command is "+ command);	
 
 		
 		
@@ -118,7 +118,7 @@ public class AccountManager {
 		String command9 = "DELETE FROM "+AchieveTable+" WHERE userID = "+quote+username+quote+";";
 		String command10 = "UPDATE Quiz SET authorID = \"admin\" WHERE authorID = \""+username+"\";";
 	//TEST
-	System.out.println(command1);
+	//System.out.println(command1);
 		try {
 			stmnt.executeUpdate(command1);
 			stmnt.executeUpdate(command2);
@@ -374,7 +374,7 @@ public class AccountManager {
 				
 				for(int col =1;col<colcount;col++){
 					Object item = rs.getObject(col);
-					System.out.println(item);
+					//System.out.println(item);
 					
 				}
 				

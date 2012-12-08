@@ -36,7 +36,7 @@ public class ComposeServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Compose to: " + request.getParameter("toID"));
+		//System.out.println("Compose to: " + request.getParameter("toID"));
 		request.getRequestDispatcher("compose.jsp").forward(request, response);
 	}
 

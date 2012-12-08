@@ -82,7 +82,7 @@ public class ScoreServlet extends HttpServlet {
 			double currPossibleScore = (Double)session.getAttribute("currPossibleScore");
 			
 			int qId = questionIds.get(currQuest);
-			System.out.println("CURRRENT QUESTION: " + qId);
+			//System.out.println("CURRRENT QUESTION: " + qId);
 			int index = 0;
 
 			ArrayList<String> userInputs = new ArrayList<String>();
@@ -122,7 +122,7 @@ public class ScoreServlet extends HttpServlet {
 			if(practiceMode.equals("true")){
 				if(toIncrement >0){
 					numTimesCorrect.set(currQuest, numTimesCorrect.get(currQuest)+1);
-					System.out.println("FROM SCORE SERVLET FLASHCARD: INCREMENTING " + currQuest + " " + numTimesCorrect.get(currQuest));
+					//System.out.println("FROM SCORE SERVLET FLASHCARD: INCREMENTING " + currQuest + " " + numTimesCorrect.get(currQuest));
 				}
 			}
 			
@@ -183,7 +183,7 @@ public class ScoreServlet extends HttpServlet {
 				if(practiceMode.equals("true")){
 					if(scoreToIncrement >0){
 						numTimesCorrect.set(i, numTimesCorrect.get(i)+1);
-						System.out.println("FROM SCORE SERVLET NOT FLASHCARD: INCREMENTING " + i + " " + numTimesCorrect.get(i));
+						//System.out.println("FROM SCORE SERVLET NOT FLASHCARD: INCREMENTING " + i + " " + numTimesCorrect.get(i));
 					}
 				}
 				
@@ -195,7 +195,7 @@ public class ScoreServlet extends HttpServlet {
 		Double percent = 100.0 * totalScore / totalPossibleScore;
 		
 		if(practiceMode.equals("true")){
-			System.out.println(achMGR.checkAchievement(username, 5));
+			//System.out.println(achMGR.checkAchievement(username, 5));
 			session.setAttribute("practiceQuestionsCounter", numTimesCorrect);
 			session.setAttribute("practiceQuestionIds", questionIds);
 		}else{
@@ -213,12 +213,12 @@ public class ScoreServlet extends HttpServlet {
 
 			
 //TEST
-	System.out.println("high score on quiz id "+quizId+" is "+ attemptMngr.getQuizHighScore(quizId)+ "and your score: "+ totalScore);		
+	//System.out.println("high score on quiz id "+quizId+" is "+ attemptMngr.getQuizHighScore(quizId)+ "and your score: "+ totalScore);		
 			
 			if(totalScore>= attemptMngr.getQuizHighScore(quizId)){
 				
 //TEST
-	System.out.println("NEW HIGH SCORE");
+	//System.out.println("NEW HIGH SCORE");
 				acctMGR.setHighScorer(username);
 			}
 		}

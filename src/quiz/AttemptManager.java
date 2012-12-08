@@ -28,7 +28,7 @@ public class AttemptManager {
 		query += "" + score + ",";
 		query += "" + timeTaken + ",'";
 		query += endTime + "');";
-		System.out.println(query); // for verification purposes
+		//System.out.println(query); // for verification purposes
 		try {
 			stmnt.executeUpdate(query);
 		} catch (SQLException e) {
@@ -44,7 +44,7 @@ public class AttemptManager {
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numEntries = DBConnection.getResultSetSize(rs);
-			System.out.println(command);
+			//System.out.println(command);
 			
 			ret = new Attempt[numEntries];
 			if(numEntries != 0) rs.first();
@@ -54,7 +54,7 @@ public class AttemptManager {
 				double score = rs.getDouble("score");
 				int timeSpent = rs.getInt("timeSpent");
 				Timestamp timeTaken = rs.getTimestamp("timeTaken");
-				System.out.println("RS" + user + " " + quizID + " " + score + " " + timeSpent + " " + timeTaken);
+				//System.out.println("RS" + user + " " + quizID + " " + score + " " + timeSpent + " " + timeTaken);
 				ret[i] = new Attempt(user, quizID, score, timeSpent, timeTaken);
 				rs.next();
 			}
@@ -82,11 +82,11 @@ public class AttemptManager {
 		double numAttempts=0;
 		
 		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\";";
-		System.out.println(command); //TODO remove; for verification purposes
+		//System.out.println(command); //TODO remove; for verification purposes
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			numAttempts = DBConnection.getResultSetSize(rs);
-			System.out.println(numAttempts);
+			//System.out.println(numAttempts);
 			if(numAttempts==0) return -1.0;
 			rs.first();
 			for(int i = 0; i < numAttempts; i++){
@@ -104,11 +104,11 @@ public class AttemptManager {
 	public int getNumAttempts(int quizID){
 		int numAttempts=0;
 		String command = "SELECT COUNT(*) FROM Attempts WHERE quizID = \""+ quizID + "\";";
-		System.out.println(command); //TODO remove; for verification purposes
+		//System.out.println(command); //TODO remove; for verification purposes
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			numAttempts = DBConnection.getResultSetSize(rs);
-			System.out.println("NUMATTEMPTS: " + numAttempts);		
+			//System.out.println("NUMATTEMPTS: " + numAttempts);		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -120,11 +120,11 @@ public class AttemptManager {
 		ArrayList<String> users=new ArrayList<String>();
 		
 		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" ORDER BY score DESC, timeSpent ASC;";
-		System.out.println(command); //TODO remove; for verification purposes
+		//System.out.println(command); //TODO remove; for verification purposes
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numScores = DBConnection.getResultSetSize(rs);
-			System.out.println(numScores);
+			//System.out.println(numScores);
 			if(numScores!=0) rs.first();
 			for(int i = 0; i < numScores; i++){
 				String username=rs.getString("userID");
@@ -132,7 +132,7 @@ public class AttemptManager {
 				Timestamp timeTaken=rs.getTimestamp("timeTaken");
 				int timeSpent=rs.getInt("timeSpent");
 				int index=users.indexOf(username);
-				System.out.println(score + " " + username + " " + timeTaken + " " + timeSpent + " " + index); // TODO remove, for testing purposes
+				//System.out.println(score + " " + username + " " + timeTaken + " " + timeSpent + " " + index); // TODO remove, for testing purposes
 				if(index==-1){
 					users.add(username);
 					Attempt attempt=new Attempt(username, quizID, score, timeSpent, timeTaken);

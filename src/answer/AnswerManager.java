@@ -29,7 +29,7 @@ public class AnswerManager {
 		query += answerOrder + ",";
 		query += score + ");";
 		
-		System.out.println(query); // for verification purposes
+		//println(query); // for verification purposes
 		
 		try {
 			stmnt.executeUpdate(query);
@@ -47,7 +47,7 @@ public class AnswerManager {
 		//get answers
 		try {
 			rs = stmnt.executeQuery("SELECT * FROM Answer WHERE qID = '" + qID + "'");
-			System.out.println("SELECT * FROM Answer WHERE qID = '" + qID + "'");
+			//System.out.println("SELECT * FROM Answer WHERE qID = '" + qID + "'");
 			rs.beforeFirst();
 			while (rs.next()) {
 				String answerKey = rs.getString(2);
@@ -91,7 +91,7 @@ public class AnswerManager {
 			ArrayList<String> val = answerLists.get(key);
 			int answerOrder = answerOrders.get(key);
 			double score = scores.get(key);
-			System.out.println(key + " " + val + " " + answerOrder + " " + score); //TODO remove
+			//System.out.println(key + " " + val + " " + answerOrder + " " + score); //TODO remove
 			answers.add(new Answer(qID, val, qType, answerOrder, score));
 		}
 		

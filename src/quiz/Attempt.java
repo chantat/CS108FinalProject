@@ -46,7 +46,7 @@ public class Attempt {
 			return timeTaken;
 		}
 		else{
-			System.out.println("Tried to retrieve an uninitialized Timestamp from this attempt");
+			//System.out.println("Tried to retrieve an uninitialized Timestamp from this attempt");
 			System.exit(1);
 			return timeTaken;   //dummy...will never get here
 		}

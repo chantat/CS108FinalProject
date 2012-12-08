@@ -9,7 +9,7 @@
 <% 
 String user = (String)session.getAttribute("username");
 if(user==null){
-	System.out.println("user = null");
+	//System.out.println("user = null");
 	out.println("<script type='text/javascript'>");
 	out.println("window.location='announcements.jsp'");
 	out.println("</script>");
@@ -307,13 +307,13 @@ if (request.getAttribute("userRated") != null) {
 		<%
 			FriendManager friendMgr = (FriendManager)application.getAttribute("friendManager");
 			
-			
+		/*	
 			//TEST
 			System.out.println("Friend Table");
 			friendMgr.dumpFriendTable();
 			System.out.println("Req Table");
 			friendMgr.dumpRequestTable();
-			
+		*/	
 			
 			ArrayList<String> friends = friendMgr.getFriends(user);
 			ArrayList<String> requests = friendMgr.getRequests(user);
