@@ -97,7 +97,8 @@ public class QuizManager {
 		return quiz;
 	}
 	
-	public void deleteQuiz(int quizID){
+	public void deleteQuiz(int quizID) {
+		Quiz quiz = getQuiz(quizID);
 		String commandQuiz = "DELETE FROM Quiz WHERE quizID = \""+ quizID + "\";";
 		
 
@@ -125,7 +126,9 @@ public class QuizManager {
 			e.printStackTrace();
 		}
 		
-		
+		if (quiz.getPreviousId() != -1) {
+			deleteQuiz(quiz.getPreviousId());
+		}
 	}
 	
 	public int getNumQuestions(int quizID){
