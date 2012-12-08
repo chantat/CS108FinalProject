@@ -1,4 +1,74 @@
-This is a readme file.
-modified by maria - testing.
+user: chantat
+user: msalexis
+user: sarya
+user: adchang1
+user: rysatt
 
-Allen
+Completed Features:
+  Question Types:
+    Question-Response
+    Fill in the Blank
+    Multiple Choice
+    Picture Response
+    Multi-Answer*
+    Multiple Choice with Multi-Answer*
+    Matching*
+  Answers:
+    All answers can be given in any case
+    All answers can accept multiple unique responses
+    Multi-Answer responses can be answered in any order
+    Multi-Answer responses can have unique alternate answers *
+  Quiz Properties/Options:
+    Random Questions
+    One Page
+    Multiple Pages (Flashcard)
+    Immediate Correction (for Flashcard mode)
+    Practice Mode*
+    History for quiz performance
+    Top scorers
+    Tags and Categories (quizzes can be sorted by these or they can be searched for)*
+    Creator of a quiz can edit it from the quiz page*
+    Rating and Review System*
+  Users:
+    Login/Password
+    Salt
+    Guest view (cannot view, but not take, quizzes; view announcements)*
+    Privacy settings which can be easily changed by the user*
+  Friends:
+    User references are clickable
+    User lookup
+    Request/Accept/Removal of friends
+  Mail:
+    Friend Request - button to accept/reject in message (can also be done from 'Friends' page.
+    Challenge - button to take quiz; compares your score to challengers score
+    Note
+    All three send to the inbox
+    Users can send messages and challenges to any number of their friends*
+  History:
+    Recent quizzes taken
+    Recent quizzes taken by friends
+    Recent quizzes made
+    Recent popular quizzes
+  Achievements
+    All required achievements
+  Administration
+    Create announcements
+    Remove users
+    Remove quizzes
+    See what quizzes have been flagged by users (to decide if they need to be removed)*
+    Clear history of quizzes
+    Promote other admins
+    See site stats
+  Pages
+    Homepage with tabs for all required pages
+    Quiz Summary page with all required features
+    Quiz Results page
+  Overall website look
+  Basic Error Checking
+  Multiple users can use website simultaneously
+*Extension
+
+Skipped Features:
+  (none)
+
+Third Party Libraries:
