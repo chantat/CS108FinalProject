@@ -7,7 +7,7 @@ import webpackage.DBConnection;
 
 public class QuizManager {
 	private int currentQuizId;
-	private static Statement stmnt;
+	private  Statement stmnt;
 	
 	public QuizManager(DBConnection con) {
 		stmnt = con.getStatement();	
@@ -66,7 +66,7 @@ public class QuizManager {
 		return allowsPractice;
 	}
 	
-	public static Quiz getQuiz(int quizId) {
+	public  Quiz getQuiz(int quizId) {
 		String query = "SELECT * FROM Quiz WHERE quizID = " + quizId + ";";
 		
 		Quiz quiz = null;
@@ -145,7 +145,7 @@ public class QuizManager {
 		return count;
 	}
 	
-	private static ArrayList<String> getTags(int quizID){
+	private  ArrayList<String> getTags(int quizID){
 		ArrayList<String> tags = new ArrayList<String>();
 		
 		String query = "SELECT * FROM Tag WHERE quizID = " + quizID + ";";
@@ -164,7 +164,7 @@ public class QuizManager {
 		return tags;
 	}
 	
-	private static ArrayList<Integer> getQuestionIds(int quizId) {
+	private  ArrayList<Integer> getQuestionIds(int quizId) {
 		ArrayList<Integer> questionIds = new ArrayList<Integer>();
 
 		String query = "SELECT * FROM QuizQuestion WHERE quizID = " + quizId + ";";
@@ -241,7 +241,7 @@ public class QuizManager {
 		}
 	}
 	
-	public static Quiz[] getAllQuizzes() {
+	public Quiz[] getAllQuizzes() {
 		String query = "SELECT * FROM Quiz;";
 		ResultSet rs = null;
 		int resultSetSize=0;
@@ -274,7 +274,7 @@ public class QuizManager {
 	}
 	
 	
-	public static Quiz[] getAllQuizzesByAuthor(String user) {
+	public Quiz[] getAllQuizzesByAuthor(String user) {
 		String quote = "\"";
 		String query = "SELECT * FROM Quiz WHERE authorID = "+quote+user+quote+";";
 		ResultSet rs = null;
@@ -307,7 +307,7 @@ public class QuizManager {
 		return quizzes.toArray(new Quiz[quizzes.size()]);
 	}
 	
-	public static boolean hasNewerVersion(int quizId) {
+	public  boolean hasNewerVersion(int quizId) {
 		String query = "SELECT * FROM Quiz WHERE prevID=" + quizId + ";";
 		int resultSetSize=0;
 		ResultSet rs = null;

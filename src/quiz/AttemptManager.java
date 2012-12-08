@@ -15,7 +15,7 @@ public class AttemptManager {
 	final public static long ONE_HOUR_MILLISECONDS = 60*60*1000;
 	final public static int CUTOFF_HOURS=1;
 	
-	private static Statement stmnt;
+	private Statement stmnt;
 	
 	public AttemptManager(DBConnection con){
 		stmnt = con.getStatement();	
@@ -37,7 +37,7 @@ public class AttemptManager {
 	}
 	
 	// Is already sorted newest first!
-	public static Attempt[] getAllAttempts(String userID) {
+	public  Attempt[] getAllAttempts(String userID) {
 		String command = "SELECT * FROM Attempts WHERE userID = \""+ userID + "\" ORDER BY timeTaken DESC;";
 		
 		Attempt ret[] = null;

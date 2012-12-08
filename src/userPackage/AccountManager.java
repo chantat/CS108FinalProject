@@ -7,7 +7,7 @@ import java.sql.*;
 
 
 public class AccountManager {
-	private static Statement stmnt;
+	private  Statement stmnt;
 	static String tableName = "QuizUser";
 	static String friendTable = "Friend";
 	static String requestTable = "Request";
@@ -249,7 +249,7 @@ public class AccountManager {
 		return false;
 	}
 	
-	public static boolean isAdmin(String name){
+	public boolean isAdmin(String name){
 		try {
 			ResultSet rs;
 			rs = stmnt.executeQuery("SELECT * FROM "+tableName+" WHERE username = \""+name+"\";");
