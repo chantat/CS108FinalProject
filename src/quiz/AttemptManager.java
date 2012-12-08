@@ -56,12 +56,7 @@ public class AttemptManager {
 				score=Double.parseDouble(String.format("%.2f", score));
 				int timeSpent = rs.getInt("timeSpent");
 				Timestamp timeTaken = rs.getTimestamp("timeTaken");
-<<<<<<< HEAD
-				score=Double.parseDouble(String.format("%.2f", score));
-				System.out.println("RS" + user + " " + quizID + " " + score + " " + timeSpent + " " + timeTaken);
-=======
-				//System.out.println("RS" + user + " " + quizID + " " + score + " " + timeSpent + " " + timeTaken);
->>>>>>> d070448875a273fda9bd1ec7f70208ff847ce6b3
+
 				ret[i] = new Attempt(user, quizID, score, timeSpent, timeTaken);
 				rs.next();
 			}
