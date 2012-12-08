@@ -74,11 +74,22 @@ public class AchievementManager {
 	
 	private Statement stmnt;
 	private AccountUtil acctutil;
+	private FriendManager frmgr;
+	private QuizManager quizManager;
+	private RatingManager ratingManager;
+	private MailSystem mailManager;
+	private AttemptManager attemptManager;
+	private AccountManager accountManager;
 	
-	public AchievementManager(DBConnection connection, AccountUtil acctutil) {
+	public AchievementManager(DBConnection connection, AccountUtil acctutil, AttemptManager attemptManager, AccountManager accountManager, MailSystem ms, FriendManager frmgr, QuizManager quizManager, RatingManager ratingManager) {
 		stmnt = connection.getStatement();
 		this.acctutil = acctutil;
-		
+		this.mailManager=ms;
+		this.frmgr=frmgr;
+		this.quizManager=quizManager;
+		this.ratingManager=ratingManager;
+		this.attemptManager=attemptManager;
+		this.accountManager=accountManager;
 	}
 	
 	public int getNumAchievement() {
@@ -118,7 +129,7 @@ public class AchievementManager {
 		String command = "SELECT * FROM Achievements ";
 		command += "WHERE userId = \"" + username + "\" ";
 		command += "AND achievementId = " + achievementId + ";";
-		int numFriends = FriendManager.getFriends(username).size();
+		int numFriends = frmgr.getFriends(username).size();
 		ResultSet rs = null;
 		try {
 			rs = stmnt.executeQuery(command);
@@ -152,33 +163,33 @@ public class AchievementManager {
 		}	
 		else if (achievementId == 8) {
 			newlyAchieved = (numFriends>=50);
-		}else if (achievementId == 9) {
-			int quizTaken = AttemptManager.getAllAttempts(username).length;
-			int quizMade = QuizManager.getAllQuizzesByAuthor(username).length;
+		}/*else if (achievementId == 9) {
+			int quizTaken = attemptManager.getAllAttempts(username).length;
+			int quizMade = quizManager.getAllQuizzesByAuthor(username).length;
 			newlyAchieved = ((numFriends>=10)&&(quizTaken>=10)&&(quizMade>=10));
 		}		
 		else if (achievementId == 10) {
-			int numReqs = FriendManager.getRequests(username).size();
+			int numReqs = frmgr.getRequests(username).size();
 			newlyAchieved = (numReqs>=10);
 		}else if (achievementId == 11) {
-			int numChall = MailSystem.numChallengesSent(username);
+			int numChall = mailManager.numChallengesSent(username);
 			newlyAchieved = (numChall>=10);
 		}else if (achievementId == 12) {
-			int numFives = RatingManager.getNumStars(username,5);
+			int numFives = ratingManager.getNumStars(username,5);
 			newlyAchieved = (numFives >=1);
 		}else if (achievementId == 13) {
-			int numFives = RatingManager.getNumStars(username,5);
+			int numFives = ratingManager.getNumStars(username,5);
 			newlyAchieved = (numFives >=10);
 		}else if (achievementId == 14) {
-			int numOnes = RatingManager.getNumStars(username,1);
+			int numOnes = ratingManager.getNumStars(username,1);
 			newlyAchieved = (numOnes >=1);
 		}else if (achievementId == 15) {
-			int numOnes = RatingManager.getNumStars(username,1);
+			int numOnes = ratingManager.getNumStars(username,1);
 			newlyAchieved = (numOnes >=10);
 		}else if (achievementId == 16) {
 			//handled in remove friend servlet
 		}
-	/*	
+		
 		else if (achievementId == 17) {
 			int numAch = getAllAchievement(username).length;
 			newlyAchieved = (numAch >=5);
@@ -188,12 +199,12 @@ public class AchievementManager {
 		}else if (achievementId == 19) {
 			//handled in rating servlet
 		}else if (achievementId == 20) {
-			newlyAchieved = AccountManager.isAdmin(username);
+			newlyAchieved = accountManager.isAdmin(username);
 		}else if (achievementId == 21) {
-			int numMsg = MailSystem.numMessageSent(username);
+			int numMsg = mailManager.numMessageSent(username);
 			newlyAchieved = (numMsg >=20);
-		}	
-	*/	
+		}	*/
+		
 		if(newlyAchieved){
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			insertAchievementIntoDatabase(username, achievementId, timestamp);

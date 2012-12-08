@@ -136,7 +136,7 @@ public class FriendManager{
 		
 	}
 	
-	public static ArrayList<String> getFriends(String user){
+	public ArrayList<String> getFriends(String user){
 		ArrayList<String>friends = new ArrayList<String>();
 		String quote = "\"";
 		//get result set of all rows of people who are your friend
@@ -155,7 +155,7 @@ public class FriendManager{
 	
 	}
 	
-	public static ArrayList<String> getRequests(String user){
+	public ArrayList<String> getRequests(String user){
 		ArrayList<String>requests = new ArrayList<String>();
 		
 		//get result set of all rows where someone has requested YOU to be their friend
@@ -224,7 +224,8 @@ public class FriendManager{
 		ArrayList<Achievement> recentAchieve = new ArrayList<Achievement>();
 		ArrayList<String> friendList = getFriends(user);
 		AccountUtil acctUtil = new AccountUtil(connect);
-		AchievementManager achieveMGR = new AchievementManager(connect, acctUtil);
+		//TODO fix this some other way
+		/*AchievementManager achieveMGR = new AchievementManager(connect, acctUtil);
 		for(int i=0;i<friendList.size();i++){   //for each friend
 			ArrayList<Achievement> friendAchieveList = achieveMGR.getAllTimedAchievement(friendList.get(i));
 			ArrayList<Achievement> sortedTimefriendAchieveList = achieveMGR.sortAchievementByTime(friendAchieveList);
@@ -232,7 +233,7 @@ public class FriendManager{
 				recentAchieve.add(friendAchieveList.get(0));
 			}
 		}
-		recentAchieve = achieveMGR.sortAchievementByTime(recentAchieve);
+		recentAchieve = achieveMGR.sortAchievementByTime(recentAchieve);*/
 		return recentAchieve;
 		
 	}

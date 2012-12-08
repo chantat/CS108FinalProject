@@ -45,7 +45,6 @@ public class SCListener implements ServletContextListener {
     	AccountUtil acctutil = new AccountUtil(con);
         QuizManager quizManager = new QuizManager(con);
         FriendManager frmgr = new FriendManager(con);
-        AchievementManager achmmgr = new AchievementManager(con, acctutil);
         MailSystem ms = new MailSystem(con);
         QuestionManager qm = new QuestionManager(con);
         AnswerManager am = new AnswerManager(con);
@@ -55,6 +54,7 @@ public class SCListener implements ServletContextListener {
         ReportManager reportManager = new ReportManager(con);
         ForumManager forumManager = new ForumManager(con);
         CommentManager commentManager = new CommentManager(con);
+        AchievementManager achmmgr = new AchievementManager(con, acctutil, attemptManager, acctmgr, ms, frmgr, quizManager, ratingManager);
         
         ServletContext sc = sce.getServletContext();
         sc.setAttribute("manager",acctmgr);
