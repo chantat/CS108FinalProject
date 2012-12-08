@@ -90,7 +90,7 @@ for(int i = 0; i < topHighScorersOfAllTime.size(); i++){
 	out.print("<tr>");
 	String curUserID = topHighScorersOfAllTime.get(i).getUserId();
 	String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +topHighScorersOfAllTime.get(i).getUserId() +"\"><input type=\"submit\" value=\""+topHighScorersOfAllTime.get(i).getUserId()+"\"></form>";
-	if (acctManager.isPerfPublic(curUserID)) out.print("<td> " + linkButton + "</td>");
+	if (acctManager.isPerfPublic(curUserID) || curUserID.equals(user)) out.print("<td> " + linkButton + "</td>");
 	else out.print("<td>Anonymous</td>");
 	out.print("<td> " + topHighScorersOfAllTime.get(i).getScore() + "</td>");
 	out.print("<td> " + topHighScorersOfAllTime.get(i).getTimeSpent() + " sec</td>");
@@ -120,7 +120,7 @@ for(int i = 0; i < recentTopScores.size(); i++){
 	out.print("<tr>");
 	String curUserID = recentTopScores.get(i).getUserId();
 	String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +recentTopScores.get(i).getUserId() +"\"><input type=\"submit\" value=\""+recentTopScores.get(i).getUserId()+"\"></form>";
-	if (acctManager.isPerfPublic(curUserID)) out.print("<td> " + linkButton + "</td>");
+	if (acctManager.isPerfPublic(curUserID) || curUserID.equals(user)) out.print("<td> " + linkButton + "</td>");
 	else out.print("<td>Anonymous</td>");
 	out.print("<td> " + recentTopScores.get(i).getScore() + "</td>");
 	out.print("<td> " + recentTopScores.get(i).getTimeSpent() + " sec</td>");
@@ -180,7 +180,7 @@ for(int i = 0; i < recentScores.size(); i++){
 	out.print("<tr>");
 	String curUserID = recentScores.get(i).getUserId();
 	String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +recentScores.get(i).getUserId() +"\"><input type=\"submit\" value=\""+recentScores.get(i).getUserId()+"\"></form>";
-	if (acctManager.isPerfPublic(curUserID)) out.print("<td> " + linkButton + "</td>");
+	if (acctManager.isPerfPublic(curUserID) || curUserID.equals(user)) out.print("<td> " + linkButton + "</td>");
 	else out.print("<td>Anonymous</td>");
 	out.print("<td> " + recentScores.get(i).getScore() + "</td>");
 	out.print("<td> " + recentScores.get(i).getTimeSpent() + " sec</td>");
