@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import achievement.AchievementManager;
+
 /**
  * Servlet implementation class RatingServlet
  */
@@ -45,7 +47,8 @@ public class RatingServlet extends HttpServlet {
 		ReviewManager reviewManager = (ReviewManager)context.getAttribute("reviewManager");
 		ReportManager reportMGR = (ReportManager)context.getAttribute("reportManager");
 		Map<String, String[]> requestMap = request.getParameterMap();
-		
+		String username = (String)session.getAttribute("username");
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		
 		int ratingReceived=0;
 		if(requestMap.get("grade")!= null){
@@ -57,17 +60,19 @@ public class RatingServlet extends HttpServlet {
 //TEST
 System.out.println("OMGGGGG FLAGGED QUIZ");
 			
-			Timestamp time = new Timestamp(System.currentTimeMillis());
+			
+			AchievementManager achMGR = (AchievementManager) context.getAttribute("achievementManager");
+			achMGR.insertAchievementIntoDatabase(username, 19, timestamp);
 			if(reportMGR.isReportExist(currentQuiz)){
 				reportMGR.incrementOccurrence(currentQuiz);
 			}
 			else{
-				reportMGR.createReport(currentQuiz, 1, time);
+				reportMGR.createReport(currentQuiz, 1, timestamp);
 			}	
 		}
 			
-		String username = (String)session.getAttribute("username");
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		
+		
 		
 		String reviewText="";
 		reviewText=requestMap.get("reviewText")[0];
