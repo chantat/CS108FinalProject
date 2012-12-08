@@ -15,9 +15,9 @@ import webpackage.DBConnection;
 import quiz.*;
 
 public class FriendManager{
-	Statement stmnt;
-	String tableName = "Friend";
-	String requestTableName = "Request";
+	static Statement stmnt;
+	static String tableName = "Friend";
+	static String requestTableName = "Request";
 	String Friend1ColumnName;
 	String Friend2ColumnName;
 	String Request1ColumnName;
@@ -136,15 +136,15 @@ public class FriendManager{
 		
 	}
 	
-	public ArrayList<String> getFriends(String user){
+	public static ArrayList<String> getFriends(String user){
 		ArrayList<String>friends = new ArrayList<String>();
-		
+		String quote = "\"";
 		//get result set of all rows of people who are your friend
-		String command = "SELECT * FROM "+tableName+" WHERE "+Friend1ColumnName+" = "+quote+user+quote+";";
+		String command = "SELECT * FROM "+tableName+" WHERE userID1 = "+quote+user+quote+";";
 		try {
-			testRS = stmnt.executeQuery(command);
+			ResultSet testRS = stmnt.executeQuery(command);
 			while(testRS.next()){
-				friends.add((String)testRS.getObject(Friend2ColumnName));  //add the friend's name to the list		
+				friends.add((String)testRS.getObject("userID2"));  //add the friend's name to the list		
 			}
 			
 		} catch (SQLException e) {
@@ -155,20 +155,21 @@ public class FriendManager{
 	
 	}
 	
-	public ArrayList<String> getRequests(String user){
+	public static ArrayList<String> getRequests(String user){
 		ArrayList<String>requests = new ArrayList<String>();
 		
 		//get result set of all rows where someone has requested YOU to be their friend
 		String quote = "\"";
-		String command = "SELECT * FROM "+requestTableName+" WHERE "+Request2ColumnName+" = "+quote+user+quote+";";
+		String command = "SELECT * FROM Request WHERE toID = "+quote+user+quote+";";
 
 //TEST
 	System.out.println("getRequest command is "+command);	
 		
 		try {
-			testRS = stmnt.executeQuery(command);
-			while(testRS.next()){
-				requests.add((String)testRS.getObject(Request1ColumnName));  //add the requestor's name to the list		
+			
+			ResultSet RS = stmnt.executeQuery(command);
+			while(RS.next()){
+				requests.add((String)RS.getObject("fromID"));  //add the requestor's name to the list		
 			}
 			
 		} catch (SQLException e) {

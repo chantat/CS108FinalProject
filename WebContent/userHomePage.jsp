@@ -492,9 +492,9 @@ if (request.getAttribute("err") != null) {
 		<tbody>
 			<% 
 			
-			
-			/*
+
 			Achievement[] achList = achMGR.getAllAchievement(user);
+	
 			
 			for(int i=0; i<achList.length;i++){
 				if(achList[i].getIsAchieved()){
@@ -510,7 +510,7 @@ if (request.getAttribute("err") != null) {
 				}
 			}
 			
-			*/
+
 			
 			
 			%>
