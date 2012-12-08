@@ -440,6 +440,7 @@ if (request.getAttribute("err") != null) {
 			<th>From</th>
 			<th>Subject</th>
 			<th>Time</th>
+			<th>Delete</th>
 			</tr>
 			</thead>
 			<tbody>
