@@ -25,7 +25,7 @@ if(user==null){
 <%
 double score = (Double)request.getAttribute("totalScore");
 double possibleScore = (Double)request.getAttribute("totalPossibleScore");
-int percentScore = (int) (score/possibleScore * 100.0);
+double percentScore = Double.parseDouble(String.format("%.2f", (score/possibleScore * 100.0)));
 String practiceMode = (String)request.getAttribute("practiceMode");
 boolean practice=false;
 if(practiceMode.equals("true")) practice=true;
