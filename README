@@ -29,11 +29,14 @@ Completed Features:
     Tags and Categories (quizzes can be sorted by these or they can be searched for)*
     Creator of a quiz can edit it from the quiz page*
     Rating and Review System*
+    Forum thread for each quiz*
   Users:
     Login/Password
-    Salt
-    Guest view (cannot view, but not take, quizzes; view announcements)*
+    Salt*
+    Guest view (can view, but not take, quizzes; view announcements)*
     Privacy settings which can be easily changed by the user*
+      User can choose to make their profile private, have their score show as 'anonymous' 
+      on leaderboards, or both. Friendships overrule privacy settings.*
   Friends:
     User references are clickable
     User lookup
@@ -51,8 +54,11 @@ Completed Features:
     Recent popular quizzes
   Achievements
     All required achievements
+    Many extra achievements*
+    Each achievement has an icon and a tooltip*
   Administration
     Create announcements
+      Users can comment on announcements*
     Remove users
     Remove quizzes
     See what quizzes have been flagged by users (to decide if they need to be removed)*
