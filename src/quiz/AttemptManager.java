@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import announcement.Announcement;
@@ -52,9 +53,15 @@ public class AttemptManager {
 				String user = rs.getString("userID");
 				int quizID = rs.getInt("quizID");
 				double score = rs.getDouble("score");
+				score=Double.parseDouble(String.format("%.2f", score));
 				int timeSpent = rs.getInt("timeSpent");
 				Timestamp timeTaken = rs.getTimestamp("timeTaken");
+<<<<<<< HEAD
+				score=Double.parseDouble(String.format("%.2f", score));
+				System.out.println("RS" + user + " " + quizID + " " + score + " " + timeSpent + " " + timeTaken);
+=======
 				//System.out.println("RS" + user + " " + quizID + " " + score + " " + timeSpent + " " + timeTaken);
+>>>>>>> d070448875a273fda9bd1ec7f70208ff847ce6b3
 				ret[i] = new Attempt(user, quizID, score, timeSpent, timeTaken);
 				rs.next();
 			}
@@ -98,7 +105,9 @@ public class AttemptManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return (double)totalScore/numAttempts;
+		double score=totalScore/numAttempts;
+		score=Double.parseDouble(String.format("%.2f", score));
+		return score;
 	}
 	
 	public int getNumAttempts(int quizID){
@@ -158,6 +167,7 @@ public class AttemptManager {
 			if(numAttempts!=0) rs.first();
 			for(int i = 0; i < numAttempts; i++){
 				Double score=rs.getDouble("score");
+				score=Double.parseDouble(String.format("%.2f", score));
 				Timestamp timeTaken=rs.getTimestamp("timeTaken");
 				int timeSpent=rs.getInt("timeSpent");
 				Attempt attempt=new Attempt(username, quizID, score, timeSpent, timeTaken);
@@ -176,7 +186,7 @@ public class AttemptManager {
 		ArrayList<Attempt> topPerformers=new ArrayList<Attempt>();
 		ArrayList<String> users=new ArrayList<String>();
 		Timestamp timeToCompareTo=new Timestamp(System.currentTimeMillis()-CUTOFF_HOURS * ONE_HOUR_MILLISECONDS);
-		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" AND timeTaken > " + "'" + timeToCompareTo + "'" + " ORDER BY timeTaken DESC";
+		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" AND timeTaken > " + "'" + timeToCompareTo + "'" + " ORDER BY score DESC, timeTaken DESC";
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numAttempts = DBConnection.getResultSetSize(rs);
@@ -184,6 +194,7 @@ public class AttemptManager {
 			for(int i = 0; i < numAttempts; i++){
 				String username=rs.getString("userID");
 				Double score=rs.getDouble("score");
+				score=Double.parseDouble(String.format("%.2f", score));
 				Timestamp timeTaken=rs.getTimestamp("timeTaken");
 				int timeSpent=rs.getInt("timeSpent");
 				Attempt attempt=new Attempt(username, quizID, score, timeSpent, timeTaken);
@@ -215,6 +226,7 @@ public class AttemptManager {
 			for(int i = 0; i < numAttempts; i++){
 				String username=rs.getString("userID");
 				Double score=rs.getDouble("score");
+				score=Double.parseDouble(String.format("%.2f", score));
 				Timestamp timeTaken=rs.getTimestamp("timeTaken");
 				int timeSpent=rs.getInt("timeSpent");
 				Attempt attempt=new Attempt(username, quizID, score, timeSpent, timeTaken);
