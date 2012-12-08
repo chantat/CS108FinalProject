@@ -78,3 +78,7 @@ Skipped Features:
   (none)
 
 Third Party Libraries:
+  jQuery
+  jQuery ui
+  DataTables plugin
+  Google fonts API
