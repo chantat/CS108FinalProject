@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="java.util.*, java.sql.*, userPackage.* ,announcement.*, achievement.*, mail.*, quiz.*" %>
+    <%@ page import="java.util.*, java.sql.*, userPackage.* ,announcement.*, achievement.*, mail.*, quiz.*, java.text.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -458,13 +458,22 @@ if (request.getAttribute("err") != null) {
 				<% } %>
 				<td><%= msg.getFromID() %></td>
 				<td>
+				<%
+				String subject = msg.getSubject();
+				String subStr = subject;
+				if (subject.length() > 25) {
+					subStr = subject.substring(0, 22);
+					subStr += "...";
+				}
+				%>
 				<form action="ReadServlet" method="post">
-				<input type="submit" value="<%= msg.getSubject() %>"/>
+				<input type="submit" value="<%= subStr %>"/>
 				<input name="fromID" type="hidden" value="<%= msg.getFromID() %>"/>
 				<input name="timeStamp" type="hidden" value="<%= msg.getTime() %>"/>
 				</form>
 				</td>
-				<td><%= msg.getTime() %></td>
+				<% String dateStr = new SimpleDateFormat("MM/dd/yy h:mm a").format(msg.getTime()); %>
+				<td><%= dateStr %></td>
 				<td>
 				<form action="DeleteServlet" method="post">
 				<input type="submit" value="Delete"/>
