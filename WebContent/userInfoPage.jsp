@@ -101,8 +101,8 @@ else{  //already friends
 			<% 
 				if(acct.isPagePublic(victim) || fMgr.areFriends(user, victim) ){    //if the user page is public or view is a friend..show cool content
 					AttemptManager attemptManager = (AttemptManager)application.getAttribute("attemptManager");
-					//Attempt[] attempts = attemptManager.getAllAttempts(victim);
-					Attempt[] attempts = null;
+					Attempt[] attempts = attemptManager.getAllAttempts(victim);
+					//Attempt[] attempts = null;
 					if (attempts != null) {
 					
 						for (int i = 0; i < Math.min(5,attempts.length) ; i++) {
@@ -146,8 +146,7 @@ else{  //already friends
 <tbody>
 <%
 	if(acct.isPagePublic(victim) || fMgr.areFriends(user, victim) ){    //if the user page is public or view is a friend..show cool content
-		/*Achievement[] achList = achMGR.getAllAchievement(victim);
-		Achievement[] achList = null;
+		Achievement[] achList = achMGR.getAllAchievement(victim);
 		for(int i=0; i<achList.length;i++){
 			if(achList[i].getIsAchieved()){
 				out.println("<tr>");
@@ -160,7 +159,7 @@ else{  //already friends
 				out.println("<td> "+describe+"</td>");
 				out.println("</tr>");
 			}
-		}*/
+		}
 	}
 %>
 </tbody>
