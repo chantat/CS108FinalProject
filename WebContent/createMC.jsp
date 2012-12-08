@@ -18,13 +18,14 @@
 			newAnswerField.appendTo('#AnswerForm');
 			$('#numAnswers').val(row + 1);
 		});
-		
+		$("#addAnswer").button();
 	});
 </script>
 
 </head>
 
 <body>
+<%@include file="header.jsp" %>
 <% 
 	ArrayList<Question> pendingQuestions = (ArrayList<Question>)session.getAttribute("pendingQuestions");
 	ArrayList<ArrayList<Answer>> pendingAnswers = (ArrayList<ArrayList<Answer>>)session.getAttribute("pendingAnswers");
@@ -47,11 +48,12 @@
 	}
 	
 %>
-
+<center>
+<h1>Multiple Choice Question</h1>
 <form id="AnswerForm" action="CreateMCServlet" method="post">
 Enter question: <input type="text" value="<% out.print(oldQuestion); %>" name="questionText"> <br>
-<input type="submit" value="Submit"> <br>
-Enter the choices: <br>
+<input type="submit" value="Submit"> <br><br>
+Enter your choices and select the correct answer: <br>
 <% for(int i = 0; i < oldAnswerList.size(); i++) {
 	String answerText = oldAnswerList.get(i);
 	String checkString = "";
@@ -67,5 +69,6 @@ Enter the choices: <br>
 <input id = 'numAnswers' type='hidden' value='<%out.print(oldAnswerList.size());%>'>
 </form>
 <input type="button" value="Add Choice" id="addAnswer">
+</center>
 </body>
 </html>
