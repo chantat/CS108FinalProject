@@ -31,7 +31,7 @@ private static Statement stmnt;
 			quizRatings =new Rating[numQuizzes];
 			ratedQuizzes=new int[numQuizzes];
 			rs.first();
-			System.out.println(numQuizzes + " NUMQUIZZES");
+			//System.out.println(numQuizzes + " NUMQUIZZES");
 			for(int i = 0; i < numQuizzes; i++){
 				int quizID= rs.getInt("quizID");
 				ratedQuizzes[i]=quizID;
@@ -110,7 +110,7 @@ private static Statement stmnt;
 		query += "" + quizId + ",";
 		query += "" + rating + ", '";
 		query += time + "');";
-		System.out.println(query); // for verification purposes
+		//System.out.println(query); // for verification purposes
 		try {
 			stmnt.executeUpdate(query);
 		} catch (SQLException e) {

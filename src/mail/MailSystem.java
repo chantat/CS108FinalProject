@@ -40,7 +40,7 @@ public class MailSystem {
 		sqlStr += fromID;
 		sqlStr += "\" AND messageTime=\"";
 		sqlStr += timeStr + "\"";
-		System.out.println(sqlStr);
+		//System.out.println(sqlStr);
 		try {
 			stmt.executeUpdate(sqlStr);
 		} catch (SQLException e) {

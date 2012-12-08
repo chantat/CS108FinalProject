@@ -50,9 +50,9 @@ public class ForumServlet extends HttpServlet {
 		Map<String, String[]> requestMap = request.getParameterMap();
 		String postText="";
 		postText=requestMap.get("postText")[0];
-		System.out.println("QUIZ ID: " + request.getParameter("quizId"));
+		//System.out.println("QUIZ ID: " + request.getParameter("quizId"));
 		int currentQuiz = Integer.parseInt(request.getParameter("quizId"));
-		System.out.println("FORUM SERVLET: " + postText + " " + currentQuiz);
+		//System.out.println("FORUM SERVLET: " + postText + " " + currentQuiz);
 		String username = (String)session.getAttribute("username");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		if(!postText.isEmpty()){
