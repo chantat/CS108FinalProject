@@ -163,7 +163,7 @@ public class AchievementManager {
 		}	
 		else if (achievementId == 8) {
 			newlyAchieved = (numFriends>=50);
-		}/*else if (achievementId == 9) {
+		}else if (achievementId == 9) {
 			int quizTaken = attemptManager.getAllAttempts(username).length;
 			int quizMade = quizManager.getAllQuizzesByAuthor(username).length;
 			newlyAchieved = ((numFriends>=10)&&(quizTaken>=10)&&(quizMade>=10));
@@ -189,21 +189,25 @@ public class AchievementManager {
 		}else if (achievementId == 16) {
 			//handled in remove friend servlet
 		}
-		
+	/*	
 		else if (achievementId == 17) {
 			int numAch = getAllAchievement(username).length;
 			newlyAchieved = (numAch >=5);
 		}else if (achievementId == 18) {
 			int numAch = getAllAchievement(username).length;
 			newlyAchieved = (numAch >=10);
-		}else if (achievementId == 19) {
+		}
+		
+		*/
+		
+		else if (achievementId == 19) {
 			//handled in rating servlet
 		}else if (achievementId == 20) {
 			newlyAchieved = accountManager.isAdmin(username);
 		}else if (achievementId == 21) {
 			int numMsg = mailManager.numMessageSent(username);
 			newlyAchieved = (numMsg >=20);
-		}	*/
+		}	
 		
 		if(newlyAchieved){
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
