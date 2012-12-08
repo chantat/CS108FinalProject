@@ -6,13 +6,19 @@ public class Announcement {
 	private String adminId;
 	private String subject;
 	private String text;
+	private int announcementID;
 	private Timestamp postTime;
 	
-	public Announcement(String adminId, String subject, String text, Timestamp postTime) {
+	public Announcement(String adminId, String subject, String text,int announcementID, Timestamp postTime) {
 		this.adminId = adminId;
 		this.subject = subject;
 		this.text = text;
 		this.postTime = postTime;
+		this.announcementID=announcementID;
+	}
+	
+	public int getAnnouncementID(){
+		return announcementID;
 	}
 	
 	public String getAnnouncementText() {

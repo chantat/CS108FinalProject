@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Quiz Master | <%= user %></title>
 <%@include file="resources.jsp" %>
 <% 
 String user = (String)session.getAttribute("username");
@@ -16,6 +15,7 @@ if(user==null){
 	out.println("</script>");
 }
 %>
+<title>Quiz Master | <%= user %></title>
 <script type="text/javascript">
 	$(function() {
 		$("#profileTabs").tabs({
@@ -33,9 +33,20 @@ if(user==null){
 		$("#popularQuizTable").dataTable({
 			"bJQueryUI" : true
 		});
+		$("#flaggedQuizTable").dataTable();
+		$("#recentFriendAttemptsTable").dataTable();
+		$("#recentFriendAchieveTable").dataTable();
+		$("#inboxTable").dataTable();
+		$("#achieveTable").dataTable();
 		$("#newMessage").button();
 		$("#createQuizLink").button();
-	})
+		$("#quizTakenTable a").button();
+		$("#quizCreatedTable a").button();
+		$("#newQuizTable a").button();
+		$("#popularQuizTable a").button();
+		$("#recentFriendAttemptsTable a").button();
+		$("#flaggedQuizTable a").button();
+	});
 </script>
 </head>
 <body>
@@ -61,6 +72,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		<a id="createQuizLink" href="createQuiz.jsp">Create New Quiz</a>
 		
 		<h2>Quizzes You've Made</h2>
+		<div id="quizCreatedTableContent">
 		<table id="quizCreatedTable">
 		<thead>
 			<tr>
@@ -107,7 +119,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 							editButton += "<input type=\"submit\" value=\"" + "Edit" + "\">";
 							editButton += "</form>";
 							
-							out.println("<td> " + quizButton + "</td>");
+							String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizId + "'>" + quizName + "</a>";
+							
+							out.println("<td> " + quizSummaryLink + "</td>");
 							out.println("<td> " + description + "</td>");
 							out.println("<td> " + category + "</td>");
 							out.println("<td> " + tagString + "</td>");
@@ -119,9 +133,11 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				%>
 		</tbody>
 		</table>
+		</div>
 		<br>
 		
 		<h2>Recently Taken Quizzes</h2>
+		<div id="quizTakenTableContent">
 		<table id="quizTakenTable">
 		<thead>
 			<tr>
@@ -149,7 +165,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 						quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
 						quizButton += "</form>";
 						
-						out.println("<td> " + quizButton + "</td>");
+						String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizID + "'>" + quizName + "</a>";
+						
+						out.println("<td> " + quizSummaryLink + "</td>");
 						out.println("<td> " + score + "</td>");
 						out.println("<td> " + time + "</td>");
 						out.println("</tr>");
@@ -158,9 +176,11 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				%>
 		</tbody>
 		</table>
+		</div>
 		<br>
 		
 		<h2>New Quizzes</h2>
+		<div id="newQuizTableContent">
 		<table id="newQuizTable">
 		<thead>
 			<tr>
@@ -199,7 +219,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 							quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
 							quizButton += "</form>";
 							
-							out.println("<td> " + quizButton + "</td>");
+							String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizId + "'>" + quizName + "</a>";
+							
+							out.println("<td> " + quizSummaryLink + "</td>");
 							out.println("<td> " + category + "</td>");
 							out.println("<td> " + time + "</td>");
 							out.println("</tr>");
@@ -209,9 +231,11 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 			%>
 		</tbody>
 		</table>
+		</div>
 		<br>
 		
 		<h2>Popular Quizzes</h2>
+		<div id="popularQuizTableContent">
 		<table id="popularQuizTable">
 		<thead>
 			<tr>
@@ -238,7 +262,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 							quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
 							quizButton += "</form>";
 							
-							out.println("<td> " + quizButton + "</td>");
+							String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizID + "'>" + quizName + "</a>";
+							
+							out.println("<td> " + quizSummaryLink + "</td>");
 							out.println("<td> " + averageRating + "</td>");
 							out.println("</tr>");
 		//				}
@@ -247,6 +273,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				%>
 		</tbody>
 		</table>
+		</div>
 	</div>
 	<div id="friendTab">
 		<form action="UserSearchServlet" method="post">
@@ -300,8 +327,18 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		
 		<h2>Friends' Recent Activity</h2>
 		<h3>Recent Friend Quiz Attempts</h3>
-
-		<table border="1">
+		
+		<div id="recentFriendAttemptsTableContent">
+		<table id="recentFriendAttemptsTable">
+		<thead>
+			<tr>
+				<th>Friend</th>
+				<th>Quiz</th>
+				<th>Score</th>
+				<th>Time</th>
+			</tr>
+		</thead>
+		<tbody>
 		<% 
 		
 		ArrayList<Attempt> recentAttempts = friendMgr.getFriendRecentAttempts(user);
@@ -313,19 +350,34 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				String quizName = quizManager.getQuizName(quizID);
 				double score = recentAttempts.get(i).getScore();
 				String time = recentAttempts.get(i).getTimeTaken().toString();
+				
+				String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizID + "'>" + quizName + "</a>";
+				
 				out.println("<td> "+friendID+"</td>");
-				out.println("<td> "+quizName+"</td>");
+				out.println("<td> "+quizSummaryLink+"</td>");
 				out.println("<td> "+score+"</td>");
 				out.println("<td> "+time+"</td>");
 				out.println("</tr>");
 			}
 		}
 		%>
-		
+		</tbody>
 		</table>
-		
+		</div>
+		<br><br>
 		<h3>Recent Friend Achievements</h3>
-		<table border="1">
+		
+		<div id="recentFriendAchieveTableContent">
+		<table id="recentFriendAchieveTable">
+		<thead>
+		<tr>
+			<th>Achievement</th>
+			<th>Friend</th>
+			<th>Description</th>
+			<th>Time</th>
+		</tr>
+		</thead>
+		<tbody>
 		<% 
 		AchievementManager achMGR = (AchievementManager)application.getAttribute("achievementManager");
 		ArrayList<Achievement> recentAchievements = friendMgr.getFriendRecentAchievements(user);
@@ -346,8 +398,10 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		}
 		
 		%>
-		
+		</tbody>
 		</table>
+		</div>
+		<br>
 		
 	</div>
 	<div id="inboxTab">
@@ -363,14 +417,19 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 			%>
 			<h1>Inbox</h1>
 			<a id="newMessage" href="compose.jsp">New Message</a>
+			<br><br>
 			
-			<table>
+			<div id="inboxTableContent">
+			<table id="inboxTable">
+			<thead>
 			<tr>
 			<th>Status</th>
 			<th>From</th>
 			<th>Subject</th>
 			<th>Time</th>
 			</tr>
+			</thead>
+			<tbody>
 			<%
 			user = (String) session.getAttribute("username");
 			ms = (mail.MailSystem) application.getAttribute("mailSystem");
@@ -401,10 +460,23 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				</td>
 				</tr>
 			<%}%>
+			</tbody>
 			</table>
+			</div>
+			<br>
 	</div>
 	<div id="achievementTab">
-		<table border="1">
+		<h2>Achievements You've Unlocked</h2>
+		<div id="achieveTableContent">
+		<table id="achieveTable">
+		<thead>
+			<tr>
+			<th>Achievement</th>
+			<th>Name</th>
+			<th>Description</th>
+			</tr>
+		</thead>
+		<tbody>
 			<% 
 			
 			
@@ -429,7 +501,9 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 			
 			
 			%>
+		</tbody>
 		</table>
+		</div><br>
 	</div>
 	<div id="prefTab">
 		<h2>Privacy Preferences</h2>
@@ -446,8 +520,19 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 		out.println("<div id='adminTab'>");
 		
 		out.println("<h2>Flagged Quizzes</h2>");
-		out.println("<table id='flaggedQuizTable'>");
-		
+		out.println("<div id='flaggedQuizTableContent'>");
+		out.println("<table id='flaggedQuizTable'>");%>
+		<thead>
+		<tr>
+			<th>Quiz ID</th>
+			<th>Name</th>
+			<th>Occurrences</th>
+			<th>Last Flagged</th>
+		</tr>
+		</thead>
+		<tbody>
+		<%
+		QuizManager quizMGR = (QuizManager)application.getAttribute("quizManager");
 		ReportManager reportMGR = (ReportManager)application.getAttribute("reportManager");
 		Report[] reports = reportMGR.getAllReported();
 		if(reports != null && reports.length>0){
@@ -457,16 +542,20 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				int quizID = temp.getQuizID();
 				int occurence = temp.getOccurrence();
 				String date = temp.getDate().toString();
+				String quizName = quizMGR.getQuizName(quizID);
+				String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizID + "'>" + quizName + "</a>";		
 				out.println("<td> "+quizID+"</td>");
+				out.println("<td> "+quizSummaryLink+"</td>");
 				out.println("<td> "+occurence+"</td>");
 				out.println("<td> "+date+"</td>");
 				out.println("</tr>");
 			}
 		}
-		
+		out.println("</tbody>");
 		out.println("</table>");
+		out.println("</div><br>");
 		
-		out.println("<h2>Enter Announcement</h2>");
+		out.println("<h2>Post Announcement</h2>");
 		out.println("<form action='AdministratorServlet' method='post'>");
 		out.println("<input type='text' value='Subject' name='subject'><br>");
 		out.println("<textarea name='text'></textarea><br>");

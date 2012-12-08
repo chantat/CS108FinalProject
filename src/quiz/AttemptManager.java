@@ -47,7 +47,7 @@ public class AttemptManager {
 			System.out.println(command);
 			
 			ret = new Attempt[numEntries];
-			rs.first();
+			if(numEntries != 0) rs.first();
 			for (int i = 0; i < numEntries; i++) {
 				String user = rs.getString("userID");
 				int quizID = rs.getInt("quizID");
@@ -87,13 +87,14 @@ public class AttemptManager {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numScores = DBConnection.getResultSetSize(rs);
 			System.out.println(numScores);
+			if(numScores!=0) rs.first();
 			for(int i = 0; i < numScores; i++){
 				String username=rs.getString("userID");
 				Double score=rs.getDouble("score");
 				Timestamp timeTaken=rs.getTimestamp("timeTaken");
 				int timeSpent=rs.getInt("timeSpent");
-				System.out.println(score + " " + username + " " + timeTaken + " " + timeSpent);
 				int index=users.indexOf(username);
+				System.out.println(score + " " + username + " " + timeTaken + " " + timeSpent + " " + index); // TODO remove, for testing purposes
 				if(index==-1){
 					users.add(username);
 					Attempt attempt=new Attempt(username, quizID, score, timeSpent, timeTaken);
@@ -112,10 +113,11 @@ public class AttemptManager {
 	public ArrayList<Attempt> getUserPastPerformance(int quizID, String username, String parameter){
 		ArrayList<Attempt> sortedAttempts = new ArrayList<Attempt>();
 		
-		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" AND userID = \""+ username + "\" ORDER BY " + parameter + " DESC";
+		String command = "SELECT * FROM Attempts WHERE quizID = \""+ quizID + "\" AND userID = \""+ username + "\" ORDER BY " + parameter + " DESC, timeTaken DESC";
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numAttempts = DBConnection.getResultSetSize(rs);
+			if(numAttempts!=0) rs.first();
 			for(int i = 0; i < numAttempts; i++){
 				Double score=rs.getDouble("score");
 				Timestamp timeTaken=rs.getTimestamp("timeTaken");
@@ -140,6 +142,7 @@ public class AttemptManager {
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numAttempts = DBConnection.getResultSetSize(rs);
+			if(numAttempts!=0) rs.first();
 			for(int i = 0; i < numAttempts; i++){
 				String username=rs.getString("userID");
 				Double score=rs.getDouble("score");
@@ -170,6 +173,7 @@ public class AttemptManager {
 		try {
 			ResultSet rs = stmnt.executeQuery(command);
 			int numAttempts = DBConnection.getResultSetSize(rs);
+			if(numAttempts!=0) rs.first();
 			for(int i = 0; i < numAttempts; i++){
 				String username=rs.getString("userID");
 				Double score=rs.getDouble("score");

@@ -57,13 +57,13 @@ body {
 }
 
 #profileTabs {
-	width:900px;
-	margin-left:200px;
+	width:750px;
+	margin-left:270px;
 }
 
 #quizHomepageContent {
-	width:700px;
-	margin-left:300px;
+	width:800px;
+	margin-left:250px;
 }
 
 #createQuiz {
@@ -93,11 +93,25 @@ body {
 }
 
 #quizSummaryRating {
-	margin-top:120px;
+	margin-top:200px;
 }
 
 #quizSummaryStats {
-	margin-top:100px;
+	margin-top:80px;
+}
+
+#flaggedQuizTableContent {
+	width:600px;
+}
+
+#quizCreatedTableContent, #quizTakenTableContent, #popularQuizTableContent,
+	#newQuizTableContent, #recentFriendAttemptsTableContent, #recentFriendAchieveTableContent,
+	#inboxTableContent, #achieveTableContent {
+	width:600px;
+}
+
+#createQuizTableContent {
+	width:600px;
 }
 
 .lgreen3d-gradient {

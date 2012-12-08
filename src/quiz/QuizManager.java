@@ -270,6 +270,40 @@ public class QuizManager {
 		return quizzes.toArray(new Quiz[quizzes.size()]);
 	}
 	
+	
+	public Quiz[] getAllQuizzesByAuthor(String user) {
+		String quote = "\"";
+		String query = "SELECT * FROM Quiz WHERE authorID = "+quote+user+quote+";";
+		ResultSet rs = null;
+		int resultSetSize=0;
+		ArrayList<Quiz> tempQuizzes = new ArrayList<Quiz>();
+		try {
+			rs = stmnt.executeQuery(query);
+			resultSetSize = DBConnection.getResultSetSize(rs);
+			
+			ArrayList<Integer> QuizIds = new ArrayList<Integer>();
+			rs.beforeFirst();
+			for(int i = 0 ; i < resultSetSize; i++) {
+				rs.next();
+				QuizIds.add(rs.getInt("quizID"));
+			}
+			
+			for(int i = 0 ; i < resultSetSize; i++){
+				tempQuizzes.add(getQuiz(QuizIds.get(i)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		ArrayList<Quiz> quizzes = new ArrayList<Quiz>();
+		for (int i = 0; i < tempQuizzes.size(); i++) {
+			if (!hasNewerVersion(tempQuizzes.get(i).getQuizId())) {
+				quizzes.add(tempQuizzes.get(i));
+			}
+		}
+		return quizzes.toArray(new Quiz[quizzes.size()]);
+	}
+	
 	public boolean hasNewerVersion(int quizId) {
 		String query = "SELECT * FROM Quiz WHERE prevID=" + quizId + ";";
 		int resultSetSize=0;
@@ -288,77 +322,84 @@ public class QuizManager {
 		String query = "SELECT * FROM Quiz WHERE category = " + category + ";";
 		int resultSetSize=0;
 		ResultSet rs = null;
-		Quiz[] quizzes = null;
+		ArrayList<Quiz> quizzes = new ArrayList<Quiz>();
 		try{
 			rs = stmnt.executeQuery(query);
 			resultSetSize = DBConnection.getResultSetSize(rs);
-			quizzes = new Quiz[resultSetSize];
 			
 			ArrayList<Integer> QuizIds = new ArrayList<Integer>();
 			rs.beforeFirst();
 			for(int i = 0 ; i < resultSetSize; i++) {
 				rs.next();
-				QuizIds.add(rs.getInt("quizID"));
+				int quizID = rs.getInt("quizID");
+				QuizIds.add(quizID);
 			}
 			
 			for(int i = 0 ; i < resultSetSize; i++){
-				quizzes[i] = getQuiz(QuizIds.get(i));
+				if (!hasNewerVersion(QuizIds.get(i))) {
+					quizzes.add(getQuiz(QuizIds.get(i)));
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return quizzes;
+		return quizzes.toArray(new Quiz[quizzes.size()]);
 	}
 	
 	public Quiz[] getAllQuizByTag(String tag) {
 		String query = "SELECT * FROM Tag WHERE tag = " + tag + ";";
 		int resultSetSize=0;
 		ResultSet rs = null;
-		Quiz[] quizzes = null;
+		ArrayList<Quiz> quizzes = new ArrayList<Quiz>();
 		try{
 			rs = stmnt.executeQuery(query);
 			resultSetSize = DBConnection.getResultSetSize(rs);
-			quizzes = new Quiz[resultSetSize];
 			
 			ArrayList<Integer> QuizIds = new ArrayList<Integer>();
 			rs.beforeFirst();
 			for(int i = 0 ; i < resultSetSize; i++) {
 				rs.next();
-				QuizIds.add(rs.getInt("quizID"));
+				int quizID = rs.getInt("quizID");
+				QuizIds.add(quizID);
 			}
 			
 			for(int i = 0 ; i < resultSetSize; i++){
-				quizzes[i] = getQuiz(QuizIds.get(i));
+				if (!hasNewerVersion(QuizIds.get(i))) {
+					quizzes.add(getQuiz(QuizIds.get(i)));
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return quizzes;
+		return quizzes.toArray(new Quiz[quizzes.size()]);
 	}
 	
 	public Quiz[] getAllQuizzesSortTime() {
 		String query = "SELECT * FROM Quiz ORDER BY timeCreated DESC;";
 		int resultSetSize=0;
 		ResultSet rs = null;
-		Quiz[] quizzes = null;
+		ArrayList<Quiz> quizzes = new ArrayList<Quiz>();
 		try{
 			rs = stmnt.executeQuery(query);
 			resultSetSize = DBConnection.getResultSetSize(rs);
-			quizzes = new Quiz[resultSetSize];
 			
 			ArrayList<Integer> QuizIds = new ArrayList<Integer>();
 			rs.beforeFirst();
 			for(int i = 0 ; i < resultSetSize; i++) {
 				rs.next();
-				QuizIds.add(rs.getInt("quizID"));
+				int quizID = rs.getInt("quizID");
+				QuizIds.add(quizID);
 			}
 			
 			for(int i = 0 ; i < resultSetSize; i++){
-				quizzes[i] = getQuiz(QuizIds.get(i));
+				if (!hasNewerVersion(QuizIds.get(i))) {
+					quizzes.add(getQuiz(QuizIds.get(i)));
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return quizzes;
+		
+		return quizzes.toArray(new Quiz[quizzes.size()]);
 	}
 }

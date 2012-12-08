@@ -10,8 +10,9 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#quizTable").dataTable({
-			"bJQueryUI" : true
+			//"bJQueryUI" : true
 		});
+		$("#quizTable a").button();
 	});
 </script>
 </head>
@@ -34,7 +35,6 @@ out.println("<th>Description</th>");
 out.println("<th>Category</th>");
 out.println("<th>Tags</th>");
 out.println("<th>Average Rating</th>");
-out.println("<th>Reviews</th>");
 out.println("<th>Forum</th>");
 out.println("</tr>");
 out.println("</thead>");
@@ -69,20 +69,22 @@ for (int i = 0; i < quiz.length ; i++) {
 	quizButton += "<input type=\"submit\" value=\"" + quizName + "\">";
 	quizButton += "</form>";
 	
+	String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizId + "'>" + quizName + "</a>";
+	
 	/*String editButton = "<form action=\"EditQuizServlet\" method=\"post\">";
 	editButton += "<input type=\"hidden\" name = \"quizId\" value=\""+ quizId + "\">";
 	editButton += "<input type=\"submit\" value=\"Edit\">";
 	editButton += "</form>";*/
 	
-	out.println("<td> " + quizButton + "</td>");
+	out.println("<td> " + quizSummaryLink + "</td>");
 	out.println("<td> " + authorId + "</td>");
 	out.println("<td> " + description + "</td>");
 	out.println("<td> " + category + "</td>");
 	out.println("<td> " + tagString + "</td>");
 	out.println("<td> " + rating + "</td>");
-	String reviewLink="<td><a href=\"ReviewServlet?ID=" + quizId + "\"> Read reviews</a></td>";
-	out.println(reviewLink);
-	String forumLink="<td><a href=\"ForumServlet?ID=" + quizId + "\"> Go to Quiz Forum</a></td>";
+	//String reviewLink="<td><a href=\"ReviewServlet?ID=" + quizId + "\"> Read reviews</a></td>";
+	//out.println(reviewLink);
+	String forumLink="<td><a href=\"ForumServlet?ID=" + quizId + "\"> Discuss Quiz</a></td>";
 	out.println(forumLink);
 	out.println("</tr>");
 }
@@ -92,5 +94,6 @@ out.println("</table>");
 
 %>
 </div>
+<br><br>
 </body>
 </html>

@@ -6,13 +6,18 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import mail.MailSystem;
+
 import quiz.Attempt;
+import quiz.AttemptManager;
+import quiz.QuizManager;
+import quiz.RatingManager;
 
 import userPackage.*;
 import webpackage.DBConnection;
 
 public class AchievementManager {
-	private final int numAchievement = 17;
+	private final int numAchievement = 22;
 	private final String achievementName[] = 
 		{"Amateur Author", 
 		 "Prolific Author", 
@@ -26,13 +31,17 @@ public class AchievementManager {
 		 "Triple Double",
 		 "Awkward Penguin",
 		 "Playground Bully",
-		 "Singing Praises",
+		 "High Praise",
 		 "Hired Reviewer",
 		 "Net Rage",
 		 "Scrooge",
-		 "The Ex-Friend"
-		 
-		 
+		 "The Ex-Friend",
+		 "Over-Achiever",
+		 "Time to Order a Trophy Case",
+		 "Neighborhood Watch",
+		 "Admin Perks",
+		 "Going Postal"
+	
 		};
 	private final String achievementDescription[] = 
 		{"The user created a quiz.", 
@@ -51,17 +60,36 @@ public class AchievementManager {
 		 "The user has given at least 10 5-star reviews",
 		 "The user has given at least 1 one-star review",
 		 "The user has given at least 10 1-star reviews",
-		 "The user has unfriended at least 1 person"
+		 "The user has unfriended at least 1 person",
+		 "The user has at least 5 achievements",
+		 "The user has at least 10 achievements",
+		 "The user has flagged at least 1 quiz as inappropriate",
+		 "The user is an admin",
+		 "The user has set at least 20 messages"
+		 
+		 
+		 
 	
 		};
 	
 	private Statement stmnt;
 	private AccountUtil acctutil;
 	private FriendManager frnMGR;
+	private QuizManager quizMGR;
+	private AttemptManager attemptMGR;
+	private MailSystem mailMGR;
+	private RatingManager ratingMGR;
+	private AccountManager acctMGR;
+	
 	public AchievementManager(DBConnection connection, AccountUtil acctutil) {
 		stmnt = connection.getStatement();
 		this.acctutil = acctutil;
 		this.frnMGR = new FriendManager(connection);
+		this.quizMGR = new QuizManager(connection);
+		this.attemptMGR = new AttemptManager(connection);
+		this.mailMGR = new MailSystem(connection);
+		this.ratingMGR = new RatingManager(connection);
+		this.acctMGR = new AccountManager(connection);
 	}
 	
 	public int getNumAchievement() {
@@ -71,7 +99,7 @@ public class AchievementManager {
 	public String getIconURL(int achieveID){
 		String quote = "\"";
 		String description = achievementDescription[achieveID];
-		String URL = "<IMG SRC="+quote+"http://localhost:8080/CS108FinalProject/"+achieveID+".gif"+quote+" TITLE="+quote+description+quote+" WIDTH=32 HEIGHT=32>";
+		String URL = "<IMG SRC="+quote+achieveID+".gif"+quote+" TITLE="+quote+description+quote+" WIDTH=32 HEIGHT=32>";
 		return URL;
 	}
 	
@@ -118,6 +146,43 @@ public class AchievementManager {
 			newlyAchieved = (numFriends>=10);
 		}else if (achievementId == 8) {
 			newlyAchieved = (numFriends>=50);
+		}else if (achievementId == 9) {
+			int quizTaken = attemptMGR.getAllAttempts(username).length;
+			int quizMade = quizMGR.getAllQuizzesByAuthor(username).length;
+			newlyAchieved = ((numFriends>=10)&&(quizTaken>=10)&&(quizMade>=10));
+		}else if (achievementId == 10) {
+			int numReqs = frnMGR.getRequests(username).size();
+			newlyAchieved = (numReqs>=10);
+		}else if (achievementId == 11) {
+			int numChall = mailMGR.numChallengesSent(username);
+			newlyAchieved = (numChall>=10);
+		}else if (achievementId == 12) {
+			int numFives = ratingMGR.getNumStars(username,5);
+			newlyAchieved = (numFives >=1);
+		}else if (achievementId == 13) {
+			int numFives = ratingMGR.getNumStars(username,5);
+			newlyAchieved = (numFives >=10);
+		}else if (achievementId == 14) {
+			int numFives = ratingMGR.getNumStars(username,1);
+			newlyAchieved = (numFives >=1);
+		}else if (achievementId == 15) {
+			int numFives = ratingMGR.getNumStars(username,1);
+			newlyAchieved = (numFives >=10);
+		}else if (achievementId == 16) {
+			//handled in remove friend servlet
+		}else if (achievementId == 17) {
+			int numAch = getAllAchievement(username).length;
+			newlyAchieved = (numAch >=5);
+		}else if (achievementId == 18) {
+			int numAch = getAllAchievement(username).length;
+			newlyAchieved = (numAch >=10);
+		}else if (achievementId == 19) {
+			//handled in rating servlet
+		}else if (achievementId == 20) {
+			newlyAchieved = acctMGR.isAdmin(username);
+		}else if (achievementId == 21) {
+			int numMsg = mailMGR.numMessageSent(username);
+			newlyAchieved = (numMsg >=20);
 		}
 		if(newlyAchieved){
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());

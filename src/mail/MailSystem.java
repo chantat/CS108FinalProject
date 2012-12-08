@@ -95,6 +95,36 @@ public class MailSystem {
 		}
 	}
 	
+	public int numChallengesSent(String fromID){
+		Statement stmt = dbc.getStatement();
+		ResultSet rs;
+		String quote = "\"";
+		String command = "SELECT * FROM Challenge WHERE fromID = "+quote+fromID+quote+";";
+		try {
+			rs = stmt.executeQuery(command);
+			return DBConnection.getResultSetSize(rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int numMessageSent(String fromID){
+		Statement stmt = dbc.getStatement();
+		ResultSet rs;
+		String quote = "\"";
+		String command = "SELECT * FROM Message WHERE fromID = "+quote+fromID+quote+";";
+		try {
+			rs = stmt.executeQuery(command);
+			return DBConnection.getResultSetSize(rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
 	public Message findMessage(String toID, String fromID, String timeStr) {
 		Statement stmt = dbc.getStatement();
 		ResultSet rs;
