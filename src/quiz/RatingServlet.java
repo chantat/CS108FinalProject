@@ -62,7 +62,10 @@ System.out.println("OMGGGGG FLAGGED QUIZ");
 			
 			
 			AchievementManager achMGR = (AchievementManager) context.getAttribute("achievementManager");
-			achMGR.insertAchievementIntoDatabase(username, 19, timestamp);
+			if(!achMGR.isAchieveExist(username, 19)){
+				achMGR.insertAchievementIntoDatabase(username, 19, timestamp);
+			}
+			
 			if(reportMGR.isReportExist(currentQuiz)){
 				reportMGR.incrementOccurrence(currentQuiz);
 			}

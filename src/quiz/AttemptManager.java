@@ -37,7 +37,7 @@ public class AttemptManager {
 	}
 	
 	// Is already sorted newest first!
-	public Attempt[] getAllAttempts(String userID) {
+	public static Attempt[] getAllAttempts(String userID) {
 		String command = "SELECT * FROM Attempts WHERE userID = \""+ userID + "\" ORDER BY timeTaken DESC;";
 		
 		Attempt ret[] = null;

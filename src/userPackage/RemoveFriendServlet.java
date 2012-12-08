@@ -48,8 +48,9 @@ public class RemoveFriendServlet extends HttpServlet {
 		frnmgr.removeFriend(name, victim);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		AchievementManager achMGR = (AchievementManager) context.getAttribute("achievementManager");
-		achMGR.insertAchievementIntoDatabase(name, 16, timestamp);
-		
+		if(!achMGR.isAchieveExist(name, 16)){
+			achMGR.insertAchievementIntoDatabase(name, 16, timestamp);
+		}
 		RequestDispatcher dispatch = request.getRequestDispatcher("userHomePage.jsp"); 
 		dispatch.forward(request, response);	
 	}

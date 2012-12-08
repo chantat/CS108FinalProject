@@ -7,7 +7,7 @@ import mail.Message;
 import webpackage.DBConnection;
 
 public class MailSystem {
-	private DBConnection dbc;
+	private static DBConnection dbc;
 
 	public MailSystem(DBConnection con) {
 		dbc = con;
@@ -78,7 +78,7 @@ public class MailSystem {
 		}
 	}
 	
-	public int numChallengesSent(String fromID){
+	public static int numChallengesSent(String fromID){
 		Statement stmt = dbc.getStatement();
 		ResultSet rs;
 		String quote = "\"";
@@ -93,7 +93,7 @@ public class MailSystem {
 		return 0;
 	}
 	
-	public int numMessageSent(String fromID){
+	public static int numMessageSent(String fromID){
 		Statement stmt = dbc.getStatement();
 		ResultSet rs;
 		String quote = "\"";
