@@ -72,6 +72,18 @@ if (request.getAttribute("err") != null) {
 	out.println("</div></center>");
 	out.println("<br>");
 }
+
+if (request.getAttribute("userRated") != null) {
+	out.println("<center><div class='ui-widget' style='width:350px'>");
+	out.println("<div class='ui-state-highlight ui-corner-all' style='padding: 0 .7em;'>");
+	out.println("<p><span class='ui-icon ui-icon-info' style='float: left; margin-right: .3em;'></span>");
+	
+	out.println("<strong>Success!</strong> Thank you for your feedback.</p>");
+	
+	out.println("</div>");
+	out.println("</div></center>");
+	out.println("<br>");
+}
 %>
 
 <div id="profileTabs">

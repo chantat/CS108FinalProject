@@ -6,17 +6,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Quiz Forum</title>
+<title>Quiz Thread</title>
+<%@include file="resources.jsp" %>
 </head>
 <body>
-<h1>Welcome to the quiz forum!</h1><br></br>
+<%@include file="header.jsp" %>
 <%
 ForumManager fm = (ForumManager)application.getAttribute("forumManager");
 int quizID = (Integer)request.getAttribute("quizId");
 QuizManager quizManager = (QuizManager)application.getAttribute("quizManager");
 Quiz quiz=quizManager.getQuiz(quizID);
 String quizName = quiz.getName();
-out.print("<h2>" + quizName + "</h2>");
+%>
+<center><h1><% out.print(quizName); %></h1></center><br></br>
+<div id="quizThreadContent">
+<%
 
 ArrayList<ForumPost> allPosts= fm.getForumPosts(quizID);
 int numPosts=allPosts.size();
@@ -28,7 +32,7 @@ else{
 		String userID=allPosts.get(i).getUserID();
 		Timestamp timePosted=allPosts.get(i).getTimePosted();
 		out.println(postText + "<br>");
-		out.println("--Posted by " + userID + " on " + timePosted + "<br><br>");
+		out.println("--" + userID + " on " + timePosted + "<br><br>");
 	}
 }
 out.print("<form action=\"ForumServlet\" method=\"post\">");
@@ -45,6 +49,6 @@ if(numPosts==0){
 }
 out.print("</form>");
 %>
-
+</div>
 </body>
 </html>

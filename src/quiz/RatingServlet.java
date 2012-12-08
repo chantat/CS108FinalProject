@@ -86,7 +86,9 @@ System.out.println("OMGGGGG FLAGGED QUIZ");
 		System.out.println("RATING SERVLET: " + currentQuiz + " " + ratingReceived + " " + request.getParameter("quizId") + " " + reviewText);
 		
 		if(ratingReceived != 0) ratingManager.createRating(username, currentQuiz, ratingReceived, timestamp);
-		request.getRequestDispatcher("thankYouForRating.jsp").forward(request, response);
+		
+		request.setAttribute("userRated", true);
+		request.getRequestDispatcher("userHomePage.jsp").forward(request, response);
 	}
 
 }
