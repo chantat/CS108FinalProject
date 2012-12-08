@@ -36,6 +36,8 @@ public class ForumManager {
 		ArrayList<ForumPost> forumPosts=new ArrayList<ForumPost>();
 		
 		String command = "SELECT * FROM Forum ";
+		command += "WHERE quizID = \"" + quizID + "\" ORDER BY date ASC;";
+		//System.out.println(command); //TODO remove, for verification purposes
 		command += "WHERE quizID = \"" + quizID + "\" ORDER BY date DESC;";
 		//System.out.println(command); //TODO remove, for verification purposes
 		try {

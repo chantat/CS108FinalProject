@@ -34,6 +34,16 @@ if(avgRating == - 1){
 }else{
 	rating="" + avgRating;
 }
+//average score + numAttempts
+double avgScore = attemptManager.getAverageScore(quizID);
+String averageScore = "";
+if(avgScore == -1){
+	averageScore="This quiz has not yet been taken";
+}else{
+	averageScore= "" + avgScore;
+}
+int numAttempts = attemptManager.getNumAttempts(quizID);
+
 String authorButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +authorId +"\"><input type=\"submit\" value=\""+authorId+"\"></form>";
 %>
 <center><h1><%out.print(quizName); %></h1></center>
@@ -200,6 +210,11 @@ out.print("</table>");
 <%
 
 out.print("Average Rating: " + rating);
+out.print("<br><br>");
+
+out.print("Number of attempts: " + numAttempts);
+out.print("<br><br>");
+out.print("Average Score: " + averageScore);
 out.print("<br><br>");
 
 ArrayList<Review> allQuizReviews= reviewManager.getMostRecentReviews(quizID);

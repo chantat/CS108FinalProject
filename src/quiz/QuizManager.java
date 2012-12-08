@@ -381,26 +381,25 @@ public class QuizManager {
 		String query = "SELECT * FROM Quiz ORDER BY timeCreated DESC;";
 		int resultSetSize=0;
 		ResultSet rs = null;
+		ArrayList<Integer> QuizIds = new ArrayList<Integer>();
 		ArrayList<Quiz> quizzes = new ArrayList<Quiz>();
 		try{
 			rs = stmnt.executeQuery(query);
 			resultSetSize = DBConnection.getResultSetSize(rs);
 			
-			ArrayList<Integer> QuizIds = new ArrayList<Integer>();
-			rs.beforeFirst();
+			rs.first();
 			for(int i = 0 ; i < resultSetSize; i++) {
-				rs.next();
 				int quizID = rs.getInt("quizID");
 				QuizIds.add(quizID);
-			}
-			
-			for(int i = 0 ; i < resultSetSize; i++){
-				if (!hasNewerVersion(QuizIds.get(i))) {
-					quizzes.add(getQuiz(QuizIds.get(i)));
-				}
+				rs.next();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+		for(int i = 0 ; i < resultSetSize; i++){
+			if (!hasNewerVersion(QuizIds.get(i))) {
+				quizzes.add(getQuiz(QuizIds.get(i)));
+			}
 		}
 		
 		return quizzes.toArray(new Quiz[quizzes.size()]);
