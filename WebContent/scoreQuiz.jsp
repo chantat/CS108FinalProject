@@ -66,12 +66,15 @@ if(!practice){
 	out.println("<p>Challenge a friend to beat your score!</p>");
 	System.out.println("QuizID of Challenge: " + request.getParameter("currentQuiz"));
 %>
-<form action="composeChallenge.jsp" method="post" id="challenge_button">
+
+<form action="composeChallenge.jsp" method="post">
 <input type="hidden" name="quizId" value="<%= request.getParameter("currentQuiz") %>"/>
 <input type="hidden" name="score" value="<%= score %>"/>
 <input type="hidden" name="possibleScore" value="<%= possibleScore %>"/>
 <input type="submit" value="Challenge!"/>
 </form>
+
+
 <% 
 }else{
 	%>

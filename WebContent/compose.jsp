@@ -16,6 +16,9 @@ if(user==null){
 	out.println("</script>");
 }
 %>
+
+	
+    
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -38,6 +41,9 @@ if (request.getParameter("subject") == null) {
 	subject = (String)request.getParameter("subject");
 }
 %>
+
+
+
 <center>
 <h1>New Message</h1>
 <!--<script>

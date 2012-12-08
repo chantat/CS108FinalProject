@@ -392,6 +392,13 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				</form>
 				</td>
 				<td><%= msg.getTime() %></td>
+				<td>
+				<form action="DeleteServlet" method="post">
+				<input type="submit" value="Delete"/>
+				<input name="fromID" type="hidden" value="<%= msg.getFromID() %>"/>
+				<input name="timeStamp" type="hidden" value="<%= msg.getTime() %>"/>
+				</form>
+				</td>
 				</tr>
 			<%}%>
 			</table>

@@ -19,6 +19,12 @@ Message msg = (Message) request.getAttribute("message");
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%= msg.getSubject() %></title>
 <%@include file="resources.jsp" %>
+<style>
+.message {
+	font-family: 'Gafata', sans-serif;
+}
+</style>
+
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -26,12 +32,12 @@ Message msg = (Message) request.getAttribute("message");
 <h1><%= msg.getSubject() %></h1>
 <p>From <%= msg.getFromID() %> at <%= msg.getTime() %></p>
 <%if (msg.getType().equals("Message")) { %>
-<p><%= msg.getMessage() %></p>
+<pre><span class="message"><%= msg.getMessage() %></span></pre>
 <%} %>
 
 <!-- Friend Request -->
 <%if (msg.getType().equals("Request")) { %>
-<p><%= msg.getMessage() %></p>
+<pre><span class="message"><%= msg.getMessage() %></span></pre>
 <form action="AddFriendServlet" method="post">
 <input type="hidden" name="victim" value=<%= msg.getFromID() %>>
 <input type="submit" value="Approve Request">
@@ -41,7 +47,7 @@ Message msg = (Message) request.getAttribute("message");
 <!-- Challenge -->
 <%if (msg.getType().equals("Challenge")) { %>
 <% ChallengeMessage chlg = (ChallengeMessage) request.getAttribute("message"); %>
-<p><%= chlg.getMessage() %></p>
+<pre><span class="message"><%= chlg.getMessage() %></span></pre>
 <form action="QuizServlet" method="post">
 <input type="hidden" name="quizId" value="<%=chlg.getQuizID() %>"/>
 <input type="hidden" name="challenger" value="<%= chlg.getFromID() %>"/>
@@ -60,6 +66,13 @@ replyText += msg.getMessage();
 %>
 <input type="hidden" name="msgText" value="<%= replyText %>">
 <input type="submit" value="Reply">
+</form>
+
+<!-- Delete -->
+<form action="DeleteServlet" method="post">
+<input type="hidden" name="fromID" value="<%= msg.getFromID() %>">
+<input type="hidden" name="timeStamp" value="<%= msg.getTime() %>"/>
+<input type="submit" value="Delete">
 </form>
 <a href="userHomePage.jsp#inboxTab"><button>Inbox</button></a>
 </center>

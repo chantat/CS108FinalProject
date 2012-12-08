@@ -31,6 +31,23 @@ public class MailSystem {
 		}
 	}
 	
+	public void delete(String toID, String fromID, String timeStr) {
+		Statement stmt = dbc.getStatement();
+		String sqlStr = "DELETE FROM Message WHERE ";
+		sqlStr += "toID=\"";
+		sqlStr += toID;
+		sqlStr += "\" AND fromID=\"";
+		sqlStr += fromID;
+		sqlStr += "\" AND messageTime=\"";
+		sqlStr += timeStr + "\"";
+		System.out.println(sqlStr);
+		try {
+			stmt.executeUpdate(sqlStr);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void send(ChallengeMessage msg) {
 		Statement stmt = dbc.getStatement();
 		String sqlStr = "INSERT INTO Message(toID,fromID,subject,messageText,status,msgType) VALUES (";
@@ -70,7 +87,7 @@ public class MailSystem {
 		sqlStr += msg.getFromID();
 		sqlStr += "\" AND messageTime=\"";
 		sqlStr += msg.getTime() + "\"";
-		System.out.println(sqlStr);
+		//System.out.println(sqlStr);
 		try {
 			stmt.executeUpdate(sqlStr);
 		} catch (SQLException e) {
@@ -93,7 +110,7 @@ public class MailSystem {
 		sqlStr += toID;
 		sqlStr += "\" AND messageTime=\"";
 		sqlStr += timeStr + "\"";
-		//System.out.println(sqlStr);
+		System.out.println(sqlStr);
 		try {
 			rs = stmt.executeQuery(sqlStr);
 			rs.next();
@@ -106,6 +123,7 @@ public class MailSystem {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		//System.out.println("findMessage: " + msg.getMessage());
 		return msg;
 	}
 	
