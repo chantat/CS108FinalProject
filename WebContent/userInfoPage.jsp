@@ -23,6 +23,7 @@
 <% 
 String user = (String)session.getAttribute("username");
 String victim =(String)request.getParameter("victim");
+
 String requestButton = "<form action=\"AddRequestServlet\" method=\"post\"><input name = victim type=\"hidden\" value=\""+victim+"\">  <input type=\"submit\" value=\"Request Friend\"></form> ";
 FriendManager fMgr = (FriendManager)application.getAttribute("friendManager");
 AccountManager acct = (AccountManager)application.getAttribute("manager");
@@ -165,7 +166,7 @@ else{  //already friends
 </tbody>
 </table>
 </div>
-
+<br><br>
 </div>
 </body>
 </html>
