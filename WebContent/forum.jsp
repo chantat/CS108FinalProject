@@ -32,7 +32,8 @@ else{
 		String userID=allPosts.get(i).getUserID();
 		Timestamp timePosted=allPosts.get(i).getTimePosted();
 		out.println(postText + "<br>");
-		out.println("--" + userID + " on " + timePosted + "<br><br>");
+		String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +userID +"\"><input type=\"submit\" value=\""+userID+"\"></form>";
+		out.println("--" + linkButton + " on " + timePosted + "<br><br>");
 	}
 }
 out.print("<form action=\"ForumServlet\" method=\"post\">");
