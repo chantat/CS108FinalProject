@@ -13,6 +13,7 @@
 <%@include file="header.jsp" %>
 <%
 QuizManager quizManager = (QuizManager)application.getAttribute("quizManager");
+AccountManager acctManager = (AccountManager)application.getAttribute("manager");
 //int quizID = Integer.parseInt((String)request.getAttribute("currentQuiz"));
 int quizID= Integer.parseInt(request.getParameter("qID"));
 ReviewManager reviewManager = (ReviewManager)application.getAttribute("reviewManager");
@@ -33,14 +34,15 @@ if(avgRating == - 1){
 }else{
 	rating="" + avgRating;
 }
+String authorButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +authorId +"\"><input type=\"submit\" value=\""+authorId+"\"></form>";
 %>
 <center><h1><%out.print(quizName); %></h1></center>
 <br></br>
 <div id="quizSummaryContent">
 <h2>Quiz Info</h2>
 <div id="quizSummaryInfo">
-Author: <a href="userHomePage.jsp"> <%
-out.print(authorId + "</a>");
+Author: <%
+out.print(authorButton);
 //TODO link this page correctly to user page
 out.print("<br>");
 out.print("Description: " + description);
@@ -86,7 +88,10 @@ out.print("<tbody>");
 
 for(int i = 0; i < topHighScorersOfAllTime.size(); i++){
 	out.print("<tr>");
-	out.print("<td> " + topHighScorersOfAllTime.get(i).getUserId() + "</td>");
+	String curUserID = topHighScorersOfAllTime.get(i).getUserId();
+	String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +topHighScorersOfAllTime.get(i).getUserId() +"\"><input type=\"submit\" value=\""+topHighScorersOfAllTime.get(i).getUserId()+"\"></form>";
+	if (acctManager.isPerfPublic(curUserID)) out.print("<td> " + linkButton + "</td>");
+	else out.print("<td>Anonymous</td>");
 	out.print("<td> " + topHighScorersOfAllTime.get(i).getScore() + "</td>");
 	out.print("<td> " + topHighScorersOfAllTime.get(i).getTimeSpent() + " sec</td>");
 	out.print("<td> " + topHighScorersOfAllTime.get(i).getTimeTaken() + "</td>");
@@ -113,7 +118,10 @@ out.print("<tbody>");
 
 for(int i = 0; i < recentTopScores.size(); i++){
 	out.print("<tr>");
-	out.print("<td> " + recentTopScores.get(i).getUserId() + "</td>");
+	String curUserID = recentTopScores.get(i).getUserId();
+	String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +recentTopScores.get(i).getUserId() +"\"><input type=\"submit\" value=\""+recentTopScores.get(i).getUserId()+"\"></form>";
+	if (acctManager.isPerfPublic(curUserID)) out.print("<td> " + linkButton + "</td>");
+	else out.print("<td>Anonymous</td>");
 	out.print("<td> " + recentTopScores.get(i).getScore() + "</td>");
 	out.print("<td> " + recentTopScores.get(i).getTimeSpent() + " sec</td>");
 	out.print("<td> " + recentTopScores.get(i).getTimeTaken() + "</td>");
@@ -170,7 +178,10 @@ out.print("<tbody>");
 
 for(int i = 0; i < recentScores.size(); i++){
 	out.print("<tr>");
-	out.print("<td> " + recentScores.get(i).getUserId() + "</td>");
+	String curUserID = recentScores.get(i).getUserId();
+	String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +recentScores.get(i).getUserId() +"\"><input type=\"submit\" value=\""+recentScores.get(i).getUserId()+"\"></form>";
+	if (acctManager.isPerfPublic(curUserID)) out.print("<td> " + linkButton + "</td>");
+	else out.print("<td>Anonymous</td>");
 	out.print("<td> " + recentScores.get(i).getScore() + "</td>");
 	out.print("<td> " + recentScores.get(i).getTimeSpent() + " sec</td>");
 	out.print("<td> " + recentScores.get(i).getTimeTaken() + "</td>");
@@ -198,7 +209,8 @@ if(numReviews !=0){
 	for(int i = 0; i < allQuizReviews.size(); i++){
 		String reviewText=allQuizReviews.get(i).getReview();
 		out.print(reviewText + "<br>");
-		out.print("--Reviewed by " + allQuizReviews.get(i).getUserID() + "<br><br>");
+		String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +allQuizReviews.get(i).getUserID() +"\"><input type=\"submit\" value=\""+allQuizReviews.get(i).getUserID()+"\"></form>";
+		out.print("--Reviewed by " + linkButton + "<br><br>");
 	}
 }
 

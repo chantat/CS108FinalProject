@@ -379,8 +379,9 @@ if (request.getAttribute("userRated") != null) {
 				String time = recentAttempts.get(i).getTimeTaken().toString();
 				
 				String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizID + "'>" + quizName + "</a>";
-				
-				out.println("<td> "+friendID+"</td>");
+				String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +friendID +"\"><input type=\"submit\" value=\""+friendID+"\"></form>";
+
+				out.println("<td> "+linkButton+"</td>");
 				out.println("<td> "+quizSummaryLink+"</td>");
 				out.println("<td> "+score+"</td>");
 				out.println("<td> "+time+"</td>");
@@ -416,8 +417,9 @@ if (request.getAttribute("userRated") != null) {
 				String time = recentAchievements.get(i).getWhenAchieved().toString();
 				int achieveID = recentAchievements.get(i).getAchieveID();
 				String URL = achMGR.getIconURL(achieveID);
+				String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +friendID +"\"><input type=\"submit\" value=\""+friendID+"\"></form>";
 				out.println("<td> "+URL+"</td>");
-				out.println("<td> "+friendID+"</td>");
+				out.println("<td> "+linkButton+"</td>");
 				out.println("<td> "+desc+"</td>");
 				out.println("<td> "+time+"</td>");
 				out.println("</tr>");
@@ -463,14 +465,16 @@ if (request.getAttribute("userRated") != null) {
 			ms = (mail.MailSystem) application.getAttribute("mailSystem");
 			inbox = ms.getInboxForUser(user);
 			for (int i = 0; i < inbox.size(); i++) {
-				msg = inbox.get(i);%>
+				msg = inbox.get(i);
+				String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +msg.getFromID() +"\"><input type=\"submit\" value=\""+msg.getFromID()+"\"></form>";
+				%>
 				<tr>
 				<% if(msg.getStatus() == 1) {%>
 				<td>Read</td>
 				<% } else { %>
 				<td>Unread</td>
 				<% } %>
-				<td><%= msg.getFromID() %></td>
+				<td><%= linkButton %></td>
 				<td>
 				<%
 				String subject = msg.getSubject();

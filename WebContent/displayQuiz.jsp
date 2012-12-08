@@ -12,13 +12,16 @@ QuestionManager questM = (QuestionManager) application.getAttribute("questionMan
 AnswerManager am = (AnswerManager) application.getAttribute("answerManager");
 Quiz quiz = quizM.getQuiz(quizID);
 String quizName = quiz.getName();
-ArrayList<Integer> questIds;
+ArrayList<Integer> questIds = (ArrayList<Integer>)session.getAttribute("currentQuestionOrder");
 ArrayList<Answer> answerChoices;
 ArrayList<String> answers;
-if (quiz.getIsRandomized()) {
-	questIds = quiz.getRandomizedQuestionIds();
-} else {
-	questIds = quiz.getQuestionIds();
+if (questIds == null) {
+	if (quiz.getIsRandomized()) {
+		questIds = quiz.getRandomizedQuestionIds();
+	} else {
+		questIds = quiz.getQuestionIds();
+	}
+	session.setAttribute("currentQuestionOrder", questIds);
 }
 Question quest;
 ArrayList<ArrayList<String>> questionResponses = (ArrayList<ArrayList<String>>) session.getAttribute("questionResponses");

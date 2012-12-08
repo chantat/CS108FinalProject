@@ -39,8 +39,11 @@
 		});
 		
 		$("#removeAnswer").click(function() {
+			var row = parseInt($('#numRows').val());
 			$("#" + (row-1) + "_answers").remove();
-			if (row > 0) row--;
+			if (row > 0){
+				$('#numRows').val(row - 1);
+			}
 		});
 	});
 </script>
