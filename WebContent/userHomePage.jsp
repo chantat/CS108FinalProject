@@ -456,6 +456,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 			</tbody>
 			</table>
 			</div>
+			<br>
 	</div>
 	<div id="achievementTab">
 		<h2>Achievements You've Unlocked</h2>
