@@ -12,7 +12,6 @@
 		$("#quizTable").dataTable({
 			//"bJQueryUI" : true
 		});
-		$("#quizTable a").button();
 	});
 </script>
 </head>
