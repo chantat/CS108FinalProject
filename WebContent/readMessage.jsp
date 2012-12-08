@@ -30,7 +30,8 @@ Message msg = (Message) request.getAttribute("message");
 <%@include file="header.jsp" %>
 <center>
 <h1><%= msg.getSubject() %></h1>
-<p>From <%= msg.getFromID() %> at <%= msg.getTime() %></p>
+<% 	String linkButton = "<form action=\"UserSearchServlet\" method=\"post\"><input type=\"hidden\" name = \"victim\" value=\"" +msg.getFromID() +"\"><input type=\"submit\" value=\""+msg.getFromID()+"\"></form>"; %>
+From: <%= linkButton %> at <%= msg.getTime() %><br>
 <%if (msg.getType().equals("Message")) { %>
 <pre><span class="message"><%= msg.getMessage() %></span></pre>
 <%} %>
