@@ -13,12 +13,16 @@
 		$("#addTag").click(function () {
 			var id = parseInt($('#numTags').val());
 			var newTagField = $(document.createElement('div')).attr("id", id+"_tag");
-			newTagField.append('<input type="text" name="' + id + '_tag_0">');
+			newTagField.append('<input type="text" id="quizTag_' + id + '" name="' + id + '_tag_0">');
 			newTagField.appendTo('#tags');		
 			$('#numTags').val(id + 1);
 		});
 		$("#addTag").button();
 	});
+	
+	$(function () {
+		$("#createQuizTable").dataTable();
+	})
 </script>
 </head>
 <body>
@@ -39,9 +43,9 @@ Boolean pendingImmediateFeedback = (Boolean)session.getAttribute("pendingImmedia
 %>
 
 <form action="CreateQuizServlet" method="post">
-Quiz Name: <input type="text" name="quizName" value="<% out.print(pendingQuizName); %>"> <br>
-Description: <input type="text" name="description" value="<% out.print(pendingQuizDescription); %>">  <br>
-Category: <input type="text" name="category" value="<% out.print(pendingCategory); %>"> <br><br>
+Quiz Name: <input type="text" id="quizNameId" name="quizName" value="<% out.print(pendingQuizName); %>"> <br>
+Description: <input type="text" id="quizDescriptionId" name="description" value="<% out.print(pendingQuizDescription); %>">  <br>
+Category: <input type="text" id="quizCategoryId" name="category" value="<% out.print(pendingCategory); %>"> <br><br>
 Tags: <div id="tags">
 
 <% for(int i = 0; i < pendingTags.size(); i++) { %>
@@ -82,7 +86,16 @@ if (pendingAllowsPractice) {
 </form>
 <br><br>
 
-<table border="1">
+<div id="createQuizTableContent">
+<table id="createQuizTable">
+<thead>
+<tr>
+<th>Question</th>
+<th>Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
 <% 
 
 for (int i = 0; i < pendingQuestions.size(); i++) {
@@ -116,8 +129,10 @@ out.println("<td> " + dropDownString + "</td>");
 out.println("<td> " + addButtonString + "</td>");
 out.println("</tr>");
 out.println("</form>");
-%>	
+%>
+</tbody>
 </table>
+</div>
 </div>
 </body>
 </html>

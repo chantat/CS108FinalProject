@@ -456,6 +456,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 			</tbody>
 			</table>
 			</div>
+			<br>
 	</div>
 	<div id="achievementTab">
 		<h2>Achievements You've Unlocked</h2>
@@ -535,8 +536,7 @@ MailSystem ms = (MailSystem)application.getAttribute("mailSystem");
 				int occurence = temp.getOccurrence();
 				String date = temp.getDate().toString();
 				String quizName = quizMGR.getQuizName(quizID);
-				String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizID + "'>" + quizName + "</a>";
-				
+				String quizSummaryLink = "<a href='quizSummary.jsp?qID=" + quizID + "'>" + quizName + "</a>";		
 				out.println("<td> "+quizID+"</td>");
 				out.println("<td> "+quizSummaryLink+"</td>");
 				out.println("<td> "+occurence+"</td>");

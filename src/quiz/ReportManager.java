@@ -119,10 +119,12 @@ public class ReportManager {
 			if(isReportExist(quizID)){
 				try {
 					
-	//TEST
-	System.out.println("INCREMENTING OCCURRENCE");
+	
 					int currentOccur = getReportOccurrence(quizID);
-					int newOccur = currentOccur++;
+					int newOccur = currentOccur+1;
+					
+	//TEST
+	System.out.println("INCREMENTING OCCURRENCE "+currentOccur+" and new is "+newOccur);
 					String command = "UPDATE Reported SET occurrence = "+newOccur+" WHERE quizID = "+quizID+";";
 					stmnt.executeUpdate(command);
 				} catch (SQLException e) {
