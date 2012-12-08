@@ -22,13 +22,14 @@ if(user==null){
 <%
 double score = Double.parseDouble(request.getParameter("score"));
 double possibleScore = Double.parseDouble(request.getParameter("possibleScore"));
+int percentScore = (int) (score/possibleScore * 100.0);
 int quizID = Integer.parseInt(request.getParameter("quizId"));
 QuizManager qm = (QuizManager) application.getAttribute("quizManager");
 String quizStr = qm.getQuizName(quizID);
 String subject = "Challenge!";
 String message = user + " has challenged you to a the quiz ";
 message += quizStr;
-message += "! Can you beat a score of " + score + "/" + possibleScore +"?";
+message += "! Can you beat a score of " + score + "/" + possibleScore + "(" + percentScore + "%)" + "?";
 %>
 <center>
 <h1>New Challenge</h1>
