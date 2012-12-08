@@ -66,8 +66,6 @@ public class ChallengeServlet extends HttpServlet {
 			ChallengeMessage msg = new ChallengeMessage(toID, name, message, quizID, score);
 			mail.send(msg);
 		}
-		//ChallengeMessage challengeMsg = new ChallengeMessage(victim, name, message, quizID, score);
-		//mail.send(challengeMsg);
 		
 		request.getRequestDispatcher("quizHomepage.jsp").forward(request, response);
 	}
