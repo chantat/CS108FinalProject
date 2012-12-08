@@ -331,7 +331,8 @@ public class QuizManager {
 			rs.beforeFirst();
 			for(int i = 0 ; i < resultSetSize; i++) {
 				rs.next();
-				QuizIds.add(rs.getInt("quizID"));
+				int quizID = rs.getInt("quizID");
+				if(!hasNewerVersion(quizID)) QuizIds.add(quizID);
 			}
 			
 			for(int i = 0 ; i < resultSetSize; i++){
@@ -358,7 +359,8 @@ public class QuizManager {
 			rs.beforeFirst();
 			for(int i = 0 ; i < resultSetSize; i++) {
 				rs.next();
-				QuizIds.add(rs.getInt("quizID"));
+				int quizID = rs.getInt("quizID");
+				if(!hasNewerVersion(quizID)) QuizIds.add(quizID);
 			}
 			
 			for(int i = 0 ; i < resultSetSize; i++){
@@ -385,7 +387,8 @@ public class QuizManager {
 			rs.beforeFirst();
 			for(int i = 0 ; i < resultSetSize; i++) {
 				rs.next();
-				QuizIds.add(rs.getInt("quizID"));
+				int quizID = rs.getInt("quizID");
+				if(!hasNewerVersion(quizID)) QuizIds.add(quizID);
 			}
 			
 			for(int i = 0 ; i < resultSetSize; i++){
