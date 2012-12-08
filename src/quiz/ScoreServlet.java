@@ -59,7 +59,7 @@ public class ScoreServlet extends HttpServlet {
 		
 		int quizId = Integer.parseInt(request.getParameter("currentQuiz"));
 		Quiz quiz = quizManager.getQuiz(quizId);
-		ArrayList<Integer> questionIds = quiz.getQuestionIds();
+		ArrayList<Integer> questionIds = (ArrayList<Integer>)session.getAttribute("currentQuestionOrder");
 		String practiceMode=(String)session.getAttribute("practiceMode");
 		ArrayList<Integer> numTimesCorrect=null;
 		if(practiceMode.equals("true")){
@@ -82,6 +82,7 @@ public class ScoreServlet extends HttpServlet {
 			double currPossibleScore = (Double)session.getAttribute("currPossibleScore");
 			
 			int qId = questionIds.get(currQuest);
+			System.out.println("CURRRENT QUESTION: " + qId);
 			int index = 0;
 
 			ArrayList<String> userInputs = new ArrayList<String>();
